@@ -1,152 +1,142 @@
-/* RESET */
+/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
 }
 
-/* BASE */
-body {
-    background: radial-gradient(circle at bottom, #1a0b05, #050302 70%);
-    color: #e8dcc6;
-    font-family: "Cinzel", "Garamond", serif;
-    height: 100vh;
-    overflow: hidden;
+body, html {
+    height: 100%;
+    background: #000;
 }
 
-/* LOADER */
+/* Loader styles */
 #loader {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at bottom, #2b1208, #050302);
     display: flex;
-    align-items: center;
     justify-content: center;
-    z-index: 999;
+    align-items: center;
+    height: 100vh;
+    background: radial-gradient(circle at center, #1a1a1a, #000);
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
 }
 
 .forge {
     text-align: center;
-    animation: heatPulse 2.5s infinite ease-in-out;
 }
 
 .forge h1 {
-    font-size: 3.5rem;
-    letter-spacing: 0.25em;
-    color: #ffb347;
-    text-shadow:
-        0 0 15px #ff6a00,
-        0 0 30px #ff3c00;
+    font-size: 3rem;
+    letter-spacing: 0.2rem;
 }
 
 .forge p {
-    margin-top: 1rem;
-    letter-spacing: 0.3em;
-    font-size: 0.85rem;
-    color: #ffcc99;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
 }
 
-/* Embers */
-.embers,
-.embers-bg {
-    position: absolute;
-    inset: 0;
-    background-image:
-        radial-gradient(2px 2px at 10% 90%, #ffae00, transparent),
-        radial-gradient(1px 1px at 30% 80%, #ff6a00, transparent),
-        radial-gradient(1px 1px at 70% 95%, #ff4500, transparent),
-        radial-gradient(2px 2px at 85% 85%, #ffd27d, transparent);
-    background-size: 150px 150px;
-    animation: rise 12s linear infinite;
-    opacity: 0.6;
+.embers {
+    width: 100px;
+    height: 5px;
+    background: orange;
+    margin: 1rem auto;
+    animation: ember 1s infinite alternate;
 }
 
-@keyframes rise {
-    from { transform: translateY(0); }
-    to { transform: translateY(-50%); }
+@keyframes ember {
+    from { transform: scaleX(0.5); background: orange; }
+    to { transform: scaleX(1.2); background: yellow; }
 }
 
-/* Heat pulse */
-@keyframes heatPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-}
+/* Main site hidden by default */
+.hidden { display: none; }
 
-/* MAIN SITE */
-.hidden {
-    display: none;
-}
-
+/* Header */
 .top-bar {
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0.8);
     position: fixed;
-    top: 0;
-    height: 64px;
     width: 100%;
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    background: linear-gradient(to bottom, rgba(10,4,2,0.95), transparent);
-    border-bottom: 1px solid rgba(255,120,50,0.25);
+    top: 0;
+    left: 0;
 }
 
 .logo {
-    letter-spacing: 0.2em;
-    color: #ffb347;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
-/* CONTENT */
-.center {
+/* Background */
+.space-bg {
+    position: fixed;
+    width: 100%;
     height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.embers-bg {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #111 0%, #000 100%);
+}
+
+/* Main content */
+.center {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
     text-align: center;
 }
 
-.content {
-    max-width: 700px;
+.content .tag {
+    font-size: 0.9rem;
+    letter-spacing: 0.1rem;
+    color: orange;
 }
 
-.tag {
-    display: inline-block;
-    border: 1px solid #ff7a18;
-    padding: 0.5rem 1.2rem;
-    letter-spacing: 0.3em;
-    font-size: 0.7rem;
-    color: #ffb347;
-    margin-bottom: 2rem;
-}
-
-h2 {
-    font-size: 4rem;
-    letter-spacing: 0.2em;
-    margin-bottom: 1rem;
+.content h2 {
+    font-size: 3rem;
+    margin: 1rem 0;
 }
 
 .subtitle {
-    color: #d8c5a5;
-    margin-bottom: 2.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
 }
 
 .coming {
-    line-height: 2;
+    font-size: 1rem;
+    margin: 1rem 0;
 }
 
-/* Divider */
 .divider {
-    margin: 3rem auto;
-    width: 120px;
+    width: 50px;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #ff7a18, transparent);
+    background: orange;
+    margin: 1rem auto;
+}
+
+.contact {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #ccc;
 }
 
 /* Footer */
 footer {
-    position: absolute;
-    bottom: 1.5rem;
-    width: 100%;
     text-align: center;
-    font-size: 0.75rem;
-    color: #9a7f5a;
+    padding: 1rem;
+    background: rgba(0,0,0,0.8);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
 }
