@@ -23,33 +23,47 @@ body {
     z-index: 1000;
     perspective: 1500px; /* Adjusted for smoother depth */
     transition: opacity 1.5s ease;
+    animation: weldingFlash 5s ease-out forwards; /* Added welding flash animation */
+}
+
+@keyframes weldingFlash {
+    0% {
+        filter: brightness(0) contrast(1);
+        opacity: 0;
+    }
+    10% {
+        filter: brightness(20) contrast(2) hue-rotate(-30deg); /* Bright white-blue flash like welding arc */
+        opacity: 1;
+    }
+    30% {
+        filter: brightness(5) contrast(1.5) hue-rotate(-15deg); /* Dimming with residual glow */
+        opacity: 1;
+    }
+    100% {
+        filter: brightness(1) contrast(1) hue-rotate(0deg);
+        opacity: 1;
+    }
 }
 
 .intro-core {
     text-align: center;
     position: relative;
     transform-style: preserve-3d;
-    animation: slamIntro 5s ease-in-out forwards; /* Changed to ease-in-out for smoother transition */
+    animation: simpleReveal 5s ease-in-out forwards; /* Simplified reveal without swaying */
 }
 
-@keyframes slamIntro {
+@keyframes simpleReveal {
     0% {
-        transform: translateZ(-1000px) scale(0.5) rotateY(180deg);
+        transform: translateZ(-500px) scale(0.5);
         opacity: 0;
     }
     60% {
-        transform: translateZ(200px) scale(1.2) rotateY(10deg);
+        transform: translateZ(100px) scale(1.1);
         opacity: 1;
-        filter: blur(3px); /* Reduced blur for less intensity */
-    }
-    80% {
-        transform: translateZ(-50px) scale(0.95) rotateY(-5deg);
-        filter: blur(1px);
     }
     100% {
-        transform: translateZ(0) scale(1) rotateY(0deg);
+        transform: translateZ(0) scale(1);
         opacity: 1;
-        filter: blur(0);
     }
 }
 
@@ -57,7 +71,7 @@ body {
     font-size: 3rem;
     letter-spacing: 0.4rem;
     text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5);
-    animation: glowPulse 2s infinite alternate; /* Removed fireFlicker to make it less busy */
+    animation: glowPulse 2s infinite alternate; /* Kept subtle pulse */
 }
 
 @keyframes glowPulse {
@@ -91,7 +105,7 @@ body {
     height: 260px;
     border: 2px solid rgba(207,161,90,0.2);
     border-radius: 50%;
-    animation: spin 12s linear infinite, depthPulse 3s infinite alternate; /* Removed glowPulse to make less busy */
+    animation: spin 12s linear infinite, depthPulse 3s infinite alternate; /* Kept spin and pulse */
 }
 
 .inner-rune {
