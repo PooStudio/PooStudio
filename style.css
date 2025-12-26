@@ -21,48 +21,54 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    perspective: 1000px; /* Enable 3D space */
+    perspective: 1500px; /* Increased for deeper 3D effect */
     transition: opacity 1.5s ease;
 }
 
 .intro-core {
     text-align: center;
     position: relative;
-    transform-style: preserve-3d; /* Preserve 3D for children */
-    animation: intro3D 5s ease-out forwards; /* 3D animation */
+    transform-style: preserve-3d;
+    animation: intro3D 5s ease-out forwards;
 }
 
 @keyframes intro3D {
     0% {
-        transform: rotateY(-180deg) scale(0.5);
+        transform: rotateX(-90deg) rotateY(180deg) scale(0.2) translateZ(-500px);
         opacity: 0;
     }
-    50% {
-        transform: rotateY(0deg) scale(1);
+    40% {
+        transform: rotateX(20deg) rotateY(-30deg) scale(1.2) translateZ(100px);
         opacity: 1;
     }
+    70% {
+        transform: rotateX(-10deg) rotateY(20deg) scale(0.9) translateZ(50px);
+    }
     100% {
-        transform: rotateY(0deg) scale(1);
+        transform: rotateX(0deg) rotateY(0deg) scale(1) translateZ(0px);
         opacity: 1;
     }
 }
 
-.intro-logo {
-    width: 200px; /* Adjust based on your logo size */
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    filter: drop-shadow(0 0 10px rgba(207, 161, 90, 0.7)); /* Enhanced glow */
-    animation: glowPulse 2s infinite alternate; /* Dope pulse effect */
+.intro-core h1 {
+    font-size: 3rem;
+    letter-spacing: 0.4rem;
+    text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5); /* Enhanced glow with fire orange */
+    animation: glowPulse 2s infinite alternate, fireFlicker 0.5s infinite alternate;
 }
 
 @keyframes glowPulse {
     0% {
-        filter: drop-shadow(0 0 10px rgba(207, 161, 90, 0.5)) brightness(1);
+        text-shadow: 0 0 10px rgba(207, 161, 90, 0.5), 0 0 20px rgba(255, 69, 0, 0.3);
     }
     100% {
-        filter: drop-shadow(0 0 20px rgba(207, 161, 90, 1)) brightness(1.2);
+        text-shadow: 0 0 20px rgba(207, 161, 90, 1), 0 0 40px rgba(255, 69, 0, 0.7);
     }
+}
+
+@keyframes fireFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
 }
 
 .intro-core p {
@@ -70,6 +76,12 @@ body {
     color: #cfa15a;
     letter-spacing: 0.2rem;
     text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
+    animation: fadeIn 3s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 .rune-circle {
@@ -81,21 +93,21 @@ body {
     height: 260px;
     border: 2px solid rgba(207,161,90,0.2);
     border-radius: 50%;
-    animation: spin 12s linear infinite, depthPulse 3s infinite alternate;
+    animation: spin 12s linear infinite, depthPulse 3s infinite alternate, glowPulse 2s infinite alternate;
 }
 
 .inner-rune {
     width: 200px;
     height: 200px;
     border: 1px dashed rgba(207,161,90,0.1);
-    animation: spin-reverse 15s linear infinite, depthPulse 3s infinite alternate-reverse;
+    animation: spin-reverse 15s linear infinite, depthPulse 3s infinite alternate-reverse, glowPulse 2s infinite alternate;
 }
 
 .outer-rune {
     width: 320px;
     height: 320px;
-    border: 3px dotted rgba(207,161,90,0.15); /* Dotted for variety */
-    animation: spin 18s linear infinite, depthPulse 4s infinite alternate;
+    border: 3px dotted rgba(207,161,90,0.15);
+    animation: spin 18s linear infinite, depthPulse 4s infinite alternate, glowPulse 2s infinite alternate;
 }
 
 @keyframes spin {
@@ -108,10 +120,10 @@ body {
 
 @keyframes depthPulse {
     0% {
-        transform: translate(-50%, -50%) translateZ(0px);
+        transform: translate(-50%, -50%) translateZ(0px) scale(1);
     }
     100% {
-        transform: translate(-50%, -50%) translateZ(50px); /* 3D depth movement */
+        transform: translate(-50%, -50%) translateZ(100px) scale(1.05); /* Increased depth and slight scale */
     }
 }
 
@@ -320,8 +332,8 @@ footer {
 
 /* Media Queries */
 @media (max-width: 768px) {
-    .intro-logo {
-        width: 150px;
+    .intro-core h1 {
+        font-size: 2.5rem;
     }
     h2 {
         font-size: 2.5rem;
