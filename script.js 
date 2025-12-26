@@ -4,13 +4,23 @@ window.addEventListener("load", () => {
 
     setTimeout(() => {
         intro.style.opacity = "0";
-        intro.style.transition = "opacity 1.6s ease";
+        intro.style.transition = "opacity 1.5s ease";
 
         setTimeout(() => {
             intro.remove();
             site.classList.remove("hidden");
-            document.getElementById("year").textContent = new Date().getFullYear();
             document.body.style.overflow = "auto";
-        }, 1600);
-    }, 3600);
+        }, 1500);
+    }, 3000);
+
+    // Contact menu
+    const contactBtn = document.getElementById("contactBtn");
+    const overlay = document.getElementById("contactOverlay");
+    const closeBtn = document.getElementById("closeContact");
+
+    contactBtn.onclick = () => overlay.style.display = "flex";
+    closeBtn.onclick = () => overlay.style.display = "none";
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
 });

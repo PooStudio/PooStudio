@@ -1,130 +1,94 @@
-/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Times New Roman", serif;
 }
 
-html, body {
-    height: 100%;
+body {
     background: #050505;
-    color: #eaeaea;
-    font-family: 'Cinzel', 'Times New Roman', serif;
+    color: #eee;
     overflow: hidden;
 }
 
-/* ---------------- INTRO ---------------- */
+/* INTRO */
 #intro {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at center, #1a0f05, #050505 70%);
+    background: radial-gradient(circle, #1a0f05, #050505 70%);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 1000;
 }
 
 .intro-core {
     text-align: center;
-    position: relative;
 }
 
-.intro-title {
-    font-size: 3.5rem;
+.intro-core h1 {
+    font-size: 3rem;
     letter-spacing: 0.4rem;
-    animation: ignite 2.5s ease forwards;
 }
 
-.intro-sub {
-    margin-top: 0.6rem;
-    font-size: 0.9rem;
-    letter-spacing: 0.3rem;
+.intro-core p {
+    margin-top: 0.5rem;
     color: #cfa15a;
-    opacity: 0;
-    animation: fadeUp 2s ease forwards;
-    animation-delay: 1.2s;
+    letter-spacing: 0.2rem;
 }
 
 .rune-circle {
     position: absolute;
-    inset: -60px;
-    border: 2px solid rgba(255,140,60,0.15);
+    width: 260px;
+    height: 260px;
+    border: 2px solid rgba(207,161,90,0.2);
     border-radius: 50%;
-    animation: slowSpin 12s linear infinite;
+    animation: spin 12s linear infinite;
 }
 
-/* ---------------- MAIN SITE ---------------- */
-.hidden { display: none; }
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* SITE */
+.hidden {
+    display: none;
+}
 
 .top-bar {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 1.2rem 2rem;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    background: rgba(0,0,0,0.7);
     z-index: 10;
 }
 
-.logo {
-    font-size: 1.4rem;
-    letter-spacing: 0.2rem;
-}
-
-.studio-tag {
-    font-size: 0.7rem;
-    letter-spacing: 0.2rem;
+.top-bar button {
+    background: none;
+    border: 1px solid #cfa15a;
     color: #cfa15a;
+    padding: 0.3rem 0.8rem;
+    cursor: pointer;
 }
 
-/* ---------------- BACKGROUND ---------------- */
-.world-bg {
+.bg {
     position: fixed;
-    inset: 0;
-    z-index: -1;
-}
-
-.embers-layer {
-    position: absolute;
     inset: 0;
     background:
         radial-gradient(circle at 20% 80%, rgba(255,120,40,0.08), transparent 60%),
         radial-gradient(circle at 80% 20%, rgba(255,80,20,0.05), transparent 55%);
-    animation: breathe 10s ease-in-out infinite;
+    z-index: -1;
 }
 
-.ash-layer {
-    position: absolute;
-    inset: 0;
-    background-image: repeating-linear-gradient(
-        120deg,
-        rgba(255,255,255,0.015) 0px,
-        rgba(255,255,255,0.015) 1px,
-        transparent 1px,
-        transparent 6px
-    );
-    opacity: 0.08;
-}
-
-.light-vignette {
-    position: absolute;
-    inset: 0;
-    box-shadow: inset 0 0 200px rgba(0,0,0,0.9);
-}
-
-/* ---------------- CONTENT ---------------- */
 .center {
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-}
-
-.content {
-    max-width: 640px;
-    padding: 2rem;
 }
 
 .tag {
@@ -136,70 +100,75 @@ html, body {
 h2 {
     font-size: 3rem;
     margin: 1rem 0;
-    letter-spacing: 0.25rem;
 }
 
 .subtitle {
     font-size: 1.1rem;
-    color: #cfcfcf;
+    color: #ccc;
 }
 
 .coming {
-    margin-top: 1.4rem;
-    line-height: 1.7;
-    font-size: 1rem;
+    margin-top: 1rem;
+    line-height: 1.6;
 }
 
 .divider {
     width: 60px;
     height: 2px;
-    background: linear-gradient(to right, transparent, #cfa15a, transparent);
-    margin: 2rem auto;
+    background: #cfa15a;
+    margin: 1.5rem auto;
 }
 
-.contact {
+.contact-email {
     font-size: 0.85rem;
-    letter-spacing: 0.15rem;
     color: #aaa;
 }
 
-/* ---------------- FOOTER ---------------- */
 footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    padding: 1rem;
     text-align: center;
-    font-size: 0.7rem;
-    letter-spacing: 0.15rem;
+    padding: 1rem;
+    font-size: 0.75rem;
     color: #777;
 }
 
-/* ---------------- ANIMATIONS ---------------- */
-@keyframes ignite {
-    from {
-        opacity: 0;
-        letter-spacing: 1rem;
-        filter: blur(6px);
-    }
-    to {
-        opacity: 1;
-        letter-spacing: 0.4rem;
-        filter: blur(0);
-    }
+/* CONTACT OVERLAY */
+#contactOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
 }
 
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+#contactOverlay form {
+    background: #111;
+    padding: 2rem;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    border: 1px solid #cfa15a;
 }
 
-@keyframes slowSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+#contactOverlay h3 {
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.2rem;
 }
 
-@keyframes breathe {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+#contactOverlay input,
+#contactOverlay textarea {
+    background: transparent;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 0.4rem;
+}
+
+#contactOverlay button {
+    padding: 0.4rem;
+    cursor: pointer;
 }
