@@ -23,25 +23,38 @@ body {
     z-index: 1000;
     perspective: 1500px; /* Adjusted for smoother depth */
     transition: opacity 1.5s ease;
-    animation: weldingFlash 5s ease-out forwards; /* Added welding flash animation */
 }
 
-@keyframes weldingFlash {
+.welding-flash {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle closest-side, rgba(200, 255, 255, 0.9) 0%, rgba(173, 216, 230, 0.6) 30%, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    animation: flashBurst 5s ease-out forwards;
+    mix-blend-mode: screen; /* For bright glow effect */
+}
+
+@keyframes flashBurst {
     0% {
-        filter: brightness(0) contrast(1);
         opacity: 0;
+        transform: scale(0.5);
     }
-    10% {
-        filter: brightness(20) contrast(2) hue-rotate(-30deg); /* Bright white-blue flash like welding arc */
+    5% {
         opacity: 1;
+        transform: scale(1.5); /* Sudden intense flash */
+    }
+    15% {
+        opacity: 0.7;
+        transform: scale(1.2);
     }
     30% {
-        filter: brightness(5) contrast(1.5) hue-rotate(-15deg); /* Dimming with residual glow */
-        opacity: 1;
+        opacity: 0.3;
+        transform: scale(1);
     }
     100% {
-        filter: brightness(1) contrast(1) hue-rotate(0deg);
-        opacity: 1;
+        opacity: 0;
+        transform: scale(1);
     }
 }
 
@@ -50,6 +63,7 @@ body {
     position: relative;
     transform-style: preserve-3d;
     animation: simpleReveal 5s ease-in-out forwards; /* Simplified reveal without swaying */
+    filter: brightness(1) saturate(1); /* Allow flash to affect */
 }
 
 @keyframes simpleReveal {
@@ -88,7 +102,7 @@ body {
     color: #cfa15a;
     letter-spacing: 0.2rem;
     text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
-    animation: fadeIn 3s ease-in forwards;
+    animation: fadeIn 3s ease-in forwards 0.5s; /* Delay to sync with flash */
 }
 
 @keyframes fadeIn {
