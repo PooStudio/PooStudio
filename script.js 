@@ -1,11 +1,9 @@
 window.addEventListener("load", () => {
     const intro = document.getElementById("intro");
     const site = document.getElementById("site");
-
     setTimeout(() => {
         intro.style.opacity = "0";
         intro.style.transition = "opacity 1.5s ease";
-
         setTimeout(() => {
             intro.remove();
             site.classList.remove("hidden");
@@ -17,10 +15,60 @@ window.addEventListener("load", () => {
     const contactBtn = document.getElementById("contactBtn");
     const overlay = document.getElementById("contactOverlay");
     const closeBtn = document.getElementById("closeContact");
-
     contactBtn.onclick = () => overlay.style.display = "flex";
     closeBtn.onclick = () => overlay.style.display = "none";
 
     // Footer year
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // AFK Stars Feature
+    const starsContainer = document.getElementById("starsContainer");
+    let idleTimeout;
+    const idleTime = 30000; // 30 seconds idle to trigger stars
+
+    function createStar() {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.animationDuration = `${Math.random() * 2 + 1}s`; // Random fall speed
+        starsContainer.appendChild(star);
+
+        // Remove star after animation
+        setTimeout(() => {
+            star.remove();
+        }, 3000); // Match animation duration
+    }
+
+    function startStars() {
+        starsContainer.style.display = "block";
+        const interval = setInterval(createStar, 200); // Create a star every 200ms
+        return interval;
+    }
+
+    function stopStars(interval) {
+        clearInterval(interval);
+        starsContainer.innerHTML = ""; // Clear existing stars
+        starsContainer.style.display = "none";
+    }
+
+    let starsInterval;
+    function resetIdleTimer() {
+        clearTimeout(idleTimeout);
+        if (starsInterval) {
+            stopStars(starsInterval);
+            starsInterval = null;
+        }
+        idleTimeout = setTimeout(() => {
+            starsInterval = startStars();
+        }, idleTime);
+    }
+
+    // Events to reset idle
+    window.addEventListener("mousemove", resetIdleTimer);
+    window.addEventListener("keydown", resetIdleTimer);
+    window.addEventListener("scroll", resetIdleTimer);
+    window.addEventListener("touchstart", resetIdleTimer); // For mobile
+
+    // Initial call
+    resetIdleTimer();
 });

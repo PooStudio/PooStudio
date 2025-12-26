@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PooStudio: A dark medieval creative studio forging worlds and systems. Forged in fire, tempered by obsession." />
     <title>PooStudio — Forged in Fire</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,6 +13,7 @@
 <div id="intro">
     <div class="intro-core">
         <div class="rune-circle"></div>
+        <div class="rune-circle inner-rune"></div> <!-- Added inner rune for more medieval depth -->
         <h1>POOSTUDIO</h1>
         <p>Forged, Not Built</p>
     </div>
@@ -53,15 +54,16 @@
 <div id="contactOverlay">
     <form action="https://formspree.io/f/xdkgnelb" method="POST">
         <h3>Contact PooStudio</h3>
-
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <textarea name="message" placeholder="Message" required></textarea>
-
+        <input type="text" name="name" placeholder="Name" required aria-label="Your Name">
+        <input type="email" name="email" placeholder="Email" required aria-label="Your Email">
+        <textarea name="message" placeholder="Message" required aria-label="Your Message"></textarea>
         <button type="submit">Send</button>
         <button type="button" id="closeContact">Close</button>
     </form>
 </div>
+
+<!-- AFK STARS CONTAINER -->
+<div id="starsContainer"></div>
 
 <script src="script.js"></script>
 </body>

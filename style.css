@@ -2,13 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Times New Roman", serif;
+    font-family: "Times New Roman", serif; /* Kept serif for medieval feel, but can swap to a modern medieval font like 'Cinzel' via Google Fonts if desired */
 }
 
 body {
     background: #050505;
     color: #eee;
     overflow: hidden;
+    position: relative; /* For absolute positioning of stars */
 }
 
 /* INTRO */
@@ -24,11 +25,13 @@ body {
 
 .intro-core {
     text-align: center;
+    position: relative; /* For layering runes */
 }
 
 .intro-core h1 {
     font-size: 3rem;
     letter-spacing: 0.4rem;
+    text-shadow: 0 0 10px rgba(207, 161, 90, 0.5); /* Added glow for forged/fire effect */
 }
 
 .intro-core p {
@@ -39,6 +42,9 @@ body {
 
 .rune-circle {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 260px;
     height: 260px;
     border: 2px solid rgba(207,161,90,0.2);
@@ -46,8 +52,19 @@ body {
     animation: spin 12s linear infinite;
 }
 
+.inner-rune {
+    width: 200px;
+    height: 200px;
+    border: 1px dashed rgba(207,161,90,0.1); /* Dashed for rune-like pattern */
+    animation: spin-reverse 15s linear infinite; /* Counter-spin for depth */
+}
+
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+    to { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
 /* SITE */
@@ -66,12 +83,23 @@ body {
     z-index: 10;
 }
 
+.top-bar .logo {
+    font-size: 1.2rem;
+    letter-spacing: 0.2rem;
+}
+
 .top-bar button {
     background: none;
     border: 1px solid #cfa15a;
     color: #cfa15a;
     padding: 0.3rem 0.8rem;
     cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.top-bar button:hover {
+    background: #cfa15a;
+    color: #050505;
 }
 
 .bg {
@@ -81,6 +109,7 @@ body {
         radial-gradient(circle at 20% 80%, rgba(255,120,40,0.08), transparent 60%),
         radial-gradient(circle at 80% 20%, rgba(255,80,20,0.05), transparent 55%);
     z-index: -1;
+    opacity: 0.8; /* Slightly toned down for modern subtlety */
 }
 
 .center {
@@ -89,39 +118,53 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding: 2rem; /* Added padding for responsiveness */
+}
+
+.content {
+    max-width: 600px; /* Limit width for better readability */
 }
 
 .tag {
     font-size: 0.7rem;
     letter-spacing: 0.3rem;
     color: #cfa15a;
+    text-transform: uppercase;
 }
 
 h2 {
     font-size: 3rem;
     margin: 1rem 0;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Shadow for depth */
 }
 
 .subtitle {
     font-size: 1.1rem;
     color: #ccc;
+    margin-bottom: 1rem;
 }
 
 .coming {
     margin-top: 1rem;
     line-height: 1.6;
+    font-style: italic; /* Italic for medieval scroll feel */
 }
 
 .divider {
     width: 60px;
     height: 2px;
-    background: #cfa15a;
+    background: linear-gradient(to right, transparent, #cfa15a, transparent); /* Gradient for forged metal look */
     margin: 1.5rem auto;
 }
 
 .contact-email {
     font-size: 0.85rem;
     color: #aaa;
+    transition: color 0.3s;
+}
+
+.contact-email:hover {
+    color: #cfa15a;
 }
 
 footer {
@@ -148,16 +191,18 @@ footer {
 #contactOverlay form {
     background: #111;
     padding: 2rem;
-    width: 300px;
+    width: min(90%, 300px); /* Responsive width */
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
     border: 1px solid #cfa15a;
+    box-shadow: 0 0 15px rgba(207,161,90,0.3); /* Glow for fire-forged effect */
 }
 
 #contactOverlay h3 {
     margin-bottom: 0.5rem;
     letter-spacing: 0.2rem;
+    text-align: center;
 }
 
 #contactOverlay input,
@@ -166,9 +211,75 @@ footer {
     border: 1px solid #444;
     color: #fff;
     padding: 0.4rem;
+    transition: border 0.3s;
+}
+
+#contactOverlay input:focus,
+#contactOverlay textarea:focus {
+    border-color: #cfa15a;
+    outline: none;
 }
 
 #contactOverlay button {
     padding: 0.4rem;
     cursor: pointer;
+    background: none;
+    border: 1px solid #cfa15a;
+    color: #cfa15a;
+    transition: background 0.3s, color 0.3s;
+}
+
+#contactOverlay button:hover {
+    background: #cfa15a;
+    color: #050505;
+}
+
+/* AFK STARS */
+#starsContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Top of screen only */
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5; /* Below top-bar but above content */
+    display: none;
+}
+
+.star {
+    position: absolute;
+    top: -5px;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #fff, 0 0 10px #cfa15a; /* Glowing star with fire tint */
+    animation: fall 3s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+}
+
+/* Media Queries for Responsiveness (Modern Improvement) */
+@media (max-width: 768px) {
+    .intro-core h1 {
+        font-size: 2.5rem;
+    }
+    h2 {
+        font-size: 2.5rem;
+    }
+    .rune-circle {
+        width: 200px;
+        height: 200px;
+    }
+    .inner-rune {
+        width: 150px;
+        height: 150px;
+    }
 }
