@@ -1,91 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PooStudio</title>
+/* Reset */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    <meta name="description" content="PooStudio – an independent creative studio building games and digital experiments." />
+/* Base */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Ubuntu, sans-serif;
+    background: radial-gradient(circle at top, #0b0f1a, #05070c 70%);
+    color: #f2f2f2;
+    height: 100vh;
+    overflow: hidden;
+}
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-    <header>
-        <h1>PooStudio</h1>
-        <p>
-            A small, independent studio building games, tools, and digital experiments.
-            Focused on creativity, iteration, and learning by doing.
-        </p>
-    </header>
+/* Space background */
+.space-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+}
 
-    <main>
-        <section>
-            <h2>What We Do</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Game Development</h3>
-                    <p>
-                        Prototypes, gameplay systems, and full projects built with an emphasis
-                        on mechanics and player experience.
-                    </p>
-                </div>
+.stars {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image:
+        radial-gradient(1px 1px at 20% 30%, #ffffff, transparent),
+        radial-gradient(1px 1px at 40% 70%, #ffffff, transparent),
+        radial-gradient(1px 1px at 60% 20%, #ffffff, transparent),
+        radial-gradient(1px 1px at 80% 80%, #ffffff, transparent),
+        radial-gradient(1px 1px at 10% 90%, #ffffff, transparent);
+    background-size: 200px 200px;
+    animation: drift 120s linear infinite;
+    opacity: 0.5;
+}
 
-                <div class="card">
-                    <h3>Experiments</h3>
-                    <p>
-                        Small-scale experiments, technical tests, and proof-of-concepts
-                        exploring new ideas.
-                    </p>
-                </div>
+.stars.layer2 {
+    animation-duration: 180s;
+    opacity: 0.3;
+}
 
-                <div class="card">
-                    <h3>Tools & Scripts</h3>
-                    <p>
-                        Internal tools and reusable scripts designed to speed up development
-                        and improve workflows.
-                    </p>
-                </div>
-            </div>
-        </section>
+.stars.layer3 {
+    animation-duration: 240s;
+    opacity: 0.15;
+}
 
-        <section>
-            <h2>Projects</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Project Alpha</h3>
-                    <p>
-                        An early-stage concept focused on fast iteration and core mechanics.
-                    </p>
-                </div>
+@keyframes drift {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(-25%, -25%);
+    }
+}
 
-                <div class="card">
-                    <h3>Prototype Lab</h3>
-                    <p>
-                        A collection of short prototypes and technical demos.
-                    </p>
-                </div>
-            </div>
-        </section>
+/* Layout */
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 2rem;
+    text-align: center;
+}
 
-        <section>
-            <h2>Contact</h2>
-            <p class="contact-text">
-                Interested in collaborating or learning more? Reach out via email or follow
-                updates as PooStudio grows.
-            </p>
-            <p>
-                Email:
-                <a href="mailto:contact@poostudio.dev">contact@poostudio.dev</a>
-            </p>
-        </section>
-    </main>
+.content {
+    max-width: 700px;
+    animation: float 6s ease-in-out infinite;
+}
 
-    <footer>
-        <p>© <span id="year"></span> PooStudio. All rights reserved.</p>
-    </footer>
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
 
-    <!-- JavaScript -->
-    <script src="script.js"></script>
-</body>
-</html>
+/* Text */
+.tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #7cffc4;
+    color: #7cffc4;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    color: #bfc7d5;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.coming {
+    font-size: 1.05rem;
+    color: #d5d9e3;
+    line-height: 1.8;
+}
+
+/* Divider */
+.divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #7cffc4, transparent);
+    margin: 2.5rem auto;
+}
+
+/* Contact */
+.contact {
+    font-size: 0.95rem;
+    color: #9aa4b2;
+}
+
+.contact a {
+    color: #7cffc4;
+    text-decoration: none;
+}
+
+.contact a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    position: absolute;
+    bottom: 1.5rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6f7785;
+}
