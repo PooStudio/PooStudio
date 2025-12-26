@@ -1,65 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PooStudio — Coming Soon</title>
+    <meta charset="UTF-8">
+    <title>PooStudio — Forging</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" href="logo.png" type="image/png">
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- LOADING / FORGE -->
-    <div id="loader">
-        <div class="forge">
-            <div class="embers"></div>
-            <h1>POOSTUDIO</h1>
-            <p>FORGING IN FIRE</p>
+<!-- LOADING SCREEN -->
+<div id="loading">
+    <div class="forge-core">
+        <div class="sigil"></div>
+        <h1>POOSTUDIO</h1>
+        <p>FORGING IN FIRE</p>
+
+        <div class="forge-bar">
+            <span></span>
         </div>
     </div>
+</div>
 
-    <!-- MAIN SITE -->
-    <div id="site" class="hidden">
+<!-- MAIN SITE -->
+<div id="site" class="hidden">
 
-        <header class="top-bar">
-            <div class="logo">PooStudio</div>
-        </header>
+    <header class="top-bar">
+        <div class="logo">POOSTUDIO</div>
+    </header>
 
-        <div class="space-bg">
-            <div class="embers-bg"></div>
+    <main class="center">
+        <div class="content">
+            <span class="tag">BORN OF FIRE</span>
+
+            <h2>PooStudio</h2>
+
+            <p class="subtitle">
+                A dark medieval studio forging worlds, systems, and games.
+            </p>
+
+            <p class="coming">
+                From flame and shadow, something awakens.<br>
+                Iron will. Ancient code.<br>
+                <strong>Coming Soon.</strong>
+            </p>
+
+            <div class="divider"></div>
+
+            <p class="contact">contact@poostudio.dev</p>
         </div>
+    </main>
 
-        <main class="center">
-            <div class="content">
-                <span class="tag">BORN OF FIRE</span>
+    <footer>© <span id="year"></span> PooStudio</footer>
+</div>
 
-                <h2>PooStudio</h2>
-
-                <p class="subtitle">
-                    A dark medieval studio forging worlds, systems, and games.
-                </p>
-
-                <p class="coming">
-                    From flame and shadow, something awakens.<br />
-                    Iron will. Ancient code.<br />
-                    <strong>Coming Soon.</strong>
-                </p>
-
-                <div class="divider"></div>
-
-                <p class="contact">
-                    contact@poostudio.dev
-                </p>
-            </div>
-        </main>
-
-        <footer>
-            © <span id="year"></span> PooStudio
-        </footer>
-
-    </div>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
