@@ -21,7 +21,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    perspective: 2000px; /* Increased for stronger 3D slam effect */
+    perspective: 1500px; /* Adjusted for smoother depth */
     transition: opacity 1.5s ease;
 }
 
@@ -29,25 +29,25 @@ body {
     text-align: center;
     position: relative;
     transform-style: preserve-3d;
-    animation: slamIntro 5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards; /* Bounce easing for slam */
+    animation: slamIntro 5s ease-in-out forwards; /* Changed to ease-in-out for smoother transition */
 }
 
 @keyframes slamIntro {
     0% {
-        transform: translateZ(-2000px) scale(0.1);
+        transform: translateZ(-1000px) scale(0.5) rotateY(180deg);
         opacity: 0;
     }
     60% {
-        transform: translateZ(800px) scale(2); /* Slam forward, overshoot towards camera */
+        transform: translateZ(200px) scale(1.2) rotateY(10deg);
         opacity: 1;
-        filter: blur(5px); /* Blur on impact for "slam" feel */
+        filter: blur(3px); /* Reduced blur for less intensity */
     }
     80% {
-        transform: translateZ(-300px) scale(0.7); /* Bounce back */
-        filter: blur(2px);
+        transform: translateZ(-50px) scale(0.95) rotateY(-5deg);
+        filter: blur(1px);
     }
     100% {
-        transform: translateZ(0) scale(1);
+        transform: translateZ(0) scale(1) rotateY(0deg);
         opacity: 1;
         filter: blur(0);
     }
@@ -57,7 +57,7 @@ body {
     font-size: 3rem;
     letter-spacing: 0.4rem;
     text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5);
-    animation: glowPulse 2s infinite alternate, fireFlicker 0.5s infinite alternate;
+    animation: glowPulse 2s infinite alternate; /* Removed fireFlicker to make it less busy */
 }
 
 @keyframes glowPulse {
@@ -67,11 +67,6 @@ body {
     100% {
         text-shadow: 0 0 20px rgba(207, 161, 90, 1), 0 0 40px rgba(255, 69, 0, 0.7);
     }
-}
-
-@keyframes fireFlicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
 }
 
 .intro-core p {
@@ -96,21 +91,21 @@ body {
     height: 260px;
     border: 2px solid rgba(207,161,90,0.2);
     border-radius: 50%;
-    animation: spin 12s linear infinite, depthPulse 3s infinite alternate, glowPulse 2s infinite alternate;
+    animation: spin 12s linear infinite, depthPulse 3s infinite alternate; /* Removed glowPulse to make less busy */
 }
 
 .inner-rune {
     width: 200px;
     height: 200px;
     border: 1px dashed rgba(207,161,90,0.1);
-    animation: spin-reverse 15s linear infinite, depthPulse 3s infinite alternate-reverse, glowPulse 2s infinite alternate;
+    animation: spin-reverse 15s linear infinite, depthPulse 3s infinite alternate-reverse;
 }
 
 .outer-rune {
     width: 320px;
     height: 320px;
     border: 3px dotted rgba(207,161,90,0.15);
-    animation: spin 18s linear infinite, depthPulse 4s infinite alternate, glowPulse 2s infinite alternate;
+    animation: spin 18s linear infinite, depthPulse 4s infinite alternate;
 }
 
 @keyframes spin {
@@ -206,7 +201,7 @@ body {
 
 @keyframes appearFromCenter {
     0% {
-        transform: scale(0.5);
+        transform: scale(0.2);
         opacity: 0;
     }
     100% {
