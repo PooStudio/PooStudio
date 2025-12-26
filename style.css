@@ -7,99 +7,73 @@
 
 /* BASE */
 body {
-    background: radial-gradient(circle at bottom, #120805, #030201 75%);
-    color: #e6dcc8;
+    background: radial-gradient(circle at bottom, #1a0b05, #050302 70%);
+    color: #e8dcc6;
     font-family: "Cinzel", "Garamond", serif;
     height: 100vh;
     overflow: hidden;
 }
 
-/* =====================
-   LOADING / FORGE
-   ===================== */
-
-#loading {
+/* LOADER */
+#loader {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at bottom, #2a1008, #050201);
+    background: radial-gradient(circle at bottom, #2b1208, #050302);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 999;
 }
 
-.forge-core {
+.forge {
     text-align: center;
-    animation: heatPulse 2.2s infinite ease-in-out;
+    animation: heatPulse 2.5s infinite ease-in-out;
 }
 
-.forge-core h1 {
-    letter-spacing: 0.3em;
-    font-size: 3.2rem;
+.forge h1 {
+    font-size: 3.5rem;
+    letter-spacing: 0.25em;
     color: #ffb347;
     text-shadow:
-        0 0 10px #ff6a00,
+        0 0 15px #ff6a00,
         0 0 30px #ff3c00;
 }
 
-.forge-core p {
+.forge p {
     margin-top: 1rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.35em;
-    color: #ffcf9a;
+    letter-spacing: 0.3em;
+    font-size: 0.85rem;
+    color: #ffcc99;
 }
 
-/* Sigil */
-.sigil {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto 2rem;
-    border: 2px solid #ff7a18;
-    border-radius: 50%;
-    box-shadow:
-        0 0 25px rgba(255,120,50,0.8),
-        inset 0 0 25px rgba(255,120,50,0.6);
-    animation: spin 14s linear infinite;
+/* Embers */
+.embers,
+.embers-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(2px 2px at 10% 90%, #ffae00, transparent),
+        radial-gradient(1px 1px at 30% 80%, #ff6a00, transparent),
+        radial-gradient(1px 1px at 70% 95%, #ff4500, transparent),
+        radial-gradient(2px 2px at 85% 85%, #ffd27d, transparent);
+    background-size: 150px 150px;
+    animation: rise 12s linear infinite;
+    opacity: 0.6;
 }
 
-/* Forge bar */
-.forge-bar {
-    margin: 2rem auto 0;
-    width: 260px;
-    height: 6px;
-    background: #1b0a04;
-    border: 1px solid #ff7a18;
-    overflow: hidden;
+@keyframes rise {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
 }
 
-.forge-bar span {
-    display: block;
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #ff4500, #ffb347);
-    animation: forgeFill 3.5s forwards;
-}
-
-/* Animations */
-@keyframes forgeFill {
-    to { width: 100%; }
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
+/* Heat pulse */
 @keyframes heatPulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    50% { transform: scale(1.03); }
     100% { transform: scale(1); }
 }
 
-/* =====================
-   MAIN SITE
-   ===================== */
-
+/* MAIN SITE */
 .hidden {
     display: none;
 }
@@ -113,14 +87,15 @@ body {
     display: flex;
     align-items: center;
     background: linear-gradient(to bottom, rgba(10,4,2,0.95), transparent);
-    border-bottom: 1px solid rgba(255,120,50,0.3);
+    border-bottom: 1px solid rgba(255,120,50,0.25);
 }
 
 .logo {
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     color: #ffb347;
 }
 
+/* CONTENT */
 .center {
     height: 100%;
     display: flex;
@@ -130,27 +105,27 @@ body {
 }
 
 .content {
-    max-width: 720px;
+    max-width: 700px;
 }
 
 .tag {
+    display: inline-block;
     border: 1px solid #ff7a18;
     padding: 0.5rem 1.2rem;
-    letter-spacing: 0.35em;
-    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
     color: #ffb347;
-    display: inline-block;
     margin-bottom: 2rem;
 }
 
 h2 {
     font-size: 4rem;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.2em;
     margin-bottom: 1rem;
 }
 
 .subtitle {
-    color: #d6c4a4;
+    color: #d8c5a5;
     margin-bottom: 2.5rem;
 }
 
@@ -158,18 +133,20 @@ h2 {
     line-height: 2;
 }
 
+/* Divider */
 .divider {
+    margin: 3rem auto;
     width: 120px;
     height: 2px;
     background: linear-gradient(90deg, transparent, #ff7a18, transparent);
-    margin: 3rem auto;
 }
 
+/* Footer */
 footer {
     position: absolute;
-    bottom: 1.2rem;
+    bottom: 1.5rem;
     width: 100%;
     text-align: center;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: #9a7f5a;
 }

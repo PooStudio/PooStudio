@@ -1,15 +1,15 @@
 window.addEventListener("load", () => {
-    const loading = document.getElementById("loading");
+    const loader = document.getElementById("loader");
     const site = document.getElementById("site");
 
     setTimeout(() => {
-        loading.style.opacity = "0";
-        loading.style.transition = "opacity 1s ease";
+        loader.style.opacity = "0";
+        loader.style.transition = "opacity 1.2s ease";
 
         setTimeout(() => {
-            loading.remove();
+            loader.remove();
             site.classList.remove("hidden");
             document.getElementById("year").textContent = new Date().getFullYear();
-        }, 1000);
-    }, 3800);
+        }, 1200);
+    }, 2600);
 });
