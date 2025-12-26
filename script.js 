@@ -1,3 +1,15 @@
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("year").textContent = new Date().getFullYear();
+window.addEventListener("load", () => {
+    const loader = document.getElementById("loader");
+    const site = document.getElementById("site");
+
+    setTimeout(() => {
+        loader.style.opacity = "0";
+        loader.style.transition = "opacity 1.2s ease";
+
+        setTimeout(() => {
+            loader.remove();
+            site.classList.remove("hidden");
+            document.getElementById("year").textContent = new Date().getFullYear();
+        }, 1200);
+    }, 2600);
 });
