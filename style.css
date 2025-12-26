@@ -287,7 +287,7 @@ footer {
     text-align: center;
     padding: 1rem;
     font-size: 0.75rem;
-    color: #777;
+    color: #eee; /* Brightened color for better visibility */
 }
 
 /* CONTACT OVERLAY */

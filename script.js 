@@ -8,7 +8,7 @@ window.addEventListener("load", () => {
             site.classList.remove("hidden");
             document.body.style.overflow = "auto";
         }, 1500);
-    }, 5000);
+    }, 3000); // Shortened to 3 seconds for quicker visibility
 
     // Contact menu
     const contactBtn = document.getElementById("contactBtn");
