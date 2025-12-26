@@ -1,142 +1,205 @@
-/* Reset and base styles */
+/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-    color: #fff;
 }
 
-body, html {
+html, body {
     height: 100%;
-    background: #000;
+    background: #050505;
+    color: #eaeaea;
+    font-family: 'Cinzel', 'Times New Roman', serif;
+    overflow: hidden;
 }
 
-/* Loader styles */
-#loader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: radial-gradient(circle at center, #1a1a1a, #000);
+/* ---------------- INTRO ---------------- */
+#intro {
     position: fixed;
-    width: 100%;
+    inset: 0;
+    background: radial-gradient(circle at center, #1a0f05, #050505 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 9999;
 }
 
-.forge {
+.intro-core {
     text-align: center;
+    position: relative;
 }
 
-.forge h1 {
-    font-size: 3rem;
-    letter-spacing: 0.2rem;
+.intro-title {
+    font-size: 3.5rem;
+    letter-spacing: 0.4rem;
+    animation: ignite 2.5s ease forwards;
 }
 
-.forge p {
-    font-size: 1.2rem;
-    margin-top: 0.5rem;
+.intro-sub {
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.3rem;
+    color: #cfa15a;
+    opacity: 0;
+    animation: fadeUp 2s ease forwards;
+    animation-delay: 1.2s;
 }
 
-.embers {
-    width: 100px;
-    height: 5px;
-    background: orange;
-    margin: 1rem auto;
-    animation: ember 1s infinite alternate;
+.rune-circle {
+    position: absolute;
+    inset: -60px;
+    border: 2px solid rgba(255,140,60,0.15);
+    border-radius: 50%;
+    animation: slowSpin 12s linear infinite;
 }
 
-@keyframes ember {
-    from { transform: scaleX(0.5); background: orange; }
-    to { transform: scaleX(1.2); background: yellow; }
-}
-
-/* Main site hidden by default */
+/* ---------------- MAIN SITE ---------------- */
 .hidden { display: none; }
 
-/* Header */
 .top-bar {
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.8);
     position: fixed;
-    width: 100%;
     top: 0;
-    left: 0;
+    width: 100%;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    z-index: 10;
 }
 
 .logo {
-    font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    letter-spacing: 0.2rem;
 }
 
-/* Background */
-.space-bg {
+.studio-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.2rem;
+    color: #cfa15a;
+}
+
+/* ---------------- BACKGROUND ---------------- */
+.world-bg {
     position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    top: 0;
-    left: 0;
+    inset: 0;
     z-index: -1;
 }
 
-.embers-bg {
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, #111 0%, #000 100%);
+.embers-layer {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255,120,40,0.08), transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(255,80,20,0.05), transparent 55%);
+    animation: breathe 10s ease-in-out infinite;
 }
 
-/* Main content */
+.ash-layer {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        120deg,
+        rgba(255,255,255,0.015) 0px,
+        rgba(255,255,255,0.015) 1px,
+        transparent 1px,
+        transparent 6px
+    );
+    opacity: 0.08;
+}
+
+.light-vignette {
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 200px rgba(0,0,0,0.9);
+}
+
+/* ---------------- CONTENT ---------------- */
 .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
 }
 
-.content .tag {
-    font-size: 0.9rem;
-    letter-spacing: 0.1rem;
-    color: orange;
+.content {
+    max-width: 640px;
+    padding: 2rem;
 }
 
-.content h2 {
+.tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.3rem;
+    color: #cfa15a;
+}
+
+h2 {
     font-size: 3rem;
     margin: 1rem 0;
+    letter-spacing: 0.25rem;
 }
 
 .subtitle {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #cfcfcf;
 }
 
 .coming {
+    margin-top: 1.4rem;
+    line-height: 1.7;
     font-size: 1rem;
-    margin: 1rem 0;
 }
 
 .divider {
-    width: 50px;
+    width: 60px;
     height: 2px;
-    background: orange;
-    margin: 1rem auto;
+    background: linear-gradient(to right, transparent, #cfa15a, transparent);
+    margin: 2rem auto;
 }
 
 .contact {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: #ccc;
+    font-size: 0.85rem;
+    letter-spacing: 0.15rem;
+    color: #aaa;
 }
 
-/* Footer */
+/* ---------------- FOOTER ---------------- */
 footer {
-    text-align: center;
-    padding: 1rem;
-    background: rgba(0,0,0,0.8);
     position: absolute;
     bottom: 0;
     width: 100%;
-    font-size: 0.9rem;
-    letter-spacing: 0.05rem;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.15rem;
+    color: #777;
+}
+
+/* ---------------- ANIMATIONS ---------------- */
+@keyframes ignite {
+    from {
+        opacity: 0;
+        letter-spacing: 1rem;
+        filter: blur(6px);
+    }
+    to {
+        opacity: 1;
+        letter-spacing: 0.4rem;
+        filter: blur(0);
+    }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slowSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes breathe {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }

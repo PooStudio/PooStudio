@@ -1,15 +1,16 @@
 window.addEventListener("load", () => {
-    const loader = document.getElementById("loader");
+    const intro = document.getElementById("intro");
     const site = document.getElementById("site");
 
     setTimeout(() => {
-        loader.style.opacity = "0";
-        loader.style.transition = "opacity 1.2s ease";
+        intro.style.opacity = "0";
+        intro.style.transition = "opacity 1.6s ease";
 
         setTimeout(() => {
-            loader.remove();
+            intro.remove();
             site.classList.remove("hidden");
             document.getElementById("year").textContent = new Date().getFullYear();
-        }, 1200);
-    }, 2600);
+            document.body.style.overflow = "auto";
+        }, 1600);
+    }, 3600);
 });
