@@ -8,28 +8,38 @@ window.addEventListener("load", () => {
             site.classList.remove("hidden");
             document.body.style.overflow = "auto";
         }, 1500);
-    }, 3000); // Shortened to 3 seconds for quicker visibility
+    }, 3000);
 
-    // Contact menu
+
+    intro.addEventListener("click", () => {
+        intro.classList.add("fade-out");
+        setTimeout(() => {
+            intro.remove();
+            site.classList.remove("hidden");
+            document.body.style.overflow = "auto";
+        }, 1500);
+    });
+
+
     const contactBtn = document.getElementById("contactBtn");
     const overlay = document.getElementById("contactOverlay");
     const closeBtn = document.getElementById("closeContact");
     contactBtn.onclick = () => overlay.style.display = "flex";
     closeBtn.onclick = () => overlay.style.display = "none";
 
-    // Footer year
+
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // AFK Stars Feature
+
     const starsContainer = document.getElementById("starsContainer");
     let idleTimeout;
-    const idleTime = 30000; // 30 seconds idle to trigger stars
+    const idleTime = 30000; 
 
     function createStar() {
         const star = document.createElement("div");
         star.classList.add("star");
         star.style.left = `${Math.random() * 100}vw`;
-        star.style.animationDuration = `${Math.random() * 2 + 1}s`; // Random fall speed
+        star.style.animationDuration = `${Math.random() * 2 + 1}s`; 
         starsContainer.appendChild(star);
 
         // Remove star after animation
@@ -40,13 +50,13 @@ window.addEventListener("load", () => {
 
     function startStars() {
         starsContainer.style.display = "block";
-        const interval = setInterval(createStar, 200); // Create a star every 200ms
+        const interval = setInterval(createStar, 200); 
         return interval;
     }
 
     function stopStars(interval) {
         clearInterval(interval);
-        starsContainer.innerHTML = ""; // Clear existing stars
+        starsContainer.innerHTML = ""; 
         starsContainer.style.display = "none";
     }
 
@@ -62,12 +72,10 @@ window.addEventListener("load", () => {
         }, idleTime);
     }
 
-    // Events to reset idle
     window.addEventListener("mousemove", resetIdleTimer);
     window.addEventListener("keydown", resetIdleTimer);
     window.addEventListener("scroll", resetIdleTimer);
     window.addEventListener("touchstart", resetIdleTimer); // For mobile
 
-    // Initial call
     resetIdleTimer();
 });

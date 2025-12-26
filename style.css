@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Times New Roman", serif; /* Kept serif for medieval feel */
+    font-family: "Times New Roman", serif; 
 }
 
 body {
@@ -21,8 +21,9 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    perspective: 1500px; /* Adjusted for smoother depth */
+    perspective: 1500px; 
     transition: opacity 1.5s ease;
+    cursor: pointer; 
 }
 
 .welding-flash {
@@ -31,8 +32,8 @@ body {
     background: radial-gradient(circle closest-side, rgba(200, 255, 255, 0.9) 0%, rgba(173, 216, 230, 0.6) 30%, transparent 70%);
     opacity: 0;
     pointer-events: none;
-    animation: flashBurst 5s ease-out forwards;
-    mix-blend-mode: screen; /* For bright glow effect */
+    animation: flashBurst 3s ease-out forwards; 
+    mix-blend-mode: screen; 
 }
 
 @keyframes flashBurst {
@@ -40,15 +41,15 @@ body {
         opacity: 0;
         transform: scale(0.5);
     }
-    5% {
+    8% { 
         opacity: 1;
-        transform: scale(1.5); /* Sudden intense flash */
+        transform: scale(1.5); 
     }
-    15% {
+    25% {
         opacity: 0.7;
         transform: scale(1.2);
     }
-    30% {
+    50% {
         opacity: 0.3;
         transform: scale(1);
     }
@@ -62,8 +63,8 @@ body {
     text-align: center;
     position: relative;
     transform-style: preserve-3d;
-    animation: simpleReveal 5s ease-in-out forwards; /* Simplified reveal without swaying */
-    filter: brightness(1) saturate(1); /* Allow flash to affect */
+    animation: simpleReveal 3s ease-in-out forwards; 
+    filter: brightness(1) saturate(1); 
 }
 
 @keyframes simpleReveal {
@@ -85,7 +86,7 @@ body {
     font-size: 3rem;
     letter-spacing: 0.4rem;
     text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5);
-    animation: glowPulse 2s infinite alternate; /* Kept subtle pulse */
+    animation: glowPulse 2s infinite alternate; 
 }
 
 @keyframes glowPulse {
@@ -102,7 +103,7 @@ body {
     color: #cfa15a;
     letter-spacing: 0.2rem;
     text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
-    animation: fadeIn 3s ease-in forwards 0.5s; /* Delay to sync with flash */
+    animation: fadeIn 2s ease-in forwards 0.3s; 
 }
 
 @keyframes fadeIn {
@@ -119,7 +120,7 @@ body {
     height: 260px;
     border: 2px solid rgba(207,161,90,0.2);
     border-radius: 50%;
-    animation: spin 12s linear infinite, depthPulse 3s infinite alternate; /* Kept spin and pulse */
+    animation: spin 12s linear infinite, depthPulse 3s infinite alternate; 
 }
 
 .inner-rune {
@@ -157,7 +158,6 @@ body {
     opacity: 0;
 }
 
-/* SITE - Added fade-in animation for the "world" appearing */
 #site {
     opacity: 0;
     transition: opacity 1.5s ease-in;
@@ -167,7 +167,7 @@ body {
     opacity: 1;
 }
 
-/* Rest of SITE styles remain the same */
+
 .hidden {
     display: none;
 }
@@ -184,7 +184,7 @@ body {
 }
 
 .top-bar .logo {
-    height: 40px; /* Adjust based on your logo */
+    height: 40px; 
     width: auto;
 }
 
@@ -223,7 +223,7 @@ body {
 
 .content {
     max-width: 600px;
-    animation: appearFromCenter 1.5s ease-out forwards; /* World appearing from the "poo" center */
+    animation: appearFromCenter 1.5s ease-out forwards; 
     opacity: 0;
 }
 
@@ -287,10 +287,9 @@ footer {
     text-align: center;
     padding: 1rem;
     font-size: 0.75rem;
-    color: #eee; /* Brightened color for better visibility */
+    color: #eee;
 }
 
-/* CONTACT OVERLAY */
 #contactOverlay {
     position: fixed;
     inset: 0;
@@ -347,7 +346,7 @@ footer {
     color: #050505;
 }
 
-/* AFK STARS */
+
 #starsContainer {
     position: fixed;
     top: 0;
@@ -379,7 +378,6 @@ footer {
     }
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
     .intro-core h1 {
         font-size: 2.5rem;
