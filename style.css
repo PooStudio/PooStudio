@@ -2,14 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Times New Roman", serif; /* Kept serif for medieval feel, but can swap to a modern medieval font like 'Cinzel' via Google Fonts if desired */
+    font-family: "Times New Roman", serif; /* Kept serif for medieval feel */
 }
 
 body {
     background: #050505;
     color: #eee;
     overflow: hidden;
-    position: relative; /* For absolute positioning of stars */
+    position: relative;
 }
 
 /* INTRO */
@@ -21,23 +21,55 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    perspective: 1000px; /* Enable 3D space */
+    transition: opacity 1.5s ease;
 }
 
 .intro-core {
     text-align: center;
-    position: relative; /* For layering runes */
+    position: relative;
+    transform-style: preserve-3d; /* Preserve 3D for children */
+    animation: intro3D 5s ease-out forwards; /* 3D animation */
 }
 
-.intro-core h1 {
-    font-size: 3rem;
-    letter-spacing: 0.4rem;
-    text-shadow: 0 0 10px rgba(207, 161, 90, 0.5); /* Added glow for forged/fire effect */
+@keyframes intro3D {
+    0% {
+        transform: rotateY(-180deg) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+.intro-logo {
+    width: 200px; /* Adjust based on your logo size */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 10px rgba(207, 161, 90, 0.7)); /* Enhanced glow */
+    animation: glowPulse 2s infinite alternate; /* Dope pulse effect */
+}
+
+@keyframes glowPulse {
+    0% {
+        filter: drop-shadow(0 0 10px rgba(207, 161, 90, 0.5)) brightness(1);
+    }
+    100% {
+        filter: drop-shadow(0 0 20px rgba(207, 161, 90, 1)) brightness(1.2);
+    }
 }
 
 .intro-core p {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     color: #cfa15a;
     letter-spacing: 0.2rem;
+    text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
 }
 
 .rune-circle {
@@ -49,14 +81,21 @@ body {
     height: 260px;
     border: 2px solid rgba(207,161,90,0.2);
     border-radius: 50%;
-    animation: spin 12s linear infinite;
+    animation: spin 12s linear infinite, depthPulse 3s infinite alternate;
 }
 
 .inner-rune {
     width: 200px;
     height: 200px;
-    border: 1px dashed rgba(207,161,90,0.1); /* Dashed for rune-like pattern */
-    animation: spin-reverse 15s linear infinite; /* Counter-spin for depth */
+    border: 1px dashed rgba(207,161,90,0.1);
+    animation: spin-reverse 15s linear infinite, depthPulse 3s infinite alternate-reverse;
+}
+
+.outer-rune {
+    width: 320px;
+    height: 320px;
+    border: 3px dotted rgba(207,161,90,0.15); /* Dotted for variety */
+    animation: spin 18s linear infinite, depthPulse 4s infinite alternate;
 }
 
 @keyframes spin {
@@ -65,6 +104,19 @@ body {
 
 @keyframes spin-reverse {
     to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes depthPulse {
+    0% {
+        transform: translate(-50%, -50%) translateZ(0px);
+    }
+    100% {
+        transform: translate(-50%, -50%) translateZ(50px); /* 3D depth movement */
+    }
+}
+
+#intro.fade-out {
+    opacity: 0;
 }
 
 /* SITE */
@@ -84,8 +136,8 @@ body {
 }
 
 .top-bar .logo {
-    font-size: 1.2rem;
-    letter-spacing: 0.2rem;
+    height: 40px; /* Adjust based on your logo */
+    width: auto;
 }
 
 .top-bar button {
@@ -109,7 +161,7 @@ body {
         radial-gradient(circle at 20% 80%, rgba(255,120,40,0.08), transparent 60%),
         radial-gradient(circle at 80% 20%, rgba(255,80,20,0.05), transparent 55%);
     z-index: -1;
-    opacity: 0.8; /* Slightly toned down for modern subtlety */
+    opacity: 0.8;
 }
 
 .center {
@@ -118,11 +170,11 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem; /* Added padding for responsiveness */
+    padding: 2rem;
 }
 
 .content {
-    max-width: 600px; /* Limit width for better readability */
+    max-width: 600px;
 }
 
 .tag {
@@ -135,7 +187,7 @@ body {
 h2 {
     font-size: 3rem;
     margin: 1rem 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Shadow for depth */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .subtitle {
@@ -147,13 +199,13 @@ h2 {
 .coming {
     margin-top: 1rem;
     line-height: 1.6;
-    font-style: italic; /* Italic for medieval scroll feel */
+    font-style: italic;
 }
 
 .divider {
     width: 60px;
     height: 2px;
-    background: linear-gradient(to right, transparent, #cfa15a, transparent); /* Gradient for forged metal look */
+    background: linear-gradient(to right, transparent, #cfa15a, transparent);
     margin: 1.5rem auto;
 }
 
@@ -191,12 +243,12 @@ footer {
 #contactOverlay form {
     background: #111;
     padding: 2rem;
-    width: min(90%, 300px); /* Responsive width */
+    width: min(90%, 300px);
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
     border: 1px solid #cfa15a;
-    box-shadow: 0 0 15px rgba(207,161,90,0.3); /* Glow for fire-forged effect */
+    box-shadow: 0 0 15px rgba(207,161,90,0.3);
 }
 
 #contactOverlay h3 {
@@ -240,10 +292,10 @@ footer {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100px; /* Top of screen only */
+    height: 100px;
     overflow: hidden;
     pointer-events: none;
-    z-index: 5; /* Below top-bar but above content */
+    z-index: 5;
     display: none;
 }
 
@@ -254,7 +306,7 @@ footer {
     height: 2px;
     background: #fff;
     border-radius: 50%;
-    box-shadow: 0 0 5px #fff, 0 0 10px #cfa15a; /* Glowing star with fire tint */
+    box-shadow: 0 0 5px #fff, 0 0 10px #cfa15a;
     animation: fall 3s linear infinite;
     opacity: 0.8;
 }
@@ -266,10 +318,10 @@ footer {
     }
 }
 
-/* Media Queries for Responsiveness (Modern Improvement) */
+/* Media Queries */
 @media (max-width: 768px) {
-    .intro-core h1 {
-        font-size: 2.5rem;
+    .intro-logo {
+        width: 150px;
     }
     h2 {
         font-size: 2.5rem;
@@ -281,5 +333,9 @@ footer {
     .inner-rune {
         width: 150px;
         height: 150px;
+    }
+    .outer-rune {
+        width: 250px;
+        height: 250px;
     }
 }

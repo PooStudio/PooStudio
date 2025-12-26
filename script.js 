@@ -2,14 +2,13 @@ window.addEventListener("load", () => {
     const intro = document.getElementById("intro");
     const site = document.getElementById("site");
     setTimeout(() => {
-        intro.style.opacity = "0";
-        intro.style.transition = "opacity 1.5s ease";
+        intro.classList.add("fade-out"); // Use class for animation control
         setTimeout(() => {
             intro.remove();
             site.classList.remove("hidden");
             document.body.style.overflow = "auto";
-        }, 1500);
-    }, 3000);
+        }, 1500); // Match fade duration
+    }, 5000); // Extended timeout for longer animation viewing
 
     // Contact menu
     const contactBtn = document.getElementById("contactBtn");
