@@ -52,7 +52,7 @@ window.addEventListener("load", () => {
         if (intro) {
             const scrollY = window.pageYOffset;
             const vh = window.innerHeight;
-            let opacity = 1 - (scrollY / (vh * 0.8)); // Fade over 80% of viewport height
+            let opacity = 1 - (scrollY / (vh * 0.5)); // Faster fade for better reveal
             opacity = Math.max(0, Math.min(1, opacity));
             intro.style.opacity = opacity;
             if (opacity <= 0) {
