@@ -1,64 +1,56 @@
 window.addEventListener("load", () => {
-    document.getElementById("year").textContent = new Date().getFullYear();
-    const starsContainer = document.getElementById("starsContainer");
-    let idleTimeout;
-    const idleTime = 30000; // 30 seconds
-
-    function createStar() {
-        const star = document.createElement("div");
-        star.classList.add("star");
-        star.textContent = '💩'; // Poop emoji for PooStudio theme
-        star.style.left = `${Math.random() * 100}vw`;
-        star.style.fontSize = `${Math.random() * 20 + 10}px`;
-        star.style.animationDuration = `${Math.random() * 2 + 1}s`;
-        star.style.color = `hsl(${Math.random() * 360}, 50%, 50%)`; // Random colors for dope effect
-        starsContainer.appendChild(star);
-        setTimeout(() => {
-            star.remove();
-        }, 3000);
-    }
-
-    function startStars() {
-        starsContainer.style.display = "block";
-        const interval = setInterval(createStar, 100); // More frequent for crazy effect
-        return interval;
-    }
-
-    function stopStars(interval) {
-        clearInterval(interval);
-        starsContainer.innerHTML = "";
-        starsContainer.style.display = "none";
-    }
-
-    let starsInterval;
-
-    function resetIdleTimer() {
-        clearTimeout(idleTimeout);
-        if (starsInterval) {
-            stopStars(starsInterval);
-            starsInterval = null;
-        }
-        idleTimeout = setTimeout(() => {
-            starsInterval = startStars();
-        }, idleTime);
-    }
-
-    window.addEventListener("mousemove", resetIdleTimer);
-    window.addEventListener("keydown", resetIdleTimer);
-    window.addEventListener("scroll", resetIdleTimer);
-    window.addEventListener("touchstart", resetIdleTimer);
-
-    resetIdleTimer();
-
-    // Parallax background movement on mouse move
-    window.addEventListener('mousemove', (e) => {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        const xRel = (e.clientX / width - 0.5) * 2;
-        const yRel = (e.clientY / height - 0.5) * 2;
-        const bg = document.querySelector('.bg');
-        const movingBg = document.querySelector('.moving-bg');
-        bg.style.transform = `translate(${xRel * 25}px, ${yRel * 25}px)`;
-        movingBg.style.transform = `translate(${xRel * 15}px, ${yRel * 15}px)`;
-    });
+document.getElementById("year").textContent = new Date().getFullYear();
+const starsContainer = document.getElementById("starsContainer");
+let idleTimeout;
+const idleTime = 30000; // 30 seconds
+function createStar() {
+const star = document.createElement("div");
+star.classList.add("star");
+star.textContent = '💩'; // Poop emoji for PooStudio theme
+star.style.left = ${Math.random() * 100}vw;
+star.style.fontSize = ${Math.random() * 20 + 10}px;
+star.style.animationDuration = ${Math.random() * 2 + 1}s;
+star.style.color = hsl(${Math.random() * 360}, 50%, 50%); // Random colors for dope effect
+starsContainer.appendChild(star);
+setTimeout(() => {
+star.remove();
+}, 3000);
+}
+function startStars() {
+starsContainer.style.display = "block";
+const interval = setInterval(createStar, 100); // More frequent for crazy effect
+return interval;
+}
+function stopStars(interval) {
+clearInterval(interval);
+starsContainer.innerHTML = "";
+starsContainer.style.display = "none";
+}
+let starsInterval;
+function resetIdleTimer() {
+clearTimeout(idleTimeout);
+if (starsInterval) {
+stopStars(starsInterval);
+starsInterval = null;
+}
+idleTimeout = setTimeout(() => {
+starsInterval = startStars();
+}, idleTime);
+}
+window.addEventListener("mousemove", resetIdleTimer);
+window.addEventListener("keydown", resetIdleTimer);
+window.addEventListener("scroll", resetIdleTimer);
+window.addEventListener("touchstart", resetIdleTimer);
+resetIdleTimer();
+// Parallax background movement on mouse move
+window.addEventListener('mousemove', (e) => {
+const width = window.innerWidth;
+const height = window.innerHeight;
+const xRel = (e.clientX / width - 0.5) * 2;
+const yRel = (e.clientY / height - 0.5) * 2;
+const bg = document.querySelector('.bg');
+const movingBg = document.querySelector('.moving-bg');
+bg.style.transform = translate(${xRel * 25}px, ${yRel * 25}px);
+movingBg.style.transform = translate(${xRel * 15}px, ${yRel * 15}px);
+});
 });
