@@ -246,7 +246,7 @@ body::before {
     justify-content: center;
     text-align: center;
     padding: 2rem;
-    padding-top: calc(100vh + 2rem); /* Adjusted space for scrolling under the fixed intro */
+    padding-top: 100vh; /* Space for scrolling under the fixed intro */
 }
 
 .content {
@@ -311,7 +311,8 @@ h2 {
 }
 
 footer {
-    position: relative;
+    position: absolute;
+    bottom: 0;
     width: 100%;
     text-align: center;
     padding: 1rem;
