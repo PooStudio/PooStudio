@@ -1,10 +1,4 @@
 window.addEventListener("load", () => {
-    const site = document.getElementById("site");
-    const contactBtn = document.getElementById("contactBtn");
-    const overlay = document.getElementById("contactOverlay");
-    const closeBtn = document.getElementById("closeContact");
-    contactBtn.onclick = () => overlay.style.display = "flex";
-    closeBtn.onclick = () => overlay.style.display = "none";
     document.getElementById("year").textContent = new Date().getFullYear();
     const starsContainer = document.getElementById("starsContainer");
     let idleTimeout;
