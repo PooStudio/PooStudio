@@ -1,31 +1,37 @@
 window.addEventListener("load", () => {
-    const intro = document.getElementById("intro");
     document.getElementById("year").textContent = new Date().getFullYear();
     const starsContainer = document.getElementById("starsContainer");
+    const intro = document.getElementById("intro");
     let idleTimeout;
-    const idleTime = 30000;
+    const idleTime = 30000; // 30 seconds
+
     function createStar() {
         const star = document.createElement("div");
         star.classList.add("star");
+        star.textContent = '💩'; // Poop emoji for PooStudio theme
         star.style.left = `${Math.random() * 100}vw`;
+        star.style.fontSize = `${Math.random() * 20 + 10}px`;
         star.style.animationDuration = `${Math.random() * 2 + 1}s`;
         starsContainer.appendChild(star);
-        // Remove star after animation
         setTimeout(() => {
             star.remove();
-        }, 3000); // Match animation duration
+        }, 3000);
     }
+
     function startStars() {
         starsContainer.style.display = "block";
         const interval = setInterval(createStar, 200);
         return interval;
     }
+
     function stopStars(interval) {
         clearInterval(interval);
         starsContainer.innerHTML = "";
         starsContainer.style.display = "none";
     }
+
     let starsInterval;
+
     function resetIdleTimer() {
         clearTimeout(idleTimeout);
         if (starsInterval) {
@@ -36,22 +42,38 @@ window.addEventListener("load", () => {
             starsInterval = startStars();
         }, idleTime);
     }
+
     window.addEventListener("mousemove", resetIdleTimer);
     window.addEventListener("keydown", resetIdleTimer);
     window.addEventListener("scroll", resetIdleTimer);
-    window.addEventListener("touchstart", resetIdleTimer); // For mobile
+    window.addEventListener("touchstart", resetIdleTimer);
+
     resetIdleTimer();
-    // Smooth fade on scroll
+
+    // Smooth fade on scroll for intro
     window.addEventListener('scroll', () => {
         if (intro) {
             const scrollY = window.pageYOffset;
             const vh = window.innerHeight;
-            let opacity = 1 - (scrollY / (vh * 0.8)); // Fade over 80% of viewport height
+            let opacity = 1 - (scrollY / (vh * 0.8));
             opacity = Math.max(0, Math.min(1, opacity));
             intro.style.opacity = opacity;
             if (opacity <= 0) {
                 intro.remove();
             }
         }
+    });
+
+    // Contact overlay functionality
+    const contactBtn = document.getElementById('contactBtn');
+    const contactOverlay = document.getElementById('contactOverlay');
+    const closeContact = document.getElementById('closeContact');
+
+    contactBtn.addEventListener('click', () => {
+        contactOverlay.style.display = 'flex';
+    });
+
+    closeContact.addEventListener('click', () => {
+        contactOverlay.style.display = 'none';
     });
 });

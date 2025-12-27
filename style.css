@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'MedievalSharp', serif; /* Changed to MedievalSharp for more medieval feel */
+    font-family: 'MedievalSharp', serif;
 }
 
 html {
@@ -16,13 +16,12 @@ body {
     background: #050505;
     color: #eee;
     position: relative;
-    font-family: 'MedievalSharp', serif; /* Reinforce medieval font */
+    font-family: 'MedievalSharp', serif;
     transform-style: preserve-3d;
     height: auto;
     min-height: 100%;
 }
 
-/* Enhance medieval atmosphere with subtle parchment-like texture */
 body::before {
     content: "";
     position: fixed;
@@ -34,7 +33,6 @@ body::before {
     z-index: -1;
 }
 
-/* Medieval scrollbar styling for WebKit browsers */
 ::-webkit-scrollbar {
     width: 12px;
     background: #050505;
@@ -57,13 +55,11 @@ body::before {
     background: #e0b070;
 }
 
-/* Medieval scrollbar styling for Firefox */
 html {
     scrollbar-width: thin;
     scrollbar-color: #cfa15a #111;
 }
 
-/* INTRO */
 #intro {
     position: fixed;
     inset: 0;
@@ -73,9 +69,9 @@ html {
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    perspective: 1500px; 
+    perspective: 1500px;
     transition: opacity 0.3s ease;
-    cursor: pointer; 
+    cursor: pointer;
     transform-style: preserve-3d;
     transform: translateZ(-0.5px) scale(1.5);
 }
@@ -86,8 +82,8 @@ html {
     background: radial-gradient(circle closest-side, rgba(200, 255, 255, 0.9) 0%, rgba(173, 216, 230, 0.6) 30%, transparent 70%);
     opacity: 0;
     pointer-events: none;
-    animation: flashBurst 3s ease-out forwards; 
-    mix-blend-mode: screen; 
+    animation: flashBurst 3s ease-out forwards;
+    mix-blend-mode: screen;
 }
 
 @keyframes flashBurst {
@@ -95,9 +91,9 @@ html {
         opacity: 0;
         transform: scale(0.5);
     }
-    8% { 
+    8% {
         opacity: 1;
-        transform: scale(1.5); 
+        transform: scale(1.5);
     }
     25% {
         opacity: 0.7;
@@ -117,8 +113,8 @@ html {
     text-align: center;
     position: relative;
     transform-style: preserve-3d;
-    animation: simpleReveal 3s ease-in-out forwards; 
-    filter: brightness(1) saturate(1); 
+    animation: simpleReveal 3s ease-in-out forwards;
+    filter: brightness(1) saturate(1);
 }
 
 @keyframes simpleReveal {
@@ -141,7 +137,7 @@ html {
     font-size: 3rem;
     letter-spacing: 0.4rem;
     text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5);
-    animation: glowPulse 2s infinite alternate; 
+    animation: glowPulse 2s infinite alternate;
 }
 
 @keyframes glowPulse {
@@ -159,7 +155,7 @@ html {
     color: #cfa15a;
     letter-spacing: 0.2rem;
     text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
-    animation: fadeIn 2s ease-in forwards 0.3s; 
+    animation: fadeIn 2s ease-in forwards 0.3s;
 }
 
 @keyframes fadeIn {
@@ -176,7 +172,7 @@ html {
     height: 260px;
     border: 2px solid rgba(207,161,90,0.2);
     border-radius: 50%;
-    animation: spin 12s linear infinite, depthPulse 3s infinite alternate; 
+    animation: spin 12s linear infinite, depthPulse 3s infinite alternate;
     box-shadow: 0 0 20px rgba(207,161,90,0.3);
 }
 
@@ -247,7 +243,6 @@ html {
     transform: translateZ(-2px) scale(3);
 }
 
-/* New moving background for subtle medieval fog/smoke effect */
 .moving-bg {
     position: fixed;
     inset: 0;
@@ -273,16 +268,16 @@ html {
     justify-content: center;
     text-align: center;
     padding: 2rem;
-    padding-top: calc(100vh + 2rem); /* Space for intro */
+    padding-top: calc(100vh + 2rem);
     transform: translateZ(0);
 }
 
 .content {
-    max-width: 800px; /* Wider for professional layout */
-    animation: appearFromCenter 1.5s ease-out forwards; 
+    max-width: 800px;
+    animation: appearFromCenter 1.5s ease-out forwards;
     opacity: 0;
     font-family: 'MedievalSharp', serif;
-    line-height: 1.8; /* Improved readability */
+    line-height: 1.8;
     transform-style: preserve-3d;
 }
 
@@ -306,7 +301,7 @@ html {
 }
 
 .tag {
-    font-size: 0.8rem; /* Slightly larger */
+    font-size: 0.8rem;
     letter-spacing: 0.3rem;
     color: #cfa15a;
     text-transform: uppercase;
@@ -314,14 +309,14 @@ html {
 
 h2 {
     font-family: 'MedievalSharp', serif;
-    font-size: 3.5rem; /* Larger for impact */
+    font-size: 3.5rem;
     margin: 1rem 0;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(207,161,90,0.3);
 }
 
 .subtitle {
     font-size: 1.2rem;
-    color: #ddd; /* Lighter for professionalism */
+    color: #ddd;
     margin-bottom: 1.5rem;
 }
 
@@ -333,13 +328,12 @@ h2 {
 }
 
 .divider {
-    width: 80px; /* Wider */
+    width: 80px;
     height: 2px;
     background: linear-gradient(to right, transparent, #cfa15a, transparent);
     margin: 2rem auto;
 }
 
-/* Additional content styles for scrolling and medieval vibe */
 .additional-content {
     margin-top: 4rem;
     text-align: left;
@@ -362,7 +356,6 @@ h2 {
     line-height: 1.8;
 }
 
-/* Medieval rune divider */
 .rune-divider {
     width: 100%;
     height: 1px;
@@ -373,7 +366,7 @@ h2 {
 
 .rune-divider::before,
 .rune-divider::after {
-    content: 'ᚱ'; /* Example rune character, replace with actual if needed */
+    content: 'ᚱ';
     position: absolute;
     top: -10px;
     font-size: 1.5rem;
@@ -395,22 +388,21 @@ footer {
     width: 100%;
     text-align: center;
     padding: 1rem;
-    font-size: 0.85rem; /* Slightly larger */
+    font-size: 0.85rem;
     color: #eee;
     font-family: 'MedievalSharp', serif;
     background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(5px); /* Professional touch */
+    backdrop-filter: blur(5px);
     z-index: 10;
     transform: translateZ(0);
 }
-
 
 #starsContainer {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100px;
+    height: 100vh;
     overflow: hidden;
     pointer-events: none;
     z-index: 5;
@@ -420,21 +412,112 @@ footer {
 
 .star {
     position: absolute;
-    top: -5px;
-    width: 2px;
-    height: 2px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 5px #fff, 0 0 10px #cfa15a;
-    animation: fall 3s linear infinite;
+    top: -30px;
+    color: #8B4513;
+    text-shadow: 0 0 5px #8B4513, 0 0 10px #cfa15a;
+    animation: fall 3s linear forwards;
     opacity: 0.8;
 }
 
 @keyframes fall {
     to {
-        transform: translateY(100px);
+        transform: translateY(calc(100vh + 30px)) rotate(360deg);
         opacity: 0;
     }
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(5,5,5,0.8);
+    backdrop-filter: blur(5px);
+    z-index: 20;
+    transform: translateZ(0);
+}
+
+.logo {
+    height: 50px;
+}
+
+#contactBtn {
+    background: #cfa15a;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: #050505;
+    cursor: pointer;
+    font-family: 'MedievalSharp', serif;
+    box-shadow: 0 0 10px rgba(207,161,90,0.3);
+    transition: transform 0.3s ease;
+}
+
+#contactBtn:hover {
+    transform: scale(1.05);
+}
+
+.contact-email {
+    font-size: 1rem;
+    color: #cfa15a;
+    margin-top: 1rem;
+}
+
+#contactOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,5,5,0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    transform: translateZ(0);
+}
+
+#contactOverlay form {
+    background: #111;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #cfa15a;
+    box-shadow: 0 0 20px rgba(207,161,90,0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    animation: appearFromCenter 0.5s ease-out;
+}
+
+#contactOverlay input,
+#contactOverlay textarea {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: #222;
+    border: 1px solid #cfa15a;
+    color: #eee;
+    font-family: 'MedievalSharp', serif;
+}
+
+#contactOverlay button {
+    padding: 0.5rem 1rem;
+    background: #cfa15a;
+    border: none;
+    color: #050505;
+    cursor: pointer;
+    margin: 0.5rem;
+    font-family: 'MedievalSharp', serif;
+    transition: transform 0.3s ease;
+}
+
+#contactOverlay button:hover {
+    transform: scale(1.05);
+}
+
+#contactOverlay h3 {
+    margin-bottom: 1.5rem;
+    color: #cfa15a;
 }
 
 @media (max-width: 768px) {
