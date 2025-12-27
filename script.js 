@@ -6,7 +6,7 @@ const idleTime = 30000; // 30 seconds
 function createStar() {
 const star = document.createElement("div");
 star.classList.add("star");
-star.textContent = '💩'; // Poop emoji for PooStudio theme
+star.textContent = 'logo.png'; // Poop emoji for PooStudio theme
 star.style.left = ${Math.random() * 100}vw;
 star.style.fontSize = ${Math.random() * 20 + 10}px;
 star.style.animationDuration = ${Math.random() * 2 + 1}s;
