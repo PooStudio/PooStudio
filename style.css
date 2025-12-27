@@ -23,18 +23,39 @@ body::before {
     z-index: -1;
 }
 
+/* Medieval scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px;
+    background: #050505;
+}
+
+::-webkit-scrollbar-track {
+    background: #111;
+    border: 1px solid #cfa15a;
+    box-shadow: inset 0 0 5px rgba(207,161,90,0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cfa15a;
+    border-radius: 10px;
+    border: 2px solid #050505;
+    box-shadow: 0 0 5px rgba(207,161,90,0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #e0b070;
+}
+
 /* INTRO */
 #intro {
-    position: fixed;
-    inset: 0;
+    position: relative;
+    height: 100vh;
     background: radial-gradient(circle, #1a0f05, #050505 70%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
     perspective: 1500px; 
-    transition: opacity 0.3s ease;
     cursor: pointer; 
 }
 
@@ -267,8 +288,8 @@ body::before {
     justify-content: flex-start;
     text-align: center;
     padding: 2rem;
-    padding-top: calc(100vh + 2rem); /* Reverted to original for scrolling below intro */
-    min-height: 100vh; /* Reverted for full section */
+    padding-top: 80px; /* Space for fixed header */
+    min-height: 100vh; /* Ensure scrolling */
 }
 
 .content {
@@ -301,7 +322,7 @@ h2 {
     font-family: 'MedievalSharp', serif;
     font-size: 3.5rem; /* Larger for impact */
     margin: 1rem 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(207,161,90,0.3);
 }
 
 .subtitle {
@@ -347,7 +368,7 @@ h2 {
     font-size: 2rem;
     color: #cfa15a;
     margin-bottom: 1rem;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 0 5px rgba(207,161,90,0.2);
 }
 
 .additional-content p {
