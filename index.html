@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="PooStudio: A dark medieval creative studio forging worlds and systems. Forged in fire, tempered by obsession." />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com; form-action https://formspree.io; img-src 'self'; font-src https://fonts.gstatic.com; object-src 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; form-action https://formspree.io; img-src 'self'; font-src https://fonts.gstatic.com; object-src 'none';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -12,24 +12,18 @@
     <link rel="icon" href="logo.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/three@0.182.0/build/three.min.js"></script>
 </head>
 <body>
 
-<div id="intro">
-    <div class="welding-flash"></div>
-    <canvas id="intro-canvas"></canvas>
-    <div class="intro-core">
-        <h1>PooStudio</h1>
-        <p>Coming Soon</p>
-    </div>
-    <div class="scroll-arrow"></div>
-</div>
-
 <div id="site">
 
+    <header class="top-bar">
+        <img src="logo.png" alt="PooStudio" class="logo">
+        <button id="contactBtn">Contact</button>
+    </header>
+
     <div class="bg"></div>
-    <div class="moving-bg"></div>
+    <div class="moving-bg"></div> <!-- New moving background layer for medieval vibe -->
 
     <main class="center">
         <div class="content">
@@ -43,17 +37,21 @@
                 <strong>Coming Soon.</strong>
             </p>
             <div class="divider"></div>
+            <p class="contact-email">contact@poostudio.dev</p>
 
+            <!-- Added more text to require scrolling -->
             <section class="additional-content">
                 <h3>Our Medieval Craft</h3>
                 <p>In the shadowed forges of PooStudio, we craft intricate worlds inspired by ancient lore and dark fantasies. Each creation is hammered with precision, drawing from the essence of medieval artistry and modern innovation.</p>
                 <p>From enchanted systems that breathe life into virtual realms to bespoke designs that echo the grandeur of forgotten castles, our work is a testament to unyielding dedication.</p>
-                <div class="rune-divider"></div>
+                <div class="rune-divider"></div> <!-- Added medieval rune divider for vibe -->
                 <h3>The Forge's Secrets</h3>
                 <p>Delve deeper into the mysteries that await. Our upcoming revelations will unveil tools forged for creators, warriors of code, and dreamers alike. Stay vigilant, for the anvil rings eternal.</p>
-                <p>The runes whisper secrets of power, guiding our hands through the veil of night.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In the dim-lit halls, echoes of hammers resound, shaping destinies from molten ideas. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. The runes whisper secrets of power, guiding our hands through the veil of night.</p>
                 <div class="rune-divider"></div>
                 <h3>Await the Awakening</h3>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 <p>More ancient texts and forbidden knowledge will be revealed as the stars align. Prepare your scrolls and quills, for the era of PooStudio dawns.</p>
             </section>
         </div>
@@ -62,6 +60,18 @@
     <footer>
         © <span id="year"></span> PooStudio
     </footer>
+</div>
+
+
+<div id="contactOverlay">
+    <form action="https://formspree.io/f/xdkgnelb" method="POST">
+        <h3>Contact PooStudio</h3>
+        <input type="text" name="name" placeholder="Name" required aria-label="Your Name">
+        <input type="email" name="email" placeholder="Email" required aria-label="Your Email">
+        <textarea name="message" placeholder="Message" required aria-label="Your Message"></textarea>
+        <button type="submit">Send</button>
+        <button type="button" id="closeContact">Close</button>
+    </form>
 </div>
 
 
