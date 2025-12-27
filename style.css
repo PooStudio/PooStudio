@@ -80,6 +80,15 @@ html {
     transform: translateZ(-0.5px) scale(1.5);
 }
 
+#intro-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
 .welding-flash {
     position: absolute;
     inset: 0;
@@ -165,50 +174,6 @@ html {
 @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
-}
-
-.rune-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 260px;
-    height: 260px;
-    border: 2px solid rgba(207,161,90,0.2);
-    border-radius: 50%;
-    animation: spin 12s linear infinite, depthPulse 3s infinite alternate; 
-    box-shadow: 0 0 20px rgba(207,161,90,0.3);
-}
-
-.inner-rune {
-    width: 200px;
-    height: 200px;
-    border: 1px dashed rgba(207,161,90,0.1);
-    animation: spin-reverse 15s linear infinite, depthPulse 3s infinite alternate-reverse;
-}
-
-.outer-rune {
-    width: 320px;
-    height: 320px;
-    border: 3px dotted rgba(207,161,90,0.15);
-    animation: spin 18s linear infinite, depthPulse 4s infinite alternate;
-}
-
-@keyframes spin {
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes spin-reverse {
-    to { transform: translate(-50%, -50%) rotate(-360deg); }
-}
-
-@keyframes depthPulse {
-    0% {
-        transform: translate(-50%, -50%) translateZ(0px) scale(1);
-    }
-    100% {
-        transform: translate(-50%, -50%) translateZ(100px) scale(1.05);
-    }
 }
 
 .scroll-arrow {
@@ -443,18 +408,6 @@ footer {
     }
     h2 {
         font-size: 2.5rem;
-    }
-    .rune-circle {
-        width: 200px;
-        height: 200px;
-    }
-    .inner-rune {
-        width: 150px;
-        height: 150px;
-    }
-    .outer-rune {
-        width: 250px;
-        height: 250px;
     }
     .scroll-arrow {
         width: 25px;
