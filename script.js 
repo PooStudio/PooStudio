@@ -11,6 +11,7 @@ window.addEventListener("load", () => {
         star.style.left = `${Math.random() * 100}vw`;
         star.style.fontSize = `${Math.random() * 20 + 10}px`;
         star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+        star.style.color = `hsl(${Math.random() * 360}, 50%, 50%)`; // Random colors for dope effect
         starsContainer.appendChild(star);
         setTimeout(() => {
             star.remove();
@@ -19,7 +20,7 @@ window.addEventListener("load", () => {
 
     function startStars() {
         starsContainer.style.display = "block";
-        const interval = setInterval(createStar, 200);
+        const interval = setInterval(createStar, 100); // More frequent for crazy effect
         return interval;
     }
 
@@ -65,10 +66,12 @@ window.addEventListener("load", () => {
     // Parallax background movement on mouse move
     window.addEventListener('mousemove', (e) => {
         const width = window.innerWidth;
-        const xRel = (e.clientX / width - 0.5) * 2; // -1 to 1
+        const height = window.innerHeight;
+        const xRel = (e.clientX / width - 0.5) * 2;
+        const yRel = (e.clientY / height - 0.5) * 2;
         const bg = document.querySelector('.bg');
         const movingBg = document.querySelector('.moving-bg');
-        bg.style.transform = `translateX(${xRel * 25}px)`;
-        movingBg.style.transform = `translateX(${xRel * 15}px)`;
+        bg.style.transform = `translate(${xRel * 25}px, ${yRel * 25}px)`;
+        movingBg.style.transform = `translate(${xRel * 15}px, ${yRel * 15}px)`;
     });
 });

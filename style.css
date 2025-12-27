@@ -83,6 +83,7 @@ html {
     letter-spacing: 0.2rem;
     text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5);
     margin-bottom: 0.2rem;
+    animation: glowPulse 2s infinite alternate;
 }
 
 .logo-text p {
@@ -91,12 +92,14 @@ html {
     letter-spacing: 0.1rem;
     text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
     font-size: 0.8rem;
+    animation: fadeIn 2s ease-in forwards;
 }
 
 .ring-container {
     position: relative;
     width: 100px;
     height: 100px;
+    animation: rotateRing 20s linear infinite;
 }
 
 .rune-circle {
@@ -106,6 +109,7 @@ html {
     transform: translate(-50%, -50%);
     border-radius: 50%;
     box-shadow: 0 0 20px rgba(207,161,90,0.3);
+    animation: pulse 3s infinite alternate;
 }
 
 .rune-circle {
@@ -118,22 +122,57 @@ html {
     width: 45px;
     height: 45px;
     border: 1px dashed rgba(207,161,90,0.1);
+    animation: spin-reverse 15s linear infinite;
 }
 
 .outer-rune {
     width: 75px;
     height: 75px;
     border: 3px dotted rgba(207,161,90,0.15);
+    animation: spin 18s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+    to { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes glowPulse {
+    0% {
+        text-shadow: 0 0 10px rgba(207, 161, 90, 0.5), 0 0 20px rgba(255, 69, 0, 0.3);
+    }
+    100% {
+        text-shadow: 0 0 20px rgba(207, 161, 90, 1), 0 0 40px rgba(255, 69, 0, 0.7);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rotateRing {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .bg {
     position: fixed;
     inset: 0;
     background:
-        radial-gradient(circle at 20% 80%, rgba(255,120,40,0.08), transparent 60%),
-        radial-gradient(circle at 80% 20%, rgba(255,80,20,0.05), transparent 55%);
+        radial-gradient(circle at 50% 50%, rgba(139,0,0,0.1), transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(255,120,40,0.12), transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(255,80,20,0.08), transparent 55%);
     z-index: -1;
-    opacity: 0.8;
+    opacity: 0.9;
     will-change: transform;
     transition: transform 0.1s ease-out;
 }
@@ -141,11 +180,11 @@ html {
 .moving-bg {
     position: fixed;
     inset: 0;
-    background: linear-gradient(45deg, rgba(10,10,10,0.2), rgba(50,50,50,0.1), rgba(10,10,10,0.2));
+    background: linear-gradient(45deg, rgba(10,10,10,0.3), rgba(50,50,50,0.15), rgba(10,10,10,0.3));
     background-size: 400% 400%;
-    animation: movingFog 20s ease infinite;
+    animation: movingFog 15s ease infinite;
     z-index: -1;
-    opacity: 0.3;
+    opacity: 0.4;
     mix-blend-mode: overlay;
     will-change: transform;
     transition: transform 0.1s ease-out;
@@ -177,6 +216,7 @@ html {
     letter-spacing: 0.3rem;
     color: #cfa15a;
     text-transform: uppercase;
+    animation: glowPulse 3s infinite alternate;
 }
 
 h2 {
@@ -184,12 +224,14 @@ h2 {
     font-size: 3.5rem;
     margin: 1rem 0;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(207,161,90,0.3);
+    animation: glowPulse 2s infinite alternate;
 }
 
 .subtitle {
     font-size: 1.2rem;
     color: #ddd;
     margin-bottom: 1.5rem;
+    animation: fadeIn 2s ease-in forwards;
 }
 
 .coming {
@@ -197,6 +239,7 @@ h2 {
     line-height: 1.6;
     font-style: italic;
     font-size: 1.1rem;
+    animation: fadeIn 2s ease-in forwards 0.5s;
 }
 
 .divider {
@@ -204,6 +247,7 @@ h2 {
     height: 2px;
     background: linear-gradient(to right, transparent, #cfa15a, transparent);
     margin: 2rem auto;
+    box-shadow: 0 0 10px #cfa15a;
 }
 
 .additional-content {
@@ -219,6 +263,7 @@ h2 {
     color: #cfa15a;
     margin-bottom: 1rem;
     text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 0 5px rgba(207,161,90,0.2);
+    animation: glowPulse 3s infinite alternate;
 }
 
 .additional-content p {
@@ -226,6 +271,7 @@ h2 {
     color: #ccc;
     margin-bottom: 1.5rem;
     line-height: 1.8;
+    animation: fadeIn 2s ease-in forwards;
 }
 
 .rune-divider {
@@ -234,6 +280,7 @@ h2 {
     background: linear-gradient(to right, transparent, rgba(207,161,90,0.5), transparent);
     margin: 2rem auto;
     position: relative;
+    box-shadow: 0 0 10px rgba(207,161,90,0.3);
 }
 
 .rune-divider::before,
@@ -244,6 +291,7 @@ h2 {
     font-size: 1.5rem;
     color: #cfa15a;
     text-shadow: 0 0 5px rgba(207,161,90,0.3);
+    animation: pulse 2s infinite alternate;
 }
 
 .rune-divider::before {
@@ -286,7 +334,7 @@ footer {
 
 @keyframes fall {
     to {
-        transform: translateY(calc(100vh + 30px)) rotate(360deg);
+        transform: translateY(calc(100vh + 30px)) rotate(720deg); // More rotation for dope
         opacity: 0;
     }
 }
@@ -313,17 +361,24 @@ footer {
     cursor: pointer;
     font-family: 'MedievalSharp', serif;
     box-shadow: 0 0 10px rgba(207,161,90,0.3);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #contactBtn:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(207,161,90,0.6);
 }
 
 .contact-email {
     font-size: 1rem;
     color: #cfa15a;
     margin-top: 1rem;
+    text-shadow: 0 0 5px #cfa15a;
+    transition: color 0.3s ease;
+}
+
+.contact-email:hover {
+    color: #ffd700;
 }
 
 #contactOverlay {
