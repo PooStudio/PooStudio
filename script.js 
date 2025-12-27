@@ -68,7 +68,7 @@ window.addEventListener("load", () => {
         const xRel = (e.clientX / width - 0.5) * 2; // -1 to 1
         const bg = document.querySelector('.bg');
         const movingBg = document.querySelector('.moving-bg');
-        bg.style.transform = `translateZ(-2px) scale(3) translateX(${xRel * 25}px)`;
-        movingBg.style.transform = `translateZ(-1px) scale(2) translateX(${xRel * 15}px)`;
+        bg.style.transform = `translateX(${xRel * 25}px)`;
+        movingBg.style.transform = `translateX(${xRel * 15}px)`;
     });
 });

@@ -7,8 +7,6 @@
 
 html {
     height: 100%;
-    perspective: 1px;
-    perspective-origin: 0 0;
     overflow-y: scroll;
 }
 
@@ -17,7 +15,6 @@ body {
     color: #eee;
     position: relative;
     font-family: 'MedievalSharp', serif;
-    transform-style: preserve-3d;
     height: auto;
     min-height: 100%;
     display: flex;
@@ -71,13 +68,12 @@ html {
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
-    transform-style: preserve-3d;
     filter: brightness(1) saturate(1);
 }
 
 .logo-text {
     text-align: left;
-    margin-right: -40px; /* Overlap adjustment to make ring attach to text */
+    margin-right: -40px; /* Overlap adjustment */
     z-index: 1;
 }
 
@@ -138,7 +134,6 @@ html {
         radial-gradient(circle at 80% 20%, rgba(255,80,20,0.05), transparent 55%);
     z-index: -1;
     opacity: 0.8;
-    transform: translateZ(-2px) scale(3);
     will-change: transform;
     transition: transform 0.1s ease-out;
 }
@@ -152,7 +147,6 @@ html {
     z-index: -1;
     opacity: 0.3;
     mix-blend-mode: overlay;
-    transform: translateZ(-1px) scale(2);
     will-change: transform;
     transition: transform 0.1s ease-out;
 }
@@ -170,22 +164,12 @@ html {
     justify-content: center;
     text-align: center;
     padding: 20vh 10% 2rem;
-    transform: translateZ(0);
 }
 
 .content {
     max-width: 800px;
     font-family: 'MedievalSharp', serif;
     line-height: 1.8;
-    transform-style: preserve-3d;
-}
-
-.content > * {
-    transform: translateZ(20px);
-}
-
-.additional-content > * {
-    transform: translateZ(10px);
 }
 
 .tag {
@@ -277,7 +261,6 @@ footer {
     font-size: 0.85rem;
     color: #aaa;
     font-family: 'MedievalSharp', serif;
-    transform: translateZ(0);
 }
 
 #starsContainer {
@@ -290,7 +273,6 @@ footer {
     pointer-events: none;
     z-index: 5;
     display: none;
-    transform: translateZ(-0.2px) scale(1.2);
 }
 
 .star {
@@ -321,7 +303,6 @@ footer {
     background: rgba(5,5,5,0.8);
     backdrop-filter: blur(5px);
     z-index: 20;
-    transform: translateZ(0);
 }
 
 #contactBtn {
@@ -353,7 +334,6 @@ footer {
     align-items: center;
     justify-content: center;
     z-index: 2000;
-    transform: translateZ(0);
 }
 
 #contactOverlay form {
