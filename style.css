@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'MedievalSharp', serif;
 }
 
 html {
@@ -12,10 +11,10 @@ html {
 }
 
 body {
-    background: #050505;
+    background: #000;
     color: #eee;
     position: relative;
-    font-family: 'MedievalSharp', serif;
+    font-family: 'Permanent Marker', cursive;
     height: auto;
     min-height: 100%;
     display: flex;
@@ -37,6 +36,36 @@ body::before {
     opacity: 0.08;
     pointer-events: none;
     z-index: -1;
+}
+
+#noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.1;
+    mix-blend-mode: overlay;
+    z-index: -2;
+}
+
+#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.3;
+    color: #8B4513;
+    text-shadow: 0 0 10px #cfa15a;
 }
 
 ::-webkit-scrollbar {
@@ -83,7 +112,7 @@ html {
 }
 
 .logo-text h1 {
-    font-family: 'MedievalSharp', serif;
+    font-family: 'Creepster', cursive;
     font-size: 1.5rem;
     letter-spacing: 0.2rem;
     text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5);
@@ -92,7 +121,7 @@ html {
 }
 
 .logo-text p {
-    font-family: 'MedievalSharp', serif;
+    font-family: 'Permanent Marker', cursive;
     color: #cfa15a;
     letter-spacing: 0.1rem;
     text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
@@ -178,7 +207,7 @@ html {
         radial-gradient(circle at 50% 50%, rgba(139,0,0,0.1), transparent 50%),
         radial-gradient(circle at 20% 80%, rgba(255,120,40,0.12), transparent 60%),
         radial-gradient(circle at 80% 20%, rgba(255,80,20,0.08), transparent 55%);
-    z-index: -1;
+    z-index: -3;
     opacity: 0.9;
     will-change: transform;
     transition: transform 0.1s ease-out;
@@ -190,7 +219,7 @@ html {
     background: linear-gradient(45deg, rgba(10,10,10,0.3), rgba(50,50,50,0.15), rgba(10,10,10,0.3));
     background-size: 400% 400%;
     animation: movingFog 15s ease infinite;
-    z-index: -1;
+    z-index: -3;
     opacity: 0.4;
     mix-blend-mode: overlay;
     will-change: transform;
@@ -203,27 +232,28 @@ html {
     100% { background-position: 0% 0%; }
 }
 
-.center {
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    text-align: center;
-    padding: 20vh 10% 2rem;
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    perspective: 1000px;
     transform-style: preserve-3d;
 }
 
-.content {
-    max-width: 800px;
-    font-family: 'MedievalSharp', serif;
-    line-height: 1.8;
-    transform: rotateX(10deg) translateZ(100px);
+section {
+    margin-bottom: 100px;
+    opacity: 0;
+    transform: translateY(100px) rotateX(-20deg);
+    transition: opacity 1s ease-out, transform 1s ease-out;
     transform-style: preserve-3d;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-    padding: 2rem;
-    background: rgba(5,5,5,0.6);
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
+    clip-path: polygon(5% 0%, 100% 5%, 95% 100%, 0% 95%);
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
 }
 
 .tag {
@@ -235,11 +265,29 @@ html {
 }
 
 h2 {
-    font-family: 'MedievalSharp', serif;
+    font-family: 'Creepster', cursive;
     font-size: 3.5rem;
     margin: 1rem 0;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(207,161,90,0.3);
     animation: glowPulse 2s infinite alternate;
+    letter-spacing: -0.05em;
+}
+
+h1, h3 {
+    font-family: 'Creepster', cursive;
+    font-size: 2rem;
+    text-shadow: 0 0 15px #ff9900, 0 0 30px #8B4513;
+    letter-spacing: -0.05em;
+}
+
+h1 span, h2 span, h3 span {
+    display: inline-block;
+    animation: wiggle 1s infinite alternate;
+}
+
+@keyframes wiggle {
+    0% { transform: translateY(0) skew(0deg); }
+    100% { transform: translateY(5px) skew(2deg); }
 }
 
 .subtitle {
@@ -265,28 +313,17 @@ h2 {
     box-shadow: 0 0 10px #cfa15a;
 }
 
-.additional-content {
-    margin-top: 4rem;
-    text-align: center;
-    max-width: 700px;
-    margin: 4rem auto;
-}
-
-.additional-content h3 {
-    font-family: 'MedievalSharp', serif;
-    font-size: 2rem;
-    color: #cfa15a;
-    margin-bottom: 1rem;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 0 5px rgba(207,161,90,0.2);
-    animation: glowPulse 3s infinite alternate;
-}
-
-.additional-content p {
-    font-size: 1rem;
+p {
+    font-size: 1.2rem;
+    line-height: 1.6;
     color: #ccc;
     margin-bottom: 1.5rem;
-    line-height: 1.8;
-    animation: fadeIn 2s ease-in forwards;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+p:hover {
+    transform: skew(2deg);
+    filter: brightness(1.2);
 }
 
 .rune-divider {
@@ -323,7 +360,7 @@ footer {
     padding: 0.5rem;
     font-size: 0.85rem;
     color: #aaa;
-    font-family: 'MedievalSharp', serif;
+    font-family: 'Permanent Marker', cursive;
     transform: translateZ(-50px);
 }
 
@@ -367,14 +404,45 @@ footer {
     color: #ffd700;
 }
 
-@keyframes appearFromCenter {
-    0% {
-        transform: scale(0.2);
+.easter-egg {
+    cursor: pointer;
+    color: #ff9900;
+    text-decoration: underline;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+input, textarea, button {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(0,0,0,0.7);
+    border: 2px dashed #ff9900;
+    color: #fff;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1rem;
+    resize: vertical;
+    transition: transform 0.3s ease;
+}
+
+input:hover, textarea:hover, button:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+button {
+    cursor: pointer;
+}
+
+@keyframes drift {
+    to {
+        transform: translate(var(--dx), var(--dy));
         opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
     }
 }
 
@@ -404,15 +472,12 @@ footer {
     .logo-text {
         margin-right: -30px;
     }
-    .content {
+    .container {
         max-width: 100%;
-        padding: 0 1rem;
+        padding: 20px 10px;
     }
-    .additional-content {
+    section {
         max-width: 100%;
-    }
-    .center {
-        padding: 15vh 5% 2rem;
     }
 }
 
@@ -429,10 +494,10 @@ footer {
     .coming {
         font-size: 1rem;
     }
-    .additional-content h3 {
+    h3 {
         font-size: 1.5rem;
     }
-    .additional-content p {
+    p {
         font-size: 0.9rem;
     }
     .ring-container {

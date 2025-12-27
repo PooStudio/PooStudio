@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PooStudio: A dark medieval creative studio forging worlds and systems. Forged in fire, tempered by obsession." />
+    <meta name="description" content="PooStudio: Chaotic creations from the cosmic forge. Absurd craft, serious grit." />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; form-action https://formspree.io; img-src 'self'; font-src https://fonts.gstatic.com; object-src 'none';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <title>PooStudio — Coming Soon</title>
-    <link rel="icon" href="logo.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <title>PooStudio — Forged in Madness</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💩</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Creepster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<canvas id="noise"></canvas>
+<div id="particles"></div>
 <div class="bg"></div>
 <div class="moving-bg"></div>
 
 <div id="site">
 
-    <main class="center">
-        <div class="content">
+    <div class="container">
+        <section class="landing">
             <div class="logo-section">
                 <div class="logo-text">
-                    <h1>PooStudio</h1>
+                    <h1 class="distort">PooStudio</h1>
                     <p>Forged in Shadow</p>
                 </div>
                 <div class="ring-container">
@@ -34,33 +36,49 @@
                 </div>
             </div>
             <span class="tag">FORGED IN SHADOW</span>
-            <h2>PooStudio</h2>
-            <p class="subtitle">
-                A dark medieval creative studio forging worlds and systems.
+            <h2 class="distort">PooStudio</h2>
+            <p class="subtitle tagline">
+                A dark medieval creative studio gone rogue, forging worlds from chaos.
             </p>
             <p class="coming">
                 Born of fire. Tempered by obsession.<br>
                 <strong>Coming Soon.</strong>
             </p>
             <div class="divider"></div>
-            <p class="contact-email">contact@poostudio.dev</p>
+        </section>
 
-            <section class="additional-content">
-                <h3>Our Medieval Craft</h3>
-                <p>In the shadowed forges of PooStudio, we craft intricate worlds inspired by ancient lore and dark fantasies. Each creation is hammered with precision, drawing from the essence of medieval artistry and modern innovation.</p>
-                <p>From enchanted systems that breathe life into virtual realms to bespoke designs that echo the grandeur of forgotten castles, our work is a testament to unyielding dedication.</p>
-                <div class="rune-divider"></div>
-                <h3>The Forge's Secrets</h3>
-                <p>Delve deeper into the mysteries that await. Our upcoming revelations will unveil tools forged for creators, warriors of code, and dreamers alike. Stay vigilant, for the anvil rings eternal.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In the dim-lit halls, echoes of hammers resound, shaping destinies from molten ideas. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. The runes whisper secrets of power, guiding our hands through the veil of night.</p>
-                <div class="rune-divider"></div>
-                <h3>Await the Awakening</h3>
-                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>More ancient texts and forbidden knowledge will be revealed as the stars align. Prepare your scrolls and quills, for the era of PooStudio dawns.</p>
-            </section>
-        </div>
-    </main>
+        <section class="contact">
+            <h2 class="distort">Dive into the Void</h2>
+            <p>Spill your chaotic ideas. We'll twist them into artifacts.</p>
+            <form action="https://formspree.io/f/yourformid" method="POST">
+                <input type="email" name="email" placeholder="Your cursed email...">
+                <textarea name="message" placeholder="Unleash the madness..."></textarea>
+                <button type="submit">Hurl into the Forge</button>
+            </form>
+            <p class="contact-email">contact@poostudio.dev</p>
+        </section>
+
+        <section class="craft">
+            <h3 class="distort">Our Medieval Craft</h3>
+            <p>In the shadowed forges of PooStudio, we hammer intricate worlds from ancient lore and dark fantasies. Each piece drips with precision, blending medieval grit with modern madness.</p>
+            <p>Enchanted systems breathing life into realms, designs echoing lost castles—our obsession knows no bounds.</p>
+            <div class="rune-divider"></div>
+        </section>
+
+        <section class="secrets">
+            <h3 class="distort">The Forge's Secrets</h3>
+            <p>Plunge into the abyss. Revelations await: tools for code warriors, dreamers, creators. The anvil never sleeps.</p>
+            <p>In dim halls, hammers echo, shaping fates from molten chaos. Runes murmur power, hands guided through night.</p>
+            <div class="rune-divider"></div>
+        </section>
+
+        <section class="awakening">
+            <h3 class="distort">Await the Awakening</h3>
+            <p>As stars collide, forbidden lore unfolds. Grab your quills—the PooStudio era erupts.</p>
+            <p>More texts, more secrets. It's absurd, but damn serious.</p>
+            <div class="easter-egg">Poke the shadows (click, fool).</div>
+        </section>
+    </div>
 
     <footer>
         © <span id="year"></span> PooStudio
