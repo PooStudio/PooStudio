@@ -47,5 +47,17 @@ window.addEventListener("load", () => {
     window.addEventListener("scroll", resetIdleTimer);
     window.addEventListener("touchstart", resetIdleTimer); // For mobile
     resetIdleTimer();
-    // Removed the fade on scroll to keep intro as part of the page flow
+    // Smooth fade on scroll
+    window.addEventListener('scroll', () => {
+        if (intro) {
+            const scrollY = window.pageYOffset;
+            const vh = window.innerHeight;
+            let opacity = 1 - (scrollY / (vh * 0.5)); // Faster fade to reveal content quicker
+            opacity = Math.max(0, Math.min(1, opacity));
+            intro.style.opacity = opacity;
+            if (opacity <= 0) {
+                intro.remove();
+            }
+        }
+    });
 });

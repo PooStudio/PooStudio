@@ -2,13 +2,14 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Times New Roman", serif; 
+    font-family: 'MedievalSharp', serif; /* Changed to MedievalSharp for more medieval feel */
 }
 
 body {
     background: #050505;
     color: #eee;
     position: relative;
+    font-family: 'MedievalSharp', serif; /* Reinforce medieval font */
 }
 
 /* Enhance medieval atmosphere with subtle parchment-like texture */
@@ -23,7 +24,7 @@ body::before {
     z-index: -1;
 }
 
-/* Medieval scrollbar styling */
+/* Medieval scrollbar styling for WebKit browsers */
 ::-webkit-scrollbar {
     width: 12px;
     background: #050505;
@@ -46,16 +47,24 @@ body::before {
     background: #e0b070;
 }
 
+/* Medieval scrollbar styling for Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #cfa15a #111;
+}
+
 /* INTRO */
 #intro {
-    position: relative;
-    height: 100vh;
+    position: fixed;
+    inset: 0;
     background: radial-gradient(circle, #1a0f05, #050505 70%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
     perspective: 1500px; 
+    transition: opacity 0.3s ease;
     cursor: pointer; 
 }
 
@@ -282,14 +291,13 @@ body::before {
 }
 
 .center {
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     text-align: center;
     padding: 2rem;
-    padding-top: 80px; /* Space for fixed header */
-    min-height: 100vh; /* Ensure scrolling */
+    padding-top: calc(100vh + 2rem); /* Space for intro */
 }
 
 .content {
@@ -456,6 +464,7 @@ footer {
     padding: 0.6rem;
     transition: border 0.3s;
     font-size: 1rem;
+    font-family: 'MedievalSharp', serif;
 }
 
 #contactOverlay input:focus,
@@ -472,6 +481,7 @@ footer {
     color: #cfa15a;
     transition: background 0.3s, color 0.3s;
     font-size: 1rem;
+    font-family: 'MedievalSharp', serif;
 }
 
 #contactOverlay button:hover {
