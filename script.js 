@@ -1,5 +1,6 @@
 window.addEventListener("load", () => {
     const intro = document.getElementById("intro");
+    const site = document.getElementById("site");
     const contactBtn = document.getElementById("contactBtn");
     const overlay = document.getElementById("contactOverlay");
     const closeBtn = document.getElementById("closeContact");
@@ -53,6 +54,8 @@ window.addEventListener("load", () => {
             intro.classList.add("fade-out");
             setTimeout(() => {
                 if (intro) intro.remove();
+                site.classList.remove("hidden");
+                document.body.style.overflow = "auto";
             }, 1500);
         }
     });
@@ -62,6 +65,8 @@ window.addEventListener("load", () => {
             intro.classList.add("fade-out");
             setTimeout(() => {
                 if (intro) intro.remove();
+                site.classList.remove("hidden");
+                document.body.style.overflow = "auto";
             }, 1500);
         }
     });
