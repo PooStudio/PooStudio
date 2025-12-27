@@ -7,6 +7,7 @@
 
 html {
     height: 100%;
+    perspective: 800px;
     overflow-y: scroll;
 }
 
@@ -19,10 +20,12 @@ body {
     min-height: 100%;
     display: flex;
     flex-direction: column;
+    transform-style: preserve-3d;
 }
 
 #site {
     flex: 1;
+    transform-style: preserve-3d;
 }
 
 body::before {
@@ -69,6 +72,8 @@ html {
     justify-content: center;
     margin-bottom: 1rem;
     filter: brightness(1) saturate(1);
+    transform: rotateY(5deg) translateZ(50px);
+    transform-style: preserve-3d;
 }
 
 .logo-text {
@@ -100,6 +105,7 @@ html {
     width: 100px;
     height: 100px;
     animation: rotateRing 20s linear infinite;
+    transform-style: preserve-3d;
 }
 
 .rune-circle {
@@ -110,6 +116,7 @@ html {
     border-radius: 50%;
     box-shadow: 0 0 20px rgba(207,161,90,0.3);
     animation: pulse 3s infinite alternate;
+    transform-style: preserve-3d;
 }
 
 .rune-circle {
@@ -203,12 +210,20 @@ html {
     justify-content: center;
     text-align: center;
     padding: 20vh 10% 2rem;
+    transform-style: preserve-3d;
 }
 
 .content {
     max-width: 800px;
     font-family: 'MedievalSharp', serif;
     line-height: 1.8;
+    transform: rotateX(10deg) translateZ(100px);
+    transform-style: preserve-3d;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    padding: 2rem;
+    background: rgba(5,5,5,0.6);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
 }
 
 .tag {
@@ -309,6 +324,7 @@ footer {
     font-size: 0.85rem;
     color: #aaa;
     font-family: 'MedievalSharp', serif;
+    transform: translateZ(-50px);
 }
 
 #starsContainer {
@@ -339,36 +355,6 @@ footer {
     }
 }
 
-.top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 1rem 2rem;
-    background: rgba(5,5,5,0.8);
-    backdrop-filter: blur(5px);
-    z-index: 20;
-}
-
-#contactBtn {
-    background: #cfa15a;
-    border: none;
-    padding: 0.5rem 1rem;
-    color: #050505;
-    cursor: pointer;
-    font-family: 'MedievalSharp', serif;
-    box-shadow: 0 0 10px rgba(207,161,90,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#contactBtn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(207,161,90,0.6);
-}
-
 .contact-email {
     font-size: 1rem;
     color: #cfa15a;
@@ -379,59 +365,6 @@ footer {
 
 .contact-email:hover {
     color: #ffd700;
-}
-
-#contactOverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(5,5,5,0.9);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-}
-
-#contactOverlay form {
-    background: #111;
-    padding: 2rem;
-    border-radius: 8px;
-    border: 1px solid #cfa15a;
-    box-shadow: 0 0 20px rgba(207,161,90,0.3);
-    text-align: center;
-    max-width: 400px;
-    width: 90%;
-    animation: appearFromCenter 0.5s ease-out;
-}
-
-#contactOverlay input,
-#contactOverlay textarea {
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    background: #222;
-    border: 1px solid #cfa15a;
-    color: #eee;
-    font-family: 'MedievalSharp', serif;
-}
-
-#contactOverlay button {
-    padding: 0.5rem 1rem;
-    background: #cfa15a;
-    border: none;
-    color: #050505;
-    cursor: pointer;
-    margin: 0.5rem;
-    font-family: 'MedievalSharp', serif;
-    transition: transform 0.3s ease;
-}
-
-#contactOverlay button:hover {
-    transform: scale(1.05);
-}
-
-#contactOverlay h3 {
-    margin-bottom: 1.5rem;
-    color: #cfa15a;
 }
 
 @keyframes appearFromCenter {
@@ -500,13 +433,6 @@ footer {
         font-size: 1.5rem;
     }
     .additional-content p {
-        font-size: 0.9rem;
-    }
-    .top-bar {
-        padding: 0.5rem 1rem;
-    }
-    #contactBtn {
-        padding: 0.4rem 0.8rem;
         font-size: 0.9rem;
     }
     .ring-container {

@@ -50,19 +50,6 @@ window.addEventListener("load", () => {
 
     resetIdleTimer();
 
-    // Contact overlay functionality
-    const contactBtn = document.getElementById('contactBtn');
-    const contactOverlay = document.getElementById('contactOverlay');
-    const closeContact = document.getElementById('closeContact');
-
-    contactBtn.addEventListener('click', () => {
-        contactOverlay.style.display = 'flex';
-    });
-
-    closeContact.addEventListener('click', () => {
-        contactOverlay.style.display = 'none';
-    });
-
     // Parallax background movement on mouse move
     window.addEventListener('mousemove', (e) => {
         const width = window.innerWidth;
