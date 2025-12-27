@@ -67,27 +67,40 @@ html {
 }
 
 .logo-section {
-    text-align: center;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
     transform-style: preserve-3d;
     filter: brightness(1) saturate(1);
-    margin-bottom: 2rem;
 }
 
-.logo-section h1 {
+.logo-text {
+    text-align: left;
+    margin-right: -40px; /* Overlap adjustment to make ring attach to text */
+    z-index: 1;
+}
+
+.logo-text h1 {
     font-family: 'MedievalSharp', serif;
     font-size: 1.5rem;
     letter-spacing: 0.2rem;
     text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5);
+    margin-bottom: 0.2rem;
 }
 
-.logo-section p {
+.logo-text p {
     font-family: 'MedievalSharp', serif;
-    margin-top: 0.5rem;
     color: #cfa15a;
     letter-spacing: 0.1rem;
     text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
     font-size: 0.8rem;
+}
+
+.ring-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
 }
 
 .rune-circle {
@@ -95,22 +108,25 @@ html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 160px;
-    height: 160px;
-    border: 2px solid rgba(207,161,90,0.2);
     border-radius: 50%;
     box-shadow: 0 0 20px rgba(207,161,90,0.3);
 }
 
+.rune-circle {
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(207,161,90,0.2);
+}
+
 .inner-rune {
-    width: 120px;
-    height: 120px;
+    width: 45px;
+    height: 45px;
     border: 1px dashed rgba(207,161,90,0.1);
 }
 
 .outer-rune {
-    width: 200px;
-    height: 200px;
+    width: 75px;
+    height: 75px;
     border: 3px dotted rgba(207,161,90,0.15);
 }
 
@@ -150,10 +166,10 @@ html {
 .center {
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     text-align: center;
-    padding: 4rem 10% 2rem;
+    padding: 20vh 10% 2rem;
     transform: translateZ(0);
 }
 
@@ -395,23 +411,30 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .logo-section h1 {
+    .logo-text h1 {
         font-size: 1.2rem;
     }
     h2 {
         font-size: 2.5rem;
     }
+    .ring-container {
+        width: 80px;
+        height: 80px;
+    }
     .rune-circle {
-        width: 120px;
-        height: 120px;
+        width: 50px;
+        height: 50px;
     }
     .inner-rune {
-        width: 90px;
-        height: 90px;
+        width: 37px;
+        height: 37px;
     }
     .outer-rune {
-        width: 150px;
-        height: 150px;
+        width: 62px;
+        height: 62px;
+    }
+    .logo-text {
+        margin-right: -30px;
     }
     .content {
         max-width: 100%;
@@ -421,12 +444,12 @@ footer {
         max-width: 100%;
     }
     .center {
-        padding: 4rem 5% 2rem;
+        padding: 15vh 5% 2rem;
     }
 }
 
 @media (max-width: 480px) {
-    .logo-section h1 {
+    .logo-text h1 {
         font-size: 1rem;
     }
     h2 {
@@ -450,5 +473,24 @@ footer {
     #contactBtn {
         padding: 0.4rem 0.8rem;
         font-size: 0.9rem;
+    }
+    .ring-container {
+        width: 60px;
+        height: 60px;
+    }
+    .rune-circle {
+        width: 40px;
+        height: 40px;
+    }
+    .inner-rune {
+        width: 30px;
+        height: 30px;
+    }
+    .outer-rune {
+        width: 50px;
+        height: 50px;
+    }
+    .logo-text {
+        margin-right: -20px;
     }
 }
