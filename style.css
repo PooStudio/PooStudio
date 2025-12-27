@@ -8,7 +8,6 @@
 body {
     background: #050505;
     color: #eee;
-    overflow: hidden;
     position: relative;
 }
 
@@ -156,20 +155,6 @@ body {
 
 #intro.fade-out {
     opacity: 0;
-}
-
-#site {
-    opacity: 0;
-    transition: opacity 1.5s ease-in;
-}
-
-#site:not(.hidden) {
-    opacity: 1;
-}
-
-
-.hidden {
-    display: none;
 }
 
 .top-bar {

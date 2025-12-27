@@ -1,65 +1,35 @@
 window.addEventListener("load", () => {
     const intro = document.getElementById("intro");
-    const site = document.getElementById("site");
-    setTimeout(() => {
-        intro.classList.add("fade-out");
-        setTimeout(() => {
-            intro.remove();
-            site.classList.remove("hidden");
-            document.body.style.overflow = "auto";
-        }, 1500);
-    }, 3000);
-
-
-    intro.addEventListener("click", () => {
-        intro.classList.add("fade-out");
-        setTimeout(() => {
-            intro.remove();
-            site.classList.remove("hidden");
-            document.body.style.overflow = "auto";
-        }, 1500);
-    });
-
-
     const contactBtn = document.getElementById("contactBtn");
     const overlay = document.getElementById("contactOverlay");
     const closeBtn = document.getElementById("closeContact");
     contactBtn.onclick = () => overlay.style.display = "flex";
     closeBtn.onclick = () => overlay.style.display = "none";
-
-
     document.getElementById("year").textContent = new Date().getFullYear();
-
-
     const starsContainer = document.getElementById("starsContainer");
     let idleTimeout;
-    const idleTime = 30000; 
-
+    const idleTime = 30000;
     function createStar() {
         const star = document.createElement("div");
         star.classList.add("star");
         star.style.left = `${Math.random() * 100}vw`;
-        star.style.animationDuration = `${Math.random() * 2 + 1}s`; 
+        star.style.animationDuration = `${Math.random() * 2 + 1}s`;
         starsContainer.appendChild(star);
-
         // Remove star after animation
         setTimeout(() => {
             star.remove();
         }, 3000); // Match animation duration
     }
-
     function startStars() {
         starsContainer.style.display = "block";
-        const interval = setInterval(createStar, 200); 
+        const interval = setInterval(createStar, 200);
         return interval;
     }
-
     function stopStars(interval) {
         clearInterval(interval);
-        starsContainer.innerHTML = ""; 
+        starsContainer.innerHTML = "";
         starsContainer.style.display = "none";
     }
-
     let starsInterval;
     function resetIdleTimer() {
         clearTimeout(idleTimeout);
@@ -71,11 +41,28 @@ window.addEventListener("load", () => {
             starsInterval = startStars();
         }, idleTime);
     }
-
     window.addEventListener("mousemove", resetIdleTimer);
     window.addEventListener("keydown", resetIdleTimer);
     window.addEventListener("scroll", resetIdleTimer);
     window.addEventListener("touchstart", resetIdleTimer); // For mobile
-
     resetIdleTimer();
+
+    // Scroll to reveal main page
+    window.addEventListener('wheel', (e) => {
+        if (e.deltaY > 0 && intro) { // Scroll down
+            intro.classList.add("fade-out");
+            setTimeout(() => {
+                if (intro) intro.remove();
+            }, 1500);
+        }
+    });
+    // For touch devices, use scroll event as fallback
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50 && intro) { // Small threshold for scroll down
+            intro.classList.add("fade-out");
+            setTimeout(() => {
+                if (intro) intro.remove();
+            }, 1500);
+        }
+    });
 });
