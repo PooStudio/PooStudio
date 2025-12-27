@@ -1,7 +1,6 @@
 window.addEventListener("load", () => {
     document.getElementById("year").textContent = new Date().getFullYear();
     const starsContainer = document.getElementById("starsContainer");
-    const intro = document.getElementById("intro");
     let idleTimeout;
     const idleTime = 30000; // 30 seconds
 
@@ -49,20 +48,6 @@ window.addEventListener("load", () => {
     window.addEventListener("touchstart", resetIdleTimer);
 
     resetIdleTimer();
-
-    // Smooth fade on scroll for intro
-    window.addEventListener('scroll', () => {
-        if (intro) {
-            const scrollY = window.pageYOffset;
-            const vh = window.innerHeight;
-            let opacity = 1 - (scrollY / (vh * 0.8));
-            opacity = Math.max(0, Math.min(1, opacity));
-            intro.style.opacity = opacity;
-            if (opacity <= 0) {
-                intro.remove();
-            }
-        }
-    });
 
     // Contact overlay functionality
     const contactBtn = document.getElementById('contactBtn');
