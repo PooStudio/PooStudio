@@ -244,6 +244,8 @@ html {
     z-index: -1;
     opacity: 0.8;
     transform: translateZ(-2px) scale(3);
+    will-change: transform;
+    transition: transform 0.1s ease-out;
 }
 
 .moving-bg {
@@ -256,6 +258,8 @@ html {
     opacity: 0.3;
     mix-blend-mode: overlay;
     transform: translateZ(-1px) scale(2);
+    will-change: transform;
+    transition: transform 0.1s ease-out;
 }
 
 @keyframes movingFog {
