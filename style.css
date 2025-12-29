@@ -1,46 +1,99 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Roboto', sans-serif; background: #1a1a1a; color: #dddddd; height: 100vh; overflow: hidden; }
-#app { display: flex; flex-direction: column; height: 100vh; }
 
-.top-bar {
-    background: #222222; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #333333;
-}
-.logo { font-size: 1.5rem; font-weight: 700; color: #cfa15a; }
-.menu { display: flex; gap: 24px; }
-.menu-item { cursor: pointer; padding: 8px 16px; border-radius: 6px; transition: background 0.3s; font-weight: 500; }
-.menu-item:hover { background: #333333; }
-.top-right { display: flex; align-items: center; gap: 24px; }
-.play-buttons button { padding: 8px 20px; background: #cfa15a; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; color: #1a1a1a; transition: background 0.3s; }
-.play-buttons button:hover { background: #e0b070; }
-.play-buttons button:disabled { background: #444444; cursor: not-allowed; }
-.user-avatar { font-size: 1rem; padding: 8px 16px; background: #333333; border-radius: 6px; }
-
-.main-layout {
-    flex: 1; display: flex;
-}
-.panel {
-    background: #252525; border-right: 1px solid #333333; width: 300px; overflow-y: auto; padding: 16px;
-}
-.scene-tree h3, .inspector h3 { margin-bottom: 16px; color: #cfa15a; font-weight: 500; }
-.hierarchy ul { margin-left: 20px; list-style: none; }
-.hierarchy li { padding: 6px 12px; cursor: pointer; border-radius: 6px; transition: background 0.2s; }
-.hierarchy li:hover { background: #333333; }
-.hierarchy li.selected { background: #cfa15a; color: #1a1a1a; font-weight: 500; }
-.folder::before { content: "▼ "; color: #888888; }
-
-.viewport-container {
-    flex: 1; position: relative; background: #111111;
-}
-#viewport { width: 100%; height: 100%; }
-.viewport-overlay {
-    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
-    background: rgba(0,0,0,0.7); padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; color: #aaaaaa;
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
 }
 
-.inspector label { display: block; margin: 16px 0 6px; color: #aaaaaa; font-size: 0.9rem; }
-.inspector input { width: 100%; padding: 8px; background: #333333; border: 1px solid #444444; color: #dddddd; border-radius: 6px; }
-
-.output-panel {
-    background: #222222; height: 180px; padding: 16px; border-top: 1px solid #333333;
+#bg-main {
+    position: fixed; inset: 0; z-index: -3;
+    background: url('https://cdn.autonomous.ai/static/upload/images/common/upload/20211222/6-Dark-Office-Ideas-for-Interior-Design--Inspiration_43a92eeddf2.jpg') center/cover no-repeat;
+    opacity: 0.6;
 }
-#console-log div { margin: 6px 0; font-family: monospace; color: #bbbbbb; font-size: 0.9rem; }
+
+#bg-overlay {
+    position: fixed; inset: 0; z-index: -2;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+}
+
+#particles-container {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+}
+
+.container {
+    max-width: 1200px; margin: 0 auto; padding: 100px 40px; flex: 1; z-index: 2;
+    display: flex; flex-direction: column; justify-content: center;
+}
+
+.hero {
+    text-align: center; margin-bottom: 150px;
+}
+
+h1 {
+    font-size: 6rem; font-weight: 800; letter-spacing: -0.05em;
+    background: linear-gradient(90deg, #cfa15a, #ffeb3b);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+.tagline {
+    font-size: 1.8rem; font-weight: 300; color: #aaa; margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 1.4rem; color: #ccc; margin-bottom: 40px;
+}
+
+.coming-soon {
+    font-size: 2.5rem; font-weight: 600; color: #cfa15a;
+}
+
+section.about {
+    max-width: 800px; margin: 150px auto; text-align: center; opacity: 0;
+    transform: translateY(50px); transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+section.about.visible {
+    opacity: 1; transform: translateY(0);
+}
+
+h2 {
+    font-size: 3rem; margin-bottom: 30px; color: #cfa15a;
+}
+
+section p {
+    font-size: 1.3rem; line-height: 1.8; color: #ddd;
+}
+
+.easter-egg {
+    margin-top: 40px; font-size: 1.2rem; color: #cfa15a; cursor: pointer;
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center; padding: 40px; color: #666; font-size: 0.9rem;
+}
+
+/* Particle styles */
+.particle {
+    position: absolute; font-size: 20px; opacity: 0.4;
+    color: #8B4513; text-shadow: 0 0 10px #cfa15a;
+    animation: float 20s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    h1 { font-size: 4rem; }
+    .coming-soon { font-size: 2rem; }
+    .container { padding: 60px 20px; }
+    section.about { margin: 100px auto; }
+}
