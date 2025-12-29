@@ -14,28 +14,27 @@
     <div id="app">
         <!-- Top Bar -->
         <header class="top-bar">
-            <div class="logo">💩 PooStudio</div>
+            <div class="logo">PooStudio</div>
             <nav class="menu">
-                <div class="menu-item">File</div>
-                <div class="menu-item">Edit</div>
-                <div class="menu-item">View</div>
+                <div class="menu-item">Scene</div>
+                <div class="menu-item">Script</div>
                 <div class="menu-item">Assets</div>
-                <div class="menu-item">Scripts</div>
-                <div class="menu-item">Publish</div>
+                <div class="menu-item">Editor</div>
+                <div class="menu-item">Help</div>
             </nav>
             <div class="top-right">
                 <div class="play-buttons">
-                    <button id="play-btn">▶ Play</button>
-                    <button id="stop-btn" disabled>⏹ Stop</button>
+                    <button id="play-btn">Play</button>
+                    <button id="stop-btn" disabled>Stop</button>
                 </div>
-                <div class="user-avatar">👤</div>
+                <div class="user-avatar">User</div>
             </div>
         </header>
 
         <div class="main-layout">
-            <!-- Left Explorer -->
-            <aside class="panel explorer">
-                <h3>Explorer</h3>
+            <!-- Left Scene Tree -->
+            <aside class="panel scene-tree">
+                <h3>Scene Tree</h3>
                 <ul class="hierarchy">
                     <li class="folder open">Workspace
                         <ul>
@@ -52,12 +51,12 @@
             <!-- Center Viewport -->
             <section class="viewport-container">
                 <div id="viewport"></div>
-                <div class="viewport-overlay">PooStudio Viewport — Drag to orbit • Scroll to zoom</div>
+                <div class="viewport-overlay">Viewport - Drag to orbit, scroll to zoom</div>
             </section>
 
-            <!-- Right Properties -->
-            <aside class="panel properties">
-                <h3>Properties</h3>
+            <!-- Right Inspector -->
+            <aside class="panel inspector">
+                <h3>Inspector</h3>
                 <div id="props-content">
                     <p>Select an object to edit properties</p>
                 </div>
@@ -68,14 +67,11 @@
         <footer class="output-panel">
             <h3>Output</h3>
             <div id="console-log">
-                <div>> PooStudio initialized 💩</div>
-                <div>> Workspace loaded</div>
-                <div>> Ready — select an object!</div>
+                <div>PooStudio initialized</div>
+                <div>Workspace loaded</div>
+                <div>Ready - select an object</div>
             </div>
         </footer>
-
-        <!-- Particles -->
-        <div id="particles"></div>
     </div>
 
     <script src="script.js"></script>

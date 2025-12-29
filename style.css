@@ -1,54 +1,46 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Roboto', sans-serif; background: #111; color: #eee; height: 100vh; overflow: hidden; }
+body { font-family: 'Roboto', sans-serif; background: #1a1a1a; color: #dddddd; height: 100vh; overflow: hidden; }
 #app { display: flex; flex-direction: column; height: 100vh; }
 
 .top-bar {
-    background: #1e1e1e; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #333;
+    background: #222222; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #333333;
 }
-.logo { font-size: 1.4rem; font-weight: bold; color: #cfa15a; }
-.menu { display: flex; gap: 20px; }
-.menu-item { cursor: pointer; padding: 6px 12px; border-radius: 4px; transition: background 0.2s; }
-.menu-item:hover { background: #333; }
-.top-right { display: flex; align-items: center; gap: 20px; }
-.play-buttons button { padding: 8px 16px; background: #cfa15a; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-.play-buttons button:disabled { background: #444; }
-.user-avatar { font-size: 1.8rem; }
+.logo { font-size: 1.5rem; font-weight: 700; color: #cfa15a; }
+.menu { display: flex; gap: 24px; }
+.menu-item { cursor: pointer; padding: 8px 16px; border-radius: 6px; transition: background 0.3s; font-weight: 500; }
+.menu-item:hover { background: #333333; }
+.top-right { display: flex; align-items: center; gap: 24px; }
+.play-buttons button { padding: 8px 20px; background: #cfa15a; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; color: #1a1a1a; transition: background 0.3s; }
+.play-buttons button:hover { background: #e0b070; }
+.play-buttons button:disabled { background: #444444; cursor: not-allowed; }
+.user-avatar { font-size: 1rem; padding: 8px 16px; background: #333333; border-radius: 6px; }
 
 .main-layout {
     flex: 1; display: flex;
 }
 .panel {
-    background: #222; border-right: 1px solid #333; width: 280px; overflow-y: auto; padding: 12px;
+    background: #252525; border-right: 1px solid #333333; width: 300px; overflow-y: auto; padding: 16px;
 }
-.explorer h3, .properties h3 { margin-bottom: 12px; color: #cfa15a; }
-.hierarchy ul { margin-left: 16px; }
-.hierarchy li { padding: 4px 8px; cursor: pointer; border-radius: 4px; }
-.hierarchy li:hover { background: #333; }
-.hierarchy li.selected { background: #cfa15a; color: #000; }
-.folder::before { content: "▼ "; }
-.folder.open::before { content: "▼ "; }
+.scene-tree h3, .inspector h3 { margin-bottom: 16px; color: #cfa15a; font-weight: 500; }
+.hierarchy ul { margin-left: 20px; list-style: none; }
+.hierarchy li { padding: 6px 12px; cursor: pointer; border-radius: 6px; transition: background 0.2s; }
+.hierarchy li:hover { background: #333333; }
+.hierarchy li.selected { background: #cfa15a; color: #1a1a1a; font-weight: 500; }
+.folder::before { content: "▼ "; color: #888888; }
 
 .viewport-container {
-    flex: 1; position: relative; background: #000;
+    flex: 1; position: relative; background: #111111;
 }
 #viewport { width: 100%; height: 100%; }
 .viewport-overlay {
-    position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-    background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 4px; font-size: 0.9rem;
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.7); padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; color: #aaaaaa;
 }
 
-.properties label { display: block; margin: 12px 0 4px; }
-.properties input { width: 100%; padding: 6px; background: #333; border: 1px solid #555; color: #fff; }
+.inspector label { display: block; margin: 16px 0 6px; color: #aaaaaa; font-size: 0.9rem; }
+.inspector input { width: 100%; padding: 8px; background: #333333; border: 1px solid #444444; color: #dddddd; border-radius: 6px; }
 
 .output-panel {
-    background: #1e1e1e; height: 150px; padding: 12px; border-top: 1px solid #333;
+    background: #222222; height: 180px; padding: 16px; border-top: 1px solid #333333;
 }
-#console-log div { margin: 4px 0; font-family: monospace; }
-
-#particles { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
-.particle { position: absolute; font-size: 24px; opacity: 0.4; animation: float 30s linear infinite; }
-
-@keyframes float {
-    from { transform: translateY(100vh) rotate(0deg); }
-    to { transform: translateY(-100px) rotate(360deg); }
-}
+#console-log div { margin: 6px 0; font-family: monospace; color: #bbbbbb; font-size: 0.9rem; }
