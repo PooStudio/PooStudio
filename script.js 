@@ -1,45 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Set current year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Create floating embers
-    function createEmber() {
-        const e = document.createElement("div");
-        e.classList.add("ember");
-        e.textContent = "✹"; // Spark symbol
-        e.style.left = Math.random() * 100 + "vw";
-        e.style.bottom = "-20px";
-        e.style.fontSize = (Math.random() * 20 + 15) + "px";
-        e.style.animationDuration = (Math.random() * 3 + 3) + "s";
-        document.getElementById("embers-container").appendChild(e);
-        setTimeout(() => e.remove(), 6000);
+    // Subtle floating particles (poo emojis for theme — chaotic but classy)
+    function createParticle() {
+        const p = document.createElement("div");
+        p.classList.add("particle");
+        p.textContent = "💩";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = (Math.random() * 20 + 20) + "s";
+        p.style.fontSize = (Math.random() * 15 + 15) + "px";
+        document.getElementById("particles-container").appendChild(p);
+        setTimeout(() => p.remove(), 40000);
     }
-    setInterval(createEmber, 300);
+    setInterval(createParticle, 2000);
 
-    // Easter egg: ember storm
+    // Easter egg: particle explosion
     document.querySelector('.easter-egg').addEventListener('click', () => {
-        for (let i = 0; i < 80; i++) {
-            setTimeout(createEmber, i * 30);
+        for (let i = 0; i < 50; i++) {
+            setTimeout(createParticle, i * 50);
         }
-        alert('The forge erupts! Embers rain upon thee.');
+        alert("Chaos unleashed! 💥");
     });
 
-    // Scroll reveal animation
+    // Scroll reveal for sections
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Only once
             }
         });
-    }, { threshold: 0.2 });
+    }, { threshold: 0.3 });
 
-    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
-
-    // Subtle parallax on mouse move
-    window.addEventListener('mousemove', e => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 30;
-        const y = (e.clientY / window.innerHeight - 0.5) * 30;
-        document.getElementById('bg-embers').style.transform = `translate(${x}px, ${y}px)`;
-    });
+    document.querySelectorAll('section.about').forEach(sec => observer.observe(sec));
 });

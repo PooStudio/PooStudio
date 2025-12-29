@@ -2,121 +2,98 @@
 
 body {
     background: #000;
-    color: #d4af37; /* Gold */
-    font-family: 'Uncial Antiqua', cursive;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     overflow-x: hidden;
-    perspective: 1000px;
 }
 
-#bg-forge {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('https://images.stockcake.com/public/2/7/1/2710ff17-0544-43d2-ab0f-7c1a9a4707d2_large/medieval-forge-glows-stockcake.jpg') center/cover no-repeat;
-    opacity: 0.6; z-index: -4;
+#bg-main {
+    position: fixed; inset: 0; z-index: -3;
+    background: url('https://cdn.autonomous.ai/static/upload/images/common/upload/20211222/6-Dark-Office-Ideas-for-Interior-Design--Inspiration_43a92eeddf2.jpg') center/cover no-repeat;
+    opacity: 0.6;
 }
 
-#bg-embers {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('https://png.pngtree.com/background/20250524/original/pngtree-blacksmith-forge-fire-with-glowing-embers-and-dynamic-heat-sparks-in-picture-image_16573196.jpg') center/cover no-repeat;
-    opacity: 0.4; mix-blend-mode: screen; z-index: -3;
-    will-change: transform;
+#bg-overlay {
+    position: fixed; inset: 0; z-index: -2;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
 }
 
-#bg-hall {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: url('https://thumbs.dreamstime.com/b/medieval-hall-illuminated-flickering-torchlight-creating-atmospheric-ambiance-medieval-hall-lit-warm-light-386667314.jpg') center/cover no-repeat;
-    opacity: 0.3; z-index: -2;
+#particles-container {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
 }
 
-.parchment {
-    background: url('https://i.pinimg.com/474x/cf/90/fc/cf90fc601a5550374c32b1dd9db59046.jpg') center/cover;
-    padding: 40px; margin: 60px auto; max-width: 900px;
-    border: 10px solid transparent;
-    border-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23d4af37" stroke-width="8"/></svg>') 10;
-    box-shadow: 0 0 30px rgba(212,175,55,0.6), inset 0 0 80px rgba(0,0,0,0.7);
-    position: relative;
-    transform: rotate(-1deg);
+.container {
+    max-width: 1200px; margin: 0 auto; padding: 100px 40px; flex: 1; z-index: 2;
+    display: flex; flex-direction: column; justify-content: center;
 }
 
-.parchment::before {
-    content: ''; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
-    width: 100px; height: 40px; background: radial-gradient(ellipse, #8b4513 0%, #000 70%);
-    border-radius: 50%; box-shadow: 0 10px 20px #000;
+.hero {
+    text-align: center; margin-bottom: 150px;
 }
 
-h1, h2, h3 {
-    font-family: 'Cinzel', serif; text-align: center; letter-spacing: 0.1em;
-    text-shadow: 0 0 15px #ff4500, 0 0 30px #d4af37;
-    color: #ff9900;
+h1 {
+    font-size: 6rem; font-weight: 800; letter-spacing: -0.05em;
+    background: linear-gradient(90deg, #cfa15a, #ffeb3b);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
 }
-
-h1 { font-size: 4rem; }
-h2 { font-size: 2.8rem; margin-bottom: 20px; }
-
-p { font-size: 1.3rem; line-height: 1.8; text-align: center; color: #eee; margin-bottom: 20px; }
 
 .tagline {
-    font-size: 1.5rem;
-    font-family: 'MedievalSharp', cursive;
-    margin: 30px 0;
+    font-size: 1.8rem; font-weight: 300; color: #aaa; margin-bottom: 10px;
 }
 
-.coming {
-    font-style: italic;
-    margin: 40px 0;
-    font-size: 1.4rem;
+.subtitle {
+    font-size: 1.4rem; color: #ccc; margin-bottom: 40px;
 }
 
-.rune-ring {
-    width: 200px; height: 200px; margin: 40px auto;
-    position: relative; animation: rotate 30s linear infinite;
+.coming-soon {
+    font-size: 2.5rem; font-weight: 600; color: #cfa15a;
 }
 
-.rune {
-    position: absolute; inset: 0; border-radius: 50%; border: 3px dotted #d4af37;
-    box-shadow: 0 0 20px #ff4500; opacity: 0.6;
+section.about {
+    max-width: 800px; margin: 150px auto; text-align: center; opacity: 0;
+    transform: translateY(50px); transition: opacity 1.2s ease, transform 1.2s ease;
 }
 
-.rune:nth-child(1) { animation: spin 20s linear infinite reverse; }
-.rune:nth-child(2) { animation: spin 15s linear infinite; width: 160px; height: 160px; top: 20px; left: 20px; }
-
-.ember {
-    position: absolute; font-size: 20px; color: #ff4500; opacity: 0.8;
-    text-shadow: 0 0 10px #ffa500; pointer-events: none;
-    animation: rise 4s linear forwards;
+section.about.visible {
+    opacity: 1; transform: translateY(0);
 }
 
-#embers-container { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+h2 {
+    font-size: 3rem; margin-bottom: 30px; color: #cfa15a;
+}
+
+section p {
+    font-size: 1.3rem; line-height: 1.8; color: #ddd;
+}
 
 .easter-egg {
-    cursor: pointer; color: #ff4500; text-decoration: underline; font-size: 1.2rem;
+    margin-top: 40px; font-size: 1.2rem; color: #cfa15a; cursor: pointer;
+    text-decoration: underline;
 }
 
 footer {
-    text-align: center; padding: 20px; color: #888; font-size: 0.9rem;
+    text-align: center; padding: 40px; color: #666; font-size: 0.9rem;
 }
 
-section {
-    margin: 80px 0; opacity: 0; transition: opacity 1.5s, transform 1.5s; transform: translateY(50px);
+/* Particle styles */
+.particle {
+    position: absolute; font-size: 20px; opacity: 0.4;
+    color: #8B4513; text-shadow: 0 0 10px #cfa15a;
+    animation: float 20s linear infinite;
 }
 
-section.visible { opacity: 1; transform: translateY(0); }
-
-@keyframes rotate { to { transform: rotate(360deg); } }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes rise {
-    to { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
-    h1 { font-size: 3rem; }
-    .parchment { padding: 30px; margin: 40px auto; }
-    .rune-ring { width: 150px; height: 150px; }
-    .rune:nth-child(2) { width: 120px; height: 120px; top: 15px; left: 15px; }
-}
-
-@media (max-width: 480px) {
-    h1 { font-size: 2.4rem; }
-    p, .tagline { font-size: 1.1rem; }
-    .coming { font-size: 1.2rem; }
+    h1 { font-size: 4rem; }
+    .coming-soon { font-size: 2rem; }
+    .container { padding: 60px 20px; }
+    section.about { margin: 100px auto; }
 }
