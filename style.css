@@ -1,522 +1,122 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    height: 100%;
-    perspective: 800px;
-    overflow-y: scroll;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    background: #050505;
-    color: #eee;
-    position: relative;
-    font-family: 'Permanent Marker', cursive;
-    height: auto;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    transform-style: preserve-3d;
-}
-
-#site {
-    flex: 1;
-    transform-style: preserve-3d;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23050505"/%3E%3Cpath d="M0 0L100 100M100 0L0 100" stroke="%23101010" stroke-width="0.5" opacity="0.1"/%3E%3C/svg%3E');
-    background-repeat: repeat;
-    opacity: 0.08;
-    pointer-events: none;
-    z-index: -1;
-}
-
-#noise {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0.1;
-    mix-blend-mode: overlay;
-    z-index: -2;
-}
-
-#particles {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.particle {
-    position: absolute;
-    font-size: 20px;
-    opacity: 0.3;
-    color: #8B4513;
-    text-shadow: 0 0 10px #cfa15a;
-}
-
-::-webkit-scrollbar {
-    width: 12px;
-    background: #050505;
-}
-
-::-webkit-scrollbar-track {
-    background: #111;
-    border: 1px solid #cfa15a;
-    box-shadow: inset 0 0 5px rgba(207,161,90,0.3);
-}
-
-::-webkit-scrollbar-thumb {
-    background: #cfa15a;
-    border-radius: 10px;
-    border: 2px solid #050505;
-    box-shadow: 0 0 5px rgba(207,161,90,0.5);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #e0b070;
-}
-
-html {
-    scrollbar-width: thin;
-    scrollbar-color: #cfa15a #111;
-}
-
-.logo-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    filter: brightness(1) saturate(1);
-    transform: rotateY(5deg) translateZ(50px);
-    transform-style: preserve-3d;
-}
-
-.logo-text {
-    text-align: left;
-    margin-right: -40px; /* Overlap adjustment */
-    z-index: 1;
-}
-
-.logo-text h1 {
-    font-family: 'Creepster', cursive;
-    font-size: 1.5rem;
-    letter-spacing: 0.2rem;
-    text-shadow: 0 0 10px rgba(207, 161, 90, 0.7), 0 0 20px rgba(255, 69, 0, 0.5);
-    margin-bottom: 0.2rem;
-    animation: glowPulse 2s infinite alternate;
-}
-
-.logo-text p {
-    font-family: 'Permanent Marker', cursive;
-    color: #cfa15a;
-    letter-spacing: 0.1rem;
-    text-shadow: 0 0 5px rgba(207, 161, 90, 0.5);
-    font-size: 0.8rem;
-    animation: fadeIn 2s ease-in forwards;
-}
-
-.ring-container {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    animation: rotateRing 20s linear infinite;
-    transform-style: preserve-3d;
-}
-
-.rune-circle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    box-shadow: 0 0 20px rgba(207,161,90,0.3);
-    animation: pulse 3s infinite alternate;
-    transform-style: preserve-3d;
-}
-
-.rune-circle {
-    width: 60px;
-    height: 60px;
-    border: 2px solid rgba(207,161,90,0.2);
-}
-
-.inner-rune {
-    width: 45px;
-    height: 45px;
-    border: 1px dashed rgba(207,161,90,0.1);
-    animation: spin-reverse 15s linear infinite;
-}
-
-.outer-rune {
-    width: 75px;
-    height: 75px;
-    border: 3px dotted rgba(207,161,90,0.15);
-    animation: spin 18s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes spin-reverse {
-    to { transform: translate(-50%, -50%) rotate(-360deg); }
-}
-
-@keyframes pulse {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    100% { transform: translate(-50%, -50%) scale(1.1); }
-}
-
-@keyframes glowPulse {
-    0% {
-        text-shadow: 0 0 10px rgba(207, 161, 90, 0.5), 0 0 20px rgba(255, 69, 0, 0.3);
-    }
-    100% {
-        text-shadow: 0 0 20px rgba(207, 161, 90, 1), 0 0 40px rgba(255, 69, 0, 0.7);
-    }
-}
-
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes rotateRing {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.bg {
-    position: fixed;
-    inset: 0;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(139,0,0,0.1), transparent 50%),
-        radial-gradient(circle at 20% 80%, rgba(255,120,40,0.12), transparent 60%),
-        radial-gradient(circle at 80% 20%, rgba(255,80,20,0.08), transparent 55%);
-    z-index: -3;
-    opacity: 0.9;
-    will-change: transform;
-    transition: transform 0.1s ease-out;
-}
-
-.moving-bg {
-    position: fixed;
-    inset: 0;
-    background: linear-gradient(45deg, rgba(10,10,10,0.3), rgba(50,50,50,0.15), rgba(10,10,10,0.3));
-    background-size: 400% 400%;
-    animation: movingFog 15s ease infinite;
-    z-index: -3;
-    opacity: 0.4;
-    mix-blend-mode: overlay;
-    will-change: transform;
-    transition: transform 0.1s ease-out;
-}
-
-@keyframes movingFog {
-    0% { background-position: 0% 0%; }
-    50% { background-position: 100% 100%; }
-    100% { background-position: 0% 0%; }
-}
-
-.container {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    background: #000;
+    color: #d4af37; /* Gold */
+    font-family: 'Uncial Antiqua', cursive;
+    overflow-x: hidden;
     perspective: 1000px;
-    transform-style: preserve-3d;
 }
 
-section {
-    margin-bottom: 100px;
-    opacity: 0;
-    transform: translateY(100px) rotateX(-20deg);
-    transition: opacity 1s ease-out, transform 1s ease-out;
-    transform-style: preserve-3d;
-    clip-path: polygon(5% 0%, 100% 5%, 95% 100%, 0% 95%);
+#bg-forge {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://images.stockcake.com/public/2/7/1/2710ff17-0544-43d2-ab0f-7c1a9a4707d2_large/medieval-forge-glows-stockcake.jpg') center/cover no-repeat;
+    opacity: 0.6; z-index: -4;
 }
 
-section.visible {
-    opacity: 1;
-    transform: translateY(0) rotateX(0);
+#bg-embers {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://png.pngtree.com/background/20250524/original/pngtree-blacksmith-forge-fire-with-glowing-embers-and-dynamic-heat-sparks-in-picture-image_16573196.jpg') center/cover no-repeat;
+    opacity: 0.4; mix-blend-mode: screen; z-index: -3;
+    will-change: transform;
 }
 
-.tag {
-    font-size: 0.8rem;
-    letter-spacing: 0.3rem;
-    color: #cfa15a;
-    text-transform: uppercase;
-    animation: glowPulse 3s infinite alternate;
+#bg-hall {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://thumbs.dreamstime.com/b/medieval-hall-illuminated-flickering-torchlight-creating-atmospheric-ambiance-medieval-hall-lit-warm-light-386667314.jpg') center/cover no-repeat;
+    opacity: 0.3; z-index: -2;
 }
 
-h2 {
-    font-family: 'Creepster', cursive;
-    font-size: 3.5rem;
-    margin: 1rem 0;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 10px rgba(207,161,90,0.3);
-    animation: glowPulse 2s infinite alternate;
-    letter-spacing: -0.05em;
+.parchment {
+    background: url('https://i.pinimg.com/474x/cf/90/fc/cf90fc601a5550374c32b1dd9db59046.jpg') center/cover;
+    padding: 40px; margin: 60px auto; max-width: 900px;
+    border: 10px solid transparent;
+    border-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23d4af37" stroke-width="8"/></svg>') 10;
+    box-shadow: 0 0 30px rgba(212,175,55,0.6), inset 0 0 80px rgba(0,0,0,0.7);
+    position: relative;
+    transform: rotate(-1deg);
 }
 
-h1, h3 {
-    font-family: 'Creepster', cursive;
-    font-size: 2rem;
-    text-shadow: 0 0 15px #ff9900, 0 0 30px #8B4513;
-    letter-spacing: -0.05em;
+.parchment::before {
+    content: ''; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 40px; background: radial-gradient(ellipse, #8b4513 0%, #000 70%);
+    border-radius: 50%; box-shadow: 0 10px 20px #000;
 }
 
-h1 span, h2 span, h3 span {
-    display: inline-block;
-    animation: wiggle 1s infinite alternate;
+h1, h2, h3 {
+    font-family: 'Cinzel', serif; text-align: center; letter-spacing: 0.1em;
+    text-shadow: 0 0 15px #ff4500, 0 0 30px #d4af37;
+    color: #ff9900;
 }
 
-@keyframes wiggle {
-    0% { transform: translateY(0) skew(0deg); }
-    100% { transform: translateY(5px) skew(2deg); }
-}
+h1 { font-size: 4rem; }
+h2 { font-size: 2.8rem; margin-bottom: 20px; }
 
-.subtitle {
-    font-size: 1.2rem;
-    color: #ddd;
-    margin-bottom: 1.5rem;
-    animation: fadeIn 2s ease-in forwards;
+p { font-size: 1.3rem; line-height: 1.8; text-align: center; color: #eee; margin-bottom: 20px; }
+
+.tagline {
+    font-size: 1.5rem;
+    font-family: 'MedievalSharp', cursive;
+    margin: 30px 0;
 }
 
 .coming {
-    margin-top: 1.5rem;
-    line-height: 1.6;
     font-style: italic;
-    font-size: 1.1rem;
-    animation: fadeIn 2s ease-in forwards 0.5s;
+    margin: 40px 0;
+    font-size: 1.4rem;
 }
 
-.divider {
-    width: 80px;
-    height: 2px;
-    background: linear-gradient(to right, transparent, #cfa15a, transparent);
-    margin: 2rem auto;
-    box-shadow: 0 0 10px #cfa15a;
+.rune-ring {
+    width: 200px; height: 200px; margin: 40px auto;
+    position: relative; animation: rotate 30s linear infinite;
 }
 
-p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: #ccc;
-    margin-bottom: 1.5rem;
-    transition: transform 0.3s ease, filter 0.3s ease;
+.rune {
+    position: absolute; inset: 0; border-radius: 50%; border: 3px dotted #d4af37;
+    box-shadow: 0 0 20px #ff4500; opacity: 0.6;
 }
 
-p:hover {
-    transform: skew(2deg);
-    filter: brightness(1.2);
+.rune:nth-child(1) { animation: spin 20s linear infinite reverse; }
+.rune:nth-child(2) { animation: spin 15s linear infinite; width: 160px; height: 160px; top: 20px; left: 20px; }
+
+.ember {
+    position: absolute; font-size: 20px; color: #ff4500; opacity: 0.8;
+    text-shadow: 0 0 10px #ffa500; pointer-events: none;
+    animation: rise 4s linear forwards;
 }
 
-.rune-divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(207,161,90,0.5), transparent);
-    margin: 2rem auto;
-    position: relative;
-    box-shadow: 0 0 10px rgba(207,161,90,0.3);
-}
+#embers-container { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 
-.rune-divider::before,
-.rune-divider::after {
-    content: 'ᚱ';
-    position: absolute;
-    top: -10px;
-    font-size: 1.5rem;
-    color: #cfa15a;
-    text-shadow: 0 0 5px rgba(207,161,90,0.3);
-    animation: pulse 2s infinite alternate;
-}
-
-.rune-divider::before {
-    left: 20%;
-}
-
-.rune-divider::after {
-    right: 20%;
+.easter-egg {
+    cursor: pointer; color: #ff4500; text-decoration: underline; font-size: 1.2rem;
 }
 
 footer {
-    width: 100%;
-    text-align: center;
-    padding: 0.5rem;
-    font-size: 0.85rem;
-    color: #aaa;
-    font-family: 'Permanent Marker', cursive;
-    transform: translateZ(-50px);
+    text-align: center; padding: 20px; color: #888; font-size: 0.9rem;
 }
 
-#starsContainer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 5;
-    display: none;
+section {
+    margin: 80px 0; opacity: 0; transition: opacity 1.5s, transform 1.5s; transform: translateY(50px);
 }
 
-.star {
-    position: absolute;
-    top: -30px;
-    color: #8B4513;
-    text-shadow: 0 0 5px #8B4513, 0 0 10px #cfa15a;
-    animation: fall 3s linear forwards;
-    opacity: 0.8;
+section.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes rotate { to { transform: rotate(360deg); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes rise {
+    to { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
 }
 
-@keyframes fall {
-    to {
-        transform: translateY(calc(100vh + 30px)) rotate(720deg); // More rotation for dope
-        opacity: 0;
-    }
-}
-
-.contact-email {
-    font-size: 1rem;
-    color: #cfa15a;
-    margin-top: 1rem;
-    text-shadow: 0 0 5px #cfa15a;
-    transition: color 0.3s ease;
-}
-
-.contact-email:hover {
-    color: #ffd700;
-}
-
-.easter-egg {
-    cursor: pointer;
-    color: #ff9900;
-    text-decoration: underline;
-    display: inline-block;
-    margin-top: 20px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-input, textarea, button {
-    margin-bottom: 15px;
-    padding: 10px;
-    background: rgba(0,0,0,0.7);
-    border: 2px dashed #ff9900;
-    color: #fff;
-    font-family: 'Permanent Marker', cursive;
-    font-size: 1rem;
-    resize: vertical;
-    transition: transform 0.3s ease;
-}
-
-input:hover, textarea:hover, button:hover {
-    transform: scale(1.05) rotate(2deg);
-}
-
-button {
-    cursor: pointer;
-}
-
-@keyframes drift {
-    to {
-        transform: translate(var(--dx), var(--dy));
-        opacity: 0;
-    }
-}
-
+/* Responsive adjustments */
 @media (max-width: 768px) {
-    .logo-text h1 {
-        font-size: 1.2rem;
-    }
-    h2 {
-        font-size: 2.5rem;
-    }
-    .ring-container {
-        width: 80px;
-        height: 80px;
-    }
-    .rune-circle {
-        width: 50px;
-        height: 50px;
-    }
-    .inner-rune {
-        width: 37px;
-        height: 37px;
-    }
-    .outer-rune {
-        width: 62px;
-        height: 62px;
-    }
-    .logo-text {
-        margin-right: -30px;
-    }
-    .container {
-        max-width: 100%;
-        padding: 20px 10px;
-    }
-    section {
-        max-width: 100%;
-    }
+    h1 { font-size: 3rem; }
+    .parchment { padding: 30px; margin: 40px auto; }
+    .rune-ring { width: 150px; height: 150px; }
+    .rune:nth-child(2) { width: 120px; height: 120px; top: 15px; left: 15px; }
 }
 
 @media (max-width: 480px) {
-    .logo-text h1 {
-        font-size: 1rem;
-    }
-    h2 {
-        font-size: 2rem;
-    }
-    .subtitle {
-        font-size: 1rem;
-    }
-    .coming {
-        font-size: 1rem;
-    }
-    h3 {
-        font-size: 1.5rem;
-    }
-    p {
-        font-size: 0.9rem;
-    }
-    .ring-container {
-        width: 60px;
-        height: 60px;
-    }
-    .rune-circle {
-        width: 40px;
-        height: 40px;
-    }
-    .inner-rune {
-        width: 30px;
-        height: 30px;
-    }
-    .outer-rune {
-        width: 50px;
-        height: 50px;
-    }
-    .logo-text {
-        margin-right: -20px;
-    }
+    h1 { font-size: 2.4rem; }
+    p, .tagline { font-size: 1.1rem; }
+    .coming { font-size: 1.2rem; }
 }

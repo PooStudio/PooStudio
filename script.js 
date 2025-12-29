@@ -1,125 +1,45 @@
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", () => {
+    // Set current year
     document.getElementById("year").textContent = new Date().getFullYear();
-    const starsContainer = document.getElementById("starsContainer");
-    let idleTimeout;
-    const idleTime = 30000; // 30 seconds
-    function createStar() {
-        const star = document.createElement("div");
-        star.classList.add("star");
-        star.textContent = '💩'; // Poop emoji for PooStudio theme
-        star.style.left = `${Math.random() * 100}vw`;
-        star.style.fontSize = `${Math.random() * 20 + 10}px`;
-        star.style.animationDuration = `${Math.random() * 2 + 1}s`;
-        star.style.color = `hsl(${Math.random() * 360}, 50%, 50%)`; // Random colors for dope effect
-        starsContainer.appendChild(star);
-        setTimeout(() => {
-            star.remove();
-        }, 3000);
+
+    // Create floating embers
+    function createEmber() {
+        const e = document.createElement("div");
+        e.classList.add("ember");
+        e.textContent = "✹"; // Spark symbol
+        e.style.left = Math.random() * 100 + "vw";
+        e.style.bottom = "-20px";
+        e.style.fontSize = (Math.random() * 20 + 15) + "px";
+        e.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        document.getElementById("embers-container").appendChild(e);
+        setTimeout(() => e.remove(), 6000);
     }
-    function startStars() {
-        starsContainer.style.display = "block";
-        const interval = setInterval(createStar, 100); // More frequent for crazy effect
-        return interval;
-    }
-    function stopStars(interval) {
-        clearInterval(interval);
-        starsContainer.innerHTML = "";
-        starsContainer.style.display = "none";
-    }
-    let starsInterval;
-    function resetIdleTimer() {
-        clearTimeout(idleTimeout);
-        if (starsInterval) {
-            stopStars(starsInterval);
-            starsInterval = null;
+    setInterval(createEmber, 300);
+
+    // Easter egg: ember storm
+    document.querySelector('.easter-egg').addEventListener('click', () => {
+        for (let i = 0; i < 80; i++) {
+            setTimeout(createEmber, i * 30);
         }
-        idleTimeout = setTimeout(() => {
-            starsInterval = startStars();
-        }, idleTime);
-    }
-    window.addEventListener("mousemove", resetIdleTimer);
-    window.addEventListener("keydown", resetIdleTimer);
-    window.addEventListener("scroll", resetIdleTimer);
-    window.addEventListener("touchstart", resetIdleTimer);
-    resetIdleTimer();
-    // Parallax background movement on mouse move
-    window.addEventListener('mousemove', (e) => {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        const xRel = (e.clientX / width - 0.5) * 2;
-        const yRel = (e.clientY / height - 0.5) * 2;
-        const bg = document.querySelector('.bg');
-        const movingBg = document.querySelector('.moving-bg');
-        const container = document.querySelector('.container');
-        bg.style.transform = `translate(${xRel * 25}px, ${yRel * 25}px)`;
-        movingBg.style.transform = `translate(${xRel * 15}px, ${yRel * 15}px)`;
-        container.style.transform = `translate(${xRel * 30}px, ${yRel * 30}px)`;
+        alert('The forge erupts! Embers rain upon thee.');
     });
-});
-// Noise canvas for static effect
-const canvas = document.getElementById('noise');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
-function generateNoise() {
-    const w = canvas.width;
-    const h = canvas.height;
-    const imageData = ctx.createImageData(w, h);
-    for (let i = 0; i < imageData.data.length; i += 4) {
-        const val = Math.floor(Math.random() * 255);
-        imageData.data[i] = val;
-        imageData.data[i + 1] = val;
-        imageData.data[i + 2] = val;
-        imageData.data[i + 3] = 255;
-    }
-    ctx.putImageData(imageData, 0, 0);
-}
-setInterval(generateNoise, 100); // Animated noise
-// Drifting particles
-function createParticle() {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-    particle.textContent = '💩';
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.top = `${Math.random() * 100}%`;
-    particle.style.fontSize = `${Math.random() * 15 + 10}px`;
-    particle.style.setProperty('--dx', `${Math.random() * 200 - 100}px`);
-    particle.style.setProperty('--dy', `${Math.random() * 200 - 100}px`);
-    particle.style.animation = `drift ${Math.random() * 30 + 15}s linear forwards`;
-    document.getElementById('particles').appendChild(particle);
-    setTimeout(() => particle.remove(), 45000);
-}
-setInterval(createParticle, 1000);
-// Distort text by wrapping chars in spans
-document.querySelectorAll('.distort').forEach(el => {
-    const text = el.textContent;
-    el.innerHTML = '';
-    for (let char of text) {
-        const span = document.createElement('span');
-        span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
-        el.appendChild(span);
-    }
-});
-// Scroll animations with IntersectionObserver
-const sections = document.querySelectorAll('section');
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-        }
+
+    // Scroll reveal animation
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Only once
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+
+    // Subtle parallax on mouse move
+    window.addEventListener('mousemove', e => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 30;
+        const y = (e.clientY / window.innerHeight - 0.5) * 30;
+        document.getElementById('bg-embers').style.transform = `translate(${x}px, ${y}px)`;
     });
-}, { threshold: 0.1 });
-sections.forEach(section => observer.observe(section));
-// Easter egg
-document.querySelector('.easter-egg').addEventListener('click', () => {
-    for (let i = 0; i < 100; i++) {
-        setTimeout(createParticle, i * 20);
-    }
-    alert('You poked the shadows! Unleash the poo chaos.');
 });
