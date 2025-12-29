@@ -4,43 +4,76 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="PooStudio: Chaotic creations from the cosmic forge. Absurd craft, serious grit." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; form-action https://formspree.io; img-src 'self' data:; font-src https://fonts.gstatic.com; object-src 'none';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <title>PooStudio — Coming Soon</title>
     <link rel="icon" href="logo.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Creepster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="bg-main"></div>
-<div id="bg-overlay"></div>
-<div id="particles-container"></div>
+<canvas id="noise"></canvas>
+<div id="particles"></div>
+<div class="bg"></div>
+<div class="moving-bg"></div>
 
-<main class="container">
-    <header class="hero">
-        <h1>PooStudio</h1>
-        <p class="tagline">Chaotic creations from the cosmic forge</p>
-        <p class="subtitle">Absurd craft. Serious grit.</p>
-        <p class="coming-soon">Coming Soon</p>
-    </header>
+<div id="site">
 
-    <section class="about">
-        <h2>Our Craft</h2>
-        <p>We forge bold, unconventional worlds — blending wild ideas with precision execution. Digital experiences, visuals, and stories that stick.</p>
-    </section>
+    <div class="container">
+        <section class="landing">
+            <div class="logo-section">
+                <div class="logo-text">
+                    <h1 class="distort">PooStudio</h1>
+                    <p>Forged in Shadow</p>
+                </div>
+                <div class="ring-container">
+                    <div class="rune-circle outer-rune"></div>
+                    <div class="rune-circle"></div>
+                    <div class="rune-circle inner-rune"></div>
+                </div>
+            </div>
+            <span class="tag">FORGED IN SHADOW</span>
+            <h2 class="distort">PooStudio</h2>
+            <p class="subtitle tagline">
+                A dark medieval creative studio gone rogue, forging worlds from chaos.
+            </p>
+            <p class="coming">
+                Born of fire. Tempered by obsession.<br>
+                <strong>Coming Soon.</strong>
+            </p>
+            <div class="divider"></div>
+        </section>
 
-    <section class="about">
-        <h2>The Studio</h2>
-        <p>A rogue collective of creators pushing boundaries in design, code, and chaos. Tools for dreamers and disruptors.</p>
-    </section>
+        <section class="craft">
+            <h3 class="distort">Our Medieval Craft</h3>
+            <p>In the shadowed forges of PooStudio, we hammer intricate worlds from ancient lore and dark fantasies. Each piece drips with precision, blending medieval grit with modern madness.</p>
+            <p>Enchanted systems breathing life into realms, designs echoing lost castles—our obsession knows no bounds.</p>
+            <div class="rune-divider"></div>
+        </section>
 
-    <section class="about">
-        <h2>Await Launch</h2>
-        <p>Something absurdly awesome is loading...</p>
-        <p class="easter-egg">Poke here for chaos</p>
-    </section>
-</main>
+        <section class="secrets">
+            <h3 class="distort">The Forge's Secrets</h3>
+            <p>Plunge into the abyss. Revelations await: tools for code warriors, dreamers, creators. The anvil never sleeps.</p>
+            <p>In dim halls, hammers echo, shaping fates from molten chaos. Runes murmur power, hands guided through night.</p>
+            <div class="rune-divider"></div>
+        </section>
 
-<footer>© <span id="year"></span> PooStudio</footer>
+        <section class="awakening">
+            <h3 class="distort">Await the Awakening</h3>
+            <p>As stars collide, forbidden lore unfolds. Grab your quills—the PooStudio era erupts.</p>
+            <p>More texts, more secrets. It's absurd, but damn serious.</p>
+            <div class="easter-egg">Poke the shadows (click, fool).</div>
+        </section>
+    </div>
+
+    <footer>
+        © <span id="year"></span> PooStudio
+    </footer>
+</div>
+
+<div id="starsContainer"></div>
 
 <script src="script.js"></script>
 </body>
