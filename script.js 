@@ -1,35 +1,205 @@
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("year").textContent = new Date().getFullYear();
+document.addEventListener('DOMContentLoaded', () => {
+    // 3D Scene Setup (Three.js)
+    const viewport = document.getElementById('viewport');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x111111);
 
-    // Subtle floating particles (poo emojis for theme — chaotic but classy)
-    function createParticle() {
-        const p = document.createElement("div");
-        p.classList.add("particle");
-        p.textContent = "💩";
-        p.style.left = Math.random() * 100 + "vw";
-        p.style.animationDuration = (Math.random() * 20 + 20) + "s";
-        p.style.fontSize = (Math.random() * 15 + 15) + "px";
-        document.getElementById("particles-container").appendChild(p);
-        setTimeout(() => p.remove(), 40000);
-    }
-    setInterval(createParticle, 2000);
+    const camera = new THREE.PerspectiveCamera(60, viewport.clientWidth / viewport.clientHeight, 0.1, 1000);
+    camera.position.set(5, 5, 10);
 
-    // Easter egg: particle explosion
-    document.querySelector('.easter-egg').addEventListener('click', () => {
-        for (let i = 0; i < 50; i++) {
-            setTimeout(createParticle, i * 50);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(viewport.clientWidth, viewport.clientHeight);
+    viewport.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Grid
+    const grid = new THREE.GridHelper(20, 20, 0xcfa15a, 0x333333);
+    scene.add(grid);
+
+    // Light
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 10, 7);
+    scene.add(light);
+
+    // Objects
+    const objects = {};
+    const cubeGeo = new THREE.BoxGeometry(2, 2, 2);
+    const cubeMat = new THREE.MeshStandardMaterial({ color: 0xcfa15a });
+    const cube = new THREE.Mesh(cubeGeo, cubeMat);
+    cube.position.set(0, 1, 0);
+    cube.userData.id = 'cube';
+    scene.add(cube);
+    objects.cube = cube;
+
+    const sphereGeo = new THREE.SphereGeometry(1.5, 32, 32);
+    const sphere = new THREE.Mesh(sphereGeo, new THREE.MeshStandardMaterial({ color: 0x8B4513 }));
+    sphere.position.set(4, 1.5, 0);
+    sphere.userData.id = 'sphere';
+    scene.add(sphere);
+    objects.sphere = sphere;
+
+    const groundGeo = new THREE.PlaneGeometry(20, 20);
+    const ground = new THREE.Mesh(groundGeo, new THREE.MeshStandardMaterial({ color: 0x222222 }));
+    ground.rotation.x = -Math.PI / 2;
+    scene.add(ground);
+    objects.ground = ground;
+
+    // Selection outline
+    let selectedMesh = null;
+    let outline = null;
+
+    function selectObject(mesh) {
+        if (selectedMesh === mesh) return;
+        if (outline) scene.remove(outline);
+        selectedMesh = mesh;
+        if (mesh) {
+            const outlineMat = new THREE.MeshBasicMaterial({ color: 0xffd700, side: THREE.BackSide });
+            outline = new THREE.Mesh(mesh.geometry, outlineMat);
+            outline.scale.multiplyScalar(1.05);
+            mesh.add(outline);
+            showProperties(mesh);
+            log(`> Selected: ${mesh.userData.id}`);
+        } else {
+            document.getElementById('props-content').innerHTML = '<p>Select an object</p>';
         }
-        alert("Chaos unleashed! 💥");
+    }
+
+    // Properties panel
+    function showProperties(mesh) {
+        const pos = mesh.position;
+        const rot = mesh.rotation;
+        const scale = mesh.scale;
+        const color = mesh.material.color.getHexString();
+
+        document.getElementById('props-content').innerHTML = `
+            <strong>${mesh.userData.id}</strong>
+            <label>Position X <input type="number" step="0.1" value="${pos.x}" data-prop="px"></label>
+            <label>Y <input type="number" step="0.1" value="${pos.y}" data-prop="py"></label>
+            <label>Z <input type="number" step="0.1" value="${pos.z}" data-prop="pz"></label>
+
+            <label>Rotation X <input type="number" step="0.1" value="${(rot.x * 180/Math.PI).toFixed(1)}" data-prop="rx"></label>
+            <label>Y <input type="number" step="0.1" value="${(rot.y * 180/Math.PI).toFixed(1)}" data-prop="ry"></label>
+            <label>Z <input type="number" step="0.1" value="${(rot.z * 180/Math.PI).toFixed(1)}" data-prop="rz"></label>
+
+            <label>Scale <input type="number" step="0.1" value="${scale.x.toFixed(2)}" data-prop="scale"></label>
+            <label>Color <input type="color" value="#${color}" data-prop="color"></label>
+        `;
+
+        document.querySelectorAll('#props-content input').forEach(input => {
+            input.addEventListener('input', e => {
+                const prop = e.target.dataset.prop;
+                if (prop === 'px') pos.x = parseFloat(e.target.value);
+                if (prop === 'py') pos.y = parseFloat(e.target.value);
+                if (prop === 'pz') pos.z = parseFloat(e.target.value);
+                if (prop.startsWith('r')) {
+                    const axis = prop[1];
+                    mesh.rotation[axis] = parseFloat(e.target.value) * Math.PI / 180;
+                }
+                if (prop === 'scale') {
+                    const s = parseFloat(e.target.value);
+                    mesh.scale.set(s, s, s);
+                }
+                if (prop === 'color') mesh.material.color.set(e.target.value);
+            });
+        });
+    }
+
+    // Explorer click
+    document.querySelectorAll('.hierarchy li[data-id]').forEach(li => {
+        li.addEventListener('click', () => {
+            document.querySelectorAll('.hierarchy li').forEach(l => l.classList.remove('selected'));
+            li.classList.add('selected');
+            selectObject(objects[li.dataset.id]);
+        });
     });
 
-    // Scroll reveal for sections
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+    // Viewport click selection
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    viewport.addEventListener('click', e => {
+        mouse.x = (e.offsetX / viewport.clientWidth) * 2 - 1;
+        mouse.y = -(e.offsetY / viewport.clientHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(scene.children, true);
+        if (intersects.length > 0) {
+            let obj = intersects[0].object;
+            while (obj.parent && !obj.userData.id) obj = obj.parent;
+            if (obj.userData.id) {
+                selectObject(obj);
+                document.querySelector(`li[data-id="${obj.userData.id}"]`).classList.add('selected');
+                document.querySelectorAll(`li[data-id]:not([data-id="${obj.userData.id}"])`).forEach(l => l.classList.remove('selected'));
             }
-        });
-    }, { threshold: 0.3 });
+        }
+    });
 
-    document.querySelectorAll('section.about').forEach(sec => observer.observe(sec));
+    // Play / Stop
+    let playing = false;
+    document.getElementById('play-btn').addEventListener('click', () => {
+        playing = true;
+        document.getElementById('play-btn').disabled = true;
+        document.getElementById('stop-btn').disabled = false;
+        controls.enabled = false;
+        log('> Play mode started — chaos unleashed! 💥');
+    });
+    document.getElementById('stop-btn').addEventListener('click', () => {
+        playing = false;
+        document.getElementById('play-btn').disabled = false;
+        document.getElementById('stop-btn').disabled = true;
+        controls.enabled = true;
+        log('> Play mode stopped');
+    });
+
+    // Console log helper
+    function log(msg) {
+        const div = document.createElement('div');
+        div.textContent = msg;
+        document.getElementById('console-log').appendChild(div);
+        div.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Ctrl+S save mock
+    document.addEventListener('keydown', e => {
+        if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            log('> Project saved to browser storage 💾');
+        }
+    });
+
+    // Particles
+    function createParticle() {
+        const p = document.createElement('div');
+        p.textContent = '💩';
+        p.classList.add('particle');
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 20 + 20) + 's';
+        document.getElementById('particles').appendChild(p);
+        setTimeout(() => p.remove(), 40000);
+    }
+    setInterval(createParticle, 3000);
+
+    // Initial selection
+    selectObject(cube);
+    document.querySelector('li[data-id="cube"]').classList.add('selected');
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        if (playing) {
+            scene.children.forEach(child => {
+                if (child.userData.id) child.rotation.y += 0.005;
+            });
+        }
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = viewport.clientWidth / viewport.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(viewport.clientWidth, viewport.clientHeight);
+    });
 });

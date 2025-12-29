@@ -3,45 +3,81 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PooStudio: Chaotic creations from the cosmic forge. Absurd craft, serious grit." />
-    <title>PooStudio — Coming Soon</title>
+    <title>PooStudio</title>
     <link rel="icon" href="logo.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.167.1/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.167.1/examples/js/controls/OrbitControls.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="app">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="logo">💩 PooStudio</div>
+            <nav class="menu">
+                <div class="menu-item">File</div>
+                <div class="menu-item">Edit</div>
+                <div class="menu-item">View</div>
+                <div class="menu-item">Assets</div>
+                <div class="menu-item">Scripts</div>
+                <div class="menu-item">Publish</div>
+            </nav>
+            <div class="top-right">
+                <div class="play-buttons">
+                    <button id="play-btn">▶ Play</button>
+                    <button id="stop-btn" disabled>⏹ Stop</button>
+                </div>
+                <div class="user-avatar">👤</div>
+            </div>
+        </header>
 
-<div id="bg-main"></div>
-<div id="bg-overlay"></div>
-<div id="particles-container"></div>
+        <div class="main-layout">
+            <!-- Left Explorer -->
+            <aside class="panel explorer">
+                <h3>Explorer</h3>
+                <ul class="hierarchy">
+                    <li class="folder open">Workspace
+                        <ul>
+                            <li data-id="camera">Camera</li>
+                            <li data-id="light">DirectionalLight</li>
+                            <li data-id="cube" class="selected">Cube</li>
+                            <li data-id="sphere">Sphere</li>
+                            <li data-id="ground">Ground</li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
 
-<main class="container">
-    <header class="hero">
-        <h1>PooStudio</h1>
-        <p class="tagline">Chaotic creations from the cosmic forge</p>
-        <p class="subtitle">Absurd craft. Serious grit.</p>
-        <p class="coming-soon">Coming Soon</p>
-    </header>
+            <!-- Center Viewport -->
+            <section class="viewport-container">
+                <div id="viewport"></div>
+                <div class="viewport-overlay">PooStudio Viewport — Drag to orbit • Scroll to zoom</div>
+            </section>
 
-    <section class="about">
-        <h2>Our Craft</h2>
-        <p>We forge bold, unconventional worlds — blending wild ideas with precision execution. Digital experiences, visuals, and stories that stick.</p>
-    </section>
+            <!-- Right Properties -->
+            <aside class="panel properties">
+                <h3>Properties</h3>
+                <div id="props-content">
+                    <p>Select an object to edit properties</p>
+                </div>
+            </aside>
+        </div>
 
-    <section class="about">
-        <h2>The Studio</h2>
-        <p>A rogue collective of creators pushing boundaries in design, code, and chaos. Tools for dreamers and disruptors.</p>
-    </section>
+        <!-- Bottom Output -->
+        <footer class="output-panel">
+            <h3>Output</h3>
+            <div id="console-log">
+                <div>> PooStudio initialized 💩</div>
+                <div>> Workspace loaded</div>
+                <div>> Ready — select an object!</div>
+            </div>
+        </footer>
 
-    <section class="about">
-        <h2>Await Launch</h2>
-        <p>Something absurdly awesome is loading...</p>
-        <p class="easter-egg">Poke here for chaos</p>
-    </section>
-</main>
+        <!-- Particles -->
+        <div id="particles"></div>
+    </div>
 
-<footer>© <span id="year"></span> PooStudio</footer>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

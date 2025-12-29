@@ -1,99 +1,54 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Roboto', sans-serif; background: #111; color: #eee; height: 100vh; overflow: hidden; }
+#app { display: flex; flex-direction: column; height: 100vh; }
 
-body {
-    background: #000;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
+.top-bar {
+    background: #1e1e1e; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #333;
+}
+.logo { font-size: 1.4rem; font-weight: bold; color: #cfa15a; }
+.menu { display: flex; gap: 20px; }
+.menu-item { cursor: pointer; padding: 6px 12px; border-radius: 4px; transition: background 0.2s; }
+.menu-item:hover { background: #333; }
+.top-right { display: flex; align-items: center; gap: 20px; }
+.play-buttons button { padding: 8px 16px; background: #cfa15a; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.play-buttons button:disabled { background: #444; }
+.user-avatar { font-size: 1.8rem; }
+
+.main-layout {
+    flex: 1; display: flex;
+}
+.panel {
+    background: #222; border-right: 1px solid #333; width: 280px; overflow-y: auto; padding: 12px;
+}
+.explorer h3, .properties h3 { margin-bottom: 12px; color: #cfa15a; }
+.hierarchy ul { margin-left: 16px; }
+.hierarchy li { padding: 4px 8px; cursor: pointer; border-radius: 4px; }
+.hierarchy li:hover { background: #333; }
+.hierarchy li.selected { background: #cfa15a; color: #000; }
+.folder::before { content: "▼ "; }
+.folder.open::before { content: "▼ "; }
+
+.viewport-container {
+    flex: 1; position: relative; background: #000;
+}
+#viewport { width: 100%; height: 100%; }
+.viewport-overlay {
+    position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 4px; font-size: 0.9rem;
 }
 
-#bg-main {
-    position: fixed; inset: 0; z-index: -3;
-    background: url('https://cdn.autonomous.ai/static/upload/images/common/upload/20211222/6-Dark-Office-Ideas-for-Interior-Design--Inspiration_43a92eeddf2.jpg') center/cover no-repeat;
-    opacity: 0.6;
-}
+.properties label { display: block; margin: 12px 0 4px; }
+.properties input { width: 100%; padding: 6px; background: #333; border: 1px solid #555; color: #fff; }
 
-#bg-overlay {
-    position: fixed; inset: 0; z-index: -2;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+.output-panel {
+    background: #1e1e1e; height: 150px; padding: 12px; border-top: 1px solid #333;
 }
+#console-log div { margin: 4px 0; font-family: monospace; }
 
-#particles-container {
-    position: fixed; inset: 0; pointer-events: none; z-index: 1;
-}
-
-.container {
-    max-width: 1200px; margin: 0 auto; padding: 100px 40px; flex: 1; z-index: 2;
-    display: flex; flex-direction: column; justify-content: center;
-}
-
-.hero {
-    text-align: center; margin-bottom: 150px;
-}
-
-h1 {
-    font-size: 6rem; font-weight: 800; letter-spacing: -0.05em;
-    background: linear-gradient(90deg, #cfa15a, #ffeb3b);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
-}
-
-.tagline {
-    font-size: 1.8rem; font-weight: 300; color: #aaa; margin-bottom: 10px;
-}
-
-.subtitle {
-    font-size: 1.4rem; color: #ccc; margin-bottom: 40px;
-}
-
-.coming-soon {
-    font-size: 2.5rem; font-weight: 600; color: #cfa15a;
-}
-
-section.about {
-    max-width: 800px; margin: 150px auto; text-align: center; opacity: 0;
-    transform: translateY(50px); transition: opacity 1.2s ease, transform 1.2s ease;
-}
-
-section.about.visible {
-    opacity: 1; transform: translateY(0);
-}
-
-h2 {
-    font-size: 3rem; margin-bottom: 30px; color: #cfa15a;
-}
-
-section p {
-    font-size: 1.3rem; line-height: 1.8; color: #ddd;
-}
-
-.easter-egg {
-    margin-top: 40px; font-size: 1.2rem; color: #cfa15a; cursor: pointer;
-    text-decoration: underline;
-}
-
-footer {
-    text-align: center; padding: 40px; color: #666; font-size: 0.9rem;
-}
-
-/* Particle styles */
-.particle {
-    position: absolute; font-size: 20px; opacity: 0.4;
-    color: #8B4513; text-shadow: 0 0 10px #cfa15a;
-    animation: float 20s linear infinite;
-}
+#particles { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+.particle { position: absolute; font-size: 24px; opacity: 0.4; animation: float 30s linear infinite; }
 
 @keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); }
-    100% { transform: translateY(-100px) rotate(360deg); }
-}
-
-@media (max-width: 768px) {
-    h1 { font-size: 4rem; }
-    .coming-soon { font-size: 2rem; }
-    .container { padding: 60px 20px; }
-    section.about { margin: 100px auto; }
+    from { transform: translateY(100vh) rotate(0deg); }
+    to { transform: translateY(-100px) rotate(360deg); }
 }
