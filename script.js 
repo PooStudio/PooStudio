@@ -1,11 +1,9 @@
 window.addEventListener("load", () => {
-    // Update copyright year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Idle poop rain
     const starsContainer = document.getElementById("starsContainer");
     let idleTimeout;
-    const idleTime = 30000; // 30 seconds
+    const idleTime = 30000;
     let starsInterval;
 
     function createStar() {
@@ -22,7 +20,7 @@ window.addEventListener("load", () => {
 
     function startStars() {
         starsContainer.style.display = "block";
-        starsInterval = setInterval(createStar, 80); // Maximum chaos
+        starsInterval = setInterval(createStar, 80); // even more chaos
         return starsInterval;
     }
 
@@ -46,92 +44,79 @@ window.addEventListener("load", () => {
     window.addEventListener("touchstart", resetIdleTimer);
     resetIdleTimer();
 
-    // Parallax on mouse move
     window.addEventListener('mousemove', (e) => {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        const xRel = (e.clientX / width - 0.5) * 2;
-        const yRel = (e.clientY / height - 0.5) * 2;
+        const xRel = (e.clientX / window.innerWidth - 0.5) * 2;
+        const yRel = (e.clientY / window.innerHeight - 0.5) * 2;
         document.querySelector('.bg').style.transform = `translate(${xRel * 25}px, ${yRel * 25}px)`;
         document.querySelector('.moving-bg').style.transform = `translate(${xRel * 15}px, ${yRel * 15}px)`;
         document.querySelector('.container').style.transform = `translate(${xRel * 30}px, ${yRel * 30}px)`;
     });
-});
 
-// Noise canvas
-const canvas = document.getElementById('noise');
-const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('noise');
+    const ctx = canvas.getContext('2d');
+    const resizeCanvas = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-function generateNoise() {
-    const w = canvas.width, h = canvas.height;
-    const imageData = ctx.createImageData(w, h);
-    const data = imageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-        const val = Math.floor(Math.random() * 255);
-        data[i] = data[i + 1] = data[i + 2] = val;
-        data[i + 3] = 255;
+    function generateNoise() {
+        const imageData = ctx.createImageData(canvas.width, canvas.height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            const val = Math.floor(Math.random() * 255);
+            data[i] = data[i + 1] = data[i + 2] = val;
+            data[i + 3] = 255;
+        }
+        ctx.putImageData(imageData, 0, 0);
     }
-    ctx.putImageData(imageData, 0, 0);
-}
-setInterval(generateNoise, 100);
+    setInterval(generateNoise, 100);
 
-// Drifting poop particles
-function createParticle() {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-    particle.textContent = '💩';
-    const x = Math.random() * 100;
-    const y = Math.random() * 100;
-    particle.style.left = `${x}%`;
-    particle.style.top = `${y}%`;
-    particle.style.fontSize = `${Math.random() * 15 + 10}px`;
-    particle.style.setProperty('--dx', `${Math.random() * 200 - 100}px`);
-    particle.style.setProperty('--dy', `${Math.random() * 200 - 100}px`);
-    particle.style.animation = `drift ${Math.random() * 30 + 15}s linear forwards`;
-    document.getElementById('particles').appendChild(particle);
-    setTimeout(() => particle.remove(), 45000);
-}
-setInterval(createParticle, 1000);
-
-// Distort text animation
-document.querySelectorAll('.distort').forEach(el => {
-    const text = el.textContent.trim();
-    el.innerHTML = '';
-    for (let char of text) {
-        const span = document.createElement('span');
-        span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
-        span.style.animationDelay = `${Math.random() * 0.5}s`;
-        el.appendChild(span);
+    function createParticle() {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        p.textContent = '💩';
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.top = `${Math.random() * 100}%`;
+        p.style.fontSize = `${Math.random() * 15 + 10}px`;
+        p.style.setProperty('--dx', `${Math.random() * 200 - 100}px`);
+        p.style.setProperty('--dy', `${Math.random() * 200 - 100}px`);
+        p.style.animation = `drift ${Math.random() * 30 + 15}s linear forwards`;
+        document.getElementById('particles').appendChild(p);
+        setTimeout(() => p.remove(), 45000);
     }
-});
+    setInterval(createParticle, 1000);
 
-// Scroll reveal
-const sections = document.querySelectorAll('section');
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
+    document.querySelectorAll('.distort').forEach(el => {
+        const text = el.textContent;
+        el.innerHTML = '';
+        for (let char of text) {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.animationDuration = `${Math.random() * 1 + 0.5}s`;
+            span.style.animationDelay = `${Math.random() * 0.5}s`;
+            el.appendChild(span);
         }
     });
-}, { threshold: 0.1 });
-sections.forEach(section => observer.observe(section));
 
-// Easter egg — UNLEASH THE CHAOS
-document.querySelector('.easter-egg').addEventListener('click', () => {
-    alert('You poked the shadows! 💩💩💩 UNLEASHING POO CHAOS 💩💩💩');
-    for (let i = 0; i < 300; i++) {
-        setTimeout(createParticle, i * 10);
-        setTimeout(createStar, i * 15);
-    }
-    document.body.style.filter = 'invert(1) hue-rotate(180deg)';
-    setTimeout(() => document.body.style.filter = '', 2500);
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('section').forEach(section => observer.observe(section));
+
+    document.querySelector('.easter-egg').addEventListener('click', () => {
+        alert('You poked the shadows! 💩💩💩 CHAOS UNLEASHED 💩💩💩');
+        for (let i = 0; i < 300; i++) {
+            setTimeout(createParticle, i * 10);
+            setTimeout(createStar, i * 15);
+        }
+        document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+        setTimeout(() => document.body.style.filter = '', 2500);
+    });
 });
