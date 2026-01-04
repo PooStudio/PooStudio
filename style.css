@@ -53,7 +53,7 @@ h1 {
     max-width: 420px;
 }
 .text-left { position: absolute; left: 8%; top: 55%; transform: translateY(-50%); text-align: left; }
-.text-right { position: absolute; पश्य right: 8%; top: 55%; transform: translateY(-50%); text-align: left; }
+.text-right { position: absolute; right: 8%; top: 55%; transform: translateY(-50%); text-align: left; }
 
 .accent {
     display: block;
