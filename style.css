@@ -72,31 +72,31 @@ h1 {
     color: #ffffff;
 
     text-shadow:
+        0 0 5px #ff8c00,
         0 0 10px #ff8c00,
         0 0 20px #ff8c00,
-        0 0 40px #ff8c00,
-        0 0 80px #ff8c00,
-        0 0 120px rgba(255, 140, 0, 0.8);
+        0 0 40px rgba(255, 140, 0, 0.5),
+        0 0 60px rgba(255, 140, 0, 0.3);
 
-    animation: neonPulse 3s ease-in-out infinite alternate;
+    animation: neonPulse 4s ease-in-out infinite alternate;
 }
 
 @keyframes neonPulse {
     from {
         text-shadow:
+            0 0 5px #ff8c00,
             0 0 10px #ff8c00,
             0 0 20px #ff8c00,
-            0 0 40px #ff8c00,
-            0 0 80px #ff8c00,
-            0 0 120px rgba(255, 140, 0, 0.6);
+            0 0 40px rgba(255, 140, 0, 0.4),
+            0 0 60px rgba(255, 140, 0, 0.2);
     }
     to {
         text-shadow:
+            0 0 8px #ff8c00,
             0 0 15px #ff8c00,
             0 0 30px #ff8c00,
-            0 0 60px #ff8c00,
-            0 0 100px #ff8c00,
-            0 0 160px rgba(255, 140, 0, 1);
+            0 0 50px rgba(255, 140, 0, 0.6),
+            0 0 80px rgba(255, 140, 0, 0.4);
     }
 }
 
@@ -153,7 +153,6 @@ footer {
     justify-content: center;
 }
 
-/* Background twinkling effect - moved to a dedicated pseudo-element that doesn't conflict */
 footer::after {
     content: '';
     position: absolute;
@@ -163,7 +162,7 @@ footer::after {
                 radial-gradient(circle at 70% 70%, rgba(207,161,90,0.03) 0%, transparent 4%),
                 radial-gradient(circle at 50% 20%, rgba(255,140,0,0.02) 0%, transparent 6%);
     animation: subtleTwinkle 15s ease-in-out infinite alternate;
-    z-index: -1; /* Ensures it stays behind the text */
+    z-index: -1; 
 }
 
 @keyframes subtleTwinkle {
@@ -175,7 +174,7 @@ footer .footer-particles {
     position: absolute;
     inset: 0;
     overflow: hidden;
-    z-index: -1; /* Also behind the text */
+    z-index: -1; 
 }
 
 footer .footer-particles span {
