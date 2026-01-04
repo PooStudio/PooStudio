@@ -98,11 +98,13 @@ nav a:hover {
 
 h1 {
     font-family: 'Orbitron', sans-serif;
-    font-size: clamp(4rem, 12vw, 12rem);
+    font-size: clamp(6rem, 10vw, 11rem); /* FIX */
     letter-spacing: 0.05em;
     margin: 40px 0;
     pointer-events: auto;
     line-height: 1;
+    position: relative;               /* FIX */
+    z-index: 3;                       /* FIX */
 }
 
 /* =========================
@@ -113,6 +115,8 @@ h1 {
     font-size: 1.3rem;
     line-height: 1.6;
     max-width: 400px;
+    z-index: 1;        /* FIX */
+    opacity: 0.85;    /* FIX */
 }
 
 .text-left {
