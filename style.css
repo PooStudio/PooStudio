@@ -141,7 +141,6 @@ main {
 section { min-height: 80vh; margin-bottom: 100px; }
 section h2 { font-size: 4rem; margin-bottom: 40px; color: #cfa15a; }
 
-/* === DOPE MATCHING FOOTER - DARK, SUBTLE, SAME VIBE === */
 footer {
     position: relative;
     text-align: center;
@@ -151,7 +150,6 @@ footer {
     z-index: 15;
 }
 
-/* Subtle moving particles like the hero background */
 footer .footer-particles {
     position: absolute;
     inset: 0;
@@ -194,7 +192,6 @@ footer::before {
     to { opacity: 1; }
 }
 
-/* Glowing copyright text to match the neon theme */
 footer p {
     position: relative;
     font-size: 1.1rem;
@@ -219,7 +216,6 @@ footer p {
     }
 }
 
-/* Scroll blur (keep your script) */
 html.scrolled #three-container,
 html.scrolled #noise,
 html.scrolled #particles,
