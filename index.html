@@ -2,99 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-
-    <!-- Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- SEO -->
-    <meta name="description" content="PooStudio — Forged in chaos. Absurd creative power. Dark medieval grit meets modern madness." />
-    <meta name="theme-color" content="#000000" />
-
+    <meta name="description" content="PooStudio: Forged in chaos. Absurd creative power." />
     <title>PooStudio</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="logo.png" type="image/png" />
-
-    <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Permanent+Marker&display=swap"
-        rel="stylesheet"
-    />
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css" />
-
-    <!-- Three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js" defer></script>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
-
 <body>
 
-    <!-- Background Effects -->
-    <canvas id="noise" aria-hidden="true"></canvas>
-    <div id="particles" aria-hidden="true"></div>
-    <div id="starsContainer" aria-hidden="true"></div>
+<canvas id="noise"></canvas>
+<div id="particles"></div>
+<div id="starsContainer"></div>
 
-    <!-- Three.js Scene -->
-    <div id="three-container" aria-hidden="true"></div>
+<div id="three-container"></div>
 
-    <!-- Main Overlay -->
-    <div id="overlay">
+<div id="overlay">
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="PooStudio">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#join">JOIN</a></li>
+                <li><a href="#resources">RESOURCES</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <!-- Header -->
-        <header class="site-header">
-            <div class="logo">
-                <img src="logo.png" alt="PooStudio logo" />
-            </div>
+    <div class="hero-text">
+        <div class="text-left">
+            <span class="accent">○ WE ARE</span>
+            <p>a pioneer in chaotic creation<br>blending dark medieval grit<br>with absurd modern madness —<br>powerful, fast, and<br>unhinged.</p>
+        </div>
 
-            <nav aria-label="Primary navigation">
-                <ul>
-                    <li><a href="#" aria-current="page">Home</a></li>
-                    <li><a href="#">Join</a></li>
-                    <li><a href="#">Resources</a></li>
-                </ul>
-            </nav>
-        </header>
+        <h1>POOSTUDIO</h1>
 
-        <!-- Main Content -->
-        <main>
-            <section class="hero-text">
+        <div class="text-right">
+            <span class="accent">○ WE ARE</span>
+            <p>building the world's next-<br>generation creative platform<br>from the depths up.</p>
+        </div>
 
-                <div class="text-left">
-                    <span class="accent">○ WE ARE</span>
-                    <p>
-                        a pioneer in chaotic creation<br />
-                        blending dark medieval grit<br />
-                        with absurd modern madness —<br />
-                        powerful, fast, and<br />
-                        unhinged.
-                    </p>
-                </div>
-
-                <h1>POOSTUDIO</h1>
-
-                <div class="text-right">
-                    <span class="accent">○ WE ARE</span>
-                    <p>
-                        building the world's next-<br />
-                        generation creative platform<br />
-                        from the depths up.
-                    </p>
-                </div>
-
-                <!-- Scroll Indicator -->
-                <div class="scroll-indicator" aria-hidden="true">
-                    <span>SCROLL</span>
-                    <div class="circle"></div>
-                </div>
-
-            </section>
-        </main>
-
+        <div class="scroll-indicator">
+            SCROLL
+            <div class="circle"></div>
+        </div>
     </div>
+</div>
 
-    <!-- Scripts -->
-    <script src="script.js" defer></script>
+<main>
+    <section id="join">
+        <h2>JOIN</h2>
+        <p>Content for JOIN section – add your form, newsletter, etc. here.</p>
+    </section>
 
+    <section id="resources">
+        <h2>RESOURCES</h2>
+        <p>Content for RESOURCES – tools, blog, downloads, etc.</p>
+    </section>
+</main>
+
+<footer>
+    © <span id="year"></span> PooStudio
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

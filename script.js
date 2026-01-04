@@ -1,171 +1,91 @@
 window.addEventListener("load", () => {
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-    /* =========================
-       BASIC THREE SETUP
-    ========================= */
-    const container = document.getElementById("three-container");
-
+    const container = document.getElementById('three-container');
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
-
-    const camera = new THREE.PerspectiveCamera(
-        75,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-    );
-    camera.position.z = 80;
-
-    const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true
-    });
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    /* =========================
-       PARTICLES
-    ========================= */
-    const PARTICLE_COUNT = 2000;
-    const CONNECTION_DISTANCE = 12;
-    const MAX_CONNECTIONS = 4000;
-    const LINE_UPDATE_INTERVAL = 4; // frames
+    const particleCount = 2500;
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
 
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(PARTICLE_COUNT * 3);
-    const colors = new Float32Array(PARTICLE_COUNT * 3);
-
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const radius = 20 + Math.random() * 30;
+    for (let i = 0; i < particleCount; i++) {
+        const radius = 18 + Math.random() * 25;
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(Math.random() * 2 - 1);
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = (radius + Math.random() * 8 - 4) * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = radius * Math.cos(phi);
 
-        const x = radius * Math.sin(phi) * Math.cos(theta);
-        const y = radius * Math.sin(phi) * Math.sin(theta) + (Math.random() * 10 - 5);
-        const z = radius * Math.cos(phi);
-
-        positions.set([x, y, z], i * 3);
-
-        const color = new THREE.Color().setHSL(0.08, 0.3, 0.6 + Math.random() * 0.4);
-        colors.set([color.r, color.g, color.b], i * 3);
+        const color = new THREE.Color().setHSL(0.05 + Math.random() * 0.1, 0.4, 0.6 + Math.random() * 0.3);
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
     }
 
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-    const points = new THREE.Points(
-        geometry,
-        new THREE.PointsMaterial({
-            size: 0.15,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8
-        })
-    );
-
+    const material = new THREE.PointsMaterial({ size: 0.15, vertexColors: true, transparent: true });
+    const points = new THREE.Points(geometry, material);
     scene.add(points);
 
-    /* =========================
-       LINES (PLEXUS)
-    ========================= */
-    const linePositions = new Float32Array(MAX_CONNECTIONS * 6);
-    const lineGeometry = new THREE.BufferGeometry();
-    lineGeometry.setAttribute(
-        "position",
-        new THREE.BufferAttribute(linePositions, 3)
-    );
-
-    const lines = new THREE.LineSegments(
-        lineGeometry,
-        new THREE.LineBasicMaterial({
-            color: 0x444444,
-            transparent: true,
-            opacity: 0.2
-        })
-    );
-
+    const maxLines = 5000;
+    const linePositions = new Float32Array(maxLines * 6);
+    const linesGeo = new THREE.BufferGeometry();
+    linesGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x444444, transparent: true, opacity: 0.15 });
+    const lines = new THREE.LineSegments(linesGeo, lineMat);
     scene.add(lines);
 
-    let frameCount = 0;
-
     function updateLines() {
-        let ptr = 0;
+        let index = 0;
         const pos = geometry.attributes.position.array;
-
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-            const ix = pos[i * 3];
-            const iy = pos[i * 3 + 1];
-            const iz = pos[i * 3 + 2];
-
-            for (let j = i + 1; j < PARTICLE_COUNT; j++) {
-                const dx = ix - pos[j * 3];
-                const dy = iy - pos[j * 3 + 1];
-                const dz = iz - pos[j * 3 + 2];
-                const distSq = dx * dx + dy * dy + dz * dz;
-
-                if (distSq < CONNECTION_DISTANCE * CONNECTION_DISTANCE) {
-                    linePositions.set(
-                        [
-                            ix,
-                            iy,
-                            iz,
-                            pos[j * 3],
-                            pos[j * 3 + 1],
-                            pos[j * 3 + 2]
-                        ],
-                        ptr
-                    );
-                    ptr += 6;
-                    if (ptr >= MAX_CONNECTIONS * 6) break;
+        for (let i = 0; i < particleCount && index < maxLines * 6; i++) {
+            for (let j = i + 1; j < particleCount && index < maxLines * 6; j++) {
+                const dx = pos[i*3] - pos[j*3];
+                const dy = pos[i*3+1] - pos[j*3+1];
+                const dz = pos[i*3+2] - pos[j*3+2];
+                const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if (dist < 10) {
+                    linePositions[index++] = pos[i*3];
+                    linePositions[index++] = pos[i*3+1];
+                    linePositions[index++] = pos[i*3+2];
+                    linePositions[index++] = pos[j*3];
+                    linePositions[index++] = pos[j*3+1];
+                    linePositions[index++] = pos[j*3+2];
                 }
             }
-            if (ptr >= MAX_CONNECTIONS * 6) break;
         }
-
-        lineGeometry.setDrawRange(0, ptr / 3);
-        lineGeometry.attributes.position.needsUpdate = true;
+        linesGeo.setDrawRange(0, index / 3);
+        linesGeo.attributes.position.needsUpdate = true;
     }
 
-    /* =========================
-       MOUSE INFLUENCE
-    ========================= */
-    const mouse = { x: 0, y: 0 };
+    camera.position.z = 80;
 
-    window.addEventListener("mousemove", e => {
+    const mouse = { x: 0, y: 0 };
+    window.addEventListener('mousemove', (e) => {
         mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
     });
 
-    /* =========================
-       ANIMATION LOOP
-    ========================= */
     function animate() {
         requestAnimationFrame(animate);
-
-        points.rotation.y += 0.0003;
-        lines.rotation.y += 0.0003;
-
-        points.rotation.x += mouse.y * 0.0001;
-        points.rotation.y += mouse.x * 0.0002;
-
-        if (++frameCount % LINE_UPDATE_INTERVAL === 0) {
-            updateLines();
-        }
-
+        points.rotation.y += 0.0004;
+        lines.rotation.y += 0.0004;
+        points.rotation.x += mouse.y * 0.0002;
+        updateLines();
         renderer.render(scene, camera);
     }
-
     animate();
 
-    /* =========================
-       RESIZE
-    ========================= */
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     });
-
 });
