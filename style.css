@@ -70,14 +70,12 @@ h1 {
     letter-spacing: 0.05em;
     margin: 60px 0;
     color: #ffffff;
-
     text-shadow:
         0 0 10px #ff8c00,
         0 0 20px #ff8c00,
         0 0 40px #ff8c00,
         0 0 80px #ff8c00,
         0 0 120px rgba(255, 140, 0, 0.8);
-
     animation: neonPulse 3s ease-in-out infinite alternate;
 }
 
@@ -144,51 +142,89 @@ section h2 { font-size: 4rem; margin-bottom: 40px; color: #cfa15a; }
 footer {
     position: relative;
     text-align: center;
-    padding: 80px 40px;
+    padding: 100px 40px;
     font-size: 1rem;
-    color: #aaa;
-    background: linear-gradient(to top, #000428, #001e4d, #000000);
-    z-index: 15;
+    color: #cfa15a;
+    background: linear-gradient(to top, #000000, #001133, #000428);
     overflow: hidden;
+    z-index: 15;
 }
 
 footer::before {
     content: '';
     position: absolute;
     top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: radial-gradient(circle at 30% 50%, rgba(100, 0, 255, 0.15), transparent 50%),
-                radial-gradient(circle at 70% 30%, rgba(255, 0, 200, 0.1), transparent 40%),
-                radial-gradient(circle at 50% 80%, rgba(0, 200, 255, 0.12), transparent 50%);
+    width: 200%; height: 200%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 0, 255, 0.15), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(255, 50, 150, 0.12), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 150, 255, 0.1), transparent 60%);
+    animation: nebulaFlow 40s linear infinite;
     pointer-events: none;
-    animation: nebulaDrift 20s linear infinite;
 }
 
+@keyframes nebulaFlow {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(10deg); }
+}
+
+/* Floating dark matter arcs */
 footer::after {
     content: '';
     position: absolute;
+    inset: -50%;
+    background: 
+        conic-gradient(from 0deg at 50% 50%, transparent 30%, rgba(255, 140, 0, 0.08) 35%, transparent 40%),
+        conic-gradient(from 120deg at 60% 40%, transparent 20%, rgba(207, 161, 90, 0.1) 25%, transparent 30%);
+    animation: darkMatterSpin 60s linear infinite;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+@keyframes darkMatterSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+footer .moving-stars {
+    position: absolute;
     inset: 0;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="%23fff"/><circle cx="80" cy="40" r="1.5" fill="%23fff"/><circle cx="50" cy="70" r="1" fill="%23fff"/><circle cx="30" cy="80" r="2" fill="%23cfa15a"/></svg>') repeat;
-    opacity: 0.3;
-    animation: starsTwinkle 8s ease-in-out infinite alternate;
+    overflow: hidden;
 }
 
-@keyframes nebulaDrift {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(50px, -50px) rotate(10deg); }
+footer .moving-stars span {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: floatStars linear infinite;
 }
 
-@keyframes starsTwinkle {
-    from { opacity: 0.2; }
-    to { opacity: 0.5; }
+footer .moving-stars span:nth-child(1) { width: 2px; height: 2px; top: 20%; left: -10%; animation-duration: 25s; animation-delay: 0s; }
+footer .moving-stars span:nth-child(2) { width: 3px; height: 3px; top: 60%; left: -15%; animation-duration: 35s; animation-delay: 5s; }
+footer .moving-stars span:nth-child(3) { width: 1px; height: 1px; top: 40%; left: -20%; animation-duration: 30s; animation-delay: 10s; }
+footer .moving-stars span:nth-child(4) { width: 4px; height: 4px; top: 80%; left: -10%; animation-duration: 40s; animation-delay: 2s; box-shadow: 0 0 8px #ff8c00; }
+footer .moving-stars span:nth-child(5) { width: 2px; height: 2px; top: 10%; left: -5%; animation-duration: 28s; animation-delay: 15s; }
+
+@keyframes floatStars {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(120vw); }
 }
 
+/* Glowing copyright text */
 footer p {
     position: relative;
-    font-size: 1.1rem;
-    letter-spacing: 0.3rem;
-    text-shadow: 0 0 10px #ff8c00;
-    color: #cfa15a;
+    font-size: 1.2rem;
+    letter-spacing: 0.4rem;
+    text-shadow: 
+        0 0 10px #ff8c00,
+        0 0 20px rgba(255, 140, 0, 0.5);
+    animation: textPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes textPulse {
+    from { opacity: 0.8; text-shadow: 0 0 10px #ff8c00; }
+    to { opacity: 1; text-shadow: 0 0 20px #ff8c00, 0 0 30px #ff8c00; }
 }
 
 html.scrolled #three-container,
@@ -198,4 +234,3 @@ html.scrolled #starsContainer {
     filter: blur(4px);
     opacity: 0.3;
 }
-
