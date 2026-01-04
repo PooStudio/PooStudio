@@ -13,15 +13,6 @@
 
 <body>
 
-<script>
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 200) {
-            document.documentElement.classList.add('scrolled');
-        } else {
-            document.documentElement.classList.remove('scrolled');
-        }
-    });
-</script>
 
     <canvas id="noise" aria-hidden="true"></canvas>
     <div id="particles" aria-hidden="true"></div>
@@ -91,20 +82,12 @@
 
     </main>
 
-<footer>
-    <div class="moving-stars">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-    <p>&copy; 2026 POOSTUDIO. ALL RIGHTS RESERVED.</p>
-</footer>
+    <footer>
+        © <span id="year"></span> PooStudio
+    </footer>
 
     <script src="script.js"></script>
 
-    
 </body>
 </html>
 
