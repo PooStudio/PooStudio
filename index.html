@@ -13,12 +13,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-    <!-- three.js (defer so it loads after parsing) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 </head>
 
 <body>
-    <!-- Decorative / background elements -->
     <canvas id="noise" aria-hidden="true"></canvas>
     <div id="particles" aria-hidden="true"></div>
     <div id="starsContainer" aria-hidden="true"></div>
@@ -71,7 +69,6 @@
     </div>
 
     <main>
-        <!-- Main content goes here -->
     </main>
 
     <footer>
@@ -88,15 +85,12 @@
         </div>
     </noscript>
 
-    <!-- Main script (kept at end so DOM is available) -->
     <script src="script.js"></script>
 
     <script>
-        // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 
-    <!-- Terms of Service modal (shown on first visit) -->
     <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem; color: #fff;">
         <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: #0f0f1a; color: #e0e0ff; padding: 2.5rem; border-radius: 16px; max-width: 680px; width: 100%; box-shadow: 0 12px 40px rgba(0,0,0,0.6); border: 1px solid #3a3a5a;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
@@ -121,7 +115,6 @@
     </div>
 
     <script>
-        // Modal logic – shows on first visit
         document.addEventListener('DOMContentLoaded', () => {
             const tosModal     = document.getElementById('tosModal');
             const acceptBtn    = document.getElementById('tosAcceptBtn');
@@ -141,7 +134,6 @@
                 document.body.style.overflow = '';
             };
 
-            // Show on first visit (or forced via ?showTos=1)
             const params = new URLSearchParams(location.search);
             if (!localStorage.getItem('tosAccepted') || params.get('showTos') === '1') {
                 showModal();
@@ -152,7 +144,6 @@
                 hideModal();
             });
 
-            // Decline → block access (you can change this to just hideModal() if you prefer soft gating)
             const blockAccess = () => {
                 document.body.innerHTML = `
                     <div style="height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#000; color:#ff4d4d; font-family:'Orbitron',sans-serif; text-align:center; padding:2rem;">
@@ -165,12 +156,10 @@
             declineBtn?.addEventListener('click', blockAccess);
             closeBtn?.addEventListener('click', hideModal);
 
-            // Esc key closes (but user can still decline later)
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') hideModal();
             });
 
-            // Click outside modal → close
             tosModal.addEventListener('click', e => {
                 if (e.target === tosModal) hideModal();
             });
@@ -178,7 +167,6 @@
     </script>
 
     <script>
-        // Disable right-click (already had this)
         document.addEventListener("contextmenu", e => e.preventDefault());
     </script>
 
