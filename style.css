@@ -148,6 +148,10 @@ footer {
     background: #000;
     overflow: hidden;
     z-index: 15;
+    display: flex;              /* Added for centering */
+    align-items: center;        /* Vertical center */
+    justify-content: center;    /* Horizontal center */
+    min-height: 40vh;           /* Optional: give it more height if needed */
 }
 
 footer .footer-particles {
