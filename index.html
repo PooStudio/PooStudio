@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="PooStudio: Chaotic creations from the cosmic forge. Absurd craft, serious grit." />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; form-action https://formspree.io; img-src 'self' data:; font-src https://fonts.gstatic.com; object-src 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <title>PooStudio — Coming Soon</title>
@@ -14,67 +14,65 @@
 </head>
 <body>
 
-<canvas id="noise"></canvas>
-<div id="particles"></div>
-<div class="bg"></div>
-<div class="moving-bg"></div>
+    <canvas id="noise"></canvas>
+    <div id="particles"></div>
+    <div class="bg"></div>
+    <div class="moving-bg"></div>
+    <div id="starsContainer"></div>
 
-<div id="site">
-
-    <div class="container">
-        <section class="landing">
-            <div class="logo-section">
-                <div class="logo-text">
-                    <h1 class="distort">PooStudio</h1>
-                    <p>Forged in Shadow</p>
+    <div id="site">
+        <div class="container">
+            <section class="landing">
+                <div class="logo-section">
+                    <div class="logo-text">
+                        <h1 class="distort">PooStudio</h1>
+                        <p>Forged in Shadow</p>
+                    </div>
+                    <div class="ring-container">
+                        <div class="rune-circle outer-rune"></div>
+                        <div class="rune-circle"></div>
+                        <div class="rune-circle inner-rune"></div>
+                    </div>
                 </div>
-                <div class="ring-container">
-                    <div class="rune-circle outer-rune"></div>
-                    <div class="rune-circle"></div>
-                    <div class="rune-circle inner-rune"></div>
-                </div>
-            </div>
-            <span class="tag">FORGED IN SHADOW</span>
-            <h2 class="distort">PooStudio</h2>
-            <p class="subtitle tagline">
-                A dark medieval creative studio gone rogue, forging worlds from chaos.
-            </p>
-            <p class="coming">
-                Born of fire. Tempered by obsession.<br>
-                <strong>Coming Soon.</strong>
-            </p>
-            <div class="divider"></div>
-        </section>
+                <span class="tag">FORGED IN SHADOW</span>
+                <h2 class="distort">PooStudio</h2>
+                <p class="subtitle tagline">
+                    A dark medieval creative studio gone rogue, forging worlds from chaos.
+                </p>
+                <p class="coming">
+                    Born of fire. Tempered by obsession.<br>
+                    <strong>Coming Soon.</strong>
+                </p>
+                <div class="divider"></div>
+            </section>
 
-        <section class="craft">
-            <h3 class="distort">Our Medieval Craft</h3>
-            <p>In the shadowed forges of PooStudio, we hammer intricate worlds from ancient lore and dark fantasies. Each piece drips with precision, blending medieval grit with modern madness.</p>
-            <p>Enchanted systems breathing life into realms, designs echoing lost castles—our obsession knows no bounds.</p>
-            <div class="rune-divider"></div>
-        </section>
+            <section class="craft">
+                <h3 class="distort">Our Medieval Craft</h3>
+                <p>In the shadowed forges of PooStudio, we hammer intricate worlds from ancient lore and dark fantasies. Each piece drips with precision, blending medieval grit with modern madness.</p>
+                <p>Enchanted systems breathing life into realms, designs echoing lost castles—our obsession knows no bounds.</p>
+                <div class="rune-divider"></div>
+            </section>
 
-        <section class="secrets">
-            <h3 class="distort">The Forge's Secrets</h3>
-            <p>Plunge into the abyss. Revelations await: tools for code warriors, dreamers, creators. The anvil never sleeps.</p>
-            <p>In dim halls, hammers echo, shaping fates from molten chaos. Runes murmur power, hands guided through night.</p>
-            <div class="rune-divider"></div>
-        </section>
+            <section class="secrets">
+                <h3 class="distort">The Forge's Secrets</h3>
+                <p>Plunge into the abyss. Revelations await: tools for code warriors, dreamers, creators. The anvil never sleeps.</p>
+                <p>In dim halls, hammers echo, shaping fates from molten chaos. Runes murmur power, hands guided through night.</p>
+                <div class="rune-divider"></div>
+            </section>
 
-        <section class="awakening">
-            <h3 class="distort">Await the Awakening</h3>
-            <p>As stars collide, forbidden lore unfolds. Grab your quills—the PooStudio era erupts.</p>
-            <p>More texts, more secrets. It's absurd, but damn serious.</p>
-            <div class="easter-egg">Poke the shadows (click, fool).</div>
-        </section>
+            <section class="awakening">
+                <h3 class="distort">Await the Awakening</h3>
+                <p>As stars collide, forbidden lore unfolds. Grab your quills—the PooStudio era erupts.</p>
+                <p>More texts, more secrets. It's absurd, but damn serious.</p>
+                <div class="easter-egg">Poke the shadows (click, fool).</div>
+            </section>
+        </div>
+
+        <footer>
+            © <span id="year"></span> PooStudio
+        </footer>
     </div>
 
-    <footer>
-        © <span id="year"></span> PooStudio
-    </footer>
-</div>
-
-<div id="starsContainer"></div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
