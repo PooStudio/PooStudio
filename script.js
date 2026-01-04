@@ -185,12 +185,3 @@ window.addEventListener("load", () => {
     });
 
 });
-<script>
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            document.documentElement.classList.add('scrolled');
-        } else {
-            document.documentElement.classList.remove('scrolled');
-        }
-    });
-</script>
