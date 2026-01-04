@@ -15,55 +15,44 @@
 </head>
 
 <body>
-    <canvas id="noise" aria-hidden="true"></canvas>
-    <div id="particles" aria-hidden="true"></div>
-    <div id="starsContainer" aria-hidden="true"></div>
-    <div id="three-container" aria-hidden="true"></div>
+  <div id="three-container" aria-hidden="true"></div>
+  <canvas id="noise" aria-hidden="true"></canvas>
+  <div id="particles" aria-hidden="true"></div>
+  <div id="starsContainer" aria-hidden="true"></div>
 
-    <div id="overlay">
-        <header>
-            <div class="logo">
-                <img src="logo.png" alt="PooStudio logo">
-            </div>
+  <div id="overlay">
+    <header>
+      <div class="logo">
+        <img src="logo.png" alt="PooStudio logo" loading="lazy">
+      </div>
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a href="#home">HOME</a></li>
+          <li><a href="https://discord.gg/6nF9ABgJxW" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
+          <li><a href="privacy.html">PRIVACY</a></li>
+        </ul>
+      </nav>
+    </header>
 
-            <nav aria-label="Primary navigation">
-                <ul>
-                    <li><a href="#home">HOME</a></li>
-                    <li><a href="https://discord.gg/6nF9ABgJxW" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
-                    <li><a href="privacy.html">PRIVACY</a></li>
-                </ul>
-            </nav>
-        </header>
+    <main id="home" class="hero-text">
+      <div class="text-left">
+        <span class="accent">WE ARE</span>
+        <p>a pioneer in chaotic creation<br>WE ARE PooStudio<br>with absurd modern madness <br>powerful, fast, unhinged.</p>
+      </div>
 
-        <section id="home" class="hero-text" aria-labelledby="hero-title">
-            <div class="text-left">
-                <span class="accent">○ WE ARE</span>
-                <p>
-                    a pioneer in chaotic creation<br>
-                    blending dark medieval grit<br>
-                    with absurd modern madness —<br>
-                    powerful, fast, and<br>
-                    unhinged.
-                </p>
-            </div>
+      <h1>POOSTUDIO</h1>
 
-            <h1 id="hero-title">POOSTUDIO</h1>
+      <div class="text-right">
+        <span class="accent">WE BUILD</span>
+        <p>the world's next generation<br>creative platform from the depths up.</p>
+      </div>
 
-            <div class="text-right">
-                <span class="accent">○ WE ARE</span>
-                <p>
-                    building the world's next-<br>
-                    generation creative platform<br>
-                    from the depths up.
-                </p>
-            </div>
-
-            <div class="scroll-indicator" aria-hidden="true">
-                SCROLL
-                <div class="circle"></div>
-            </div>
-        </section>
-    </div>
+      <div class="scroll-indicator">
+        SCROLL
+        <div class="circle"></div>
+      </div>
+    </main>
+  </div>
 
     <main>
     </main>
@@ -158,7 +147,6 @@
     </script>
 
     <script>
-        // Optional: disable right-click (remove if not needed)
         document.addEventListener("contextmenu", e => {
             e.preventDefault();
         });
