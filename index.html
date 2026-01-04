@@ -15,44 +15,55 @@
 </head>
 
 <body>
-  <div id="three-container" aria-hidden="true"></div>
-  <canvas id="noise" aria-hidden="true"></canvas>
-  <div id="particles" aria-hidden="true"></div>
-  <div id="starsContainer" aria-hidden="true"></div>
+    <canvas id="noise" aria-hidden="true"></canvas>
+    <div id="particles" aria-hidden="true"></div>
+    <div id="starsContainer" aria-hidden="true"></div>
+    <div id="three-container" aria-hidden="true"></div>
 
-  <div id="overlay">
-    <header>
-      <div class="logo">
-        <img src="logo.png" alt="PooStudio logo" loading="lazy">
-      </div>
-      <nav aria-label="Primary navigation">
-        <ul>
-          <li><a href="#home">HOME</a></li>
-          <li><a href="https://discord.gg/6nF9ABgJxW" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
-          <li><a href="privacy.html">PRIVACY</a></li>
-        </ul>
-      </nav>
-    </header>
+    <div id="overlay">
+        <header>
+            <div class="logo">
+                <img src="logo.png" alt="PooStudio logo">
+            </div>
 
-    <main id="home" class="hero-text">
-      <div class="text-left">
-        <span class="accent">WE ARE</span>
-        <p>a pioneer in chaotic creation<br>WE ARE PooStudio<br>with absurd modern madness <br>powerful, fast, unhinged.</p>
-      </div>
+            <nav aria-label="Primary navigation">
+                <ul>
+                    <li><a href="#home">HOME</a></li>
+                    <li><a href="https://discord.gg/6nF9ABgJxW" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
+                    <li><a href="privacy.html">PRIVACY</a></li>
+                </ul>
+            </nav>
+        </header>
 
-      <h1>POOSTUDIO</h1>
+        <section id="home" class="hero-text" aria-labelledby="hero-title">
+            <div class="text-left">
+                <span class="accent">○ WE ARE</span>
+                <p>
+                    a pioneer in chaotic creation<br>
+                    blending dark medieval grit<br>
+                    with absurd modern madness —<br>
+                    powerful, fast, and<br>
+                    unhinged.
+                </p>
+            </div>
 
-      <div class="text-right">
-        <span class="accent">WE BUILD</span>
-        <p>the world's next generation<br>creative platform from the depths up.</p>
-      </div>
+            <h1 id="hero-title">POOSTUDIO</h1>
 
-      <div class="scroll-indicator">
-        SCROLL
-        <div class="circle"></div>
-      </div>
-    </main>
-  </div>
+            <div class="text-right">
+                <span class="accent">○ WE ARE</span>
+                <p>
+                    building the world's next-<br>
+                    generation creative platform<br>
+                    from the depths up.
+                </p>
+            </div>
+
+            <div class="scroll-indicator" aria-hidden="true">
+                SCROLL
+                <div class="circle"></div>
+            </div>
+        </section>
+    </div>
 
     <main>
     </main>
@@ -71,28 +82,6 @@
         </div>
     </noscript>
 
-    <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; padding: 1.5rem;">
-        <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" style="background: white; color: #1f2937; padding: 2rem; border-radius: 12px; max-width: 500px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.25); font-family: system-ui, -apple-system, sans-serif; line-height: 1.5;">
-            
-            <h2 id="tosTitle" style="margin: 0 0 1.25rem; font-size: 1.5rem; font-weight: 600; color: #111827;">
-                Welcome to PooStudio
-            </h2>
-
-            <p style="margin: 0 0 1.5rem; font-size: 1rem; color: #4b5563;">
-                To continue, please review and accept our<br>
-                <a href="terms.html" target="_blank" rel="noopener noreferrer" style="color: #6366f1; text-decoration: underline; font-weight: 500;">Terms of Service</a>
-                and
-                <a href="privacy.html" target="_blank" rel="noopener noreferrer" style="color: #6366f1; text-decoration: underline; font-weight: 500;">Privacy Policy</a>.
-            </p>
-
-            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button id="tosDeclineBtn" style="padding: 0.75rem 1.5rem; background: #f3f4f6; color: #374151; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">Decline</button>
-                <button id="tosAcceptBtn" style="padding: 0.75rem 1.5rem; background: #6366f1; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">Accept & Continue</button>
-            </div>
-
-            <button id="tosCloseBtn" aria-label="Close dialog" style="position: absolute; top: 1rem; right: 1rem; background: transparent; border: none; color: #6b7280; font-size: 1.5rem; cursor: pointer;">×</button>
-        </div>
-    </div>
     <script src="script.js"></script>
 
     <script>
@@ -100,49 +89,86 @@
         if (yearEl) yearEl.textContent = new Date().getFullYear();
     </script>
 
+    <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
+        <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: white; padding: 32px; border-radius: 12px; max-width: 640px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2 id="tosTitle" style="margin:0; font-family: 'Orbitron', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#6366f1,#a855f7); -webkit-background-clip: text; color: transparent;">
+                    Welcome — Please agree to continue
+                </h2>
+                <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
+            </div>
+
+            <p id="tosDesc" style="margin-top:12px; line-height:1.5;">
+                By using this site, you agree to our <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+            </p>
+
+            <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
+                <button id="tosDeclineBtn" style="padding:10px 18px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer;">Decline</button>
+                <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#6366f1,#a855f7); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree &amp; Continue</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('tosModal');
-            const acceptBtn = document.getElementById('tosAcceptBtn');
-            const declineBtn = document.getElementById('tosDeclineBtn');
-            const closeBtn = document.getElementById('tosCloseBtn');
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                const tosModal = document.getElementById('tosModal');
+                const tosAcceptBtn = document.getElementById('tosAcceptBtn');
+                const tosDeclineBtn = document.getElementById('tosDeclineBtn');
+                const tosCloseBtn = document.getElementById('tosCloseBtn');
 
-            if (!modal) return;
+                if (!tosModal) {
+                    console.warn('TOS modal element not found. Modal will not be shown.');
+                    return;
+                }
 
-            const showModal = () => {
-                modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                acceptBtn?.focus();
-            };
+                function showModal() {
+                    tosModal.style.display = 'flex';
+                    tosModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                    if (tosAcceptBtn) tosAcceptBtn.focus();
+                }
 
-            const hideModal = () => {
-                modal.style.display = 'none';
-                document.body.style.overflow = '';
-            };
+                function hideModal() {
+                    tosModal.style.display = 'none';
+                    tosModal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
 
-            const params = new URLSearchParams(window.location.search);
-            if (!localStorage.getItem('pooTosAccepted') || params.get('showTos') === '1') {
-                showModal();
+                const urlParams = new URLSearchParams(window.location.search);
+                const forceShow = urlParams.get('showTos') === '1';
+
+                if (!localStorage.getItem('tosAccepted') || forceShow) {
+                    showModal();
+                }
+
+                tosAcceptBtn && tosAcceptBtn.addEventListener('click', function () {
+                    localStorage.setItem('tosAccepted', 'true');
+                    hideModal();
+                });
+
+                tosDeclineBtn && tosDeclineBtn.addEventListener('click', function () {
+                    hideModal();
+                });
+
+                tosCloseBtn && tosCloseBtn.addEventListener('click', function () {
+                    hideModal();
+                });
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') {
+                        hideModal();
+                    }
+                });
+
+                tosModal.addEventListener('click', function (e) {
+                    if (e.target === tosModal) {
+                        hideModal();
+                    }
+                });
+            } catch (err) {
+                console.error('Error initializing TOS modal:', err);
             }
-
-            acceptBtn?.addEventListener('click', () => {
-                localStorage.setItem('pooTosAccepted', 'true');
-                hideModal();
-            });
-
-            declineBtn?.addEventListener('click', () => {
-                hideModal();
-            });
-
-            closeBtn?.addEventListener('click', hideModal);
-
-            modal.addEventListener('click', e => {
-                if (e.target === modal) hideModal();
-            });
-
-            document.addEventListener('keydown', e => {
-                if (e.key === 'Escape') hideModal();
-            });
         });
     </script>
 
