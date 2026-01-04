@@ -18,11 +18,16 @@ header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 40px;
+    align-items: center; /* ensure vertical centering */
+    padding: 20px 40px; /* slightly smaller padding to avoid overlap */
     pointer-events: auto;
     z-index: 20;
 }
-.logo img { height: 50px; }
+
+/* ensure logo sits on the right and keeps aspect ratio */
+.logo { order: 2; margin-left: auto; }
+.logo img { height: 50px; width: auto; object-fit: contain; display: block; }
+
 nav ul {
     display: flex;
     gap: 50px;
@@ -32,19 +37,22 @@ nav ul {
 }
 nav a { color: #cfa15a; text-decoration: none; }
 
+/* move hero title near the top and center it */
 .hero-text {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    top: 20px; /* put near top instead of centered vertically */
+    left: 50%;
+    transform: translateX(-50%);
     width: 90%;
     max-width: 1600px;
     text-align: center;
+    pointer-events: none;
 }
 h1 {
     font-family: 'Orbitron', sans-serif;
     font-size: 11vw;
     letter-spacing: 0.05em;
-    margin: 60px 0;
+    margin: 10px 0; /* smaller margin so it sits neatly at top */
 }
 
 .text-left, .text-right {
@@ -53,7 +61,7 @@ h1 {
     max-width: 420px;
 }
 .text-left { position: absolute; left: 8%; top: 55%; transform: translateY(-50%); text-align: left; }
-.text-right { position: absolute; पश्य right: 8%; top: 55%; transform: translateY(-50%); text-align: left; }
+.text-right { position: absolute; right: 8%; top: 55%; transform: translateY(-50%); text-align: right; } /* fixed stray token and right-align */
 
 .accent {
     display: block;
@@ -90,4 +98,12 @@ footer {
     color: #aaa;
     background: #000;
     z-index: 15;
+}
+
+/* small screens: reduce title size and adjust spacing */
+@media (max-width: 700px) {
+    header { padding: 12px 20px; }
+    h1 { font-size: 14vw; }
+    nav ul { gap: 20px; font-size: 1rem; letter-spacing: 0.15rem; }
+    .text-left, .text-right { display: none; } /* optional: hide side text on small screens */
 }
