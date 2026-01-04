@@ -14,27 +14,48 @@ window.addEventListener("load", () => {
 
 
     const PARTICLE_COUNT = 2800;
-    const BASE_RADIUS = 20;
+    const BASE_RADIUS = 26; // used as max radius at the bottom of the turd
     const DRIFT = 0.018;
+    const TURD_HEIGHT = 36; // overall height of the stacked swirl
 
     const positions = new Float32Array(PARTICLE_COUNT * 3);
     const basePositions = new Float32Array(PARTICLE_COUNT * 3);
     const colors = new Float32Array(PARTICLE_COUNT * 3);
 
+    // Build a stacked spiral (soft-serve / "turd") profile: many small circular layers stacked vertically,
+    // radius decreases with height and we add a spiral twist and small random offsets for natural look.
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const r = BASE_RADIUS + Math.random() * 32;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(Math.random() * 2 - 1);
+        // s in [0,1] where 0 is bottom (thick) and 1 is top (thin). Bias toward bottom for thicker base.
+        const s = Math.pow(Math.random(), 0.7);
 
-        const x = r * Math.sin(phi) * Math.cos(theta);
-        const y = r * Math.sin(phi) * Math.sin(theta);
-        const z = r * Math.cos(phi);
+        // height along the turd (centered around 0)
+        const height = s * TURD_HEIGHT;
+
+        // number of spiral turns from bottom to top
+        const turns = 4.2;
+        // base angle, adding small randomness so particles don't sit exactly on the spiral line
+        const theta = s * turns * Math.PI * 2 + (Math.random() - 0.5) * 0.9;
+
+        // radius decreases with height; add ripple and random jitter for lumps
+        const taper = 1 - s * 0.92;
+        const ripple = Math.sin(s * Math.PI * 6) * 1.8; // gentle rings/lumps
+        const radius = BASE_RADIUS * taper + ripple + (Math.random() - 0.5) * 1.6;
+
+        // cylindrical -> cartesian (x,z) and vertical y
+        const x = radius * Math.cos(theta) + (Math.random() - 0.5) * 0.9;
+        const z = radius * Math.sin(theta) + (Math.random() - 0.5) * 0.9;
+        // center the turd vertically so it's roughly at y in [-TURD_HEIGHT/2, TURD_HEIGHT/2]
+        const y = -TURD_HEIGHT / 2 + height + (Math.random() - 0.5) * 0.8;
 
         positions.set([x, y, z], i * 3);
         basePositions.set([x, y, z], i * 3);
 
-        const hue = 0.03 + Math.random() * 0.14;
-        const c = new THREE.Color().setHSL(hue, 0.7, 0.58 + Math.random() * 0.32);
+        // Brownish colors: hue around 0.08 - 0.12, moderate saturation, darker near base
+        const hue = 0.08 + Math.random() * 0.04;
+        const saturation = 0.55 + Math.random() * 0.12;
+        // make lower particles slightly darker (s smaller -> base lower)
+        const lightness = 0.18 + (1 - s) * 0.14 + Math.random() * 0.08;
+        const c = new THREE.Color().setHSL(hue, saturation, Math.min(0.7, lightness));
         colors.set([c.r, c.g, c.b], i * 3);
     }
 
@@ -45,10 +66,10 @@ window.addEventListener("load", () => {
     const points = new THREE.Points(
         geometry,
         new THREE.PointsMaterial({
-            size: 0.18,
+            size: 0.22, // slightly larger so the swirl reads better
             vertexColors: true,
             transparent: true,
-            opacity: 0.88,
+            opacity: 0.94,
             depthWrite: false,
             blending: THREE.AdditiveBlending
         })
@@ -67,9 +88,9 @@ window.addEventListener("load", () => {
     const lines = new THREE.LineSegments(
         lineGeo,
         new THREE.LineBasicMaterial({
-            color: 0xff9900,
+            color: 0x3d2200, // dark brown for subtle connections
             transparent: true,
-            opacity: 0.09,
+            opacity: 0.06,
             depthWrite: false,
             blending: THREE.AdditiveBlending
         })
@@ -162,4 +183,5 @@ window.addEventListener("load", () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     });
+
 });
