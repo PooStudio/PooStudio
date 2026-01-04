@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PooStudio: Chaotic creations from the cosmic forge. Absurd craft, serious grit." />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;">
+    <meta name="description" content="PooStudio: Dark medieval creative studio forging chaotic worlds with grit and absurdity." />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; form-action https://formspree.io; img-src 'self' data:; font-src https://fonts.gstatic.com; object-src 'none';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <title>PooStudio — Coming Soon</title>
-    <!-- Poop favicon for maximum theme -->
+    <title>PooStudio — Dark Medieval Creative Studio</title>
+    <!-- Poop favicon -->
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E💩%3C/text%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Creepster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Vanta.js for 3D background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 </head>
 <body>
+
+<!-- 3D Vanta Background -->
+<div id="vanta-bg"></div>
 
 <canvas id="noise"></canvas>
 <div id="particles"></div>
@@ -22,8 +28,8 @@
 <div id="starsContainer"></div>
 
 <div id="site">
-    <div class="container">
-        <section class="landing">
+    <header>
+        <div class="container">
             <div class="logo-section">
                 <div class="logo-text">
                     <h1 class="distort">PooStudio</h1>
@@ -35,39 +41,77 @@
                     <div class="rune-circle inner-rune"></div>
                 </div>
             </div>
-            <span class="tag">FORGED IN SHADOW</span>
-            <h2 class="distort">PooStudio</h2>
-            <p class="subtitle tagline">
-                A dark medieval creative studio gone rogue, forging worlds from chaos.
-            </p>
-            <p class="coming">
-                Born of fire. Tempered by obsession.<br>
-                <strong>Coming Soon.</strong>
-            </p>
-            <div class="divider"></div>
-        </section>
+            <nav>
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-        <section class="craft">
-            <h3 class="distort">Our Medieval Craft</h3>
-            <p>In the shadowed forges of PooStudio, we hammer intricate worlds from ancient lore and dark fantasies. Each piece drips with precision, blending medieval grit with modern madness.</p>
-            <p>Enchanted systems breathing life into realms, designs echoing lost castles—our obsession knows no bounds.</p>
-            <div class="rune-divider"></div>
-        </section>
+    <main>
+        <div class="container">
+            <section id="hero" class="landing">
+                <span class="tag">FORGED IN SHADOW</span>
+                <h2 class="distort">PooStudio</h2>
+                <p class="subtitle tagline">
+                    A dark medieval creative studio gone rogue, forging worlds from chaos.
+                </p>
+                <p class="coming">
+                    Born of fire. Tempered by obsession.<br>
+                    <strong>Welcome to the Forge.</strong>
+                </p>
+                <div class="divider"></div>
+            </section>
 
-        <section class="secrets">
-            <h3 class="distort">The Forge's Secrets</h3>
-            <p>Plunge into the abyss. Revelations await: tools for code warriors, dreamers, creators. The anvil never sleeps.</p>
-            <p>In dim halls, hammers echo, shaping fates from molten chaos. Runes murmur power, hands guided through night.</p>
-            <div class="rune-divider"></div>
-        </section>
+            <section id="about" class="craft">
+                <h3 class="distort">About PooStudio</h3>
+                <p>In the shadowed forges of PooStudio, we hammer intricate worlds from ancient lore and dark fantasies. Each piece drips with precision, blending medieval grit with modern madness.</p>
+                <p>We're obsessed creators building enchanted systems, designs, and experiences. Expand this section with your team bios or history!</p>
+                <div class="rune-divider"></div>
+            </section>
 
-        <section class="awakening">
-            <h3 class="distort">Await the Awakening</h3>
-            <p>As stars collide, forbidden lore unfolds. Grab your quills—the PooStudio era erupts.</p>
-            <p>More texts, more secrets. It's absurd, but damn serious.</p>
-            <div class="easter-egg">Poke the shadows (click, fool).</div>
-        </section>
-    </div>
+            <section id="services" class="secrets">
+                <h3 class="distort">Our Services</h3>
+                <p>Plunge into the abyss. We offer: Web design, 3D animations, chaotic branding, medieval-themed apps, and more.</p>
+                <p>Add your full services list here – easy to expand with lists or cards.</p>
+                <div class="rune-divider"></div>
+            </section>
+
+            <section id="portfolio">
+                <h3 class="distort">Portfolio</h3>
+                <p>Behold our chaotic creations. (Placeholder – add images, galleries, or links here!)</p>
+                <div class="portfolio-grid">
+                    <!-- Add items like: <div class="item"><img src="project1.jpg" alt="Project 1"></div> -->
+                </div>
+                <div class="rune-divider"></div>
+            </section>
+
+            <section id="blog" class="awakening">
+                <h3 class="distort">Blog & Secrets</h3>
+                <p>As stars collide, forbidden lore unfolds. Grab your quills—the PooStudio era erupts.</p>
+                <p>More texts, more secrets. It's absurd, but damn serious. (Add blog posts here!)</p>
+                <div class="easter-egg">Poke the shadows (click, fool).</div>
+                <div class="rune-divider"></div>
+            </section>
+
+            <section id="contact">
+                <h3 class="distort">Contact Us</h3>
+                <p>Summon the forge masters. Drop a rune below.</p>
+                <form action="https://formspree.io/f/your-formspree-id" method="POST"> <!-- Replace with your Formspree endpoint -->
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" required></textarea>
+                    <button type="submit">Send Rune</button>
+                </form>
+            </section>
+        </div>
+    </main>
 
     <footer>
         © <span id="year"></span> PooStudio
