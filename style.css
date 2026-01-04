@@ -28,7 +28,6 @@
     animation: pooRise 3s infinite;
 }
 
-/* Scroll indicator - almost transparent with red tint */
 .scroll-indicator {
     position: absolute;
     bottom: 40px; /* Lower */
@@ -49,7 +48,6 @@
     animation: pulse 2s infinite;
 }
 
-/* On scroll - fade hero elements */
 #overlay, #three-container {
     transition: opacity 1s ease-out;
 }
@@ -57,7 +55,6 @@
     opacity: 0.2;
 }
 
-/* Lower sections - different vibe */
 main {
     position: relative;
     z-index: 15;
