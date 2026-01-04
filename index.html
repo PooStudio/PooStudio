@@ -87,6 +87,50 @@
         </div>
     </noscript>
 
+    <!-- Terms of Service modal (shown on first visit) -->
+    <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 1.5rem; overflow-y: auto;">
+        <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosBody" style="background: rgba(10,10,15,0.95); color: #e0e0ff; padding: 2.5rem; border-radius: 16px; max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 0 60px rgba(99,102,241,0.4), 0 0 120px rgba(168,85,247,0.25); border: 1px solid rgba(99,102,241,0.3); font-family: 'Permanent Marker', cursive; letter-spacing: 0.4px; line-height: 1.6;">
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.8rem;">
+                <h2 id="tosTitle" style="margin:0; font-family: 'Orbitron', sans-serif; font-size:2.1rem; font-weight:900; background: linear-gradient(90deg, #c084fc, #a855f7, #ec4899, #f43f5e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(168,85,247,0.7);">
+                    CHAOS AGREEMENT v666.1
+                </h2>
+                <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; color:#ff4d4d; font-size:2rem; cursor:pointer; filter: drop-shadow(0 0 8px #ff4d4d);">✕</button>
+            </div>
+
+            <div id="tosBody" style="font-size:1.1rem; color:#d1d5ff;">
+                <p style="margin-top:0; font-size:1.3rem; color:#c4b5fd; font-family: 'Orbitron', sans-serif; letter-spacing:1px;">
+                    By stepping into the PooStudio abyss, you hereby swear allegiance to the following unholy covenant:
+                </p>
+
+                <ol style="padding-left:1.8rem; margin:1.5rem 0;">
+                    <li><strong>ACCEPTANCE OF MADNESS</strong><br>You agree that this site is forged in chaos and may melt your brain, corrupt your soul, or summon minor demons at 3:17 AM. Continued use = you’re cool with that.</li>
+                    
+                    <li><strong>USER CONTENT = ETERNAL</strong><br>Anything you upload, scream, draw, or shitpost becomes ours to remix, weaponize, glorify, or bury in the digital catacombs forever. You keep copyright… we keep the right to go feral with it.</li>
+                    
+                    <li><strong>NO LAWSUITS IN THE VOID</strong><br>To the maximum extent the law still pretends to apply: we are not liable if your GPU explodes, your waifu leaves you, or reality collapses after using our tools. Zero damages. Cry about it in the Discord.</li>
+                    
+                    <li><strong>PROHIBITED BEHAVIOUR (THE BORING LIST)</strong><br>No spamming, doxxing, malware, NFT scams, trying to train Grok on our entire userbase, or posting anything that gets us banned from the internet. We ban first, ask questions never.</li>
+                    
+                    <li><strong>TERMINATION IS OUR BIRTHRIGHT</strong><br>We can nuke your account, your posts, your dreams, or the whole site at any moment, no explanation needed. No refunds in the chaos economy.</li>
+                    
+                    <li><strong>GOVERNING LAW = VIBES</strong><br>These terms are governed by the laws of the Internet, the jurisdiction of pure vibes, and whatever country has the spiciest energy drinks. Disputes resolved by ritual combat in voice chat.</li>
+                    
+                    <li><strong>CHANGES WITHOUT WARNING</strong><br>We can rewrite this entire document while you sleep. Your continued suffering… uh, usage… means you accept the new chaos.</li>
+                </ol>
+
+                <p style="text-align:center; font-size:1.4rem; margin:2rem 0; color:#f472b6; text-shadow:0 0 10px #f472b6;">
+                    You have been warned.<br>Embrace the poo or perish.
+                </p>
+
+                <div style="display:flex; gap:1.5rem; justify-content:flex-end; margin-top:2rem;">
+                    <button id="tosDeclineBtn" style="padding:14px 28px; background:#4f46e5; color:white; border:none; border-radius:10px; cursor:pointer; font-family:'Orbitron',sans-serif; font-weight:bold; box-shadow:0 0 15px #4f46e5;">REJECT THE VOID</button>
+                    <button id="tosAcceptBtn" style="padding:14px 28px; background:linear-gradient(90deg, #7c3aed, #d946ef, #fb7185); color:white; border:none; border-radius:10px; cursor:pointer; font-family:'Orbitron',sans-serif; font-weight:bold; box-shadow:0 0 25px rgba(236,72,153,0.6);">I EMBRACE THE CHAOS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main script (kept at end so DOM is available) -->
     <script src="script.js"></script>
 
@@ -96,50 +140,67 @@
         if (yearEl) yearEl.textContent = new Date().getFullYear();
     </script>
 
-   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const modal = document.getElementById('tosModal');
-        const accept = document.getElementById('tosAcceptBtn');
-        const decline = document.getElementById('tosDeclineBtn');
-        const closeBtn = document.getElementById('tosCloseBtn');
+    <!-- TOS modal logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('tosModal');
+            const acceptBtn = document.getElementById('tosAcceptBtn');
+            const declineBtn = document.getElementById('tosDeclineBtn');
+            const closeBtn = document.getElementById('tosCloseBtn');
 
-        if (!modal) return;
+            if (!modal) {
+                console.warn('TOS modal not found');
+                return;
+            }
 
-        const show = () => {
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            accept?.focus();
-        };
+            const showModal = () => {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                acceptBtn?.focus();
+            };
 
-        const hide = () => {
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
-        };
+            const hideModal = () => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            };
 
-        // Show on first visit or if forced
-        if (!localStorage.getItem('pooChaosAccepted') || new URLSearchParams(location.search).get('showTos') === '1') {
-            show();
-        }
+            // Show if not accepted or forced via ?showTos=1
+            const params = new URLSearchParams(window.location.search);
+            const force = params.get('showTos') === '1';
+            if (!localStorage.getItem('poostudioChaosV666') || force) {
+                showModal();
+            }
 
-        accept?.addEventListener('click', () => {
-            localStorage.setItem('pooChaosAccepted', Date.now().toString());
-            hide();
+            if (acceptBtn) {
+                acceptBtn.addEventListener('click', () => {
+                    localStorage.setItem('poostudioChaosV666', Date.now().toString());
+                    hideModal();
+                });
+            }
+
+            if (declineBtn) {
+                declineBtn.addEventListener('click', () => {
+                    alert('The void remembers those who reject the poo...');
+                    hideModal(); // or window.location.href = 'about:blank'; if you want to be mean
+                });
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', hideModal);
+            }
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) hideModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') hideModal();
+            });
         });
-
-        decline?.addEventListener('click', () => {
-            // You can make this mean something more dramatic if you want
-            alert("The void remembers your cowardice...");
-            hide(); // or window.location = "https://www.google.com/search?q=how+to+live+with+regret";
-        });
-
-        closeBtn?.addEventListener('click', hide);
-        modal?.addEventListener('click', e => { if (e.target === modal) hide(); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
-    });
-</script>
+    </script>
 
     <script>
-        // optional: disable context menu (you already had this)
+        // optional: disable right-click (you had this before)
         document.addEventListener("contextmenu", e => {
             e.preventDefault();
         });
