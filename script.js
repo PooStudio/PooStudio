@@ -1,172 +1,187 @@
-const container = document.getElementById("three-container");
-const scene = new THREE.Scene();
+window.addEventListener("load", () => {
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-// white background like the reference image
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-renderer.setClearColor(0xffffff, 1);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
-container.appendChild(renderer.domElement);
+    const container = document.getElementById("three-container");
+    const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 14, 90);
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 90;
 
-// lighting - a soft key + fill to create subtle specular highlights
-const hemi = new THREE.HemisphereLight(0xffffff, 0x888888, 0.6);
-scene.add(hemi);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
 
-const dir = new THREE.DirectionalLight(0xffffff, 0.9);
-dir.position.set(40, 80, 20);
-dir.castShadow = false;
-scene.add(dir);
 
-const rim = new THREE.DirectionalLight(0xffffff, 0.25);
-rim.position.set(-60, 40, -40);
-scene.add(rim);
+    const PARTICLE_COUNT = 2800;
+    const BASE_RADIUS = 26; // used as max radius at the bottom of the turd
+    const DRIFT = 0.018;
+    const TURD_HEIGHT = 36; // overall height of the stacked swirl
 
-// Build a lathe-style "soft-serve" / stacked swirl silhouette and then add
-// small surface ripple/bumpiness to mimic the photo reference.
-function buildTurdMesh() {
-    // Build profile points for LatheGeometry (x = radius, y = height)
-    const profile = [];
-    const TURD_HEIGHT = 42;
-    const baseRadius = 40;
-    const rings = 120;
-    for (let i = 0; i <= rings; i++) {
-        const t = i / rings; // 0..1 bottom->top
-        // height runs from -TURD_HEIGHT/2 to +TURD_HEIGHT/2
-        const y = -TURD_HEIGHT * 0.5 + t * TURD_HEIGHT;
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const basePositions = new Float32Array(PARTICLE_COUNT * 3);
+    const colors = new Float32Array(PARTICLE_COUNT * 3);
 
-        // radius profile: large base, then stacked taper with a small spike at top
-        // Use smoothstep-like taper + small bulges (the ring shapes)
-        const taper = 1 - Math.pow(t, 1.7) * 0.96; // main taper
-        const bulge = Math.sin(t * Math.PI * 6) * (1.6 + 0.6 * (1 - t)); // ring lumps
-        const radius = Math.max(0.6, baseRadius * taper + bulge);
+    // Build a stacked spiral (soft-serve / "turd") profile: many small circular layers stacked vertically,
+    // radius decreases with height and we add a spiral twist and small random offsets for natural look.
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        // s in [0,1] where 0 is bottom (thick) and 1 is top (thin). Bias toward bottom for thicker base.
+        const s = Math.pow(Math.random(), 0.7);
 
-        // reduce tube thickness toward top
-        const finalRadius = radius * (0.9 - t * 0.6);
+        // height along the turd (centered around 0)
+        const height = s * TURD_HEIGHT;
 
-        profile.push(new THREE.Vector2(finalRadius, y));
+        // number of spiral turns from bottom to top
+        const turns = 4.2;
+        // base angle, adding small randomness so particles don't sit exactly on the spiral line
+        const theta = s * turns * Math.PI * 2 + (Math.random() - 0.5) * 0.9;
+
+        // radius decreases with height; add ripple and random jitter for lumps
+        const taper = 1 - s * 0.92;
+        const ripple = Math.sin(s * Math.PI * 6) * 1.8; // gentle rings/lumps
+        const radius = BASE_RADIUS * taper + ripple + (Math.random() - 0.5) * 1.6;
+
+        // cylindrical -> cartesian (x,z) and vertical y
+        const x = radius * Math.cos(theta) + (Math.random() - 0.5) * 0.9;
+        const z = radius * Math.sin(theta) + (Math.random() - 0.5) * 0.9;
+        // center the turd vertically so it's roughly at y in [-TURD_HEIGHT/2, TURD_HEIGHT/2]
+        const y = -TURD_HEIGHT / 2 + height + (Math.random() - 0.5) * 0.8;
+
+        positions.set([x, y, z], i * 3);
+        basePositions.set([x, y, z], i * 3);
+
+        // Brownish colors: hue around 0.08 - 0.12, moderate saturation, darker near base
+        const hue = 0.08 + Math.random() * 0.04;
+        const saturation = 0.55 + Math.random() * 0.12;
+        // make lower particles slightly darker (s smaller -> base lower)
+        const lightness = 0.18 + (1 - s) * 0.14 + Math.random() * 0.08;
+        const c = new THREE.Color().setHSL(hue, saturation, Math.min(0.7, lightness));
+        colors.set([c.r, c.g, c.b], i * 3);
     }
 
-    // create lathe (rotationally symmetric body)
-    const segments = 160;
-    const latheGeo = new THREE.LatheGeometry(profile, segments);
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
-    // add small per-vertex distortions (radial bumps & small randomness) to mimic
-    // the rough wet surface on the reference. This preserves the silhouette while
-    // creating the textured look.
-    const pos = latheGeo.attributes.position;
-    for (let i = 0; i < pos.count; i++) {
-        const vx = pos.getX(i);
-        const vy = pos.getY(i);
-        const vz = pos.getZ(i);
+    const points = new THREE.Points(
+        geometry,
+        new THREE.PointsMaterial({
+            size: 0.22, // slightly larger so the swirl reads better
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.94,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    scene.add(points);
 
-        // compute angle and radial distance
-        const ang = Math.atan2(vz, vx);
-        const rad = Math.sqrt(vx * vx + vz * vz);
 
-        // displacement is a function of height and angular frequency so lumps
-        // align as rings and slight helical micro-variation
-        const ringFreq = 6.0; // number of rings along height
-        const helixFreq = 3.6; // twist effect frequency
-        const baseBump = Math.sin(vy * (ringFreq * 0.28) + ang * helixFreq) * (0.6 + 0.4 * Math.cos(vy * 0.2));
-        const micro = (Math.random() - 0.5) * 0.12;
+    const MAX_CONNECTIONS = 4800;
+    const MAX_DIST = 11.5;
+    const maxDistSq = MAX_DIST * MAX_DIST;
 
-        // apply as radial outward displacement (keep shape stable)
-        const disp = baseBump * 0.6 + micro;
-        const newRad = Math.max(0.001, rad + disp);
+    const linePositions = new Float32Array(MAX_CONNECTIONS * 6);
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
 
-        pos.setX(i, Math.cos(ang) * newRad);
-        pos.setZ(i, Math.sin(ang) * newRad);
-        // tiny vertical wobble for natural look
-        pos.setY(i, vy + Math.sin(ang * 7 + vy * 0.15) * 0.28);
+    const lines = new THREE.LineSegments(
+        lineGeo,
+        new THREE.LineBasicMaterial({
+            color: 0x3d2200, // dark brown for subtle connections
+            transparent: true,
+            opacity: 0.06,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    scene.add(lines);
+
+
+    const pointer = { x: 0, y: 0 };
+    let touchActive = false;
+
+    const updatePointer = (e) => {
+        if (e.touches) {
+            touchActive = true;
+            const touch = e.touches[0];
+            pointer.x = (touch.clientX / window.innerWidth) * 2 - 1;
+            pointer.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+        } else {
+            pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+            pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        }
+    };
+
+    window.addEventListener("mousemove", updatePointer);
+    window.addEventListener("touchmove", updatePointer, { passive: true });
+    window.addEventListener("touchstart", updatePointer, { passive: true });
+
+    let frame = 0;
+
+    function updateConnections() {
+        let idx = 0;
+        const pos = geometry.attributes.position.array;
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const x1 = pos[i * 3];
+            const y1 = pos[i * 3 + 1];
+            const z1 = pos[i * 3 + 2];
+
+            for (let j = i + 1; j < PARTICLE_COUNT; j++) {
+                const dx = x1 - pos[j * 3];
+                const dy = y1 - pos[j * 3 + 1];
+                const dz = z1 - pos[j * 3 + 2];
+                if (dx * dx + dy * dy + dz * dz < maxDistSq) {
+                    linePositions.set([x1, y1, z1, pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2]], idx);
+                    idx += 6;
+                    if (idx >= MAX_CONNECTIONS * 6) return;
+                }
+            }
+        }
+        lineGeo.setDrawRange(0, idx / 3);
+        lineGeo.attributes.position.needsUpdate = true;
     }
-    latheGeo.computeVertexNormals();
 
-    // material: brown, slightly glossy, clearcoat for wet sheen
-    // color chosen to match the reference: warm brown
-    const color = new THREE.Color().setHSL(0.08, 0.68, 0.29);
-    const mat = new THREE.MeshPhysicalMaterial({
-        color: color,
-        roughness: 0.45,
-        metalness: 0.0,
-        clearcoat: 0.25,
-        clearcoatRoughness: 0.28,
-        reflectivity: 0.35,
-        // small sheen and subsurface-like warmth:
-        sheen: 0.06
+    function animate(time) {
+        requestAnimationFrame(animate);
+        time *= 0.001;
+
+        const pulse = 1 + Math.sin(time * 1.4) * 0.018;
+        points.scale.setScalar(pulse);
+        lines.scale.setScalar(pulse);
+
+        const pos = geometry.attributes.position.array;
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const phase = time * 0.9 + i * 0.004;
+            pos[i * 3]     = basePositions[i * 3]     + Math.sin(phase)         * DRIFT;
+            pos[i * 3 + 1] = basePositions[i * 3 + 1] + Math.cos(phase * 1.35) * DRIFT;
+            pos[i * 3 + 2] = basePositions[i * 3 + 2] + Math.sin(phase * 0.7)  * DRIFT * 0.6;
+        }
+        geometry.attributes.position.needsUpdate = true;
+
+        points.rotation.y += 0.0004;
+        lines.rotation.y += 0.0004;
+
+        points.rotation.x += pointer.y * 0.00018;
+        points.rotation.y += pointer.x * 0.00028;
+
+        camera.position.x += (pointer.x * 12 - camera.position.x) * 0.04;
+        camera.position.y += (pointer.y * 9  - camera.position.y) * 0.04;
+        camera.lookAt(0, 0, 0);
+
+        if (frame++ % 4 === 0) updateConnections();
+
+        renderer.render(scene, camera);
+    }
+
+    animate(0);
+
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     });
 
-    const mesh = new THREE.Mesh(latheGeo, mat);
-    mesh.castShadow = false;
-    mesh.receiveShadow = false;
-
-    // scale down a bit for camera framing
-    mesh.scale.setScalar(0.55);
-
-    // position so bottom sits near y = -12
-    mesh.position.y = -6;
-
-    return mesh;
-}
-
-const turd = buildTurdMesh();
-scene.add(turd);
-
-// subtle ground ellipse shadow to match reference's soft drop shadow
-const shadowMat = new THREE.MeshBasicMaterial({ color: 0x000000, opacity: 0.08, transparent: true });
-const shadowGeo = new THREE.CircleGeometry(42 * 0.55, 32);
-const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
-shadowMesh.rotation.x = -Math.PI / 2;
-shadowMesh.position.y = -18;
-scene.add(shadowMesh);
-
-// pointer interaction for subtle parallax/tilt
-const pointer = { x: 0, y: 0 };
-let touchActive = false;
-const updatePointer = (e) => {
-    if (e.touches) {
-        touchActive = true;
-        const t = e.touches[0];
-        pointer.x = (t.clientX / window.innerWidth) * 2 - 1;
-        pointer.y = -(t.clientY / window.innerHeight) * 2 + 1;
-    } else {
-        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-        pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    }
-};
-window.addEventListener("mousemove", updatePointer);
-window.addEventListener("touchmove", updatePointer, { passive: true });
-window.addEventListener("touchstart", updatePointer, { passive: true });
-
-// animate
-let last = 0;
-function animate(t) {
-    requestAnimationFrame(animate);
-    const time = t * 0.001;
-    // gentle bob/rotation
-    turd.rotation.y = Math.sin(time * 0.08) * 0.12;
-    turd.rotation.x = pointer.y * 0.08;
-    turd.rotation.z = pointer.x * 0.06;
-
-    // camera slight follow
-    camera.position.x += (pointer.x * 22 - camera.position.x) * 0.03;
-    camera.position.y += (pointer.y * 7 + 12 - camera.position.y) * 0.03;
-    camera.lookAt(0, 0, 0);
-
-    // subtle pulsing to simulate life & moisture
-    const pulse = 1 + Math.sin(time * 1.6) * 0.006;
-    turd.scale.setScalar(0.55 * pulse);
-
-    renderer.render(scene, camera);
-}
-animate(0);
-
-// handle resize
-window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 });
