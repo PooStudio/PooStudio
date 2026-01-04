@@ -92,5 +92,28 @@
     });
     </script>
 
+<div id="tosModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 40px; border-radius: 16px; max-width: 600px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+        <h2 style="background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Welcome! Please Agree
+        </h2>
+        <p>By using this site, you agree to our <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
+        <button onclick="document.getElementById('tosModal').style.display='none'; localStorage.setItem('tosAccepted', 'true');" 
+                style="margin-top: 20px; padding: 14px 30px; background: linear-gradient(to right, #6366f1, #a855f7); color: white; border: none; border-radius: 50px; font-size: 1.1em; cursor: pointer;">
+            I Agree & Continue
+        </button>
+    </div>
+</div>
+
+<script>
+    // Show modal only on first visit (or if not accepted)
+    if (!localStorage.getItem('tosAccepted')) {
+        document.getElementById('tosModal').style.display = 'flex';
+    }
+
+    // Optional: Add links in footer
+</script>
+
+
 </body>
 </html>
