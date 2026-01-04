@@ -23,7 +23,7 @@ html, body {
     width: 100%; 
     height: 100vh; 
     pointer-events: none; 
-    opacity: 0.15; 
+    opacity: 0.08; 
     z-index: 2;
     transition: filter 0.6s ease-out, opacity 0.8s ease;
 }
@@ -53,7 +53,7 @@ nav ul {
     font-size: 1.2rem;
     letter-spacing: 0.3rem;
 }
-nav a { color: #cfa15a; text-decoration: none; }
+nav a { color: #b8860b; text-decoration: none; } 
 
 .hero-text {
     position: absolute;
@@ -71,32 +71,30 @@ h1 {
     margin: 60px 0;
     color: #ffffff;
 
+    /* Much softer, calmer glow */
     text-shadow:
-        0 0 5px #ff8c00,
-        0 0 10px #ff8c00,
-        0 0 20px #ff8c00,
-        0 0 40px rgba(255, 140, 0, 0.5),
-        0 0 60px rgba(255, 140, 0, 0.3);
+        0 0 4px #d97706,
+        0 0 8px #d97706,
+        0 0 16px rgba(217, 119, 6, 0.4),
+        0 0 32px rgba(217, 119, 6, 0.2);
 
-    animation: neonPulse 4s ease-in-out infinite alternate;
+    animation: neonPulse 5s ease-in-out infinite alternate;
 }
 
 @keyframes neonPulse {
     from {
         text-shadow:
-            0 0 5px #ff8c00,
-            0 0 10px #ff8c00,
-            0 0 20px #ff8c00,
-            0 0 40px rgba(255, 140, 0, 0.4),
-            0 0 60px rgba(255, 140, 0, 0.2);
+            0 0 4px #d97706,
+            0 0 8px #d97706,
+            0 0 16px rgba(217, 119, 6, 0.3),
+            0 0 32px rgba(217, 119, 6, 0.15);
     }
     to {
         text-shadow:
-            0 0 8px #ff8c00,
-            0 0 15px #ff8c00,
-            0 0 30px #ff8c00,
-            0 0 50px rgba(255, 140, 0, 0.6),
-            0 0 80px rgba(255, 140, 0, 0.4);
+            0 0 6px #d97706,
+            0 0 12px #d97706,
+            0 0 24px rgba(217, 119, 6, 0.5),
+            0 0 48px rgba(217, 119, 6, 0.3);
     }
 }
 
@@ -110,7 +108,7 @@ h1 {
 
 .accent {
     display: block;
-    color: #ff8c00;
+    color: #d97706; 
     font-size: 1.6rem;
     margin-bottom: 20px;
 }
@@ -123,13 +121,15 @@ h1 {
     transform: translateX(-50%);
     font-size: 1rem;
     letter-spacing: 0.4rem;
+    opacity: 0.7;
 }
 .circle {
     width: 24px;
     height: 24px;
-    border: 2px solid #ff8c00;
+    border: 2px solid #d97706; /* dimmer border */
     border-radius: 50%;
     margin: 30px auto 0;
+    opacity: 0.8;
 }
 
 main { 
@@ -139,7 +139,7 @@ main {
     background: rgba(0,0,0,0.8); 
 }
 section { min-height: 80vh; margin-bottom: 100px; }
-section h2 { font-size: 4rem; margin-bottom: 40px; color: #cfa15a; }
+section h2 { font-size: 4rem; margin-bottom: 40px; color: #b8860b; }
 
 footer {
     position: relative;
@@ -147,7 +147,7 @@ footer {
     background: #000;
     overflow: hidden;
     z-index: 15;
-    min-height: 50vh; /* Gives enough height for centering */
+    min-height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -158,67 +158,44 @@ footer::after {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: radial-gradient(circle at 30% 50%, rgba(255,140,0,0.03) 0%, transparent 5%),
-                radial-gradient(circle at 70% 70%, rgba(207,161,90,0.03) 0%, transparent 4%),
-                radial-gradient(circle at 50% 20%, rgba(255,140,0,0.02) 0%, transparent 6%);
-    animation: subtleTwinkle 15s ease-in-out infinite alternate;
-    z-index: -1; 
+    background: radial-gradient(circle at 30% 50%, rgba(217,119,6,0.02) 0%, transparent 5%),
+                radial-gradient(circle at 70% 70%, rgba(184,134,11,0.02) 0%, transparent 4%),
+                radial-gradient(circle at 50% 20%, rgba(217,119,6,0.01) 0%, transparent 6%);
+    animation: subtleTwinkle 20s ease-in-out infinite alternate;
+    z-index: -1;
 }
 
 @keyframes subtleTwinkle {
-    from { opacity: 0.6; }
-    to { opacity: 1; }
-}
-
-footer .footer-particles {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    z-index: -1; 
+    from { opacity: 0.5; }
+    to { opacity: 0.8; }
 }
 
 footer .footer-particles span {
-    position: absolute;
-    background: #ff8c00;
-    border-radius: 50%;
-    opacity: 0.1;
-    animation: driftUp linear infinite;
-}
-
-footer .footer-particles span:nth-child(1) { width: 3px; height: 3px; bottom: -10px; left: 20%; animation-duration: 20s; animation-delay: 0s; }
-footer .footer-particles span:nth-child(2) { width: 2px; height: 2px; bottom: -10px; left: 50%; animation-duration: 25s; animation-delay: 4s; }
-footer .footer-particles span:nth-child(3) { width: 4px; height: 4px; bottom: -10px; left: 80%; animation-duration: 30s; animation-delay: 8s; box-shadow: 0 0 8px #ff8c00; opacity: 0.2; }
-footer .footer-particles span:nth-child(4) { width: 2px; height: 2px; bottom: -10px; left: 10%; animation-duration: 22s; animation-delay: 12s; }
-footer .footer-particles span:nth-child(5) { width: 3px; height: 3px; bottom: -10px; left: 70%; animation-duration: 28s; animation-delay: 2s; }
-
-@keyframes driftUp {
-    0% { transform: translateY(0); opacity: 0; }
-    50% { opacity: 0.2; }
-    100% { transform: translateY(-120vh); opacity: 0; }
+    background: #d97706;
+    opacity: 0.06; /* way subtler */
+    box-shadow: 0 0 4px #d97706;
 }
 
 footer p {
-    position: relative;
     font-size: 1.1rem;
     letter-spacing: 0.4rem;
-    color: #cfa15a;
+    color: #b8860b;
     text-shadow: 
-        0 0 8px #ff8c00,
-        0 0 15px rgba(255, 140, 0, 0.4);
-    animation: footerPulse 5s ease-in-out infinite alternate;
-    text-align: center;
+        0 0 6px #d97706,
+        0 0 12px rgba(217, 119, 6, 0.3);
+    animation: footerPulse 6s ease-in-out infinite alternate;
 }
 
 @keyframes footerPulse {
     from { 
         text-shadow: 
-            0 0 8px #ff8c00,
-            0 0 15px rgba(255, 140, 0, 0.3);
+            0 0 6px #d97706,
+            0 0 12px rgba(217, 119, 6, 0.2);
     }
     to { 
         text-shadow: 
-            0 0 12px #ff8c00,
-            0 0 25px rgba(255, 140, 0, 0.6);
+            0 0 8px #d97706,
+            0 0 16px rgba(217, 119, 6, 0.4);
     }
 }
 
@@ -227,5 +204,5 @@ html.scrolled #noise,
 html.scrolled #particles,
 html.scrolled #starsContainer {
     filter: blur(4px);
-    opacity: 0.3;
+    opacity: 0.2; 
 }
