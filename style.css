@@ -143,21 +143,39 @@ section h2 { font-size: 4rem; margin-bottom: 40px; color: #cfa15a; }
 
 footer {
     position: relative;
-    text-align: center;
     padding: 100px 40px;
     background: #000;
     overflow: hidden;
     z-index: 15;
-    display: flex;              /* Added for centering */
-    align-items: center;        /* Vertical center */
-    justify-content: center;    /* Horizontal center */
-    min-height: 40vh;           /* Optional: give it more height if needed */
+    min-height: 50vh; /* Gives enough height for centering */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Background twinkling effect - moved to a dedicated pseudo-element that doesn't conflict */
+footer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 30% 50%, rgba(255,140,0,0.03) 0%, transparent 5%),
+                radial-gradient(circle at 70% 70%, rgba(207,161,90,0.03) 0%, transparent 4%),
+                radial-gradient(circle at 50% 20%, rgba(255,140,0,0.02) 0%, transparent 6%);
+    animation: subtleTwinkle 15s ease-in-out infinite alternate;
+    z-index: -1; /* Ensures it stays behind the text */
+}
+
+@keyframes subtleTwinkle {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
 }
 
 footer .footer-particles {
     position: absolute;
     inset: 0;
     overflow: hidden;
+    z-index: -1; /* Also behind the text */
 }
 
 footer .footer-particles span {
@@ -180,22 +198,6 @@ footer .footer-particles span:nth-child(5) { width: 3px; height: 3px; bottom: -1
     100% { transform: translateY(-120vh); opacity: 0; }
 }
 
-/* Tiny subtle twinkling stars */
-footer::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(255,140,0,0.03) 0%, transparent 5%),
-                radial-gradient(circle at 70% 70%, rgba(207,161,90,0.03) 0%, transparent 4%),
-                radial-gradient(circle at 50% 20%, rgba(255,140,0,0.02) 0%, transparent 6%);
-    animation: subtleTwinkle 15s ease-in-out infinite alternate;
-}
-
-@keyframes subtleTwinkle {
-    from { opacity: 0.6; }
-    to { opacity: 1; }
-}
-
 footer p {
     position: relative;
     font-size: 1.1rem;
@@ -205,6 +207,7 @@ footer p {
         0 0 8px #ff8c00,
         0 0 15px rgba(255, 140, 0, 0.4);
     animation: footerPulse 5s ease-in-out infinite alternate;
+    text-align: center;
 }
 
 @keyframes footerPulse {
