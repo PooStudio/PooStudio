@@ -36,7 +36,6 @@ html, body {
 }
 
 header {
-    position: fixed;
     top: 0;
     width: 100%;
     display: flex;
@@ -46,19 +45,6 @@ header {
     z-index: 20;
 }
 .logo img { height: 50px; }
-
-nav {
-    position: fixed;
-    top: 40px; /* aligns with header padding */
-    right: 40px;
-    z-index: 99999; /* ensure it's above other elements */
-    pointer-events: auto;
-    background: rgba(0,0,0,0.25); /* subtle backdrop to help contrast */
-    padding: 8px 12px;
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
-    transition: background 0.25s ease, transform 0.2s ease;
-}
 
 nav ul {
     display: flex;
@@ -221,3 +207,4 @@ html.scrolled #starsContainer {
     opacity: 0.2; 
 
 }
+
