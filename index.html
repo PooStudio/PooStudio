@@ -96,95 +96,47 @@
         if (yearEl) yearEl.textContent = new Date().getFullYear();
     </script>
 
-    <!-- Terms of Service modal (shown on first visit) -->
-    <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
-        <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: white; padding: 32px; border-radius: 12px; max-width: 640px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2 id="tosTitle" style="margin:0; font-family: 'Orbitron', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#6366f1,#a855f7); -webkit-background-clip: text; color: transparent;">
-                    Welcome — Please agree to continue
-                </h2>
-                <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
-            </div>
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('tosModal');
+        const accept = document.getElementById('tosAcceptBtn');
+        const decline = document.getElementById('tosDeclineBtn');
+        const closeBtn = document.getElementById('tosCloseBtn');
 
-            <p id="tosDesc" style="margin-top:12px; line-height:1.5;">
-                By using this site, you agree to our <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-            </p>
+        if (!modal) return;
 
-            <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
-                <button id="tosDeclineBtn" style="padding:10px 18px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer;">Decline</button>
-                <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#6366f1,#a855f7); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree &amp; Continue</button>
-            </div>
-        </div>
-    </div>
+        const show = () => {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            accept?.focus();
+        };
 
-    <script>
-        // Modal control: run after DOM is parsed so elements exist
-        document.addEventListener('DOMContentLoaded', function () {
-            try {
-                const tosModal = document.getElementById('tosModal');
-                const tosAcceptBtn = document.getElementById('tosAcceptBtn');
-                const tosDeclineBtn = document.getElementById('tosDeclineBtn');
-                const tosCloseBtn = document.getElementById('tosCloseBtn');
+        const hide = () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        };
 
-                if (!tosModal) {
-                    console.warn('TOS modal element not found. Modal will not be shown.');
-                    return;
-                }
+        // Show on first visit or if forced
+        if (!localStorage.getItem('pooChaosAccepted') || new URLSearchParams(location.search).get('showTos') === '1') {
+            show();
+        }
 
-                function showModal() {
-                    tosModal.style.display = 'flex';
-                    tosModal.setAttribute('aria-hidden', 'false');
-                    // prevent background scroll while modal open
-                    document.body.style.overflow = 'hidden';
-                    if (tosAcceptBtn) tosAcceptBtn.focus();
-                }
-
-                function hideModal() {
-                    tosModal.style.display = 'none';
-                    tosModal.setAttribute('aria-hidden', 'true');
-                    document.body.style.overflow = '';
-                }
-
-                // Allow QA to force showing via URL: ?showTos=1
-                const urlParams = new URLSearchParams(window.location.search);
-                const forceShow = urlParams.get('showTos') === '1';
-
-                if (!localStorage.getItem('tosAccepted') || forceShow) {
-                    showModal();
-                }
-
-                tosAcceptBtn && tosAcceptBtn.addEventListener('click', function () {
-                    localStorage.setItem('tosAccepted', 'true');
-                    hideModal();
-                });
-
-                tosDeclineBtn && tosDeclineBtn.addEventListener('click', function () {
-                    // currently just hide; change to redirect if you want to block access
-                    hideModal();
-                });
-
-                tosCloseBtn && tosCloseBtn.addEventListener('click', function () {
-                    hideModal();
-                });
-
-                // Close on Escape
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape') {
-                        hideModal();
-                    }
-                });
-
-                // Clicking on overlay background closes it
-                tosModal.addEventListener('click', function (e) {
-                    if (e.target === tosModal) {
-                        hideModal();
-                    }
-                });
-            } catch (err) {
-                console.error('Error initializing TOS modal:', err);
-            }
+        accept?.addEventListener('click', () => {
+            localStorage.setItem('pooChaosAccepted', Date.now().toString());
+            hide();
         });
-    </script>
+
+        decline?.addEventListener('click', () => {
+            // You can make this mean something more dramatic if you want
+            alert("The void remembers your cowardice...");
+            hide(); // or window.location = "https://www.google.com/search?q=how+to+live+with+regret";
+        });
+
+        closeBtn?.addEventListener('click', hide);
+        modal?.addEventListener('click', e => { if (e.target === modal) hide(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
+    });
+</script>
 
     <script>
         // optional: disable context menu (you already had this)
