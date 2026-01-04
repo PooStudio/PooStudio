@@ -4,23 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="PooStudio: Forged in chaos. Absurd creative power." />
+    <meta name="theme-color" content="#000000" />
     <title>PooStudio</title>
+
     <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- three.js (defer so it loads after parsing) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 </head>
 
 <body>
-
+    <!-- Decorative / background elements -->
     <canvas id="noise" aria-hidden="true"></canvas>
     <div id="particles" aria-hidden="true"></div>
     <div id="starsContainer" aria-hidden="true"></div>
-
     <div id="three-container" aria-hidden="true"></div>
 
     <div id="overlay">
-
         <header>
             <div class="logo">
                 <img src="logo.png" alt="PooStudio logo">
@@ -30,12 +34,12 @@
                 <ul>
                     <li><a href="#home">HOME</a></li>
                     <li><a href="https://discord.gg/6nF9ABgJxW" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
-                    <li><a href="Privacy.html" target="_blank" rel="noopener noreferrer">PRIVACY</a></li><li>
+                    <li><a href="privacy.html">PRIVACY</a></li>
                 </ul>
             </nav>
         </header>
 
-        <section id="home" class="hero-text">
+        <section id="home" class="hero-text" aria-labelledby="hero-title">
             <div class="text-left">
                 <span class="accent">○ WE ARE</span>
                 <p>
@@ -47,7 +51,7 @@
                 </p>
             </div>
 
-            <h1>POOSTUDIO</h1>
+            <h1 id="hero-title">POOSTUDIO</h1>
 
             <div class="text-right">
                 <span class="accent">○ WE ARE</span>
@@ -63,57 +67,108 @@
                 <div class="circle"></div>
             </div>
         </section>
-
     </div>
 
     <main>
+        <!-- Main content goes here -->
     </main>
 
     <footer>
-        <p>© <span id="year"></span> PooStudio</p>
+        <p>© <span id="year" aria-hidden="true"></span> PooStudio</p>
 
-        <div class="footer-particles">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="footer-particles" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
         </div>
     </footer>
 
+    <noscript>
+        <div class="noscript-warning" role="status">
+            This site works best with JavaScript enabled.
+        </div>
+    </noscript>
+
+    <!-- Main script (kept at end so DOM is available) -->
     <script src="script.js"></script>
 
     <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
-    <script>
-    document.addEventListener("contextmenu", e => {
-        e.preventDefault();
-    });
+        // Set current year in footer
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
     </script>
 
-<div id="tosModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 9999; justify-content: center; align-items: center;">
-    <div style="background: white; padding: 40px; border-radius: 16px; max-width: 600px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
-        <h2 style="background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            Welcome! Please Agree
-        </h2>
-        <p>By using this site, you agree to our <a href="terms.html" target="_blank">Terms of Service</a> and <a href="Privacy.html" target="_blank">Privacy Policy</a>.</p>
-        <button onclick="document.getElementById('tosModal').style.display='none'; localStorage.setItem('tosAccepted', 'true');" 
-                style="margin-top: 20px; padding: 14px 30px; background: linear-gradient(to right, #6366f1, #a855f7); color: rgb(0, 0, 0); border: none; border-radius: 50px; font-size: 1.1em; cursor: pointer;">
-            I Agree & Continue
-        </button>
+    <!-- Terms of Service modal (shown on first visit) -->
+    <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 24px;" aria-hidden="true">
+        <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: white; padding: 32px; border-radius: 12px; max-width: 640px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.4); text-align: left;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2 id="tosTitle" style="margin:0; font-family: 'Orbitron', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#6366f1,#a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Welcome — Please agree to continue
+                </h2>
+                <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
+            </div>
+
+            <p id="tosDesc" style="margin-top:12px; line-height:1.5;">
+                By using this site, you agree to our <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+            </p>
+
+            <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
+                <button id="tosDeclineBtn" style="padding:10px 18px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer;">Decline</button>
+                <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#6366f1,#a855f7); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree & Continue</button>
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-    // Show modal only on first visit (or if not accepted)
-    if (!localStorage.getItem('tosAccepted')) {
-        document.getElementById('tosModal').style.display = 'flex';
-    }
+    <script>
+        (function () {
+            const tosModal = document.getElementById('tosModal');
+            const tosAcceptBtn = document.getElementById('tosAcceptBtn');
+            const tosDeclineBtn = document.getElementById('tosDeclineBtn');
+            const tosCloseBtn = document.getElementById('tosCloseBtn');
 
-    // Optional: Add links in footer
-</script>
+            function showModal() {
+                tosModal.style.display = 'flex';
+                tosModal.setAttribute('aria-hidden', 'false');
+                // move keyboard focus to the accept button for convenience
+                tosAcceptBtn && tosAcceptBtn.focus();
+            }
 
+            function hideModal() {
+                tosModal.style.display = 'none';
+                tosModal.setAttribute('aria-hidden', 'true');
+            }
+
+            // Show modal only on first visit (or if not accepted)
+            if (!localStorage.getItem('tosAccepted')) {
+                showModal();
+            }
+
+            tosAcceptBtn && tosAcceptBtn.addEventListener('click', function () {
+                localStorage.setItem('tosAccepted', 'true');
+                hideModal();
+            });
+
+            // Decline or close simply hide the modal (you can change to redirect if desired)
+            tosDeclineBtn && tosDeclineBtn.addEventListener('click', function () {
+                hideModal();
+            });
+            tosCloseBtn && tosCloseBtn.addEventListener('click', function () {
+                hideModal();
+            });
+
+            // Close on Escape
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    hideModal();
+                }
+            });
+
+            // Optional: clicking outside the dialog closes it (click on overlay)
+            tosModal && tosModal.addEventListener('click', function (e) {
+                if (e.target === tosModal) {
+                    hideModal();
+                }
+            });
+        })();
+    </script>
 
 </body>
 </html>
