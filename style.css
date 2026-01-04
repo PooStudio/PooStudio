@@ -1,83 +1,93 @@
-/* Preloader */
-#preloader {
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: auto; min-height: 100vh; background: #000; color: #fff; font-family: 'Permanent Marker', cursive; overflow-y: auto; }
+#three-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 1; }
+
+#noise, #particles, #starsContainer {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; opacity: 0.15; z-index: 2;
+}
+
+#overlay {
+    position: relative;
+    min-height: 100vh;
+    z-index: 10;
+    pointer-events: none;
+}
+header {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #000;
-    z-index: 9999;
+    top: 0;
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 1.5s ease-out, visibility 1.5s;
+    justify-content: space-between;
+    padding: 40px;
+    pointer-events: auto;
+    z-index: 20;
 }
-.loader-content h2 {
-    font-family: 'Creepster', cursive;
-    font-size: 3rem;
-    color: #cfa15a;
-    text-shadow: 0 0 20px #ff4500;
-    animation: glitch 2s infinite;
+.logo img { height: 50px; }
+nav ul {
+    display: flex;
+    gap: 50px;
+    list-style: none;
+    font-size: 1.2rem;
+    letter-spacing: 0.3rem;
 }
-.rune-pulse {
-    font-size: 2rem;
-    color: #ff4500;
-    animation: pulse 2s infinite;
-    letter-spacing: 1rem;
-    margin: 20px 0;
+nav a { color: #cfa15a; text-decoration: none; }
+
+.hero-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 1600px;
+    text-align: center;
 }
-.poo-build {
-    font-size: 4rem;
-    animation: pooRise 3s infinite;
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11vw;
+    letter-spacing: 0.05em;
+    margin: 60px 0;
 }
+
+.text-left, .text-right {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    max-width: 420px;
+}
+.text-left { position: absolute; left: 8%; top: 55%; transform: translateY(-50%); text-align: left; }
+.text-right { position: absolute; पश्य right: 8%; top: 55%; transform: translateY(-50%); text-align: left; }
+
+.accent {
+    display: block;
+    color: #ff8c00;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+}
+.accent::before { content: '○ '; }
 
 .scroll-indicator {
     position: absolute;
-    bottom: 40px; /* Lower */
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 1rem;
     letter-spacing: 0.4rem;
-    color: rgba(255, 100, 100, 0.3); /* Almost transparent red */
-    opacity: 0.6;
-    transition: opacity 0.5s;
 }
 .circle {
-    width: 28px;
-    height: 28px;
-    border: 1.5px solid rgba(255, 80, 80, 0.4);
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ff8c00;
     border-radius: 50%;
-    margin: 20px auto 0;
-    animation: pulse 2s infinite;
+    margin: 30px auto 0;
 }
 
-#overlay, #three-container {
-    transition: opacity 1s ease-out;
-}
-.scrolled #overlay, .scrolled #three-container {
-    opacity: 0.2;
-}
+main { position: relative; z-index: 15; padding: 100px 40px; background: rgba(0,0,0,0.8); }
+section { min-height: 80vh; margin-bottom: 100px; }
+section h2 { font-size: 4rem; margin-bottom: 40px; color: #cfa15a; }
 
-main {
-    position: relative;
+footer {
+    text-align: center;
+    padding: 40px;
+    font-size: 1rem;
+    color: #aaa;
+    background: #000;
     z-index: 15;
-    padding: 150px 40px;
-    background: radial-gradient(circle at center, rgba(80,0,0,0.4), #000);
-    min-height: 100vh;
-}
-section h2 {
-    font-size: 5rem;
-    color: #cfa15a;
-    text-shadow: 0 0 30px #ff4500;
-}
-
-/* Your existing styles + animations */
-@keyframes glitch {
-    0%,100% { text-shadow: 0 0 20px #ff4500; }
-    50% { text-shadow: 5px 5px 30px #ff0000, -5px -5px 30px #ff4500; }
-}
-@keyframes pulse {
-    0%,100% { opacity: 0.6; }
-    50% { opacity: 1; }
-}
-@keyframes pooRise {
-    0% { transform: translateY(100px); opacity: 0; }
-    100% { transform: translateY(-100px); opacity: 1; }
 }
