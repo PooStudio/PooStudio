@@ -148,22 +148,39 @@
         document.addEventListener("contextmenu", e => e.preventDefault());
     </script>
 
-<!-- POOSTUDIO Sidebar Signup Widget -->
+    <script>
+        fetch('popup.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Popup file not found');
+                return response.text();
+            })
+            .then(html => {
+                document.body.insertAdjacentHTML('beforeend', html);
+            })
+            .catch(err => {
+                console.error('Could not load popup:', err);
+            });
+    </script>
+
 <div id="signup-sidebar">
     <div class="sidebar-panel">
-        <button class="close-sidebar">&times;</button>
+        <button class="close-sidebar" aria-label="Close">&times;</button>
         <h3>Stay in the Loop</h3>
         <p>Get the latest updates, new features, and exclusive drops from POOSTUDIO.</p>
 
-        <form action="https://formspree.io/f/xdkgnelb" method="POST">
+        <form id="signup-form" action="https://formspree.io/f/xdkgnelb" method="POST" novalidate>
             <input
                 type="email"
                 name="email"
                 placeholder="you@example.com"
                 required
                 autocomplete="email"
+                aria-label="Your email address"
             >
+            <div class="error-message" id="email-error" role="alert"></div>
+
             <input type="hidden" name="_subject" value="Sidebar Signup - POOSTUDIO Updates">
+
             <button type="submit">Subscribe</button>
         </form>
 
@@ -172,8 +189,8 @@
         </p>
     </div>
 
-    <button class="sidebar-trigger" aria-label="Open signup">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <button class="sidebar-trigger" aria-label="Open signup form">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <polyline points="22,6 12,13 2,6"></polyline>
         </svg>
@@ -204,7 +221,6 @@
         align-items: center;
         justify-content: center;
         transition: all 0.4s ease;
-        backdrop-filter: blur(10px);
     }
 
     .sidebar-trigger:hover {
@@ -246,7 +262,7 @@
         text-align: center;
     }
 
-    .sidebar-panel p {
+    .sidebar-panel > p {
         font-size: 0.95em;
         color: #bbbbbb;
         margin-bottom: 24px;
@@ -262,7 +278,7 @@
         border-radius: 8px;
         color: #e0e0e0;
         font-size: 1em;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
         transition: all 0.3s ease;
         box-sizing: border-box;
     }
@@ -271,6 +287,19 @@
         outline: none;
         border-color: #ff6b00;
         box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.25);
+    }
+
+    .sidebar-panel input[type="email"].invalid {
+        border-color: #ff4444;
+        box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
+    }
+
+    .error-message {
+        color: #ff6666;
+        font-size: 0.85em;
+        min-height: 20px;
+        margin-bottom: 12px;
+        text-align: left;
     }
 
     .sidebar-panel button[type="submit"] {
@@ -287,10 +316,16 @@
         box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
     }
 
-    .sidebar-panel button[type="submit"]:hover {
+    .sidebar-panel button[type="submit"]:hover:not(:disabled) {
         background: #ffffff;
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(255, 107, 0, 0.6);
+    }
+
+    .sidebar-panel button[type="submit"]:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
     }
 
     .close-sidebar {
@@ -336,6 +371,7 @@
     @media (max-width: 480px) {
         .sidebar-panel {
             width: 320px;
+            padding: 24px;
         }
     }
 </style>
@@ -345,11 +381,49 @@
         const sidebar = document.getElementById('signup-sidebar');
         const trigger = sidebar.querySelector('.sidebar-trigger');
         const closeBtn = sidebar.querySelector('.close-sidebar');
+        const form = sidebar.querySelector('#signup-form');
+        const emailInput = form.querySelector('input[type="email"]');
+        const errorMsg = sidebar.querySelector('#email-error');
+        const submitBtn = form.querySelector('button[type="submit"]');
 
-        // Optional: Auto-open after 8 seconds (remove if you don't want it)
-        // setTimeout(() => sidebar.classList.add('open'), 8000);
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
 
-        trigger.addEventListener('click', () => {
+        function validateEmail() {
+            const value = emailInput.value.trim();
+            if (value === '') {
+                showError('Email is required.');
+                return false;
+            } else if (!emailRegex.test(value)) {
+                showError('Please enter a valid email address.');
+                return false;
+            } else {
+                clearError();
+                return true;
+            }
+        }
+
+        function showError(message) {
+            errorMsg.textContent = message;
+            emailInput.classList.add('invalid');
+            submitBtn.disabled = true;
+        }
+
+        function clearError() {
+            errorMsg.textContent = '';
+            emailInput.classList.remove('invalid');
+            submitBtn.disabled = false;
+        }
+
+        emailInput.addEventListener('input', validateEmail);
+
+        form.addEventListener('submit', (e) => {
+            if (!validateEmail()) {
+                e.preventDefault(); 
+            }
+        });
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
             sidebar.classList.toggle('open');
         });
 
@@ -357,12 +431,13 @@
             sidebar.classList.remove('open');
         });
 
-        // Close when clicking outside (optional)
         document.addEventListener('click', (e) => {
             if (!sidebar.contains(e.target) && sidebar.classList.contains('open')) {
                 sidebar.classList.remove('open');
             }
         });
+
+        setTimeout(() => sidebar.classList.add('open'), 8000);
     });
 </script>
 </body>
