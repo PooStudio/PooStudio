@@ -3,114 +3,159 @@ window.addEventListener("load", () => {
 
     const container = document.getElementById("three-container");
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+    scene.background = new THREE.Color(0x0a0a0a); // Deep dark studio backdrop
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 4; // Pulled back – perfect distance for a mesmerizing central blob
+    camera.position.z = 180; // Perfect distance – not too close, majestic central focus
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // High-res sphere base for smooth morphing
-    const geometry = new THREE.SphereGeometry(1.2, 256, 256);
+    const poopGroup = new THREE.Group();
+    scene.add(poopGroup);
 
-    const material = new THREE.ShaderMaterial({
-        uniforms: {
-            time: { value: 0.0 },
-            colorShift: { value: 0.0 }
-        },
-        vertexShader: `
-            uniform float time;
-            uniform float colorShift;
-            varying vec3 vNormal;
-            varying vec3 vPosition;
-            varying float vDisplacement;
+    // === DOTS (the classic particle cloud) ===
+    const PARTICLE_COUNT = 5500;
+    const LOG_LENGTH = 110;
+    const BASE_RADIUS = 20;
 
-            void main() {
-                vNormal = normal;
-                vPosition = position;
-                
-                float dispStrength = 0.6 + sin(time * 0.5) * 0.2;
-                float freq1 = 5.0 + sin(time * 0.3) * 1.5;
-                float freq2 = 8.0;
-                
-                float displacement = sin(position.x * freq1 + time * 1.8) * 0.15;
-                displacement += sin(position.y * freq2 + time * 2.2) * 0.12;
-                displacement += sin(position.z * freq1 * 1.4 + time * 1.5) * 0.1;
-                
-                vDisplacement = displacement * dispStrength;
-                
-                vec3 newPosition = position + normal * (displacement * dispStrength);
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const basePositions = new Float32Array(PARTICLE_COUNT * 3);
+    const colors = new Float32Array(PARTICLE_COUNT * 3);
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const u = Math.random();
+        const s = Math.abs(Math.pow(u - 0.5, 0.5) * 2);
+
+        let x = (s - 0.5) * LOG_LENGTH;
+        const bend = Math.sin(s * Math.PI * 1.3) * 11;
+
+        const taper = 1 - Math.pow(Math.abs(s - 0.5) * 2, 2.0);
+        const lump = Math.sin(s * Math.PI * 16) * 4.2 + Math.sin(s * Math.PI * 7) * 2.8;
+        const noise = (Math.random() - 0.5) * 2.8;
+
+        const radius = BASE_RADIUS * taper + lump + noise;
+        const theta = Math.random() * Math.PI * 2;
+
+        // Add signature soft-serve coil twist
+        const twist = x * 0.07;
+        let posY = radius * Math.cos(theta) + bend;
+        let posZ = radius * Math.sin(theta);
+        const tempY = posY;
+        posY = tempY * Math.cos(twist) - posZ * Math.sin(twist);
+        posZ = tempY * Math.sin(twist) + posZ * Math.cos(twist);
+
+        const posX = x + (Math.random() - 0.5) * 3.5;
+
+        positions.set([posX, posY, posZ], i * 3);
+        basePositions.set([posX, posY, posZ], i * 3);
+
+        // Studio-grade rich browns with golden highlights for premium feel
+        const hue = 0.07 + Math.random() * 0.04;
+        const saturation = 0.65 + Math.random() * 0.25;
+        const lightness = 0.12 + Math.random() * 0.14 + Math.max(0, lump) * 0.05;
+        const c = new THREE.Color().setHSL(hue, saturation, lightness);
+        colors.set([c.r, c.g, c.b], i * 3);
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+    const points = new THREE.Points(
+        geometry,
+        new THREE.PointsMaterial({
+            size: 0.55,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.96,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    poopGroup.add(points);
+
+    // === LINES (delicate web connections for that high-end studio texture) ===
+    const MAX_CONNECTIONS = 12000;
+    const linePositions = new Float32Array(MAX_CONNECTIONS * 6);
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
+
+    const lines = new THREE.LineSegments(
+        lineGeo,
+        new THREE.LineBasicMaterial({
+            color: 0x3d2600, // Deep warm brown
+            transparent: true,
+            opacity: 0.22,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    poopGroup.add(lines);
+
+    function updateConnections() {
+        let idx = 0;
+        const pos = geometry.attributes.position.array;
+        const maxDistSq = 225; // Slightly more connections for richer web
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            for (let j = i + 1; j < PARTICLE_COUNT; j++) {
+                const i3 = i * 3, j3 = j * 3;
+                const dx = pos[i3] - pos[j3];
+                const dy = pos[i3+1] - pos[j3+1];
+                const dz = pos[i3+2] - pos[j3+2];
+                if (dx*dx + dy*dy + dz*dz < maxDistSq) {
+                    linePositions[idx++] = pos[i3];   linePositions[idx++] = pos[i3+1];   linePositions[idx++] = pos[i3+2];
+                    linePositions[idx++] = pos[j3];   linePositions[idx++] = pos[j3+1];   linePositions[idx++] = pos[j3+2];
+                    if (idx >= MAX_CONNECTIONS * 6) {
+                        lineGeo.setDrawRange(0, idx / 3);
+                        lineGeo.attributes.position.needsUpdate = true;
+                        return;
+                    }
+                }
             }
-        `,
-        fragmentShader: `
-            varying vec3 vNormal;
-            varying vec3 vPosition;
-            varying float vDisplacement;
-            uniform float time;
-            uniform float colorShift;
+        }
+        lineGeo.setDrawRange(0, idx / 3);
+        lineGeo.attributes.position.needsUpdate = true;
+    }
 
-            void main() {
-                // Dynamic neon gradient: purple → cyan → pink → brown twist for PooStudio vibes
-                vec3 baseColor = vec3(0.4, 0.1, 0.8); // Deep purple base
-                vec3 accent1 = vec3(0.0, 0.9, 1.0);   // Cyan glow
-                vec3 accent2 = vec3(1.0, 0.4, 0.8);   // Hot pink
-                vec3 pooTwist = vec3(0.4, 0.25, 0.1); // Subtle brown undertone
-                
-                float mixFactor = sin(vPosition.y * 3.0 + time * 1.2 + colorShift) * 0.5 + 0.5;
-                float glowPulse = sin(time * 2.0 + vDisplacement * 10.0) * 0.5 + 0.5;
-                
-                vec3 color = mix(baseColor, accent1, mixFactor);
-                color = mix(color, accent2, sin(vPosition.x * 4.0 + time * 1.5) * 0.5 + 0.5);
-                color = mix(color, pooTwist, glowPulse * 0.3);
-                
-                // Rim lighting for extra depth and glow
-                vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
-                float rim = 1.0 - dot(vNormal, lightDir);
-                rim = pow(rim, 2.5);
-                
-                color += vec3(0.3, 0.6, 1.0) * rim * 1.5;
-                color += vec3(0.8, 0.2, 0.6) * pow(rim, 4.0); // Pink rim highlight
-                
-                gl_FragColor = vec4(color * 1.4 + vDisplacement * 0.3, 1.0);
-            }
-        `,
-        side: THREE.DoubleSide,
-        wireframe: false
-    });
-
-    const blob = new THREE.Mesh(geometry, material);
-    scene.add(blob);
-
-    // Outer subtle glow halo
-    const glowGeo = new THREE.SphereGeometry(1.4, 64, 64);
-    const glowMat = new THREE.MeshBasicMaterial({
-        color: 0x8844ff,
-        transparent: true,
-        opacity: 0.12,
-        blending: THREE.AdditiveBlending,
-        side: THREE.BackSide
-    });
-    const glow = new THREE.Mesh(glowGeo, glowMat);
-    blob.add(glow);
+    // Subtle studio lighting
+    const ambient = new THREE.AmbientLight(0x404040, 1);
+    scene.add(ambient);
+    const keyLight = new THREE.DirectionalLight(0xffaa66, 1.2);
+    keyLight.position.set(50, 80, 50);
+    scene.add(keyLight);
 
     let time = 0;
+    let frame = 0;
     function animate() {
         requestAnimationFrame(animate);
         time += 0.01;
 
-        material.uniforms.time.value = time;
-        material.uniforms.colorShift.value = time * 0.8;
+        // Gentle breathing
+        const pulse = 1 + Math.sin(time * 0.8) * 0.01;
+        poopGroup.scale.setScalar(pulse);
 
-        // Slow, majestic spin in place
-        blob.rotation.y += 0.003;
-        blob.rotation.x += 0.0015;
+        // Organic wobble + subtle dynamic twist
+        const pos = geometry.attributes.position.array;
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const i3 = i * 3;
+            const phase = time * 0.6 + i * 0.009;
+            pos[i3]   = basePositions[i3]   + Math.sin(phase) * 1.0;
+            pos[i3+1] = basePositions[i3+1] + Math.cos(phase * 1.4) * 0.8;
+            pos[i3+2] = basePositions[i3+2] + Math.sin(phase * 1.1) * 0.9;
+        }
+        geometry.attributes.position.needsUpdate = true;
 
-        // Gentle breathing scale
-        blob.scale.setScalar(1 + Math.sin(time * 0.7) * 0.08);
+        // Majestic slow spin in place – pure studio showcase rotation
+        poopGroup.rotation.y += 0.0018;
+        poopGroup.rotation.x = 0.15 + Math.sin(time * 0.3) * 0.05;
+
+        camera.lookAt(0, 5, 0);
+
+        if (frame++ % 4 === 0) updateConnections();
 
         renderer.render(scene, camera);
     }
