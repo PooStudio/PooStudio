@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadProgress = 0;
         reconnectAttempts = 0;
 
-        // Reset UI
         loadingText.style.opacity = '1';
         loadingText.classList.add('revealed');
         errorMessage.style.opacity = '0';
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         glitchOverlay.style.opacity = '0.2';
         glitchOverlay.style.animation = 'none';
 
-        // Fake progress
         clearInterval(fakeProgressInterval);
         fakeProgressInterval = setInterval(() => {
             if (loadProgress < 92) {
@@ -44,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 300 + Math.random() * 300);
 
-        // Glitch pulses
         clearInterval(glitchInterval);
         glitchInterval = setInterval(() => {
             glitchOverlay.classList.add('glitch-pulse');
@@ -99,15 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
         glitchOverlay.style.animation = 'glitch 0.8s infinite steps(6)';
     }
 
-    // Initial start
     startLoading();
 
-    // Simulate timeout → error if page doesn't load fast
     const loadTimer = setTimeout(() => {
         showError();
     }, 12000);
 
-    // Real page load complete
     window.addEventListener('load', () => {
         clearTimeout(loadTimer);
         if (!isErrorState) {
@@ -115,11 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Retry button
     retryBtn.addEventListener('click', () => {
         startLoading();
         setTimeout(() => {
-            // 80% chance of success after retry
             if (Math.random() > 0.2) {
                 completeLoading();
             } else {
@@ -128,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1800);
     });
 
-    // Auto-reconnect on going online
     window.addEventListener('online', () => {
         if (isErrorState && reconnectAttempts < maxReconnectAttempts) {
             reconnectAttempts++;
@@ -147,7 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Initial offline check
     if (!navigator.onLine) {
         showError();
     }
