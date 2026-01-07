@@ -14,21 +14,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 </head>
 
-<body>
-    <div id="loading-screen" class="loading-active">
-        <div class="loading-content">
-            <img src="logo.png" alt="PooStudio logo" class="loading-logo">
-            <h1>POOSTUDIO</h1>
-            <p class="loading-text">PooStudio Loading...</p>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
+<!-- Premium Chaotic Loading Screen -->
+<div id="loading-screen" class="loading-active">
+    <div class="loading-content">
+        <img src="logo.png" alt="PooStudio logo" class="loading-logo">
 
-            <p class="error-message" id="error-message" style="display:none;">
-                ⚠️ Connection lost or something crashed.<br>
-                <span style="font-size:0.9em; opacity:0.8;">Refresh or check your internet. We'll be back in the void soon.</span>
-            </p>
+        <h1 class="loading-title">POOSTUDIO</h1>
+
+        <p class="loading-text">PooStudio Loading...</p>
+
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
         </div>
+
+        <p class="error-message" id="error-message">
+            ⚠️ The void consumed the signal.<br>
+            <span id="retry-text">Reconnecting to chaos...</span>
+        </p>
+
+        <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
+    </div>
+
+    <div class="glitch-overlay"></div>
+    <div class="scanlines"></div>
+</div>
 
         <div class="glitch-overlay"></div>
     </div>
