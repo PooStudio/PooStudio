@@ -242,8 +242,49 @@ html.scrolled #starsContainer {
     transition: transform 1.2s ease;
 }
 
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    opacity: 1;
+    transition: opacity 1.6s ease-out;
+}
+
+#loading-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-content {
+    text-align: center;
+    color: #fff;
+    max-width: 90%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.loading-logo {
+    height: 120px;
+    margin-bottom: 50px;
+    filter: drop-shadow(0 0 30px #d97706);
+    opacity: 0;
+    animation: logoFadeIn 1.8s ease-out forwards 0.6s;
+    transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+}
+
 .loading-logo.scale-up {
-    transform: scale(1.6);
+    transform: scale(2.2);
+}
+
+@keyframes logoFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .loading-title {
@@ -260,7 +301,7 @@ html.scrolled #starsContainer {
 
 @keyframes titlePulse {
     from { filter: brightness(1) hue-rotate(0deg); }
-    to { filter: brightness(1.3) hue-rotate(15deg); }
+    to { filter: brightness(1.4) hue-rotate(18deg); }
 }
 
 .loading-text {
@@ -293,8 +334,9 @@ html.scrolled #starsContainer {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, #d97706, #ff6b00, #b8860b);
-    transition: width 0.6s ease, background 0.5s;
+    transition: width 0.6s ease-out, background 0.6s ease, box-shadow 0.6s ease;
     box-shadow: 0 0 25px #d97706;
+    will-change: width;
 }
 
 .error-message {
@@ -334,38 +376,96 @@ html.scrolled #starsContainer {
 .retry-button:hover {
     background: #ef4444;
     color: #fff;
-    box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
-    transform: translateY(-3px);
+    box-shadow: 0 0 40px rgba(239, 68, 68, 0.9);
+    transform: translateY(-4px);
 }
 
-/* Glitch & Scanlines */
 .glitch-overlay {
     position: absolute;
     inset: 0;
     background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(217,119,6,0.05) 12px, rgba(217,119,6,0.05) 24px);
     pointer-events: none;
     opacity: 0.3;
-    transition: opacity 0.8s;
+    transition: opacity 0.8s ease;
+    will-change: transform, opacity;
 }
 
 .glitch-overlay.glitch-pulse {
-    animation: glitchPulse 0.8s ease;
+    animation: glitchPulse 1s ease-in-out;
 }
 
 @keyframes glitchPulse {
-    0%, 100% { transform: translate(0); opacity: 0.3; }
-    25% { transform: translate(-6px, 6px); opacity: 0.7; }
-    50% { transform: translate(6px, -6px); opacity: 0.6; }
-    75% { transform: translate(-4px, -4px); opacity: 0.8; }
+    0%, 100% { 
+        opacity: 0.3; 
+        transform: translate(0) skew(0deg); 
+    }
+    15% { 
+        opacity: 0.7; 
+        transform: translate(-8px, 8px) skew(5deg); 
+    }
+    30% { 
+        opacity: 0.5; 
+        transform: translate(10px, -6px) skew(-8deg); 
+    }
+    50% { 
+        opacity: 0.8; 
+        transform: translate(-6px, -10px) skew(10deg); 
+    }
+    70% { 
+        opacity: 0.6; 
+        transform: translate(8px, 4px) skew(-6deg); 
+    }
+    85% { 
+        opacity: 0.4; 
+        transform: translate(-4px, 6px) skew(4deg); 
+    }
 }
 
+/* Full Glitch Mode (Error State) */
+.glitch-overlay[style*="animation: glitch"] {
+    animation: intenseGlitch 0.8s infinite steps(8);
+}
+
+@keyframes intenseGlitch {
+    0% { 
+        clip-path: inset(0 0 0 0); 
+        transform: translate(0); 
+    }
+    10% { 
+        clip-path: inset(30% 0 60% 0); 
+        transform: translate(-5px, 5px); 
+    }
+    20% { 
+        clip-path: inset(70% 0 20% 0); 
+        transform: translate(8px, -8px); 
+    }
+    35% { 
+        clip-path: inset(10% 0 80% 0); 
+        transform: translate(-10px, 0); 
+    }
+    50% { 
+        clip-path: inset(50% 0 40% 0); 
+        transform: translate(6px, -10px); 
+    }
+    70% { 
+        clip-path: inset(80% 0 15% 0); 
+        transform: translate(-8px, 8px); 
+    }
+    100% { 
+        clip-path: inset(0 0 0 0); 
+        transform: translate(0); 
+    }
+}
+
+/* Scanlines */
 .scanlines {
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 6px);
+    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 6px);
     pointer-events: none;
     opacity: 0.5;
-    animation: scan 10s linear infinite;
+    animation: scan 12s linear infinite;
+    will-change: transform;
 }
 
 @keyframes scan {

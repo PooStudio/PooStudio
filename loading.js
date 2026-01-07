@@ -14,42 +14,55 @@ document.addEventListener('DOMContentLoaded', () => {
     let fakeProgressInterval;
     let glitchInterval;
     let reconnectAttempts = 0;
-    const maxReconnectAttempts = 10;
+    const maxReconnectAttempts = 8;
 
     function startLoading() {
         isErrorState = false;
         loadProgress = 0;
+        reconnectAttempts = 0;
 
+        // Reset UI
         loadingText.style.opacity = '1';
         loadingText.classList.add('revealed');
         errorMessage.style.opacity = '0';
         errorMessage.style.display = 'none';
         retryBtn.style.display = 'none';
+        retryBtn.style.opacity = '0';
         progressBar.style.width = '0%';
         progressBar.style.background = 'linear-gradient(90deg, #d97706, #ff6b00, #b8860b)';
+        progressBar.style.boxShadow = '0 0 25px #d97706';
         retryText.textContent = 'Reconnecting to chaos...';
+        glitchOverlay.style.opacity = '0.2';
+        glitchOverlay.style.animation = 'none';
 
+        // Fake progress
+        clearInterval(fakeProgressInterval);
         fakeProgressInterval = setInterval(() => {
             if (loadProgress < 92) {
-                loadProgress += Math.random() * 10 + 3;
+                loadProgress += Math.random() * 8 + 4;
                 progressBar.style.width = Math.min(loadProgress, 92) + '%';
             }
-        }, 400);
+        }, 300 + Math.random() * 300);
 
+        // Glitch pulses
+        clearInterval(glitchInterval);
         glitchInterval = setInterval(() => {
             glitchOverlay.classList.add('glitch-pulse');
-            setTimeout(() => glitchOverlay.classList.remove('glitch-pulse'), 600);
-        }, 3000 + Math.random() * 4000);
+            setTimeout(() => glitchOverlay.classList.remove('glitch-pulse'), 800);
+        }, 2500 + Math.random() * 5000);
     }
 
     function completeLoading() {
         clearInterval(fakeProgressInterval);
         clearInterval(glitchInterval);
+
         progressBar.style.width = '100%';
+        progressBar.style.transition = 'width 0.6s ease-out';
 
         setTimeout(() => {
             loadingScreen.classList.add('fade-out');
-            logo.classList.add('scale-up');
+            if (logo) logo.classList.add('scale-up');
+
             setTimeout(() => {
                 mainContent.style.display = 'block';
                 document.body.style.overflow = 'auto';
@@ -57,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     loadingScreen.style.display = 'none';
                 }, 1200);
             }, 800);
-        }, 600);
+        }, 800);
     }
 
     function showError() {
@@ -68,26 +81,33 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(glitchInterval);
 
         progressBar.style.width = '100%';
-        progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
-        progressBar.style.boxShadow = '0 0 20px #ef4444';
+        progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626, #c1121f)';
+        progressBar.style.boxShadow = '0 0 30px #ef4444';
 
         loadingText.style.opacity = '0';
-        errorMessage.style.display = 'block';
-        setTimeout(() => { errorMessage.style.opacity = '1'; }, 100);
+        setTimeout(() => {
+            errorMessage.style.display = 'block';
+            errorMessage.style.opacity = '1';
+        }, 200);
 
-        retryBtn.style.display = 'block';
-        setTimeout(() => { retryBtn.style.opacity = '1'; }, 400);
+        setTimeout(() => {
+            retryBtn.style.display = 'block';
+            retryBtn.style.opacity = '1';
+        }, 600);
 
-        glitchOverlay.style.opacity = '0.8';
-        glitchOverlay.style.animation = 'glitch 1.2s infinite steps(8)';
+        glitchOverlay.style.opacity = '0.6';
+        glitchOverlay.style.animation = 'glitch 0.8s infinite steps(6)';
     }
 
+    // Initial start
     startLoading();
 
+    // Simulate timeout → error if page doesn't load fast
     const loadTimer = setTimeout(() => {
         showError();
-    }, 15000);
+    }, 12000);
 
+    // Real page load complete
     window.addEventListener('load', () => {
         clearTimeout(loadTimer);
         if (!isErrorState) {
@@ -95,20 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Retry button
     retryBtn.addEventListener('click', () => {
-        reconnectAttempts = 0;
-        retryText.textContent = 'Reconnecting to chaos...';
         startLoading();
-
         setTimeout(() => {
-            if (navigator.onLine) {
-                setTimeout(completeLoading, 1500);
+            // 80% chance of success after retry
+            if (Math.random() > 0.2) {
+                completeLoading();
             } else {
                 showError();
             }
-        }, 2000);
+        }, 1800);
     });
 
+    // Auto-reconnect on going online
     window.addEventListener('online', () => {
         if (isErrorState && reconnectAttempts < maxReconnectAttempts) {
             reconnectAttempts++;
@@ -117,21 +137,17 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 startLoading();
                 setTimeout(() => {
-                    if (Math.random() > 0.2 || reconnectAttempts > 3) { // 80% success after a few tries
+                    if (Math.random() > 0.15 || reconnectAttempts > 2) {
                         completeLoading();
                     } else {
                         showError();
                     }
                 }, 2000);
-            }, 1000);
+            }, 1200);
         }
     });
 
-    window.addEventListener('error', (e) => {
-        console.error('JS Error:', e);
-        showError();
-    });
-
+    // Initial offline check
     if (!navigator.onLine) {
         showError();
     }
