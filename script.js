@@ -1,201 +1,215 @@
 window.addEventListener("load", () => {
-    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("year").textContent = "PooStudio " + new Date().getFullYear();
 
     const container = document.getElementById("three-container");
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000008); // Deep almost-black space
 
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.z = 400;
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 12, 130);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // --- Unique Ethereal Starfield: Twinkling stars with subtle purple/blue hues ---
-    const STAR_COUNT = 8000;
-    const positions = new Float32Array(STAR_COUNT * 3);
-    const colors = new Float32Array(STAR_COUNT * 3);
-    const sizes = new Float32Array(STAR_COUNT);
+    // Add some lighting for shine and depth
+    const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+    scene.add(ambientLight);
 
-    for (let i = 0; i < STAR_COUNT; i++) {
+    const pointLight = new THREE.PointLight(0xffffff, 2, 200);
+    pointLight.position.set(50, 50, 50);
+    scene.add(pointLight);
+
+    // Group so lines and points rotate together perfectly
+    const poopGroup = new THREE.Group();
+    scene.add(poopGroup);
+
+    const PARTICLE_COUNT = 6000; // More particles for fuller look
+    const LOG_LENGTH = 120; // Longer for epic turd
+    const BASE_RADIUS = 20; // Thicker base
+
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const basePositions = new Float32Array(PARTICLE_COUNT * 3);
+    const colors = new Float32Array(PARTICLE_COUNT * 3);
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const u = Math.random();
+        const s = Math.abs(Math.pow(u - 0.5, 0.5) * 2);
+
+        let x = (s - 0.5) * LOG_LENGTH;
+        const bend = Math.sin(s * Math.PI * 1.5) * 12; // More pronounced arch for coily feel
+
+        const taper = 1 - Math.pow(Math.abs(s - 0.5) * 2, 1.8); // Smoother taper
+        const lump = Math.sin(s * Math.PI * 18) * 4.5 + Math.sin(s * Math.PI * 8) * 3; // More lumpy for realism
+        const noise = (Math.random() - 0.5) * 3;
+
+        const radius = BASE_RADIUS * taper + lump + noise;
         const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(Math.random() * 2 - 1);
-        const r = 300 + Math.random() * 700;
 
-        positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
-        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i * 3 + 2] = r * Math.cos(phi);
+        let posX = x + (Math.random() - 0.5) * 4;
+        let posY = radius * Math.cos(theta) + bend + (Math.random() - 0.5) * 3.5;
+        let posZ = radius * Math.sin(theta) + (Math.random() - 0.5) * 4;
 
-        sizes[i] = 1.5 + Math.random() * 2.5;
+        // Add creative twist for "full blown turd" spiral effect
+        const twist_angle = posX * 0.08; // Stronger twist to make it coil like soft-serve
+        const tempY = posY;
+        const tempZ = posZ;
+        posY = tempY * Math.cos(twist_angle) - tempZ * Math.sin(twist_angle);
+        posZ = tempY * Math.sin(twist_angle) + tempZ * Math.cos(twist_angle);
 
-        // Rare ethereal colors: mostly white, some blue, purple, faint pink "nebula" stars
-        const rand = Math.random();
-        let hue, sat, light;
-        if (rand < 0.7) { // Common white
-            hue = 0.6; sat = 0.1; light = 0.8 + Math.random() * 0.2;
-        } else if (rand < 0.9) { // Blue stars
-            hue = 0.55; sat = 0.6; light = 0.9;
-        } else if (rand < 0.98) { // Purple nebula glow
-            hue = 0.8; sat = 0.7; light = 0.7;
-        } else { // Ultra-rare pink/red giants
-            hue = 0.95; sat = 0.8; light = 0.85;
-        }
-        const c = new THREE.Color().setHSL(hue, sat, light);
-        colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
+        positions.set([posX, posY, posZ], i * 3);
+        basePositions.set([posX, posY, posZ], i * 3);
+
+        // Enhanced poop colors — varied browns with glossy highlights
+        const hue = 0.06 + Math.random() * 0.04;
+        const saturation = 0.7 + Math.random() * 0.3;
+        const lightness = 0.12 + Math.random() * 0.12 + Math.max(0, lump) * 0.06;
+        const c = new THREE.Color().setHSL(hue, saturation, lightness);
+        colors.set([c.r, c.g, c.b], i * 3);
     }
 
-    const starGeo = new THREE.BufferGeometry();
-    starGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    starGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    starGeo.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
-    const starMat = new THREE.ShaderMaterial({
-        uniforms: {
-            time: { value: 0 },
-            scale: { value: window.innerHeight / 2 }
-        },
-        vertexShader: `
-            attribute float size;
-            varying vec3 vColor;
-            uniform float time;
-            void main() {
-                vColor = color;
-                vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                float twinkle = 0.7 + 0.3 * sin(time * 3.0 + position.x * 0.01 + position.y * 0.02);
-                gl_PointSize = size * twinkle * (scale / -mvPosition.z);
-                gl_Position = projectionMatrix * mvPosition;
-            }
-        `,
-        fragmentShader: `
-            varying vec3 vColor;
-            void main() {
-                float dist = length(gl_PointCoord - vec2(0.5));
-                if (dist > 0.5) discard;
-                float glow = 1.0 - dist * 2.0;
-                gl_FragColor = vec4(vColor * glow * glow, glow);
-            }
-        `,
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        vertexColors: true
-    });
+    const points = new THREE.Points(
+        geometry,
+        new THREE.PointsMaterial({
+            size: 0.5,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.95,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    poopGroup.add(points);
 
-    const stars = new THREE.Points(starGeo, starMat);
-    scene.add(stars);
+    // Lines for texture and connections
+    const MAX_CONNECTIONS = 12000; // More for denser look
+    const linePositions = new Float32Array(MAX_CONNECTIONS * 6);
+    const lineGeo = new THREE.BufferGeometry();
+    lineGeo.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
 
-    // --- Rare Shooting Stars: Long glowing trails that fade over ~6 seconds ---
-    const SHOOTER_COUNT = 35;
-    const TRAIL_LENGTH = 120; // Long dreamy trails
-    const trailPositions = [];
-    const trailAlphas = [];
+    const lines = new THREE.LineSegments(
+        lineGeo,
+        new THREE.LineBasicMaterial({
+            color: 0x1a0b00,
+            transparent: true,
+            opacity: 0.22,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        })
+    );
+    poopGroup.add(lines);
 
-    for (let i = 0; i < SHOOTER_COUNT; i++) {
-        const dir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
-        const speed = 0.6 + Math.random() * 0.8;
+    function updateConnections() {
+        let idx = 0;
+        const pos = geometry.attributes.position.array;
+        const maxDistSq = 196; // Slightly larger for more connections
 
-        const history = [];
-        for (let j = 0; j < TRAIL_LENGTH; j++) history.push(new THREE.Vector3());
-
-        trailPositions.push(history);
-        trailAlphas.push(0); // Start inactive
-
-        // Random delay before first appearance
-        setTimeout(() => { trailAlphas[i] = 1; activateShooter(i); }, Math.random() * 15000);
-    }
-
-    function activateShooter(i) {
-        const pos = new THREE.Vector3(
-            (Math.random() - 0.5) * 800,
-            (Math.random() - 0.5) * 800,
-            (Math.random() - 0.5) * 800
-        );
-        trailPositions[i].forEach(p => p.copy(pos));
-
-        // Activate and schedule next (rare: every 8-25 seconds)
-        trailAlphas[i] = 1;
-        setTimeout(() => {
-            trailAlphas[i] = 0; // Fade out
-            setTimeout(() => activateShooter(i), 8000 + Math.random() * 17000);
-        }, 6000); // Visible for ~6 seconds
-    }
-
-    const trailGeo = new THREE.BufferGeometry();
-    const trailPosArray = new Float32Array(SHOOTER_COUNT * TRAIL_LENGTH * 3);
-    const trailColorArray = new Float32Array(SHOOTER_COUNT * TRAIL_LENGTH * 3);
-    trailGeo.setAttribute("position", new THREE.BufferAttribute(trailPosArray, 3));
-    trailGeo.setAttribute("color", new THREE.BufferAttribute(trailColorArray, 3));
-
-    const trailMat = new THREE.LineBasicMaterial({
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.8,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        linewidth: 2 // Note: linewidth >1 not supported on all devices, but looks great where it works
-    });
-
-    const trails = new THREE.LineSegments(trailGeo, trailMat);
-    scene.add(trails);
-
-    let time = 0;
-    function animate() {
-        requestAnimationFrame(animate);
-        time += 0.01;
-
-        starMat.uniforms.time.value = time;
-
-        // Update trails
-        let posIdx = 0;
-        let colIdx = 0;
-        for (let i = 0; i < SHOOTER_COUNT; i++) {
-            if (trailAlphas[i] > 0) {
-                // Move head
-                const head = trailPositions[i][0];
-                const dir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
-                head.add(dir.multiplyScalar(1.2 + Math.random() * 0.8));
-
-                // Shift history
-                for (let j = TRAIL_LENGTH - 1; j > 0; j--) {
-                    trailPositions[i][j].copy(trailPositions[i][j - 1]);
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            for (let j = i + 1; j < PARTICLE_COUNT; j++) {
+                const i3 = i * 3, j3 = j * 3;
+                const dx = pos[i3] - pos[j3];
+                const dy = pos[i3+1] - pos[j3+1];
+                const dz = pos[i3+2] - pos[j3+2];
+                if (dx*dx + dy*dy + dz*dz < maxDistSq) {
+                    linePositions[idx++] = pos[i3];
+                    linePositions[idx++] = pos[i3+1];
+                    linePositions[idx++] = pos[i3+2];
+                    linePositions[idx++] = pos[j3];
+                    linePositions[idx++] = pos[j3+1];
+                    linePositions[idx++] = pos[j3+2];
+                    if (idx >= MAX_CONNECTIONS * 6) {
+                        lineGeo.setDrawRange(0, idx / 3);
+                        lineGeo.attributes.position.needsUpdate = true;
+                        return;
+                    }
                 }
-                trailPositions[i][0].copy(head);
-            }
-
-            for (let j = 0; j < TRAIL_LENGTH; j++) {
-                const p = trailPositions[i][j];
-                trailPosArray[posIdx++] = p.x;
-                trailPosArray[posIdx++] = p.y;
-                trailPosArray[posIdx++] = p.z;
-
-                // Glowing white -> soft purple/blue trail
-                const fade = trailAlphas[i] * (1 - j / TRAIL_LENGTH);
-                const hue = 0.7 + fade * 0.2; // Slight purple tint
-                const c = new THREE.Color().setHSL(hue, 0.8, 0.5 + fade * 0.5);
-                trailColorArray[colIdx++] = c.r * fade;
-                trailColorArray[colIdx++] = c.g * fade;
-                trailColorArray[colIdx++] = c.b * fade;
             }
         }
+        lineGeo.setDrawRange(0, idx / 3);
+        lineGeo.attributes.position.needsUpdate = true;
+    }
 
-        trailGeo.attributes.position.needsUpdate = true;
-        trailGeo.attributes.color.needsUpdate = true;
+    // Add PooStudio 3D text watermark with creativity (glowing red)
+    const loader = new THREE.FontLoader();
+    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+        const textGeometry = new THREE.TextGeometry('PooStudio', {
+            font: font,
+            size: 12,
+            height: 3,
+            curveSegments: 12,
+            bevelEnabled: true,
+            bevelThickness: 1,
+            bevelSize: 0.5,
+            bevelOffset: 0,
+            bevelSegments: 5
+        });
+        const textMaterial = new THREE.MeshPhongMaterial({ color: 0xff4500, specular: 0xffffff, shininess: 100 });
+        const text = new THREE.Mesh(textGeometry, textMaterial);
+        text.position.set(-60, 60, -20); // Position above the turd
+        scene.add(text);
 
-        // Very slow cosmic drift rotation
-        stars.rotation.y += 0.00008;
-        trails.rotation.y += 0.00008;
+        // Animate text glow pulse
+        function animateText(t) {
+            textMaterial.emissiveIntensity = 0.5 + Math.sin(t * 0.005) * 0.5;
+        }
+        // Call in animate loop below
+    });
+
+    let frame = 0;
+    let time = 0;
+    function animate(t) {
+        requestAnimationFrame(animate);
+        time = t * 0.001;
+
+        // Stronger breathing for "full blown" effect
+        const pulse = 1 + Math.sin(time * 1.2) * 0.012;
+        poopGroup.scale.setScalar(pulse);
+
+        // Enhanced organic wobble with twist animation
+        const pos = geometry.attributes.position.array;
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const i3 = i * 3;
+            const phase = time * 0.8 + i * 0.01;
+            let wobbleX = basePositions[i3] + Math.sin(phase) * 1.2;
+            let wobbleY = basePositions[i3 + 1] + Math.cos(phase * 1.4) * 0.9;
+            let wobbleZ = basePositions[i3 + 2] + Math.sin(phase * 1.0) * 1.0;
+
+            // Animate twist for dynamic coiling
+            const dynamic_twist = (wobbleX * 0.08) + Math.sin(time * 0.2) * 0.02;
+            const tempY = wobbleY;
+            const tempZ = wobbleZ;
+            wobbleY = tempY * Math.cos(dynamic_twist) - tempZ * Math.sin(dynamic_twist);
+            wobbleZ = tempY * Math.sin(dynamic_twist) + tempZ * Math.cos(dynamic_twist);
+
+            pos[i3] = wobbleX;
+            pos[i3 + 1] = wobbleY;
+            pos[i3 + 2] = wobbleZ;
+        }
+        geometry.attributes.position.needsUpdate = true;
+
+        // Faster smooth rotation for epic spin
+        poopGroup.rotation.y += 0.004; // Faster spin to show off the full turd
+        poopGroup.rotation.x = 0.18;
+
+        camera.lookAt(0, 5, 0);
+
+        if (frame++ % 3 === 0) updateConnections();
+
+        // Animate text if loaded (safe call)
+        if (typeof animateText === 'function') animateText(t);
 
         renderer.render(scene, camera);
     }
 
-    animate();
+    animate(0);
 
     window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-        starMat.uniforms.scale.value = window.innerHeight / 2;
     });
 });
