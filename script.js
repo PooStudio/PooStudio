@@ -6,20 +6,22 @@ window.addEventListener("load", () => {
     scene.background = new THREE.Color(0x0a0a0a); // Deep dark studio backdrop
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 180; // Perfect distance – not too close, majestic central focus
+    camera.position.z = 160; // Slightly pulled back for perfect jewel-like showcase
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    const poopGroup = new THREE.Group();
-    scene.add(poopGroup);
+    const jewelGroup = new THREE.Group();
+    scene.add(jewelGroup);
 
-    // === DOTS (the classic particle cloud) ===
-    const PARTICLE_COUNT = 5500;
-    const LOG_LENGTH = 110;
-    const BASE_RADIUS = 20;
+    // === Redesigned particle distribution for sleek, tapered jewel / plug shape ===
+    const PARTICLE_COUNT = 6000;
+    const LENGTH = 90;        // Shorter, more compact
+    const BASE_RADIUS_TOP = 8; // Narrow top
+    const BASE_RADIUS_BOTTOM = 28; // Wide flared base
+    const NECK_RADIUS = 12;   // Constricted neck for classic plug silhouette
 
     const positions = new Float32Array(PARTICLE_COUNT * 3);
     const basePositions = new Float32Array(PARTICLE_COUNT * 3);
@@ -27,35 +29,51 @@ window.addEventListener("load", () => {
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
         const u = Math.random();
-        const s = Math.abs(Math.pow(u - 0.5, 0.5) * 2);
+        const s = u; // Linear along length for better control
 
-        let x = (s - 0.5) * LOG_LENGTH;
-        const bend = Math.sin(s * Math.PI * 1.3) * 11;
+        // Axial position (from bottom to top)
+        let x = (s - 0.5) * LENGTH;
 
-        const taper = 1 - Math.pow(Math.abs(s - 0.5) * 2, 2.0);
-        const lump = Math.sin(s * Math.PI * 16) * 4.2 + Math.sin(s * Math.PI * 7) * 2.8;
-        const noise = (Math.random() - 0.5) * 2.8;
+        // Define radius along the length for plug shape
+        let section = s;
+        let radius;
+        if (section < 0.25) {
+            // Flared base
+            radius = BASE_RADIUS_BOTTOM * (1 - section / 0.25);
+        } else if (section < 0.4) {
+            // Neck constriction
+            radius = NECK_RADIUS + (BASE_RADIUS_BOTTOM - NECK_RADIUS) * ((section - 0.25) / 0.15);
+            radius = NECK_RADIUS; // Sharp neck
+        } else if (section < 0.8) {
+            // Main body - gentle taper
+            radius = NECK_RADIUS + (BASE_RADIUS_TOP - NECK_RADIUS) * ((section - 0.4) / 0.4);
+        } else {
+            // Taper to narrow top
+            radius = BASE_RADIUS_TOP * (1 - (section - 0.8) / 0.2);
+        }
 
-        const radius = BASE_RADIUS * taper + lump + noise;
+        // Add organic lumps and noise
+        const lump = Math.sin(s * Math.PI * 12) * 3 + Math.sin(s * Math.PI * 5) * 2;
+        const noise = (Math.random() - 0.5) * 2.5;
+        radius += lump + noise;
+        radius = Math.max(3, radius); // Prevent negative
+
         const theta = Math.random() * Math.PI * 2;
 
-        // Add signature soft-serve coil twist
-        const twist = x * 0.07;
-        let posY = radius * Math.cos(theta) + bend;
+        let posY = radius * Math.cos(theta);
         let posZ = radius * Math.sin(theta);
-        const tempY = posY;
-        posY = tempY * Math.cos(twist) - posZ * Math.sin(twist);
-        posZ = tempY * Math.sin(twist) + posZ * Math.cos(twist);
 
-        const posX = x + (Math.random() - 0.5) * 3.5;
+        // Subtle overall bend for elegance
+        const bend = Math.sin(s * Math.PI) * 5;
+        posY += bend;
 
-        positions.set([posX, posY, posZ], i * 3);
-        basePositions.set([posX, posY, posZ], i * 3);
+        positions.set([x, posY, posZ], i * 3);
+        basePositions.set([x, posY, posZ], i * 3);
 
-        // Studio-grade rich browns with golden highlights for premium feel
-        const hue = 0.07 + Math.random() * 0.04;
-        const saturation = 0.65 + Math.random() * 0.25;
-        const lightness = 0.12 + Math.random() * 0.14 + Math.max(0, lump) * 0.05;
+        // Luxurious metallic jewel tones – chrome/silver with purple-blue iridescence
+        const hue = 0.65 + Math.random() * 0.1; // Purple-blue range
+        const saturation = 0.4 + Math.random() * 0.4;
+        const lightness = 0.35 + Math.random() * 0.3 + Math.max(0, lump) * 0.05;
         const c = new THREE.Color().setHSL(hue, saturation, lightness);
         colors.set([c.r, c.g, c.b], i * 3);
     }
@@ -67,18 +85,18 @@ window.addEventListener("load", () => {
     const points = new THREE.Points(
         geometry,
         new THREE.PointsMaterial({
-            size: 0.55,
+            size: 0.6,
             vertexColors: true,
             transparent: true,
-            opacity: 0.96,
+            opacity: 0.95,
             depthWrite: false,
             blending: THREE.AdditiveBlending
         })
     );
-    poopGroup.add(points);
+    jewelGroup.add(points);
 
-    // === LINES (delicate web connections for that high-end studio texture) ===
-    const MAX_CONNECTIONS = 12000;
+    // Delicate connection lines
+    const MAX_CONNECTIONS = 14000;
     const linePositions = new Float32Array(MAX_CONNECTIONS * 6);
     const lineGeo = new THREE.BufferGeometry();
     lineGeo.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
@@ -86,19 +104,19 @@ window.addEventListener("load", () => {
     const lines = new THREE.LineSegments(
         lineGeo,
         new THREE.LineBasicMaterial({
-            color: 0x3d2600, // Deep warm brown
+            color: 0x4466aa,
             transparent: true,
-            opacity: 0.22,
+            opacity: 0.25,
             depthWrite: false,
             blending: THREE.AdditiveBlending
         })
     );
-    poopGroup.add(lines);
+    jewelGroup.add(lines);
 
     function updateConnections() {
         let idx = 0;
         const pos = geometry.attributes.position.array;
-        const maxDistSq = 225; // Slightly more connections for richer web
+        const maxDistSq = 196;
 
         for (let i = 0; i < PARTICLE_COUNT; i++) {
             for (let j = i + 1; j < PARTICLE_COUNT; j++) {
@@ -121,12 +139,15 @@ window.addEventListener("load", () => {
         lineGeo.attributes.position.needsUpdate = true;
     }
 
-    // Subtle studio lighting
-    const ambient = new THREE.AmbientLight(0x404040, 1);
+    // Studio lighting – dramatic jewel showcase
+    const ambient = new THREE.AmbientLight(0x404060, 0.8);
     scene.add(ambient);
-    const keyLight = new THREE.DirectionalLight(0xffaa66, 1.2);
-    keyLight.position.set(50, 80, 50);
+    const keyLight = new THREE.DirectionalLight(0xaaccff, 1.5);
+    keyLight.position.set(60, 100, 80);
     scene.add(keyLight);
+    const rimLight = new THREE.DirectionalLight(0xff88cc, 1);
+    rimLight.position.set(-60, -50, -80);
+    scene.add(rimLight);
 
     let time = 0;
     let frame = 0;
@@ -134,26 +155,24 @@ window.addEventListener("load", () => {
         requestAnimationFrame(animate);
         time += 0.01;
 
-        // Gentle breathing
-        const pulse = 1 + Math.sin(time * 0.8) * 0.01;
-        poopGroup.scale.setScalar(pulse);
+        const pulse = 1 + Math.sin(time * 0.9) * 0.008;
+        jewelGroup.scale.setScalar(pulse);
 
-        // Organic wobble + subtle dynamic twist
         const pos = geometry.attributes.position.array;
         for (let i = 0; i < PARTICLE_COUNT; i++) {
             const i3 = i * 3;
-            const phase = time * 0.6 + i * 0.009;
-            pos[i3]   = basePositions[i3]   + Math.sin(phase) * 1.0;
-            pos[i3+1] = basePositions[i3+1] + Math.cos(phase * 1.4) * 0.8;
-            pos[i3+2] = basePositions[i3+2] + Math.sin(phase * 1.1) * 0.9;
+            const phase = time * 0.7 + i * 0.01;
+            pos[i3]   = basePositions[i3]   + Math.sin(phase) * 0.8;
+            pos[i3+1] = basePositions[i3+1] + Math.cos(phase * 1.3) * 0.6;
+            pos[i3+2] = basePositions[i3+2] + Math.sin(phase * 0.9) * 0.7;
         }
         geometry.attributes.position.needsUpdate = true;
 
-        // Majestic slow spin in place – pure studio showcase rotation
-        poopGroup.rotation.y += 0.0018;
-        poopGroup.rotation.x = 0.15 + Math.sin(time * 0.3) * 0.05;
+        // Slow, luxurious rotation
+        jewelGroup.rotation.y += 0.002;
+        jewelGroup.rotation.x = 0.1 + Math.sin(time * 0.4) * 0.05;
 
-        camera.lookAt(0, 5, 0);
+        camera.lookAt(0, 0, 0);
 
         if (frame++ % 4 === 0) updateConnections();
 
