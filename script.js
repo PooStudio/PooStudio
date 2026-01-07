@@ -3,128 +3,78 @@ window.addEventListener("load", () => {
 
     const container = document.getElementById("three-container");
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+    scene.background = new THREE.Color(0x000008); // Deep almost-black space
 
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.z = 300;
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.z = 400;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.autoClear = false; // Important for persistent trails
     container.appendChild(renderer.domElement);
 
-    const STAR_COUNT = 5000;
-    const TRAIL_LENGTH = 80; // Length of each shooting star trail
-    const TOTAL_PARTICLES = STAR_COUNT + (STAR_COUNT * TRAIL_LENGTH); // Background stars + trails
+    // --- Unique Ethereal Starfield: Twinkling stars with subtle purple/blue hues ---
+    const STAR_COUNT = 8000;
+    const positions = new Float32Array(STAR_COUNT * 3);
+    const colors = new Float32Array(STAR_COUNT * 3);
+    const sizes = new Float32Array(STAR_COUNT);
 
-    const positions = new Float32Array(TOTAL_PARTICLES * 3);
-    const sizes = new Float32Array(TOTAL_PARTICLES);
-    const alphas = new Float32Array(TOTAL_PARTICLES); // For custom fading
-    const colors = new Float32Array(TOTAL_PARTICLES * 3);
-
-    // Background static stars (twinkling white/blue)
-    let idx = 0;
     for (let i = 0; i < STAR_COUNT; i++) {
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(Math.random() * 2 - 1);
-        const r = 200 + Math.random() * 800; // Far away sphere distribution
+        const r = 300 + Math.random() * 700;
 
-        positions[idx * 3]     = r * Math.sin(phi) * Math.cos(theta);
-        positions[idx * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[idx * 3 + 2] = r * Math.cos(phi);
+        positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = r * Math.cos(phi);
 
-        sizes[idx] = 1.2 + Math.random() * 1.8;
-        alphas[idx] = 1;
+        sizes[i] = 1.5 + Math.random() * 2.5;
 
-        // White to light blue stars
-        const hue = 0.55 + Math.random() * 0.1;
-        const c = new THREE.Color().setHSL(hue, 0.3, 0.7 + Math.random() * 0.3);
-        colors[idx * 3]     = c.r;
-        colors[idx * 3 + 1] = c.g;
-        colors[idx * 3 + 2] = c.b;
-
-        idx++;
-    }
-
-    // Shooting stars data
-    const shootingStars = [];
-    const NUM_SHOOTERS = 60; // Active shooting stars
-    for (let i = 0; i < NUM_SHOOTERS; i++) {
-        const direction = new THREE.Vector3(
-            Math.random() - 0.5,
-            Math.random() - 0.5,
-            Math.random() - 0.5
-        ).normalize();
-
-        const startPos = new THREE.Vector3(
-            (Math.random() - 0.5) * 600,
-            (Math.random() - 0.5) * 600,
-            (Math.random() - 0.5) * 600
-        );
-
-        const speed = 0.8 + Math.random() * 1.2;
-
-        const trailStartIdx = idx;
-
-        // Pre-allocate trail positions (initially same as head)
-        for (let j = 0; j <= TRAIL_LENGTH; j++) { // head + trail
-            positions[idx * 3]     = startPos.x;
-            positions[idx * 3 + 1] = startPos.y;
-            positions[idx * 3 + 2] = startPos.z;
-
-            sizes[idx] = j === 0 ? 4.5 : (TRAIL_LENGTH - j + 5) / (TRAIL_LENGTH + 10) * 3.5;
-            alphas[idx] = 0; // Start invisible until active
-
-            // Bright white head, fading to blue/cool tones
-            const brightness = j === 0 ? 1 : 0.3 + (TRAIL_LENGTH - j) / TRAIL_LENGTH * 0.4;
-            const c = new THREE.Color().setHSL(0.55, 0.8, brightness);
-            colors[idx * 3]     = c.r;
-            colors[idx * 3 + 1] = c.g;
-            colors[idx * 3 + 2] = c.b;
-
-            idx++;
+        // Rare ethereal colors: mostly white, some blue, purple, faint pink "nebula" stars
+        const rand = Math.random();
+        let hue, sat, light;
+        if (rand < 0.7) { // Common white
+            hue = 0.6; sat = 0.1; light = 0.8 + Math.random() * 0.2;
+        } else if (rand < 0.9) { // Blue stars
+            hue = 0.55; sat = 0.6; light = 0.9;
+        } else if (rand < 0.98) { // Purple nebula glow
+            hue = 0.8; sat = 0.7; light = 0.7;
+        } else { // Ultra-rare pink/red giants
+            hue = 0.95; sat = 0.8; light = 0.85;
         }
-
-        shootingStars.push({
-            pos: startPos.clone(),
-            dir: direction,
-            speed: speed,
-            trailPositions: new Array(TRAIL_LENGTH + 1).fill().map(() => startPos.clone()),
-            trailStartIdx: trailStartIdx,
-            active: false,
-            timer: Math.random() * 10 // Stagger activation
-        });
+        const c = new THREE.Color().setHSL(hue, sat, light);
+        colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
     }
 
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    geometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
-    geometry.setAttribute("alpha", new THREE.BufferAttribute(alphas, 1)); // Custom attribute for fade
+    const starGeo = new THREE.BufferGeometry();
+    starGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    starGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    starGeo.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
 
-    const material = new THREE.ShaderMaterial({
+    const starMat = new THREE.ShaderMaterial({
         uniforms: {
-            scale: { value: window.innerHeight / 2 } // For point size attenuation
+            time: { value: 0 },
+            scale: { value: window.innerHeight / 2 }
         },
         vertexShader: `
             attribute float size;
-            attribute float alpha;
-            varying float vAlpha;
+            varying vec3 vColor;
+            uniform float time;
             void main() {
-                vAlpha = alpha;
+                vColor = color;
                 vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                gl_PointSize = size * (scale / -mvPosition.z);
+                float twinkle = 0.7 + 0.3 * sin(time * 3.0 + position.x * 0.01 + position.y * 0.02);
+                gl_PointSize = size * twinkle * (scale / -mvPosition.z);
                 gl_Position = projectionMatrix * mvPosition;
             }
         `,
         fragmentShader: `
-            varying float vAlpha;
+            varying vec3 vColor;
             void main() {
                 float dist = length(gl_PointCoord - vec2(0.5));
                 if (dist > 0.5) discard;
-                float opacity = (1.0 - dist * 2.0) * vAlpha; // Soft circular particles
-                gl_FragColor = vec4(vec3(1.0), opacity);
+                float glow = 1.0 - dist * 2.0;
+                gl_FragColor = vec4(vColor * glow * glow, glow);
             }
         `,
         transparent: true,
@@ -133,84 +83,119 @@ window.addEventListener("load", () => {
         vertexColors: true
     });
 
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
+    const stars = new THREE.Points(starGeo, starMat);
+    scene.add(stars);
 
-    // Persistent trails: fade previous frame slowly
-    function renderWithTrails() {
-        renderer.clear(); // Clear depth
-        renderer.render(scene, camera);
-        renderer.clear(false, true, false); // Clear depth only for next overlay
-        renderer.render(scene, camera); // Slight overlap for glow
+    // --- Rare Shooting Stars: Long glowing trails that fade over ~6 seconds ---
+    const SHOOTER_COUNT = 35;
+    const TRAIL_LENGTH = 120; // Long dreamy trails
+    const trailPositions = [];
+    const trailAlphas = [];
+
+    for (let i = 0; i < SHOOTER_COUNT; i++) {
+        const dir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+        const speed = 0.6 + Math.random() * 0.8;
+
+        const history = [];
+        for (let j = 0; j < TRAIL_LENGTH; j++) history.push(new THREE.Vector3());
+
+        trailPositions.push(history);
+        trailAlphas.push(0); // Start inactive
+
+        // Random delay before first appearance
+        setTimeout(() => { trailAlphas[i] = 1; activateShooter(i); }, Math.random() * 15000);
     }
+
+    function activateShooter(i) {
+        const pos = new THREE.Vector3(
+            (Math.random() - 0.5) * 800,
+            (Math.random() - 0.5) * 800,
+            (Math.random() - 0.5) * 800
+        );
+        trailPositions[i].forEach(p => p.copy(pos));
+
+        // Activate and schedule next (rare: every 8-25 seconds)
+        trailAlphas[i] = 1;
+        setTimeout(() => {
+            trailAlphas[i] = 0; // Fade out
+            setTimeout(() => activateShooter(i), 8000 + Math.random() * 17000);
+        }, 6000); // Visible for ~6 seconds
+    }
+
+    const trailGeo = new THREE.BufferGeometry();
+    const trailPosArray = new Float32Array(SHOOTER_COUNT * TRAIL_LENGTH * 3);
+    const trailColorArray = new Float32Array(SHOOTER_COUNT * TRAIL_LENGTH * 3);
+    trailGeo.setAttribute("position", new THREE.BufferAttribute(trailPosArray, 3));
+    trailGeo.setAttribute("color", new THREE.BufferAttribute(trailColorArray, 3));
+
+    const trailMat = new THREE.LineBasicMaterial({
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        linewidth: 2 // Note: linewidth >1 not supported on all devices, but looks great where it works
+    });
+
+    const trails = new THREE.LineSegments(trailGeo, trailMat);
+    scene.add(trails);
 
     let time = 0;
-    function animate(t) {
+    function animate() {
         requestAnimationFrame(animate);
-        time += 0.016;
+        time += 0.01;
 
-        // Twinkle background stars
-        for (let i = 0; i < STAR_COUNT; i++) {
-            const phase = time * (0.5 + i * 0.0001) + i;
-            alphas[i] = 0.7 + Math.sin(phase) * 0.3;
-        }
+        starMat.uniforms.time.value = time;
 
-        // Update shooting stars
-        for (const star of shootingStars) {
-            star.timer -= 0.016;
-            if (!star.active && star.timer <= 0) {
-                star.active = true;
-                star.timer = 5 + Math.random() * 8; // Next appearance in ~5-13s
-            }
-
-            if (star.active) {
+        // Update trails
+        let posIdx = 0;
+        let colIdx = 0;
+        for (let i = 0; i < SHOOTER_COUNT; i++) {
+            if (trailAlphas[i] > 0) {
                 // Move head
-                star.pos.add(star.dir.clone().multiplyScalar(star.speed));
+                const head = trailPositions[i][0];
+                const dir = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+                head.add(dir.multiplyScalar(1.2 + Math.random() * 0.8));
 
-                // Update trail history
-                star.trailPositions.unshift(star.pos.clone());
-                star.trailPositions.pop();
-
-                // Write to buffer
-                for (let j = 0; j <= TRAIL_LENGTH; j++) {
-                    const p = star.trailPositions[j];
-                    const bufIdx = star.trailStartIdx + j;
-                    positions[bufIdx * 3]     = p.x;
-                    positions[bufIdx * 3 + 1] = p.y;
-                    positions[bufIdx * 3 + 2] = p.z;
-
-                    // Fade trail over ~5 seconds (based on distance in trail)
-                    alphas[bufIdx] = j < 30 ? 1.0 : (TRAIL_LENGTH - j) / (TRAIL_LENGTH - 30);
+                // Shift history
+                for (let j = TRAIL_LENGTH - 1; j > 0; j--) {
+                    trailPositions[i][j].copy(trailPositions[i][j - 1]);
                 }
+                trailPositions[i][0].copy(head);
+            }
 
-                // Reset if too far (rare, but keeps it infinite)
-                if (star.pos.length() > 1500) {
-                    star.active = false;
-                    star.pos.set((Math.random() - 0.5) * 400, (Math.random() - 0.5) * 400, (Math.random() - 0.5) * 400);
-                }
-            } else {
-                // Fade out when inactive
-                for (let j = 0; j <= TRAIL_LENGTH; j++) {
-                    alphas[star.trailStartIdx + j] *= 0.9;
-                }
+            for (let j = 0; j < TRAIL_LENGTH; j++) {
+                const p = trailPositions[i][j];
+                trailPosArray[posIdx++] = p.x;
+                trailPosArray[posIdx++] = p.y;
+                trailPosArray[posIdx++] = p.z;
+
+                // Glowing white -> soft purple/blue trail
+                const fade = trailAlphas[i] * (1 - j / TRAIL_LENGTH);
+                const hue = 0.7 + fade * 0.2; // Slight purple tint
+                const c = new THREE.Color().setHSL(hue, 0.8, 0.5 + fade * 0.5);
+                trailColorArray[colIdx++] = c.r * fade;
+                trailColorArray[colIdx++] = c.g * fade;
+                trailColorArray[colIdx++] = c.b * fade;
             }
         }
 
-        geometry.attributes.position.needsUpdate = true;
-        geometry.attributes.alpha.needsUpdate = true;
+        trailGeo.attributes.position.needsUpdate = true;
+        trailGeo.attributes.color.needsUpdate = true;
 
-        // Slow auto rotation
-        points.rotation.y += 0.00015;
+        // Very slow cosmic drift rotation
+        stars.rotation.y += 0.00008;
+        trails.rotation.y += 0.00008;
 
-        renderWithTrails();
+        renderer.render(scene, camera);
     }
 
-    animate(0);
+    animate();
 
     window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-        material.uniforms.scale.value = window.innerHeight / 2;
+        starMat.uniforms.scale.value = window.innerHeight / 2;
     });
 });
