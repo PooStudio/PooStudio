@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - POOSTUDIO</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Terms of Service - POOSTUDIO</title>
+    <link rel="icon" href="logo.png" type="image/png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +22,7 @@
             justify-content: center;
             overflow: hidden;
             opacity: 1;
-            transition: opacity 1.4s ease-out;
+            transition: opacity 1.6s ease-out;
         }
 
         #loading-screen.fade-out {
@@ -33,18 +35,26 @@
             color: #fff;
             max-width: 90%;
             pointer-events: none;
+            z-index: 10;
         }
 
         .loading-logo {
-            height: 100px;
+            height: 120px;
             margin-bottom: 50px;
-            filter: drop-shadow(0 0 25px #d97706);
-            transition: transform 1.2s ease;
+            filter: drop-shadow(0 0 30px #d97706);
+            opacity: 0;
+            animation: logoFadeIn 1.8s ease-out forwards 0.6s;
+            transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform;
         }
 
         .loading-logo.scale-up {
-            transform: scale(1.6);
+            transform: scale(2.2);
+        }
+
+        @keyframes logoFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .loading-title {
@@ -56,12 +66,12 @@
             background-clip: text;
             color: transparent;
             text-shadow: 0 0 40px rgba(217, 119, 6, 0.7);
-            animation: titlePulse 6s ease-in-out infinite alternate;
+            animation: titlePulse 5s ease-in-out infinite alternate;
         }
 
         @keyframes titlePulse {
             from { filter: brightness(1) hue-rotate(0deg); }
-            to { filter: brightness(1.3) hue-rotate(15deg); }
+            to { filter: brightness(1.4) hue-rotate(18deg); }
         }
 
         .loading-text {
@@ -70,7 +80,7 @@
             color: #d97706;
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
+            transition: all 1.4s ease-out;
             margin: 40px 0;
         }
 
@@ -94,6 +104,7 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #d97706, #ff6b00, #b8860b);
+            transition: width 0.6s ease-out, background 0.6s ease, box-shadow 0.6s ease;
             box-shadow: 0 0 25px #d97706;
             will-change: width;
         }
@@ -128,14 +139,15 @@
             cursor: pointer;
             opacity: 0;
             transition: all 0.4s ease;
+            pointer-events: all;
             box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
         }
 
         .retry-button:hover {
             background: #ef4444;
             color: #fff;
-            box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
-            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(239, 68, 68, 0.9);
+            transform: translateY(-4px);
         }
 
         .glitch-overlay {
@@ -143,16 +155,42 @@
             inset: 0;
             background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(217,119,6,0.05) 12px, rgba(217,119,6,0.05) 24px);
             pointer-events: none;
-            opacity: 0.2;
+            opacity: 0.3;
+            transition: opacity 0.8s ease;
+            will-change: transform, opacity;
+        }
+
+        .glitch-overlay.glitch-pulse {
+            animation: glitchPulse 1s ease-in-out;
+        }
+
+        @keyframes glitchPulse {
+            0%, 100% { opacity: 0.3; transform: translate(0) skew(0deg); }
+            15% { opacity: 0.7; transform: translate(-8px, 8px) skew(5deg); }
+            30% { opacity: 0.5; transform: translate(10px, -6px) skew(-8deg); }
+            50% { opacity: 0.8; transform: translate(-6px, -10px) skew(10deg); }
+            70% { opacity: 0.6; transform: translate(8px, 4px) skew(-6deg); }
+            85% { opacity: 0.4; transform: translate(-4px, 6px) skew(4deg); }
+        }
+
+        @keyframes intenseGlitch {
+            0% { clip-path: inset(0 0 0 0); transform: translate(0); }
+            10% { clip-path: inset(30% 0 60% 0); transform: translate(-5px, 5px); }
+            20% { clip-path: inset(70% 0 20% 0); transform: translate(8px, -8px); }
+            35% { clip-path: inset(10% 0 80% 0); transform: translate(-10px, 0); }
+            50% { clip-path: inset(50% 0 40% 0); transform: translate(6px, -10px); }
+            70% { clip-path: inset(80% 0 15% 0); transform: translate(-8px, 8px); }
+            100% { clip-path: inset(0 0 0 0); transform: translate(0); }
         }
 
         .scanlines {
             position: absolute;
             inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 6px);
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 6px);
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.5;
             animation: scan 12s linear infinite;
+            will-change: transform;
         }
 
         @keyframes scan {
@@ -166,11 +204,12 @@
             margin: 0;
             padding: 0;
             background-color: #0f0f0f;
+            color: #e0e0e0;
             background-image: linear-gradient(rgba(15,15,15,0.95), rgba(15,15,15,0.95)), url('https://via.placeholder.com/1920x1080/111111/333333?text=Subtle+Abstract+Texture');
             background-attachment: fixed;
             background-size: cover;
             min-height: 100vh;
-            color: #e0e0e0;
+            overflow-x: hidden;
         }
 
         .container {
@@ -231,13 +270,13 @@
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-            margin: 0 10px;
         }
         .back-link a:hover {
             background-color: #ffffff;
             color: #0f0f0f;
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(255, 107, 0, 0.5);
+            text-decoration: none;
         }
         footer {
             text-align: center;
@@ -251,202 +290,78 @@
         @media (max-width: 768px) {
             .container { margin: 40px auto; padding: 40px 20px; }
             h1 { font-size: 2.8em; }
+            .loading-title { font-size: 14vw; }
         }
     </style>
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
-<div id="loading-screen">
-    <div class="loading-content">
-        <!-- Embedded simple orange logo (so it never fails) -->
-        <svg class="loading-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#d97706" stroke-width="8"/>
-            <path d="M30 40 L40 60 L60 40 L70 60" stroke="#ff8c00" stroke-width="8" fill="none" stroke-linecap="round"/>
-            <circle cx="50" cy="50" r="15" fill="#d97706"/>
-        </svg>
+    <!-- CHAOTIC LOADING SCREEN -->
+    <div id="loading-screen">
+        <div class="loading-content">
 
-        <h1 class="loading-title">POOSTUDIO</h1>
+            <h1 class="loading-title">POOSTUDIO</h1>
 
-        <p class="loading-text">Loading Privacy Policy...</p>
+            <p class="loading-text">Loading Terms of Service...</p>
 
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+
+            <p class="error-message" id="error-message">
+                 No Signal.<br>
+                <span id="retry-text">Reconnecting to Terms...</span>
+            </p>
+
+            <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
         </div>
 
-        <p class="error-message" id="error-message">
-            No Signal.<br>
-            <span id="retry-text">Reconnecting to chaos...</span>
-        </p>
-
-        <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
+        <div class="glitch-overlay"></div>
+        <div class="scanlines"></div>
     </div>
 
-    <div class="glitch-overlay"></div>
-    <div class="scanlines"></div>
-</div>
+    <div id="main-content" style="display: none;">
+        <div class="container">
+            <h1>Terms of Service</h1>
+            <p class="effective-date">Effective Date: January 07, 2026</p>
 
-<!-- MAIN CONTENT -->
-<div id="main-content" style="display: none;">
-    <div class="container">
-        <h1>Privacy Policy</h1>
-        <p class="effective-date">Effective Date: January 07, 2026</p>
+            <p>Welcome to POOSTUDIO. These Terms of Service ("Terms") govern your access to and use of our website, services, digital products, and any related content (collectively, the "Services") provided by POOSTUDIO.</p>
 
-        <p>At POOSTUDIO, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines our practices regarding the collection, use, and protection of your data when you visit our website or use our services.</p>
+            <p>By accessing or using our Services, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our Services.</p>
 
-        <p>If you do not agree with this policy, please do not access or use our services. We may update this policy periodically, and continued use of the site after changes constitutes acceptance of the revised terms.</p>
+            <h2>1. Use of Our Services</h2>
+            <p>You may use our Services only for lawful purposes and in accordance with these Terms. You agree not to:</p>
+            <ul>
+                <li>Use the Services in any way that violates any applicable national or international law or regulation</li>
+                <li>Attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Services</li>
+                <li>Engage in any conduct that restricts or inhibits anyone’s use or enjoyment of the Services</li>
+                <li>Use any robot, spider, or other automatic device, process, or means to access the Services for any purpose</li>
+                <li>Copy, reproduce, distribute, modify, create derivative works of, publicly display, or exploit any part of the Services without our express written permission</li>
+            </ul>
 
-        <h2>1. Information We Collect</h2>
-        <p>We collect information to provide, improve, and personalize our services. The types of information we may collect include:</p>
-        <ul>
-            <li><strong>Personal Information:</strong> Data that identifies you personally, such as your name, email address, postal address, phone number, or payment information, which you voluntarily provide.</li>
-            <li><strong>Usage Data:</strong> Automatically collected information about your interactions with our site, including IP address, browser type, operating system, referral sources, pages viewed, and timestamps.</li>
-            <li><strong>Device Information:</strong> Details about the device you use to access our site, such as hardware model, unique device identifiers, mobile network information, and location data (if enabled).</li>
-            <li><strong>Cookies and Similar Technologies:</strong> We use cookies, web beacons, pixel tags, and local storage to track user activity, store preferences, and enhance functionality.</li>
-            <li><strong>Third-Party Data:</strong> Information from third-party services, such as social media platforms or analytics providers, if you link accounts or interact with integrated features.</li>
-        </ul>
-
-        <h2>2. How We Use Your Information</h2>
-        <p>We use the collected information for legitimate business purposes, including:</p>
-        <ul>
-            <li>Providing and maintaining our website and services.</li>
-            <li>Processing transactions, subscriptions, and requests.</li>
-            <li>Personalizing content, recommendations, and user experience.</li>
-            <li>Communicating with you, including sending newsletters, updates, promotional materials, and responding to inquiries.</li>
-            <li>Analyzing usage patterns to improve site performance, features, and security.</li>
-            <li>Detecting, preventing, and addressing technical issues, fraud, or illegal activities.</li>
-            <li>Complying with legal obligations, resolving disputes, and enforcing agreements.</li>
-            <li>Conducting research and development to enhance our offerings.</li>
-        </ul>
-
-        <h2>3. Sharing and Disclosure of Information</h2>
-        <p>We do not sell, rent, or trade your personal information to third parties for marketing purposes. However, we may share information in the following circumstances:</p>
-        <ul>
-            <li><strong>Service Providers:</strong> With trusted vendors and partners who assist in operating our site.</li>
-            <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or asset sales.</li>
-            <li><strong>Legal Requirements:</strong> To comply with laws, regulations, court orders, or to protect rights and safety.</li>
-            <li><strong>Aggregated Data:</strong> Non-personally identifiable information for research or marketing.</li>
-            <li><strong>With Your Consent:</strong> For any other purpose with your explicit permission.</li>
-        </ul>
-
-        <h2>4. Data Security</h2>
-        <p>We implement encryption, firewalls, access controls, and regular security assessments. In the event of a breach, we will notify affected users as required by law.</p>
-
-        <h2>5. Cookies and Tracking Technologies</h2>
-        <p>You can manage cookies in your browser settings. Disabling them may limit functionality.</p>
-
-        <h2>6. Third-Party Links and Services</h2>
-        <p>We are not responsible for the privacy practices of external sites linked from our website.</p>
-
-        <h2>7. Children's Privacy</h2>
-        <p>Our services are not intended for children under 13 (or 16 in some jurisdictions).</p>
-
-        <h2>8. International Data Transfers</h2>
-        <p>By using our site, you consent to data transfers outside your jurisdiction with appropriate safeguards.</p>
-
-        <h2>9. Your Rights and Choices</h2>
-        <p>You may have rights to access, correct, delete, or port your data. Contact us at poostudioo@gmail.com to exercise them.</p>
-
-        <h2>10. Data Retention</h2>
-        <p>We retain data only as long as necessary or required by law.</p>
-
-        <h2>11. Changes to This Privacy Policy</h2>
-        <p>Updates will be posted here with a new effective date.</p>
-
-        <h2>12. Contact Us</h2>
-        <p>POOSTUDIO<br>Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>Phone: (915) 209-5101</p>
+            <h2>11. Contact Us</h2>
+            <p>If you have any questions about these Terms, please contact us at:</p>
+            <p>
+                POOSTUDIO<br><br>
+                Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>
+                Phone: (915) 209-5101
+            </p>
 
         <div class="back-link">
             <a href="index.html">← Return to Home</a>
-            <a href="terms.html">View Terms of Service →</a>
+            <a href="privacy.html">View Privacy Policy →</a>
         </div>
 
         <footer>
             <p>© <span id="year"></span> PooStudio</p>
         </footer>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const loadingScreen = document.getElementById('loading-screen');
-        const mainContent = document.getElementById('main-content');
-        const loadingText = document.querySelector('.loading-text');
-        const progressBar = document.querySelector('.loading-progress');
-        const errorMessage = document.getElementById('error-message');
-        const retryBtn = document.getElementById('retry-btn');
-        const logo = document.querySelector('.loading-logo');
+    <script src="loading.js"></script>
 
-        let loadProgress = 0;
-        let animationId;
-
-        function updateProgress() {
-            if (loadProgress < 92) {
-                loadProgress += Math.random() * 6 + 2;
-                progressBar.style.width = Math.min(loadProgress, 92) + '%';
-                animationId = requestAnimationFrame(updateProgress);
-            }
-        }
-
-        function startLoading() {
-            loadProgress = 0;
-            loadingText.classList.add('revealed');
-            errorMessage.style.display = 'none';
-            retryBtn.style.opacity = '0';
-            retryBtn.style.display = 'none';
-            progressBar.style.width = '0%';
-            progressBar.style.background = 'linear-gradient(90deg, #d97706, #ff6b00, #b8860b)';
-            updateProgress();
-        }
-
-        function completeLoading() {
-            cancelAnimationFrame(animationId);
-            progressBar.style.width = '100%';
-            setTimeout(() => {
-                loadingScreen.classList.add('fade-out');
-                if (logo) logo.classList.add('scale-up');
-                setTimeout(() => {
-                    mainContent.style.display = 'block';
-                    setTimeout(() => loadingScreen.remove(), 1400);
-                }, 800);
-            }, 400);
-        }
-
-        function showError() {
-            cancelAnimationFrame(animationId);
-            progressBar.style.width = '100%';
-            progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
-            progressBar.style.boxShadow = '0 0 20px #ef4444';
-            loadingText.style.opacity = '0';
-            errorMessage.style.display = 'block';
-            setTimeout(() => errorMessage.style.opacity = '1', 100);
-            retryBtn.style.display = 'block';
-            setTimeout(() => retryBtn.style.opacity = '1', 400);
-        }
-
-        startLoading();
-
-        // Fallback timer in case something goes wrong
-        const loadTimer = setTimeout(showError, 14000);
-
-        window.addEventListener('load', () => {
-            clearTimeout(loadTimer);
-            completeLoading();
-        });
-
-        retryBtn.addEventListener('click', () => {
-            startLoading();
-            setTimeout(() => {
-                if (navigator.onLine) completeLoading();
-                else showError();
-            }, 1500);
-        });
-
-        if (!navigator.onLine) showError();
-    });
-
-    // Update copyright year
-    document.getElementById('year').textContent = new Date().getFullYear();
-</script>
+    <script>
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
