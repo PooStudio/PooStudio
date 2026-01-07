@@ -1,186 +1,194 @@
 window.addEventListener("load", () => {
-    document.getElementById("year").textContent = "PooStudio " + new Date().getFullYear();
+    // Update footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
 
     const container = document.getElementById("three-container");
+    if (!container) return;
+
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0a0a); // Deep dark studio backdrop
+    scene.background = new THREE.Color(0x0f0c14); // dark purple-ish bg for contrast
 
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 160; // Slightly pulled back for perfect jewel-like showcase
+    // Camera — start farther away
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.5, 800);
+    camera.position.set(0, 18, 180);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
     container.appendChild(renderer.domElement);
 
-    const jewelGroup = new THREE.Group();
-    scene.add(jewelGroup);
+    // Main group — everything rotates together
+    const poopGroup = new THREE.Group();
+    scene.add(poopGroup);
 
-    // === Redesigned particle distribution for sleek, tapered jewel / plug shape ===
-    const PARTICLE_COUNT = 6000;
-    const LENGTH = 90;        // Shorter, more compact
-    const BASE_RADIUS_TOP = 8; // Narrow top
-    const BASE_RADIUS_BOTTOM = 28; // Wide flared base
-    const NECK_RADIUS = 12;   // Constricted neck for classic plug silhouette
+    // Constants
+    const PARTICLE_COUNT = 5200;
+    const LOG_LENGTH = 110;
+    const BASE_RADIUS = 19;
 
     const positions = new Float32Array(PARTICLE_COUNT * 3);
     const basePositions = new Float32Array(PARTICLE_COUNT * 3);
     const colors = new Float32Array(PARTICLE_COUNT * 3);
+    const sizes = new Float32Array(PARTICLE_COUNT);
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const u = Math.random();
-        const s = u; // Linear along length for better control
+        const u = i / (PARTICLE_COUNT - 1); // more even distribution
+        const s = u;                        // 0 → 1 along length
 
-        // Axial position (from bottom to top)
-        let x = (s - 0.5) * LENGTH;
+        // Slight natural curve
+        const bend = Math.sin(s * Math.PI) * 11;
 
-        // Define radius along the length for plug shape
-        let section = s;
-        let radius;
-        if (section < 0.25) {
-            // Flared base
-            radius = BASE_RADIUS_BOTTOM * (1 - section / 0.25);
-        } else if (section < 0.4) {
-            // Neck constriction
-            radius = NECK_RADIUS + (BASE_RADIUS_BOTTOM - NECK_RADIUS) * ((section - 0.25) / 0.15);
-            radius = NECK_RADIUS; // Sharp neck
-        } else if (section < 0.8) {
-            // Main body - gentle taper
-            radius = NECK_RADIUS + (BASE_RADIUS_TOP - NECK_RADIUS) * ((section - 0.4) / 0.4);
-        } else {
-            // Taper to narrow top
-            radius = BASE_RADIUS_TOP * (1 - (section - 0.8) / 0.2);
-        }
+        // Taper + lumps + variation
+        const taper = 1 - Math.pow(Math.abs(s - 0.5) * 2, 2.4);
+        const lump = Math.sin(s * Math.PI * 16) * 4.2 + Math.sin(s * Math.PI * 7.5) * 2.8;
+        const noise = (Math.random() - 0.5) * 3.2;
 
-        // Add organic lumps and noise
-        const lump = Math.sin(s * Math.PI * 12) * 3 + Math.sin(s * Math.PI * 5) * 2;
-        const noise = (Math.random() - 0.5) * 2.5;
-        radius += lump + noise;
-        radius = Math.max(3, radius); // Prevent negative
+        const radius = BASE_RADIUS * taper + lump + noise;
 
-        const theta = Math.random() * Math.PI * 2;
+        const theta = Math.random() * Math.PI * 2 + s * 4; // slight twist along length
 
-        let posY = radius * Math.cos(theta);
-        let posZ = radius * Math.sin(theta);
+        const x = (s - 0.5) * LOG_LENGTH;
+        const y = radius * Math.cos(theta) + bend;
+        const z = radius * Math.sin(theta);
 
-        // Subtle overall bend for elegance
-        const bend = Math.sin(s * Math.PI) * 5;
-        posY += bend;
+        // Small random offset
+        const ox = (Math.random() - 0.5) * 4.5;
+        const oy = (Math.random() - 0.5) * 3.8;
+        const oz = (Math.random() - 0.5) * 4.5;
 
-        positions.set([x, posY, posZ], i * 3);
-        basePositions.set([x, posY, posZ], i * 3);
+        positions.set([x + ox, y + oy, z + oz], i * 3);
+        basePositions.set([x + ox, y + oy, z + oz], i * 3);
 
-        // Luxurious metallic jewel tones – chrome/silver with purple-blue iridescence
-        const hue = 0.65 + Math.random() * 0.1; // Purple-blue range
-        const saturation = 0.4 + Math.random() * 0.4;
-        const lightness = 0.35 + Math.random() * 0.3 + Math.max(0, lump) * 0.05;
-        const c = new THREE.Color().setHSL(hue, saturation, lightness);
-        colors.set([c.r, c.g, c.b], i * 3);
+        // Rich poop palette: deep brown → lighter cracked areas
+        const hue = 0.055 + Math.random() * 0.04;
+        const sat = 0.68 + Math.random() * 0.22;
+        const lit = 0.07 + Math.random() * 0.11 + Math.max(0, lump * 0.06);
+        const col = new THREE.Color().setHSL(hue, sat, lit);
+
+        colors.set([col.r, col.g, col.b], i * 3);
+
+        // Vary point size a bit
+        sizes[i] = 0.5 + Math.random() * 1.1;
     }
 
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
     geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
 
-    const points = new THREE.Points(
-        geometry,
-        new THREE.PointsMaterial({
-            size: 0.6,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.95,
-            depthWrite: false,
-            blending: THREE.AdditiveBlending
-        })
-    );
-    jewelGroup.add(points);
+    // Nice glowing points
+    const material = new THREE.PointsMaterial({
+        size: 1.4,
+        sizeAttenuation: true,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.94,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    });
 
-    // Delicate connection lines
-    const MAX_CONNECTIONS = 14000;
-    const linePositions = new Float32Array(MAX_CONNECTIONS * 6);
+    const points = new THREE.Points(geometry, material);
+    poopGroup.add(points);
+
+    // === Subtle connecting web (looks way better with glow) ===
+    const MAX_LINES = 12000;
+    const linePositions = new Float32Array(MAX_LINES * 6);
     const lineGeo = new THREE.BufferGeometry();
     lineGeo.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
 
-    const lines = new THREE.LineSegments(
-        lineGeo,
-        new THREE.LineBasicMaterial({
-            color: 0x4466aa,
-            transparent: true,
-            opacity: 0.25,
-            depthWrite: false,
-            blending: THREE.AdditiveBlending
-        })
-    );
-    jewelGroup.add(lines);
+    const lineMat = new THREE.LineBasicMaterial({
+        color: 0x2a1808,
+        transparent: true,
+        opacity: 0.14,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    });
+
+    const lines = new THREE.LineSegments(lineGeo, lineMat);
+    poopGroup.add(lines);
+
+    // Mouse / touch control
+    const pointer = { x: 0, y: 0 };
+    window.addEventListener("mousemove", e => {
+        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+        pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+    window.addEventListener("touchmove", e => {
+        const touch = e.touches[0];
+        pointer.x = (touch.clientX / window.innerWidth) * 2 - 1;
+        pointer.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+    }, { passive: true });
 
     function updateConnections() {
-        let idx = 0;
+        let count = 0;
         const pos = geometry.attributes.position.array;
-        const maxDistSq = 196;
+        const maxDistSq = 18 ** 2; // tighter connections = cleaner look
 
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-            for (let j = i + 1; j < PARTICLE_COUNT; j++) {
+        for (let i = 0; i < PARTICLE_COUNT; i += 2) {   // skip some → faster
+            for (let j = i + 1; j < PARTICLE_COUNT; j += 2) {
                 const i3 = i * 3, j3 = j * 3;
-                const dx = pos[i3] - pos[j3];
-                const dy = pos[i3+1] - pos[j3+1];
-                const dz = pos[i3+2] - pos[j3+2];
+                const dx = pos[i3]     - pos[j3];
+                const dy = pos[i3 + 1] - pos[j3 + 1];
+                const dz = pos[i3 + 2] - pos[j3 + 2];
                 if (dx*dx + dy*dy + dz*dz < maxDistSq) {
-                    linePositions[idx++] = pos[i3];   linePositions[idx++] = pos[i3+1];   linePositions[idx++] = pos[i3+2];
-                    linePositions[idx++] = pos[j3];   linePositions[idx++] = pos[j3+1];   linePositions[idx++] = pos[j3+2];
-                    if (idx >= MAX_CONNECTIONS * 6) {
-                        lineGeo.setDrawRange(0, idx / 3);
-                        lineGeo.attributes.position.needsUpdate = true;
-                        return;
-                    }
+                    linePositions[count++] = pos[i3];     linePositions[count++] = pos[i3+1];     linePositions[count++] = pos[i3+2];
+                    linePositions[count++] = pos[j3];     linePositions[count++] = pos[j3+1];     linePositions[count++] = pos[j3+2];
+                    if (count >= MAX_LINES * 6) break;
                 }
             }
+            if (count >= MAX_LINES * 6) break;
         }
-        lineGeo.setDrawRange(0, idx / 3);
+        lineGeo.setDrawRange(0, count / 3);
         lineGeo.attributes.position.needsUpdate = true;
     }
 
-    // Studio lighting – dramatic jewel showcase
-    const ambient = new THREE.AmbientLight(0x404060, 0.8);
-    scene.add(ambient);
-    const keyLight = new THREE.DirectionalLight(0xaaccff, 1.5);
-    keyLight.position.set(60, 100, 80);
-    scene.add(keyLight);
-    const rimLight = new THREE.DirectionalLight(0xff88cc, 1);
-    rimLight.position.set(-60, -50, -80);
-    scene.add(rimLight);
-
     let time = 0;
     let frame = 0;
-    function animate() {
+
+    function animate(now) {
         requestAnimationFrame(animate);
-        time += 0.01;
+        time = now * 0.001;
 
-        const pulse = 1 + Math.sin(time * 0.9) * 0.008;
-        jewelGroup.scale.setScalar(pulse);
+        // Gentle constant spin
+        poopGroup.rotation.y += 0.0009;
 
+        // Mouse influence — smooth tilt + tiny orbit
+        const targetRotX = 0.22 + pointer.y * 0.18;
+        const targetRotYExtra = pointer.x * 0.008;
+        poopGroup.rotation.x += (targetRotX - poopGroup.rotation.x) * 0.08;
+        poopGroup.rotation.y += targetRotYExtra;
+
+        // Very gentle breathing
+        const pulse = 1 + Math.sin(time * 0.7) * 0.007;
+        poopGroup.scale.setScalar(pulse);
+
+        // Organic wobble — slower & subtler
         const pos = geometry.attributes.position.array;
         for (let i = 0; i < PARTICLE_COUNT; i++) {
             const i3 = i * 3;
-            const phase = time * 0.7 + i * 0.01;
-            pos[i3]   = basePositions[i3]   + Math.sin(phase) * 0.8;
-            pos[i3+1] = basePositions[i3+1] + Math.cos(phase * 1.3) * 0.6;
-            pos[i3+2] = basePositions[i3+2] + Math.sin(phase * 0.9) * 0.7;
+            const phase = time * 0.45 + i * 0.007;
+            pos[i3]     = basePositions[i3]     + Math.sin(phase)         * 0.8;
+            pos[i3 + 1] = basePositions[i3 + 1] + Math.cos(phase * 1.35)  * 0.65;
+            pos[i3 + 2] = basePositions[i3 + 2] + Math.sin(phase * 0.92)  * 0.75;
         }
         geometry.attributes.position.needsUpdate = true;
 
-        // Slow, luxurious rotation
-        jewelGroup.rotation.y += 0.002;
-        jewelGroup.rotation.x = 0.1 + Math.sin(time * 0.4) * 0.05;
-
-        camera.lookAt(0, 0, 0);
-
+        // Update connections every 4 frames
         if (frame++ % 4 === 0) updateConnections();
+
+        // Gentle camera breathing + mouse follow
+        camera.position.y = 18 + Math.sin(time * 0.4) * 6 + pointer.y * 28;
+        camera.position.x = pointer.x * 20;
+        camera.lookAt(poopGroup.position);
 
         renderer.render(scene, camera);
     }
 
-    animate();
+    animate(0);
 
+    // Resize handler
     window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
