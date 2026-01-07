@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" href="logo.png" type="image/png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Privacy Policy - POOSTUDIO</title>
+    <link rel="icon" href="logo.png" type="image/png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap');
-
         #loading-screen {
             position: fixed;
             inset: 0;
@@ -23,15 +21,13 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            transition: opacity 1.2s ease-out;
+            opacity: 1;
+            transition: opacity 1.4s ease-out;
         }
 
         #loading-screen.fade-out {
-            animation: fadeOut 1.4s ease-out forwards;
-        }
-
-        @keyframes fadeOut {
-            to { opacity: 0; transform: scale(1.1); }
+            opacity: 0;
+            pointer-events: none;
         }
 
         .loading-content {
@@ -46,6 +42,7 @@
             margin-bottom: 50px;
             filter: drop-shadow(0 0 25px #d97706);
             transition: transform 1.2s ease;
+            will-change: transform;
         }
 
         .loading-logo.scale-up {
@@ -61,7 +58,7 @@
             background-clip: text;
             color: transparent;
             text-shadow: 0 0 40px rgba(217, 119, 6, 0.7);
-            animation: titlePulse 5s ease-in-out infinite alternate;
+            animation: titlePulse 6s ease-in-out infinite alternate;
         }
 
         @keyframes titlePulse {
@@ -75,7 +72,7 @@
             color: #d97706;
             opacity: 0;
             transform: translateY(40px);
-            transition: all 1.4s ease-out;
+            transition: opacity 1s ease-out, transform 1s ease-out;
             margin: 40px 0;
         }
 
@@ -99,8 +96,8 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #d97706, #ff6b00, #b8860b);
-            transition: width 0.6s ease, background 0.5s;
             box-shadow: 0 0 25px #d97706;
+            will-change: width;
         }
 
         .error-message {
@@ -149,19 +146,8 @@
             inset: 0;
             background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(217,119,6,0.05) 12px, rgba(217,119,6,0.05) 24px);
             pointer-events: none;
-            opacity: 0.3;
-            transition: opacity 0.8s;
-        }
-
-        .glitch-overlay.glitch-pulse {
-            animation: glitchPulse 0.8s ease;
-        }
-
-        @keyframes glitchPulse {
-            0%, 100% { transform: translate(0); opacity: 0.3; }
-            25% { transform: translate(-6px, 6px); opacity: 0.7; }
-            50% { transform: translate(6px, -6px); opacity: 0.6; }
-            75% { transform: translate(-4px, -4px); opacity: 0.8; }
+            opacity: 0.2;
+            will-change: transform;
         }
 
         .scanlines {
@@ -169,8 +155,9 @@
             inset: 0;
             background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 6px);
             pointer-events: none;
-            opacity: 0.5;
-            animation: scan 10s linear infinite;
+            opacity: 0.4;
+            animation: scan 12s linear infinite;
+            will-change: transform;
         }
 
         @keyframes scan {
@@ -211,19 +198,60 @@
             padding-bottom: 20px;
         }
 
-        h2 { font-family: 'Playfair Display', serif; font-size: 2em; margin-top: 60px; margin-bottom: 20px; color: #ffffff; position: relative; padding-left: 20px; }
-        h2::before { content: ''; position: absolute; left: 0; top: 50%; height: 60%; width: 4px; background-color: #ff6b00; transform: translateY(-50%); }
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            margin-top: 60px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            height: 60%;
+            width: 4px;
+            background-color: #ff6b00;
+            transform: translateY(-50%);
+        }
+
         p { margin-bottom: 25px; font-weight: 300; }
         ul { margin-left: 30px; margin-bottom: 25px; }
         li { margin-bottom: 12px; position: relative; padding-left: 15px; }
         li::before { content: '•'; color: #ff6b00; position: absolute; left: 0; }
+        strong { color: #ffffff; }
         a { color: #ff6b00; text-decoration: none; transition: color 0.3s ease; }
         a:hover { color: #ffffff; text-decoration: underline; }
         .effective-date { font-style: italic; color: #aaaaaa; text-align: center; margin-bottom: 50px; font-size: 1.1em; }
         .back-link { display: block; margin-top: 80px; text-align: center; }
-        .back-link a { background-color: #ff6b00; color: #0f0f0f; padding: 15px 30px; border-radius: 50px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3); }
-        .back-link a:hover { background-color: #ffffff; color: #0f0f0f; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 107, 0, 0.5); text-decoration: none; }
-        footer { text-align: center; margin-top: 80px; color: #666666; font-size: 0.9em; padding: 20px; border-top: 1px solid #333; }
+        .back-link a {
+            background-color: #ff6b00;
+            color: #0f0f0f;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+        }
+        .back-link a:hover {
+            background-color: #ffffff;
+            color: #0f0f0f;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.5);
+            text-decoration: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            color: #666666;
+            font-size: 0.9em;
+            padding: 20px;
+            border-top: 1px solid #333;
+        }
 
         @media (max-width: 768px) {
             .container { margin: 40px auto; padding: 40px 20px; }
@@ -233,13 +261,13 @@
 </head>
 <body>
 
-    <div id="loading-screen" class="loading-active">
+    <div id="loading-screen">
         <div class="loading-content">
             <img src="logo.png" alt="PooStudio logo" class="loading-logo">
 
             <h1 class="loading-title">POOSTUDIO</h1>
 
-            <p class="loading-text">Forged in chaos...</p>
+            <p class="loading-text">Privacy Policy...</p>
 
             <div class="loading-bar">
                 <div class="loading-progress"></div>
@@ -258,7 +286,6 @@
     </div>
 
     <div id="main-content" style="display: none;">
-
         <div class="container">
             <h1>Privacy Policy</h1>
             <p class="effective-date">Effective Date: January 07, 2026</p>
@@ -277,11 +304,74 @@
                 <li><strong>Third-Party Data:</strong> Information from third-party services, such as social media platforms or analytics providers, if you link accounts or interact with integrated features.</li>
             </ul>
 
+            <h2>2. How We Use Your Information</h2>
+            <p>We use the collected information for legitimate business purposes, including:</p>
+            <ul>
+                <li>Providing and maintaining our website and services.</li>
+                <li>Processing transactions, subscriptions, and requests.</li>
+                <li>Personalizing content, recommendations, and user experience.</li>
+                <li>Communicating with you, including sending newsletters, updates, promotional materials, and responding to inquiries.</li>
+                <li>Analyzing usage patterns to improve site performance, features, and security.</li>
+                <li>Detecting, preventing, and addressing technical issues, fraud, or illegal activities.</li>
+                <li>Complying with legal obligations, resolving disputes, and enforcing agreements.</li>
+                <li>Conducting research and development to enhance our offerings.</li>
+            </ul>
+
+            <h2>3. Sharing and Disclosure of Information</h2>
+            <p>We do not sell, rent, or trade your personal information to third parties for marketing purposes. However, we may share information in the following circumstances:</p>
+            <ul>
+                <li><strong>Service Providers:</strong> With trusted vendors and partners who assist in operating our site, such as hosting providers, payment processors, analytics firms, and marketing agencies.</li>
+                <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, asset sales, or other business transactions where your information may be transferred as a business asset.</li>
+                <li><strong>Legal Requirements:</strong> To comply with laws, regulations, court orders, subpoenas, or government requests; to protect our rights, property, or safety; or to prevent harm to others.</li>
+                <li><strong>Aggregated Data:</strong> Non-personally identifiable information may be shared for research, marketing, or statistical purposes.</li>
+                <li><strong>With Your Consent:</strong> For any other purpose with your explicit permission.</li>
+            </ul>
+
+            <h2>4. Data Security</h2>
+            <p>We implement robust security measures to protect your information from unauthorized access, alteration, disclosure, or destruction. These include encryption (e.g., SSL/TLS for data transmission), firewalls, access controls, and regular security assessments.</p>
+            <p>In the event of a data breach, we will notify affected users and authorities as required by law.</p>
+
+            <h2>5. Cookies and Tracking Technologies</h2>
+            <p>Cookies help us remember your preferences and track site usage. You can manage cookies through your browser settings:</p>
+            <ul>
+                <li>Accept all cookies.</li>
+                <li>Reject all cookies.</li>
+                <li>Be notified when a cookie is set.</li>
+            </ul>
+            <p>Disabling cookies may limit site functionality. We may use third-party services like Google Analytics, which have their own privacy policies.</p>
+
+            <h2>6. Third-Party Links and Services</h2>
+            <p>Our site may contain links to external websites or integrate third-party services. We are not responsible for their content, practices, or privacy policies. We recommend reviewing their terms and policies before interacting.</p>
+
+            <h2>7. Children's Privacy</h2>
+            <p>Our services are not intended for individuals under the age of 13 (or 16 in certain jurisdictions). We do not knowingly collect personal information from children. If we discover such data has been collected, we will delete it promptly.</p>
+
+            <h2>8. International Data Transfers</h2>
+            <p>Your information may be processed and stored in countries outside your jurisdiction, where data protection laws may differ. By using our site, you consent to such transfers. We ensure appropriate safeguards are in place.</p>
+
+            <h2>9. Your Rights and Choices</h2>
+            <p>Depending on your location, you may have rights under data protection laws (e.g., GDPR, CCPA), including:</p>
+            <ul>
+                <li>Access: Request a copy of your personal data.</li>
+                <li>Rectification: Correct inaccurate information.</li>
+                <li>Deletion: Request erasure of your data ("right to be forgotten").</li>
+                <li>Objection: Opt-out of processing for certain purposes.</li>
+                <li>Portability: Receive your data in a structured format.</li>
+                <li>Withdraw Consent: Revoke previously given consent.</li>
+            </ul>
+            <p>To exercise these rights, contact us at poostudioo@gmail.com. We may require verification of your identity. We respond to requests within applicable timeframes (e.g., 30 days under GDPR).</p>
+            <p>You can also opt-out of marketing communications by following unsubscribe links or contacting us.</p>
+
+            <h2>10. Data Retention</h2>
+            <p>We retain personal information only as long as necessary for the purposes outlined in this policy, or as required by law. Criteria include the nature of the data, legal obligations, and potential disputes.</p>
+
+            <h2>11. Changes to This Privacy Policy</h2>
+            <p>We may revise this policy to reflect changes in our practices, technology, or legal requirements. Updates will be posted on this page with a new effective date. For significant changes, we may provide additional notice.</p>
 
             <h2>12. Contact Us</h2>
             <p>If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact our Data Protection Officer at:</p>
             <p>
-                POOSTUDIO<br>
+                POOSTUDIO<br><br>
                 Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>
                 Phone: (915) 209-5101
             </p>
@@ -303,64 +393,46 @@
             const loadingText = document.querySelector('.loading-text');
             const progressBar = document.querySelector('.loading-progress');
             const errorMessage = document.getElementById('error-message');
-            const retryText = document.getElementById('retry-text');
             const retryBtn = document.getElementById('retry-btn');
-            const glitchOverlay = document.querySelector('.glitch-overlay');
             const logo = document.querySelector('.loading-logo');
 
-            let isErrorState = false;
             let loadProgress = 0;
-            let fakeProgressInterval;
-            let glitchInterval;
-            let reconnectAttempts = 0;
+            let animationId;
+
+            function updateProgress() {
+                if (loadProgress < 92) {
+                    loadProgress += Math.random() * 6 + 2;
+                    progressBar.style.width = Math.min(loadProgress, 92) + '%';
+                    animationId = requestAnimationFrame(updateProgress);
+                }
+            }
 
             function startLoading() {
-                isErrorState = false;
                 loadProgress = 0;
-                loadingText.style.opacity = '1';
                 loadingText.classList.add('revealed');
                 errorMessage.style.display = 'none';
-                errorMessage.style.opacity = '0';
-                retryBtn.style.display = 'none';
                 retryBtn.style.opacity = '0';
+                retryBtn.style.display = 'none';
                 progressBar.style.width = '0%';
-                progressBar.style.background = 'linear-gradient(90deg, #d97706, #ff6b00, #b8860b)';
-                retryText.textContent = 'Reconnecting to chaos...';
 
-                fakeProgressInterval = setInterval(() => {
-                    if (loadProgress < 92) {
-                        loadProgress += Math.random() * 10 + 3;
-                        progressBar.style.width = Math.min(loadProgress, 92) + '%';
-                    }
-                }, 400);
-
-                glitchInterval = setInterval(() => {
-                    glitchOverlay.classList.add('glitch-pulse');
-                    setTimeout(() => glitchOverlay.classList.remove('glitch-pulse'), 600);
-                }, 3000 + Math.random() * 4000);
+                updateProgress();
             }
 
             function completeLoading() {
-                clearInterval(fakeProgressInterval);
-                clearInterval(glitchInterval);
+                cancelAnimationFrame(animationId);
                 progressBar.style.width = '100%';
                 setTimeout(() => {
                     loadingScreen.classList.add('fade-out');
                     logo.classList.add('scale-up');
                     setTimeout(() => {
                         mainContent.style.display = 'block';
-                        setTimeout(() => {
-                            loadingScreen.style.display = 'none';
-                        }, 1200);
+                        setTimeout(() => loadingScreen.remove(), 1400);
                     }, 800);
-                }, 600);
+                }, 400);
             }
 
             function showError() {
-                if (isErrorState) return;
-                isErrorState = true;
-                clearInterval(fakeProgressInterval);
-                clearInterval(glitchInterval);
+                cancelAnimationFrame(animationId);
                 progressBar.style.width = '100%';
                 progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
                 progressBar.style.boxShadow = '0 0 20px #ef4444';
@@ -369,42 +441,29 @@
                 setTimeout(() => errorMessage.style.opacity = '1', 100);
                 retryBtn.style.display = 'block';
                 setTimeout(() => retryBtn.style.opacity = '1', 400);
-                glitchOverlay.style.opacity = '0.8';
-                glitchOverlay.style.animation = 'glitchPulse 1.2s infinite steps(8)';
             }
 
             startLoading();
 
-            const loadTimer = setTimeout(showError, 15000);
+            const loadTimer = setTimeout(showError, 14000);
 
             window.addEventListener('load', () => {
                 clearTimeout(loadTimer);
-                if (!isErrorState) completeLoading();
+                completeLoading();
             });
 
             retryBtn.addEventListener('click', () => {
-                reconnectAttempts = 0;
                 startLoading();
                 setTimeout(() => {
                     if (navigator.onLine) completeLoading();
                     else showError();
-                }, 2000);
+                }, 1500);
             });
 
-            window.addEventListener('online', () => {
-                if (isErrorState && reconnectAttempts < 10) {
-                    reconnectAttempts++;
-                    retryText.textContent = `Reconnecting... (${reconnectAttempts}/10)`;
-                    setTimeout(() => { startLoading(); setTimeout(completeLoading, 1800); }, 1000);
-                }
-            });
-
-            window.addEventListener('error', showError);
             if (!navigator.onLine) showError();
         });
 
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
-
 </body>
 </html>
