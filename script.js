@@ -5,10 +5,9 @@ window.addEventListener("load", () => {
     if (!container) return;
 
     const scene = new THREE.Scene();
-    // No scene.background set → canvas is transparent
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.5, 1000);
-    camera.position.set(0, 20, 220);
+    camera.position.set(0, 10, 180);           // camera a bit lower + farther
 
     const renderer = new THREE.WebGLRenderer({
         antialias: true,
@@ -16,13 +15,14 @@ window.addEventListener("load", () => {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0); // fully transparent
+    renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.2;
     renderer.domElement.style.background = "transparent";
     container.appendChild(renderer.domElement);
 
     const poopGroup = new THREE.Group();
+    poopGroup.position.y = 25;                 // ← moved higher up on screen
     scene.add(poopGroup);
 
     const PARTICLE_COUNT = 5200;
@@ -84,6 +84,7 @@ window.addEventListener("load", () => {
     const points = new THREE.Points(geometry, material);
     poopGroup.add(points);
 
+    // Connecting web
     const MAX_LINES = 11000;
     const linePositions = new Float32Array(MAX_LINES * 6);
     const lineGeo = new THREE.BufferGeometry();
@@ -100,6 +101,7 @@ window.addEventListener("load", () => {
     const lines = new THREE.LineSegments(lineGeo, lineMat);
     poopGroup.add(lines);
 
+    // Mouse / touch control – stronger response now
     const pointer = { x: 0, y: 0 };
     window.addEventListener("mousemove", e => {
         pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -141,16 +143,20 @@ window.addEventListener("load", () => {
         requestAnimationFrame(animate);
         time = now * 0.001;
 
-        poopGroup.rotation.y += 0.00085;
+        // Slow constant self-rotation
+        poopGroup.rotation.y += 0.0009;          // gentle spin
 
-        const targetTiltX = 0.25 + pointer.y * 0.22;
-        const targetExtraY = pointer.x * 0.009;
-        poopGroup.rotation.x += (targetTiltX - poopGroup.rotation.x) * 0.09;
-        poopGroup.rotation.y += targetExtraY;
+        // Mouse/touch control – stronger tilt & horizontal drag feel
+        const targetTiltX = pointer.y * 0.7;     // up/down → more tilt
+        const targetTiltY = pointer.x * 0.5;     // left/right → yaw/orbit feel
+        poopGroup.rotation.x += (targetTiltX - poopGroup.rotation.x) * 0.12;
+        poopGroup.rotation.y += (targetTiltY - (poopGroup.rotation.y % (Math.PI * 2))) * 0.08;
 
+        // Subtle breathing
         const pulse = 1 + Math.sin(time * 0.7) * 0.008;
         poopGroup.scale.setScalar(pulse);
 
+        // Organic wobble
         const pos = geometry.attributes.position.array;
         for (let i = 0; i < PARTICLE_COUNT; i++) {
             const i3 = i * 3;
@@ -163,9 +169,9 @@ window.addEventListener("load", () => {
 
         if (frame++ % 4 === 0) updateConnections();
 
-        camera.position.y = 20 + Math.sin(time * 0.35) * 8 + pointer.y * 35;
-        camera.position.x = pointer.x * 28;
-        camera.lookAt(poopGroup.position);
+        // Camera stays mostly fixed, looking slightly down at the higher poop
+        camera.position.y = 10 + Math.sin(time * 0.4) * 4;  // gentle vertical breathing
+        camera.lookAt(poopGroup.position.x, poopGroup.position.y - 10, poopGroup.position.z);
 
         renderer.render(scene, camera);
     }
