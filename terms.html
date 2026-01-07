@@ -5,8 +5,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Terms of Service - POOSTUDIO</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap');
+        #loading-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: opacity 1.2s ease-out;
+        }
+
+        #loading-screen.fade-out {
+            animation: fadeOut 1.4s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: scale(1.1); }
+        }
+
+        .loading-content {
+            text-align: center;
+            color: #fff;
+            max-width: 90%;
+            pointer-events: none;
+        }
+
+        .loading-logo {
+            height: 100px;
+            margin-bottom: 50px;
+            filter: drop-shadow(0 0 25px #d97706);
+            transition: transform 1.2s ease;
+        }
+
+        .loading-logo.scale-up {
+            transform: scale(1.6);
+        }
+
+        .loading-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11vw;
+            margin: 30px 0;
+            background: linear-gradient(90deg, #d97706, #ff8c00, #b8860b, #d97706);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(217, 119, 6, 0.7);
+            animation: titlePulse 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes titlePulse {
+            from { filter: brightness(1) hue-rotate(0deg); }
+            to { filter: brightness(1.3) hue-rotate(15deg); }
+        }
+
+        .loading-text {
+            font-size: 1.7rem;
+            letter-spacing: 0.5rem;
+            color: #d97706;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.4s ease-out;
+            margin: 40px 0;
+        }
+
+        .loading-text.revealed {
+            opacity: 0.9;
+            transform: translateY(0);
+        }
+
+        .loading-bar {
+            width: 450px;
+            max-width: 85vw;
+            height: 4px;
+            background: rgba(217, 119, 6, 0.15);
+            margin: 60px auto;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(217, 119, 6, 0.3);
+        }
+
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #d97706, #ff6b00, #b8860b);
+            transition: width 0.6s ease, background 0.5s;
+            box-shadow: 0 0 25px #d97706;
+        }
+
+        .error-message {
+            color: #ff4444;
+            font-size: 1.6rem;
+            line-height: 1.8;
+            opacity: 0;
+            transition: opacity 1s ease;
+            margin: 40px 0;
+            display: none;
+        }
+
+        .error-message span {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            display: block;
+            margin-top: 15px;
+        }
+
+        .retry-button {
+            margin-top: 40px;
+            padding: 14px 32px;
+            background: transparent;
+            border: 2px solid #ef4444;
+            color: #ff6666;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: all;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .retry-button:hover {
+            background: #ef4444;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .glitch-overlay {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(217,119,6,0.05) 12px, rgba(217,119,6,0.05) 24px);
+            pointer-events: none;
+            opacity: 0.3;
+            transition: opacity 0.8s;
+        }
+
+        .glitch-overlay.glitch-pulse {
+            animation: glitchPulse 0.8s ease;
+        }
+
+        @keyframes glitchPulse {
+            0%, 100% { transform: translate(0); opacity: 0.3; }
+            25% { transform: translate(-6px, 6px); opacity: 0.7; }
+            50% { transform: translate(6px, -6px); opacity: 0.6; }
+            75% { transform: translate(-4px, -4px); opacity: 0.8; }
+        }
+
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 6px);
+            pointer-events: none;
+            opacity: 0.5;
+            animation: scan 10s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(6px); }
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -18,7 +186,9 @@
             background-image: linear-gradient(rgba(15,15,15,0.95), rgba(15,15,15,0.95)), url('https://via.placeholder.com/1920x1080/111111/333333?text=Subtle+Abstract+Texture');
             background-attachment: fixed;
             background-size: cover;
+            min-height: 100vh;
         }
+
         .container {
             max-width: 1000px;
             margin: 80px auto;
@@ -28,6 +198,7 @@
             border-radius: 12px;
             backdrop-filter: blur(10px);
         }
+
         h1 {
             font-family: 'Playfair Display', serif;
             font-size: 3.5em;
@@ -37,6 +208,7 @@
             border-bottom: 1px solid #333;
             padding-bottom: 20px;
         }
+
         h2 {
             font-family: 'Playfair Display', serif;
             font-size: 2em;
@@ -46,6 +218,7 @@
             position: relative;
             padding-left: 20px;
         }
+
         h2::before {
             content: '';
             position: absolute;
@@ -56,49 +229,16 @@
             background-color: #ff6b00;
             transform: translateY(-50%);
         }
-        p {
-            margin-bottom: 25px;
-            font-weight: 300;
-        }
-        ul {
-            margin-left: 30px;
-            margin-bottom: 25px;
-        }
-        li {
-            margin-bottom: 12px;
-            position: relative;
-            padding-left: 15px;
-        }
-        li::before {
-            content: '•';
-            color: #ff6b00;
-            position: absolute;
-            left: 0;
-        }
-        strong {
-            color: #ffffff;
-        }
-        a {
-            color: #ff6b00;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        a:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
-        .effective-date {
-            font-style: italic;
-            color: #aaaaaa;
-            text-align: center;
-            margin-bottom: 50px;
-            font-size: 1.1em;
-        }
-        .back-link {
-            display: block;
-            margin-top: 80px;
-            text-align: center;
-        }
+
+        p { margin-bottom: 25px; font-weight: 300; }
+        ul { margin-left: 30px; margin-bottom: 25px; }
+        li { margin-bottom: 12px; position: relative; padding-left: 15px; }
+        li::before { content: '•'; color: #ff6b00; position: absolute; left: 0; }
+        strong { color: #ffffff; }
+        a { color: #ff6b00; text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: #ffffff; text-decoration: underline; }
+        .effective-date { font-style: italic; color: #aaaaaa; text-align: center; margin-bottom: 50px; font-size: 1.1em; }
+        .back-link { display: block; margin-top: 80px; text-align: center; }
         .back-link a {
             background-color: #ff6b00;
             color: #0f0f0f;
@@ -123,87 +263,219 @@
             padding: 20px;
             border-top: 1px solid #333;
         }
+
         @media (max-width: 768px) {
-            .container {
-                margin: 40px auto;
-                padding: 40px 20px;
-            }
-            h1 {
-                font-size: 2.8em;
-            }
+            .container { margin: 40px auto; padding: 40px 20px; }
+            h1 { font-size: 2.8em; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Terms of Service</h1>
-        <p class="effective-date">Effective Date: January 03, 2026</p>
+    <div id="loading-screen" class="loading-active">
+        <div class="loading-content">
+            <img src="logo.png" alt="PooStudio logo" class="loading-logo">
 
-        <p>Welcome to POOSTUDIO. These Terms of Service ("Terms") govern your access to and use of our website, services, digital products, and any related content (collectively, the "Services") provided by POOSTUDIO.</p>
+            <h1 class="loading-title">POOSTUDIO</h1>
 
-        <p>By accessing or using our Services, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our Services.</p>
+            <p class="loading-text">Forged in chaos...</p>
 
-        <h2>1. Use of Our Services</h2>
-        <p>You may use our Services only for lawful purposes and in accordance with these Terms. You agree not to:</p>
-        <ul>
-            <li>Use the Services in any way that violates any applicable national or international law or regulation</li>
-            <li>Attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Services</li>
-            <li>Engage in any conduct that restricts or inhibits anyone’s use or enjoyment of the Services</li>
-            <li>Use any robot, spider, or other automatic device, process, or means to access the Services for any purpose</li>
-            <li>Copy, reproduce, distribute, modify, create derivative works of, publicly display, or exploit any part of the Services without our express written permission</li>
-        </ul>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
 
-        <h2>2. Intellectual Property</h2>
-        <p>The Services and their entire contents, features, and functionality (including but not limited to all information, software, text, displays, images, video, audio, design, selection, and arrangement) are owned by POOSTUDIO, its licensors, or other providers of such material and are protected by copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.</p>
+            <p class="error-message" id="error-message">
+                ⚠️ The void consumed the signal.<br>
+                <span id="retry-text">Reconnecting to chaos...</span>
+            </p>
 
-        <p>You are granted a limited, non-exclusive, non-transferable, revocable license to access and use the Services for personal, non-commercial purposes, subject to these Terms.</p>
-
-        <h2>3. User Content</h2>
-        <p>If you submit, upload, post, or transmit any content through our Services ("User Content"), you retain ownership of your User Content but grant POOSTUDIO a worldwide, non-exclusive, royalty-free, transferable, sublicensable, perpetual license to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, perform, and display such content in connection with operating, promoting, and improving the Services.</p>
-
-        <p>You represent and warrant that your User Content does not infringe any third-party rights and complies with all applicable laws.</p>
-
-        <h2>4. Purchases and Payments</h2>
-        <p>All purchases made through the Services are final and non-refundable, except as expressly stated otherwise or required by law.</p>
-        <p>We reserve the right to refuse any order or cancel any purchase at our sole discretion.</p>
-
-        <h2>5. Subscriptions</h2>
-        <p>Some of our Services are offered on a subscription basis. By subscribing, you agree to recurring charges at the then-current rate until you cancel.</p>
-        <p>You may cancel your subscription at any time, but no refunds will be provided for partial subscription periods unless required by law.</p>
-
-        <h2>6. Termination</h2>
-        <p>We may terminate or suspend your access to the Services immediately, without prior notice or liability, for any reason, including breach of these Terms.</p>
-        <p>Upon termination, your right to use the Services will immediately cease.</p>
-
-        <h2>7. Limitation of Liability</h2>
-        <p>To the fullest extent permitted by law, POOSTUDIO shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, resulting from your use of the Services.</p>
-
-        <h2>8. Disclaimer of Warranties</h2>
-        <p>The Services are provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, or non-infringement.</p>
-
-        <h2>9. Governing Law</h2>
-        <p>These Terms shall be governed by and construed in accordance with the laws of [Your Country / State / Jurisdiction], without regard to its conflict of law provisions.</p>
-
-        <h2>10. Changes to Terms</h2>
-        <p>We reserve the right to modify or replace these Terms at any time. We will provide notice of material changes by posting the new Terms on this page and updating the "Effective Date."</p>
-        <p>Your continued use of the Services after such changes constitutes acceptance of the updated Terms.</p>
-
-        <h2>11. Contact Us</h2>
-        <p>If you have any questions about these Terms, please contact us at:</p>
-        <p>POOSTUDIO<br>
-        <br>
-        Email: poostudioo@gmail.com<br>
-        Phone: (915) 209-5101</p>
-
-        <div class="back-link">
-            <a href="index.html">← Return to Home</a>
+            <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
         </div>
+
+        <div class="glitch-overlay"></div>
+        <div class="scanlines"></div>
     </div>
 
-    <footer>
-        <p>© <span id="year"></span> PooStudio</p>
-    </footer>
+    <div id="main-content" style="display: none;">
+
+        <div class="container">
+            <h1>Terms of Service</h1>
+            <p class="effective-date">Effective Date: January 07, 2026</p>
+
+            <p>Welcome to POOSTUDIO. These Terms of Service ("Terms") govern your access to and use of our website, services, digital products, and any related content (collectively, the "Services") provided by POOSTUDIO.</p>
+
+            <p>By accessing or using our Services, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our Services.</p>
+
+            <h2>1. Use of Our Services</h2>
+            <p>You may use our Services only for lawful purposes and in accordance with these Terms. You agree not to:</p>
+            <ul>
+                <li>Use the Services in any way that violates any applicable national or international law or regulation</li>
+                <li>Attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Services</li>
+                <li>Engage in any conduct that restricts or inhibits anyone’s use or enjoyment of the Services</li>
+                <li>Use any robot, spider, or other automatic device, process, or means to access the Services for any purpose</li>
+                <li>Copy, reproduce, distribute, modify, create derivative works of, publicly display, or exploit any part of the Services without our express written permission</li>
+            </ul>
+
+            <h2>2. Intellectual Property</h2>
+            <p>The Services and their entire contents, features, and functionality (including but not limited to all information, software, text, displays, images, video, audio, design, selection, and arrangement) are owned by POOSTUDIO, its licensors, or other providers of such material and are protected by copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.</p>
+            <p>You are granted a limited, non-exclusive, non-transferable, revocable license to access and use the Services for personal, non-commercial purposes, subject to these Terms.</p>
+
+            <h2>3. User Content</h2>
+            <p>If you submit, upload, post, or transmit any content through our Services ("User Content"), you retain ownership of your User Content but grant POOSTUDIO a worldwide, non-exclusive, royalty-free, transferable, sublicensable, perpetual license to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, perform, and display such content in connection with operating, promoting, and improving the Services.</p>
+            <p>You represent and warrant that your User Content does not infringe any third-party rights and complies with all applicable laws.</p>
+
+            <h2>4. Purchases and Payments</h2>
+            <p>All purchases made through the Services are final and non-refundable, except as expressly stated otherwise or required by law.</p>
+            <p>We reserve the right to refuse any order or cancel any purchase at our sole discretion.</p>
+
+            <h2>5. Subscriptions</h2>
+            <p>Some of our Services are offered on a subscription basis. By subscribing, you agree to recurring charges at the then-current rate until you cancel.</p>
+            <p>You may cancel your subscription at any time, but no refunds will be provided for partial subscription periods unless required by law.</p>
+
+            <h2>6. Termination</h2>
+            <p>We may terminate or suspend your access to the Services immediately, without prior notice or liability, for any reason, including breach of these Terms.</p>
+            <p>Upon termination, your right to use the Services will immediately cease.</p>
+
+            <h2>7. Limitation of Liability</h2>
+            <p>To the fullest extent permitted by law, POOSTUDIO shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, resulting from your use of the Services.</p>
+
+            <h2>8. Disclaimer of Warranties</h2>
+            <p>The Services are provided "as is" and "as available" without warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, or non-infringement.</p>
+
+            <h2>9. Governing Law</h2>
+            <p>These Terms shall be governed by and construed in accordance with the laws of the United States, without regard to its conflict of law provisions.</p>
+
+            <h2>10. Changes to Terms</h2>
+            <p>We reserve the right to modify or replace these Terms at any time. We will provide notice of material changes by posting the new Terms on this page and updating the "Effective Date."</p>
+            <p>Your continued use of the Services after such changes constitutes acceptance of the updated Terms.</p>
+
+            <h2>11. Contact Us</h2>
+            <p>If you have any questions about these Terms, please contact us at:</p>
+            <p>
+                POOSTUDIO<br><br>
+                Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>
+                Phone: (915) 209-5101
+            </p>
+
+            <div class="back-link">
+                <a href="index.html">← Return to Home</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© <span id="year"></span> PooStudio</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContent = document.getElementById('main-content');
+            const loadingText = document.querySelector('.loading-text');
+            const progressBar = document.querySelector('.loading-progress');
+            const errorMessage = document.getElementById('error-message');
+            const retryText = document.getElementById('retry-text');
+            const retryBtn = document.getElementById('retry-btn');
+            const glitchOverlay = document.querySelector('.glitch-overlay');
+            const logo = document.querySelector('.loading-logo');
+
+            let isErrorState = false;
+            let loadProgress = 0;
+            let fakeProgressInterval;
+            let glitchInterval;
+            let reconnectAttempts = 0;
+
+            function startLoading() {
+                isErrorState = false;
+                loadProgress = 0;
+                loadingText.style.opacity = '1';
+                loadingText.classList.add('revealed');
+                errorMessage.style.display = 'none';
+                errorMessage.style.opacity = '0';
+                retryBtn.style.display = 'none';
+                retryBtn.style.opacity = '0';
+                progressBar.style.width = '0%';
+                progressBar.style.background = 'linear-gradient(90deg, #d97706, #ff6b00, #b8860b)';
+                retryText.textContent = 'Reconnecting to chaos...';
+
+                fakeProgressInterval = setInterval(() => {
+                    if (loadProgress < 92) {
+                        loadProgress += Math.random() * 10 + 3;
+                        progressBar.style.width = Math.min(loadProgress, 92) + '%';
+                    }
+                }, 400);
+
+                glitchInterval = setInterval(() => {
+                    glitchOverlay.classList.add('glitch-pulse');
+                    setTimeout(() => glitchOverlay.classList.remove('glitch-pulse'), 600);
+                }, 3000 + Math.random() * 4000);
+            }
+
+            function completeLoading() {
+                clearInterval(fakeProgressInterval);
+                clearInterval(glitchInterval);
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    loadingScreen.classList.add('fade-out');
+                    logo.classList.add('scale-up');
+                    setTimeout(() => {
+                        mainContent.style.display = 'block';
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                        }, 1200);
+                    }, 800);
+                }, 600);
+            }
+
+            function showError() {
+                if (isErrorState) return;
+                isErrorState = true;
+                clearInterval(fakeProgressInterval);
+                clearInterval(glitchInterval);
+                progressBar.style.width = '100%';
+                progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
+                progressBar.style.boxShadow = '0 0 20px #ef4444';
+                loadingText.style.opacity = '0';
+                errorMessage.style.display = 'block';
+                setTimeout(() => errorMessage.style.opacity = '1', 100);
+                retryBtn.style.display = 'block';
+                setTimeout(() => retryBtn.style.opacity = '1', 400);
+                glitchOverlay.style.opacity = '0.8';
+                glitchOverlay.style.animation = 'glitchPulse 1.2s infinite steps(8)';
+            }
+
+            startLoading();
+
+            const loadTimer = setTimeout(showError, 15000);
+
+            window.addEventListener('load', () => {
+                clearTimeout(loadTimer);
+                if (!isErrorState) completeLoading();
+            });
+
+            retryBtn.addEventListener('click', () => {
+                reconnectAttempts = 0;
+                startLoading();
+                setTimeout(() => {
+                    if (navigator.onLine) completeLoading();
+                    else showError();
+                }, 2000);
+            });
+
+            window.addEventListener('online', () => {
+                if (isErrorState && reconnectAttempts < 10) {
+                    reconnectAttempts++;
+                    retryText.textContent = `Reconnecting... (${reconnectAttempts}/10)`;
+                    setTimeout(() => { startLoading(); setTimeout(completeLoading, 1800); }, 1000);
+                }
+            });
+
+            window.addEventListener('error', showError);
+            if (!navigator.onLine) showError();
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 
 </body>
 </html>
