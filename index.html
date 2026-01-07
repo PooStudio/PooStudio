@@ -15,168 +15,116 @@
 </head>
 
 <body>
-    <canvas id="noise" aria-hidden="true"></canvas>
-    <div id="particles" aria-hidden="true"></div>
-    <div id="starsContainer" aria-hidden="true"></div>
-    <div id="three-container" aria-hidden="true"></div>
-
-    <div id="overlay">
-        <header>
-            <div class="logo">
-                <img src="logo.png" alt="PooStudio logo">
+    <div id="loading-screen" class="loading-active">
+        <div class="loading-content">
+            <img src="logo.png" alt="PooStudio logo" class="loading-logo">
+            <h1>POOSTUDIO</h1>
+            <p class="loading-text">PooStudio Loading...</p>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
             </div>
 
-            <nav aria-label="Primary navigation">
-                <ul>
-                    <li><a href="#home">HOME</a></li>
-                    <li><a href="https://discord.gg/6nF9ABgJxW" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
-                    <li><a href="privacy.html">PRIVACY</a></li>
-                </ul>
-            </nav>
-        </header>
+            <p class="error-message" id="error-message" style="display:none;">
+                ⚠️ Connection lost or something crashed.<br>
+                <span style="font-size:0.9em; opacity:0.8;">Refresh or check your internet. We'll be back in the void soon.</span>
+            </p>
+        </div>
 
-        <section id="home" class="hero-text" aria-labelledby="hero-title">
-            <div class="text-left">
-                <span class="accent">○ WE ARE</span>
-                <p>
-                    a pioneer in chaotic creation<br>
-                    blending dark medieval grit<br>
-                    with absurd modern madness <br>
-                    powerful, fast, and<br>
-                    unhinged.
-                </p>
-            </div>
-
-            <h1 id="hero-title">POOSTUDIO</h1>
-
-            <div class="text-right">
-                <span class="accent">○ WE ARE</span>
-                <p>
-                    building the world's next <br>
-                    generation creative platform<br>
-                    from the depths up.
-                </p>
-            </div>
-
-            <div class="scroll-indicator" aria-hidden="true">
-                SCROLL
-                <div class="circle"></div>
-            </div>
-        </section>
+        <div class="glitch-overlay"></div>
     </div>
+    <div id="main-content" style="display:none;">
 
-    <main>
-    </main>
+        <canvas id="noise" aria-hidden="true"></canvas>
+        <div id="particles" aria-hidden="true"></div>
+        <div id="starsContainer" aria-hidden="true"></div>
+        <div id="three-container" aria-hidden="true"></div>
 
-    <footer>
-        <p>© <span id="year" aria-hidden="true"></span> PooStudio</p>
+        <div id="overlay">
+            <header>
+                <div class="logo">
+                    <img src="logo.png" alt="PooStudio logo">
+                </div>
 
-        <div class="footer-particles" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
+                <nav aria-label="Primary navigation">
+                    <ul>
+                        <li><a href="#home">HOME</a></li>
+                        <li><a href="https://discord.gg/6nF9ABgJxW" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
+                        <li><a href="privacy.html">PRIVACY</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <section id="home" class="hero-text" aria-labelledby="hero-title">
+                <div class="text-left">
+                    <span class="accent">○ WE ARE</span>
+                    <p>
+                        a pioneer in chaotic creation<br>
+                        blending dark medieval grit<br>
+                        with absurd modern madness <br>
+                        powerful, fast, and<br>
+                        unhinged.
+                    </p>
+                </div>
+
+                <h1 id="hero-title">POOSTUDIO</h1>
+
+                <div class="text-right">
+                    <span class="accent">○ WE ARE</span>
+                    <p>
+                        building the world's next <br>
+                        generation creative platform<br>
+                        from the depths up.
+                    </p>
+                </div>
+
+                <div class="scroll-indicator" aria-hidden="true">
+                    SCROLL
+                    <div class="circle"></div>
+                </div>
+            </section>
         </div>
-    </footer>
 
-    <noscript>
-        <div class="noscript-warning" role="status">
-            This site works best with JavaScript enabled.
+        <main></main>
+
+        <footer>
+            <p>© <span id="year" aria-hidden="true"></span> PooStudio</p>
+            <div class="footer-particles" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </footer>
+
+        <noscript>
+            <div class="noscript-warning" role="status">
+                This site works best with JavaScript enabled.
+            </div>
+        </noscript>
+
+        <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
+            <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: white; padding: 32px; border-radius: 12px; max-width: 640px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 id="tosTitle" style="margin:0; font-family: 'Orbitron', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#6366f1,#a855f7); -webkit-background-clip: text; color: transparent;">
+                        Welcome — Please agree to continue
+                    </h2>
+                    <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
+                </div>
+                <p id="tosDesc" style="margin-top:12px; line-height:1.5;">
+                    By using this site, you agree to our <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                </p>
+                <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
+                    <button id="tosDeclineBtn" style="padding:10px 18px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer;">Decline</button>
+                    <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#6366f1,#a855f7); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree &amp; Continue</button>
+                </div>
+            </div>
         </div>
-    </noscript>
-
-    <script src="script.js"></script>
+    </div>
+    <script src="script.js" defer></script>
+    <script src="loading.js" defer></script>
 
     <script>
         const yearEl = document.getElementById('year');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        document.addEventListener("contextmenu", e => e.preventDefault());
     </script>
-
-    <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
-        <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: white; padding: 32px; border-radius: 12px; max-width: 640px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2 id="tosTitle" style="margin:0; font-family: 'Orbitron', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#6366f1,#a855f7); -webkit-background-clip: text; color: transparent;">
-                    Welcome — Please agree to continue
-                </h2>
-                <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
-            </div>
-
-            <p id="tosDesc" style="margin-top:12px; line-height:1.5;">
-                By using this site, you agree to our <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-            </p>
-
-            <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
-                <button id="tosDeclineBtn" style="padding:10px 18px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer;">Decline</button>
-                <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#6366f1,#a855f7); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree &amp; Continue</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            try {
-                const tosModal = document.getElementById('tosModal');
-                const tosAcceptBtn = document.getElementById('tosAcceptBtn');
-                const tosDeclineBtn = document.getElementById('tosDeclineBtn');
-                const tosCloseBtn = document.getElementById('tosCloseBtn');
-
-                if (!tosModal) {
-                    console.warn('TOS modal element not found. Modal will not be shown.');
-                    return;
-                }
-
-                function showModal() {
-                    tosModal.style.display = 'flex';
-                    tosModal.setAttribute('aria-hidden', 'false');
-                    document.body.style.overflow = 'hidden';
-                    if (tosAcceptBtn) tosAcceptBtn.focus();
-                }
-
-                function hideModal() {
-                    tosModal.style.display = 'none';
-                    tosModal.setAttribute('aria-hidden', 'true');
-                    document.body.style.overflow = '';
-                }
-
-                const urlParams = new URLSearchParams(window.location.search);
-                const forceShow = urlParams.get('showTos') === '1';
-
-                if (!localStorage.getItem('tosAccepted') || forceShow) {
-                    showModal();
-                }
-
-                tosAcceptBtn && tosAcceptBtn.addEventListener('click', function () {
-                    localStorage.setItem('tosAccepted', 'true');
-                    hideModal();
-                });
-
-                tosDeclineBtn && tosDeclineBtn.addEventListener('click', function () {
-                    hideModal();
-                });
-
-                tosCloseBtn && tosCloseBtn.addEventListener('click', function () {
-                    hideModal();
-                });
-
-                document.addEventListener('keydown', function (e) {
-                    if (e.key === 'Escape') {
-                        hideModal();
-                    }
-                });
-
-                tosModal.addEventListener('click', function (e) {
-                    if (e.target === tosModal) {
-                        hideModal();
-                    }
-                });
-            } catch (err) {
-                console.error('Error initializing TOS modal:', err);
-            }
-        });
-    </script>
-
-    <script>
-        document.addEventListener("contextmenu", e => {
-            e.preventDefault();
-        });
-    </script>
-
 </body>
 </html>
