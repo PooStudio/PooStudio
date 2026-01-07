@@ -1,4 +1,4 @@
-<!-- Signup Popup - POOSTUDIO -->
+<!-- POOSTUDIO Signup Popup -->
 <div id="signup-popup">
     <button class="close-btn" aria-label="Close popup">&times;</button>
 
@@ -6,11 +6,11 @@
     <p class="subtitle">Get the latest POOSTUDIO updates, new features, and exclusive drops straight to your inbox.</p>
 
     <form action="https://formspree.io/f/xdkgnelb" method="POST">
-        <input 
-            type="email" 
-            name="email" 
-            placeholder="you@example.com" 
-            required 
+        <input
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            required
             autocomplete="email"
         >
 
@@ -158,15 +158,18 @@
 
         const closeBtn = popup.querySelector('.close-btn');
 
+        // Show popup after 5 seconds
         setTimeout(() => {
             popup.classList.add('visible');
         }, 5000);
 
+        // Close button
         closeBtn.addEventListener('click', () => {
             popup.classList.remove('visible');
             localStorage.setItem('poostudioPopupClosed', 'true');
         });
 
+        // Don't show again if user closed it before
         if (localStorage.getItem('poostudioPopupClosed') === 'true') {
             popup.style.display = 'none';
         }
