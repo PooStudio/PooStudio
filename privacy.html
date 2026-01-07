@@ -32,7 +32,9 @@
             text-align: center;
             color: #fff;
             max-width: 90%;
-            pointer-events: none;
+            position: relative;
+            z-index: 5;
+            /* REMOVED pointer-events: none; — this was blocking the retry button! */
         }
 
         .loading-logo {
@@ -129,6 +131,9 @@
             opacity: 0;
             transition: all 0.4s ease;
             box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+            pointer-events: auto; /* Ensure button is clickable */
+            position: relative;
+            z-index: 10;
         }
 
         .retry-button:hover {
@@ -259,7 +264,6 @@
 <div id="loading-screen">
     <div class="loading-content">
 
-
         <h1 class="loading-title">POOSTUDIO</h1>
 
         <p class="loading-text">Loading Privacy Policy...</p>
@@ -355,24 +359,22 @@
             <a href="terms.html">View Terms of Service →</a>
         </div>
 
+        <footer>
+            <p>© <span id="year"></span> PooStudio</p>
 
-    <footer>
-    <p>© <span id="year"></span> PooStudio</p>
+            <div class="footer-particles" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
-    <div class="footer-particles" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-
-    <div class="footer-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-    </div>
-    </footer>
-
+            <div class="footer-links">
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </footer>
     </div>
 </div>
 
