@@ -97,7 +97,6 @@ nav a::after {
 nav a:hover::after {
     width: 100%;
 }
-/* Global link styling - applies to ALL <a> tags site-wide */
 a {
     color: #ff8c00; 
     text-decoration: none; 
@@ -148,7 +147,6 @@ h1 {
     margin: 60px 0;
     color: #ffffff;
 
-    /* Much softer, calmer glow */
     text-shadow:
         0 0 4px #d97706,
         0 0 8px #d97706,

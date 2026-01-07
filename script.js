@@ -4,7 +4,6 @@ window.addEventListener("load", () => {
     const container = document.getElementById("three-container");
     if (!container) return;
 
-    // Allow pointer interaction only on the canvas
     container.style.pointerEvents = "auto";
 
     const scene = new THREE.Scene();
@@ -25,7 +24,7 @@ window.addEventListener("load", () => {
     container.appendChild(renderer.domElement);
 
     const poopGroup = new THREE.Group();
-    poopGroup.position.y = 25; // positioned higher = near top of screen
+    poopGroup.position.y = 25; 
     scene.add(poopGroup);
 
     const PARTICLE_COUNT = 5200;
@@ -87,7 +86,6 @@ window.addEventListener("load", () => {
     const points = new THREE.Points(geometry, material);
     poopGroup.add(points);
 
-    // Connecting web
     const MAX_LINES = 11000;
     const linePositions = new Float32Array(MAX_LINES * 6);
     const lineGeo = new THREE.BufferGeometry();
@@ -104,7 +102,6 @@ window.addEventListener("load", () => {
     const lines = new THREE.LineSegments(lineGeo, lineMat);
     poopGroup.add(lines);
 
-    // Mouse / touch interaction state
     const pointer = { x: 0, y: 0, isOverCanvas: false, isDragging: false };
     let previousPointer = { x: 0, y: 0 };
 
@@ -123,7 +120,6 @@ window.addEventListener("load", () => {
     });
     window.addEventListener("mouseup", () => { pointer.isDragging = false; });
 
-    // Touch support
     container.addEventListener("touchstart", e => {
         pointer.isDragging = true;
         const touch = e.touches[0];
@@ -176,15 +172,12 @@ window.addEventListener("load", () => {
         requestAnimationFrame(animate);
         time = now * 0.001;
 
-        // Constant gentle self-rotation
         poopGroup.rotation.y += 0.0009;
 
-        // Interaction only when over canvas or dragging
         if (pointer.isOverCanvas || pointer.isDragging) {
             let deltaX = 0, deltaY = 0;
 
             if (pointer.isDragging) {
-                // Drag = direct rotation control
                 deltaX = pointer.x - previousPointer.x;
                 deltaY = pointer.y - previousPointer.y;
                 previousPointer = { x: pointer.x, y: pointer.y };
@@ -198,11 +191,9 @@ window.addEventListener("load", () => {
             poopGroup.rotation.x += deltaY * 1.1;
         }
 
-        // Gentle breathing pulse
         const pulse = 1 + Math.sin(time * 0.7) * 0.008;
         poopGroup.scale.setScalar(pulse);
 
-        // Organic wobble
         const pos = geometry.attributes.position.array;
         for (let i = 0; i < PARTICLE_COUNT; i++) {
             const i3 = i * 3;
@@ -215,7 +206,6 @@ window.addEventListener("load", () => {
 
         if (frame++ % 4 === 0) updateConnections();
 
-        // Camera gentle breathing, fixed look at poop
         camera.position.y = 10 + Math.sin(time * 0.4) * 4;
         camera.lookAt(poopGroup.position.x, poopGroup.position.y - 10, poopGroup.position.z);
 
