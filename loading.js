@@ -1,69 +1,45 @@
-// ===== POO STUDIO LOADING SCREEN SCRIPT =====
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Create loading screen elements if they don't exist
-    if (!document.getElementById('loading-screen')) {
-        const loadingHTML = `
-            <div id="loading-screen">
-                <div class="loading-content">
-                    <h1 class="loading-title">POOSTUDIO</h1>
-                    <p class="loading-subtitle">ENTERING THE VOID</p>
-                    <div class="loading-bar">
-                        <div class="loading-progress"></div>
-                    </div>
-                    <div id="error-message" class="error-message">
-                        CONNECTION LOST<br>
-                        <span>Reality disconnected. Attempting to reconnect...</span>
-                    </div>
-                    <button id="retry-btn" class="retry-button">RETRY</button>
-                </div>
-                <div class="glitch-overlay"></div>
-                <div class="scanlines"></div>
-            </div>
-        `;
-        document.body.insertAdjacentHTML('afterbegin', loadingHTML);
-    }
-
     const loadingScreen = document.getElementById('loading-screen');
-    const subtitle = document.querySelector('.loading-subtitle');
+    const mainContent = document.getElementById('main-content');
+    const loadingText = document.querySelector('.loading-text');
     const progressBar = document.querySelector('.loading-progress');
     const errorMessage = document.getElementById('error-message');
+    const retryText = document.getElementById('retry-text');
     const retryBtn = document.getElementById('retry-btn');
     const glitchOverlay = document.querySelector('.glitch-overlay');
+    const logo = document.querySelector('.loading-logo');
 
     let isErrorState = false;
     let loadProgress = 0;
     let fakeProgressInterval;
     let glitchInterval;
     let reconnectAttempts = 0;
-    const maxReconnectAttempts = 8;
+    const maxReconnectAttempts = 10;
 
     function startLoading() {
         isErrorState = false;
         loadProgress = 0;
 
-        subtitle.style.opacity = '0';
-        subtitle.classList.remove('revealed');
-        errorMessage.style.display = 'none';
+        loadingText.style.opacity = '1';
+        loadingText.classList.add('revealed');
         errorMessage.style.opacity = '0';
+        errorMessage.style.display = 'none';
         retryBtn.style.display = 'none';
-        retryBtn.style.opacity = '0';
         progressBar.style.width = '0%';
-        glitchOverlay.classList.remove('active');
-
-        setTimeout(() => subtitle.classList.add('revealed'), 400);
+        progressBar.style.background = 'linear-gradient(90deg, #d97706, #ff6b00, #b8860b)';
+        retryText.textContent = 'Reconnecting to chaos...';
 
         fakeProgressInterval = setInterval(() => {
-            if (loadProgress < 95) {
-                loadProgress += Math.random() * 8 + 4;
-                progressBar.style.width = Math.min(loadProgress, 95) + '%';
+            if (loadProgress < 92) {
+                loadProgress += Math.random() * 10 + 3;
+                progressBar.style.width = Math.min(loadProgress, 92) + '%';
             }
-        }, 300);
+        }, 400);
 
         glitchInterval = setInterval(() => {
-            glitchOverlay.classList.add('active');
-            setTimeout(() => glitchOverlay.classList.remove('active'), 800);
-        }, 2500 + Math.random() * 3000);
+            glitchOverlay.classList.add('glitch-pulse');
+            setTimeout(() => glitchOverlay.classList.remove('glitch-pulse'), 600);
+        }, 3000 + Math.random() * 4000);
     }
 
     function completeLoading() {
@@ -73,11 +49,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             loadingScreen.classList.add('fade-out');
+            logo.classList.add('scale-up');
             setTimeout(() => {
-                loadingScreen.remove(); // Fully remove from DOM
+                mainContent.style.display = 'block';
                 document.body.style.overflow = 'auto';
-            }, 1400);
-        }, 800);
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 1200);
+            }, 800);
+        }, 600);
     }
 
     function showError() {
@@ -89,49 +69,70 @@ document.addEventListener('DOMContentLoaded', () => {
 
         progressBar.style.width = '100%';
         progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
+        progressBar.style.boxShadow = '0 0 20px #ef4444';
 
-        subtitle.style.opacity = '0';
+        loadingText.style.opacity = '0';
         errorMessage.style.display = 'block';
-        setTimeout(() => { errorMessage.style.opacity = '1'; }, 200);
+        setTimeout(() => { errorMessage.style.opacity = '1'; }, 100);
 
         retryBtn.style.display = 'block';
-        setTimeout(() => { retryBtn.style.opacity = '1'; }, 600);
+        setTimeout(() => { retryBtn.style.opacity = '1'; }, 400);
 
-        glitchOverlay.classList.add('active');
+        glitchOverlay.style.opacity = '0.8';
+        glitchOverlay.style.animation = 'glitch 1.2s infinite steps(8)';
     }
 
-    // Start loading animation
     startLoading();
 
-    // Fallback if page takes too long
-    const loadTimer = setTimeout(() => showError(), 12000);
+    const loadTimer = setTimeout(() => {
+        showError();
+    }, 15000);
 
-    // Complete when everything is actually loaded
     window.addEventListener('load', () => {
         clearTimeout(loadTimer);
         if (!isErrorState) {
-            setTimeout(completeLoading, 800);
+            completeLoading();
         }
     });
 
-    // Manual retry
     retryBtn.addEventListener('click', () => {
         reconnectAttempts = 0;
+        retryText.textContent = 'Reconnecting to chaos...';
         startLoading();
-        setTimeout(completeLoading, 2500); // Success on manual retry
+
+        setTimeout(() => {
+            if (navigator.onLine) {
+                setTimeout(completeLoading, 1500);
+            } else {
+                showError();
+            }
+        }, 2000);
     });
 
-    // Auto-reconnect when back online
     window.addEventListener('online', () => {
         if (isErrorState && reconnectAttempts < maxReconnectAttempts) {
             reconnectAttempts++;
+            retryText.textContent = `Reconnecting... (${reconnectAttempts}/${maxReconnectAttempts})`;
+
             setTimeout(() => {
                 startLoading();
-                setTimeout(completeLoading, 2000);
-            }, 800);
+                setTimeout(() => {
+                    if (Math.random() > 0.2 || reconnectAttempts > 3) { // 80% success after a few tries
+                        completeLoading();
+                    } else {
+                        showError();
+                    }
+                }, 2000);
+            }, 1000);
         }
     });
 
-    // Initial offline check
-    if (!navigator.onLine) showError();
+    window.addEventListener('error', (e) => {
+        console.error('JS Error:', e);
+        showError();
+    });
+
+    if (!navigator.onLine) {
+        showError();
+    }
 });
