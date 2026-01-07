@@ -3,80 +3,84 @@ window.addEventListener("load", () => {
 
     const container = document.getElementById("three-container");
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000); // Deep space background
+    scene.background = new THREE.Color(0x000000);
 
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 300);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Lights for realistic day/night effect
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
-    scene.add(ambientLight);
+    // Abstract morphing shape using a high-segment sphere with displacement shader
+    const geometry = new THREE.SphereGeometry(1.5, 128, 128);
 
-    const sunLight = new THREE.DirectionalLight(0xffffff, 1.8);
-    sunLight.position.set(200, 0, 100);
-    scene.add(sunLight);
-
-    // Earth sphere
-    const earthRadius = 100;
-    const earthGeometry = new THREE.SphereGeometry(earthRadius, 128, 128);
-
-    // Day texture (continents, oceans, clouds)
-    const dayTexture = new THREE.TextureLoader().load('https://i.redd.it/x3pvhjw7lo661.jpg'); // High-res realistic day Earth with clouds
-
-    // Night lights texture (city lights)
-    const nightTexture = new THREE.TextureLoader().load('https://media.istockphoto.com/id/1282384231/vector/earth-night-map-vector-illustration-of-cities-lights-from-space-dark-globe.jpg?s=612x612&w=0&k=20&c=o5zVVqMb6InEd5jium06tvr8OGWvCrqapBZIu5qFGlw=');
-
-    const earthMaterial = new THREE.MeshPhongMaterial({
-        map: dayTexture,
-        emissiveMap: nightTexture,
-        emissive: 0xffffff,
-        emissiveIntensity: 1.2,
-        shininess: 10,
-        specular: 0x222222
+    const material = new THREE.ShaderMaterial({
+        uniforms: {
+            time: { value: 0 },
+            amplitude: { value: 0.5 }
+        },
+        vertexShader: `
+            uniform float time;
+            uniform float amplitude;
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                vec3 pos = position;
+                float dist = length(pos);
+                float freq = 4.0 + sin(time * 0.2) * 2.0;
+                float disp = sin(dist * freq + time * 1.5) * amplitude;
+                disp += sin(dist * (freq * 2.3) + time * 2.1) * (amplitude * 0.6);
+                pos += normal * disp;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `,
+        fragmentShader: `
+            varying vec2 vUv;
+            void main() {
+                vec3 colorA = vec3(0.1, 0.0, 0.3); // Deep purple
+                vec3 colorB = vec3(0.0, 0.8, 1.0); // Cyan glow
+                vec3 colorC = vec3(1.0, 0.2, 0.8); // Hot pink accents
+                float mix1 = sin(vUv.x * 10.0 + time) * 0.5 + 0.5;
+                float mix2 = sin(vUv.y * 8.0 - time * 1.3) * 0.5 + 0.5;
+                vec3 color = mix(colorA, colorB, mix1);
+                color = mix(color, colorC, mix2 * 0.4);
+                gl_FragColor = vec4(color * 1.5, 1.0);
+            }
+        `,
+        wireframe: false,
+        side: THREE.DoubleSide
     });
 
-    const earth = new THREE.Mesh(earthGeometry, earthMaterial);
-    scene.add(earth);
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
-    // Atmosphere glow for extra realism
-    const atmosphereGeometry = new THREE.SphereGeometry(earthRadius * 1.08, 64, 64);
-    const atmosphereMaterial = new THREE.MeshBasicMaterial({
-        color: 0x88ccff,
+    // Add subtle post-processing glow (using additive points or bloom simulation)
+    const glowGeometry = new THREE.SphereGeometry(1.8, 64, 64);
+    const glowMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00ffff,
         transparent: true,
         opacity: 0.15,
+        blending: THREE.AdditiveBlending,
         side: THREE.BackSide
     });
-    const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-    earth.add(atmosphere);
+    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+    mesh.add(glow);
 
-    // Add stars in the background
-    const starGeometry = new THREE.BufferGeometry();
-    const starCount = 5000;
-    const starPositions = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount; i++) {
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(Math.random() * 2 - 1);
-        const r = 800 + Math.random() * 200;
-        starPositions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
-        starPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-        starPositions[i * 3 + 2] = r * Math.cos(phi);
-    }
-    starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-    const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.7 });
-    const stars = new THREE.Points(starGeometry, starMaterial);
-    scene.add(stars);
-
-    // Slow auto-rotation
+    // Gentle auto-rotation
+    let time = 0;
     function animate() {
         requestAnimationFrame(animate);
+        time += 0.01;
 
-        earth.rotation.y += 0.0005; // Gentle spin to show day/night cycle
-        stars.rotation.y += 0.00005;
+        material.uniforms.time.value = time;
+
+        mesh.rotation.y += 0.002;
+        mesh.rotation.x += 0.001;
+
+        // Pulsing amplitude for breathing morph
+        material.uniforms.amplitude.value = 0.4 + Math.sin(time * 0.8) * 0.2;
 
         renderer.render(scene, camera);
     }
