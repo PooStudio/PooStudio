@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dev / Mod Application • POOSTUDIO</title>
+  
+  <!-- Website favicon / logo -->
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --accent: #f59e0b;
+      --accent-glow: #fbbf24;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(245,158,11,0.07) 0%, transparent 35%),
+        radial-gradient(circle at 85% 80%, rgba(245,158,11,0.06) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 620px;
+      margin: 8vh auto;
+      padding: 3.5rem 2.2rem;
+      background: rgba(17,17,24,0.68);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.65);
+    }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-align: center;
+      background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 2.4rem;
+      text-shadow: 0 0 35px rgba(245,158,11,0.45);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 2rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      background: rgba(30,30,45,0.65);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1.03rem;
+      transition: all 0.25s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-glow);
+      box-shadow: 0 0 0 4px rgba(245,158,11,0.2);
+      background: rgba(30,30,45,0.9);
+    }
+
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 1.2rem;
+      background: linear-gradient(90deg, #d97706, #f59e0b, #fbbf24);
+      background-size: 200% 100%;
+      color: white;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      box-shadow: 0 10px 30px rgba(245,158,11,0.3);
+      margin-top: 2rem;
+    }
+
+    .btn:hover {
+      background-position: 100% 0;
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(245,158,11,0.45);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .status {
+      margin-top: 1.8rem;
+      padding: 1.2rem;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+
+    .status.success { background: rgba(16,185,129,0.18); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.35); display: block; }
+    .status.error   { background: rgba(239,68,68,0.18);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.35);  display: block; }
+
+    .glow-text { text-shadow: 0 0 20px rgba(245,158,11,0.6); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1 class="glow-text">DEV / MOD APPLICATION</h1>
+  <p class="subtitle">We're looking for talented people. Tell us who you are and why you want to join POOSTUDIO.</p>
+
+  <form id="application-form" action="https://formspree.io/f/mykkgpqq" method="POST">
+    <div class="form-group">
+      <label for="name">FULL NAME / NICKNAME</label>
+      <input type="text" id="name" name="name" required placeholder="How should we call you?">
+    </div>
+
+    <div class="form-group">
+      <label for="email">EMAIL ADDRESS</label>
+      <input type="email" id="email" name="email" required placeholder="Where we can reach you">
+    </div>
+
+    <div class="form-group">
+      <label for="role">ROLE YOU'RE APPLYING FOR</label>
+      <select id="role" name="role" required>
+        <option value="" disabled selected>Select role...</option>
+        <option value="Developer">Developer</option>
+        <option value="Moderator">Moderator</option>
+        <option value="Both">Both (Dev + Mod)</option>
+        <option value="Other">Other (please specify in message)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="discord">DISCORD TAG (optional but recommended)</label>
+      <input type="text" id="discord" name="discord" placeholder="username#0000 or @username">
+    </div>
+
+    <div class="form-group">
+      <label for="experience">BRIEF EXPERIENCE / PORTFOLIO LINKS</label>
+      <textarea id="experience" name="experience" rows="4" placeholder="Previous projects, skills, GitHub, past moderation experience, etc..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="why">WHY SHOULD WE CHOOSE YOU? *</label>
+      <textarea id="why" name="why" required rows="6" placeholder="Explain why you want to join POOSTUDIO and what makes you stand out. Be detailed — this is the most important field."></textarea>
+    </div>
+
+    <button type="submit" class="btn" id="submit-btn">SUBMIT APPLICATION</button>
+
+    <div class="status" id="status-success">Application sent successfully! We'll review it soon ✦</div>
+    <div class="status" id="status-error">Something went wrong. Please try again or contact us directly.</div>
+  </form>
+</div>
+
+<script>
+  document.getElementById('application-form').addEventListener('submit', function(e) {
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'SENDING...';
+  });
+</script>
+
+</body>
+</html>
