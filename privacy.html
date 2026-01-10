@@ -389,7 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let loadProgress = 0;
     let animationId;
 
-    // Set current year
     yearSpan.textContent = new Date().getFullYear();
 
     function updateProgress() {
@@ -419,10 +418,10 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingScreen.classList.add('fade-out');
             setTimeout(() => {
                 mainContent.style.display = 'block';
-                // Optional: smooth scroll to top after reveal
+            
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 setTimeout(() => loadingScreen.remove(), 1400);
-            }, 1000); // give more time for fade effect
+            }, 1000); 
         }, 600);
     }
 
@@ -440,39 +439,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
 
-    // === Real retry logic ===
     function attemptLoad() {
         startLoading();
 
-        // Simulate network check + content load (you can replace with real fetch later)
+    
         setTimeout(() => {
             if (navigator.onLine) {
-                // Success case
                 completeLoading();
             } else {
-                // Still offline
                 showError();
             }
-        }, 1800); // realistic loading time 1.8 seconds
+        }, 1800); 
     }
 
-    // Initial attempt
+
     attemptLoad();
 
-    // Auto-fail after 12 seconds if nothing happens (fallback)
     const autoFailTimer = setTimeout(() => {
         if (mainContent.style.display !== 'block') {
             showError();
         }
     }, 12000);
 
-    // Retry button - now actually tries again
     retryBtn.addEventListener('click', () => {
         clearTimeout(autoFailTimer);
         attemptLoad();
     });
 
-    // Also complete on real window load (backup)
     window.addEventListener('load', () => {
         clearTimeout(autoFailTimer);
         if (mainContent.style.display !== 'block') {
