@@ -36,7 +36,6 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(245,158,11,0.07) 0%, transparent 35%),
         radial-gradient(circle at 85% 80%, rgba(245,158,11,0.06) 0%, transparent 40%);
@@ -99,7 +98,7 @@
       width: 0%;
       background: linear-gradient(90deg, #f59e0b, #fbbf24);
       border-radius: 3px;
-      transition: width 0.4s ease;
+      transition: width 0.6s ease-out;
     }
 
     .error-message {
@@ -107,6 +106,15 @@
       color: var(--error);
       font-weight: 500;
       line-height: 1.6;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.5s ease;
+      pointer-events: none;
+    }
+
+    .error-message.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .retry-button {
@@ -120,6 +128,15 @@
       letter-spacing: 0.08em;
       cursor: pointer;
       transition: all 0.25s ease;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    .retry-button.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
     .retry-button:hover {
@@ -188,6 +205,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--text);
+      font-family: inherit;
       font-size: 1.03rem;
       transition: all 0.25s ease;
     }
@@ -246,6 +264,8 @@
 
     .status.success { background: rgba(16,185,129,0.18); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.35); display: block; }
     .status.error   { background: rgba(239,68,68,0.18);  color: #fca5a5; border: 1px solid rgba(239,68,68,0.35);  display: block; }
+
+    .glow-text { text-shadow: 0 0 20px rgba(245,158,11,0.6); }
   </style>
 </head>
 <body>
@@ -320,54 +340,59 @@
 const loadingScreen = document.getElementById('loading-screen');
 const mainContent   = document.getElementById('main-content');
 const progress      = document.getElementById('progress');
+const errorMessage  = document.getElementById('error-message');
 const retryBtn      = document.getElementById('retry-btn');
-const errorMsg      = document.getElementById('error-message');
 
 let progressValue = 0;
+let hasFailed = false;
+let loadingTimer;
 
-const fakeLoading = setInterval(() => {
-  progressValue += Math.random() * 12;
-  if (progressValue > 100) progressValue = 100;
-  progress.style.width = progressValue + '%';
-
-  if (progressValue >= 100) {
-    clearInterval(fakeLoading);
-    setTimeout(showMainContent, 800);
-  }
-}, 180);
-
-function showMainContent() {
-  loadingScreen.classList.add('hidden');
-  setTimeout(() => {
-    mainContent.classList.add('visible');
-  }, 400);
-}
-
-retryBtn.addEventListener('click', () => {
+function startLoading() {
   progressValue = 0;
   progress.style.width = '0%';
-  errorMsg.style.display = 'none';
-  retryBtn.style.display = 'none';
+  errorMessage.classList.remove('visible');
+  retryBtn.classList.remove('visible');
+  hasFailed = false;
 
-  const newInterval = setInterval(() => {
-    progressValue += Math.random() * 18;
-    if (progressValue > 100) progressValue = 100;
-    progress.style.width = progressValue + '%';
-
+  loadingTimer = setInterval(() => {
+    progressValue += Math.random() * 8 + 4; 
     if (progressValue >= 100) {
-      clearInterval(newInterval);
-      setTimeout(showMainContent, 600);
+      progressValue = 100;
+      clearInterval(loadingTimer);
+      setTimeout(showMainContent, 700);
     }
-  }, 140);
-});
+    progress.style.width = progressValue + '%';
+  }, 160);
+}
+
+function showMainContent() {
+  if (!hasFailed) {
+    loadingScreen.classList.add('hidden');
+    setTimeout(() => {
+      mainContent.classList.add('visible');
+    }, 400);
+  }
+}
+
+function triggerFailure() {
+  if (!hasFailed) {
+    hasFailed = true;
+    clearInterval(loadingTimer);
+    errorMessage.classList.add('visible');
+    retryBtn.classList.add('visible');
+    progress.style.width = '92%'; 
+  }
+}
+
+retryBtn.addEventListener('click', startLoading);
+
+startLoading();
 
 setTimeout(() => {
-  if (progressValue < 85) {
-    clearInterval(fakeLoading);
-    errorMsg.style.display = 'block';
-    retryBtn.style.display = 'inline-block';
+  if (progressValue < 94) {
+    triggerFailure();
   }
-}, 12000);
+}, 10000 + Math.random() * 4000);
 
 document.getElementById('application-form').addEventListener('submit', function(e) {
   const btn = document.getElementById('submit-btn');
