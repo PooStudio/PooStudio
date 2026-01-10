@@ -284,6 +284,57 @@
       text-decoration: none;
       margin: 0 0.5rem;
     }
+
+    /* ===== SELECT ROLE POLISH ===== */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: rgba(17,17,24,0.85);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+    linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) calc(50% - 4px),
+    calc(100% - 14px) calc(50% - 4px);
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+/* Dropdown options */
+select option {
+  background-color: #0f1118;
+  color: var(--text);
+  font-size: 0.95rem;
+  padding: 12px;
+}
+
+/* Hovered option (supported browsers) */
+select option:hover {
+  background-color: rgba(245,158,11,0.25);
+  color: white;
+}
+
+/* Selected option */
+select option:checked {
+  background-color: rgba(245,158,11,0.35);
+  color: white;
+  font-weight: 600;
+}
+
+/* Placeholder (Select role...) */
+select option[disabled] {
+  color: #64748b;
+}
+
+/* Focus state */
+select:focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,0.25),
+    0 8px 30px rgba(245,158,11,0.15);
+}
   </style>
 </head>
 
