@@ -377,83 +377,109 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const loadingScreen = document.getElementById('loading-screen');
-        const mainContent = document.getElementById('main-content');
-        const loadingText = document.querySelector('.loading-text');
-        const progressBar = document.querySelector('.loading-progress');
-        const errorMessage = document.getElementById('error-message');
-        const retryBtn = document.getElementById('retry-btn');
-        const logo = document.querySelector('.loading-logo');
+document.addEventListener('DOMContentLoaded', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    const mainContent = document.getElementById('main-content');
+    const loadingText = document.querySelector('.loading-text');
+    const progressBar = document.querySelector('.loading-progress');
+    const errorMessage = document.getElementById('error-message');
+    const retryBtn = document.getElementById('retry-btn');
+    const yearSpan = document.getElementById('year');
 
-        let loadProgress = 0;
-        let animationId;
+    let loadProgress = 0;
+    let animationId;
 
-        function updateProgress() {
-            if (loadProgress < 92) {
-                loadProgress += Math.random() * 6 + 2;
-                progressBar.style.width = Math.min(loadProgress, 92) + '%';
-                animationId = requestAnimationFrame(updateProgress);
-            }
+    // Set current year
+    yearSpan.textContent = new Date().getFullYear();
+
+    function updateProgress() {
+        if (loadProgress < 92) {
+            loadProgress += Math.random() * 8 + 3; // faster & more natural
+            progressBar.style.width = Math.min(loadProgress, 92) + '%';
+            animationId = requestAnimationFrame(updateProgress);
         }
+    }
 
-        function startLoading() {
-            loadProgress = 0;
-            loadingText.classList.add('revealed');
-            errorMessage.style.display = 'none';
-            retryBtn.style.opacity = '0';
-            retryBtn.style.display = 'none';
-            progressBar.style.width = '0%';
-            progressBar.style.background = 'linear-gradient(90deg, #d97706, #ff6b00, #b8860b)';
-            updateProgress();
-        }
+    function startLoading() {
+        loadProgress = 0;
+        loadingText.classList.add('revealed');
+        errorMessage.style.display = 'none';
+        retryBtn.style.display = 'none';
+        progressBar.style.width = '0%';
+        progressBar.style.background = 'linear-gradient(90deg, #d97706, #ff6b00, #b8860b)';
+        progressBar.style.boxShadow = '0 0 25px #d97706';
+        updateProgress();
+    }
 
-        function completeLoading() {
-            cancelAnimationFrame(animationId);
-            progressBar.style.width = '100%';
+    function completeLoading() {
+        cancelAnimationFrame(animationId);
+        progressBar.style.width = '100%';
+        
+        setTimeout(() => {
+            loadingScreen.classList.add('fade-out');
             setTimeout(() => {
-                loadingScreen.classList.add('fade-out');
-                if (logo) logo.classList.add('scale-up');
-                setTimeout(() => {
-                    mainContent.style.display = 'block';
-                    setTimeout(() => loadingScreen.remove(), 1400);
-                }, 800);
-            }, 400);
-        }
+                mainContent.style.display = 'block';
+                // Optional: smooth scroll to top after reveal
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => loadingScreen.remove(), 1400);
+            }, 1000); // give more time for fade effect
+        }, 600);
+    }
 
-        function showError() {
-            cancelAnimationFrame(animationId);
-            progressBar.style.width = '100%';
-            progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
-            progressBar.style.boxShadow = '0 0 20px #ef4444';
-            loadingText.style.opacity = '0';
-            errorMessage.style.display = 'block';
-            setTimeout(() => errorMessage.style.opacity = '1', 100);
-            retryBtn.style.display = 'block';
-            setTimeout(() => retryBtn.style.opacity = '1', 400);
-        }
+    function showError() {
+        cancelAnimationFrame(animationId);
+        progressBar.style.width = '100%';
+        progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
+        progressBar.style.boxShadow = '0 0 25px #ef4444';
+        loadingText.style.opacity = '0';
+        errorMessage.style.display = 'block';
+        setTimeout(() => {
+            errorMessage.style.opacity = '1';
+            retryBtn.style.display = 'inline-block';
+            setTimeout(() => retryBtn.style.opacity = '1', 300);
+        }, 100);
+    }
 
+    // === Real retry logic ===
+    function attemptLoad() {
         startLoading();
 
-        const loadTimer = setTimeout(showError, 14000);
+        // Simulate network check + content load (you can replace with real fetch later)
+        setTimeout(() => {
+            if (navigator.onLine) {
+                // Success case
+                completeLoading();
+            } else {
+                // Still offline
+                showError();
+            }
+        }, 1800); // realistic loading time 1.8 seconds
+    }
 
-        window.addEventListener('load', () => {
-            clearTimeout(loadTimer);
-            completeLoading();
-        });
+    // Initial attempt
+    attemptLoad();
 
-        retryBtn.addEventListener('click', () => {
-            startLoading();
-            setTimeout(() => {
-                if (navigator.onLine) completeLoading();
-                else showError();
-            }, 1500);
-        });
+    // Auto-fail after 12 seconds if nothing happens (fallback)
+    const autoFailTimer = setTimeout(() => {
+        if (mainContent.style.display !== 'block') {
+            showError();
+        }
+    }, 12000);
 
-        if (!navigator.onLine) showError();
+    // Retry button - now actually tries again
+    retryBtn.addEventListener('click', () => {
+        clearTimeout(autoFailTimer);
+        attemptLoad();
     });
 
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Also complete on real window load (backup)
+    window.addEventListener('load', () => {
+        clearTimeout(autoFailTimer);
+        if (mainContent.style.display !== 'block') {
+            completeLoading();
+        }
+    });
+});
 </script>
 </body>
 </html>
