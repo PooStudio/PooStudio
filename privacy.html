@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - POOSTUDIO</title>
-
+    
+    <link rel="icon" href="logo.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -37,7 +38,7 @@
 
         .loading-logo {
             height: 100px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             filter: drop-shadow(0 0 25px #d97706);
             transition: transform 1.2s ease;
             will-change: transform;
@@ -45,15 +46,6 @@
 
         .loading-logo.scale-up {
             transform: scale(1.6);
-        }
-
-        .logo-fallback {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.8rem;
-            color: #d97706;
-            text-shadow: 0 0 20px #d97706;
-            margin-bottom: 30px;
-            letter-spacing: 4px;
         }
 
         .loading-title {
@@ -147,7 +139,28 @@
             transform: translateY(-3px);
         }
 
-        /* Rest of your styles remain unchanged */
+        .glitch-overlay {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(217,119,6,0.05) 12px, rgba(217,119,6,0.05) 24px);
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        .scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 6px);
+            pointer-events: none;
+            opacity: 0.4;
+            animation: scan 12s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(6px); }
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             line-height: 1.8;
@@ -171,8 +184,75 @@
             backdrop-filter: blur(10px);
         }
 
-        /* ... rest of your container, h1, h2, p, etc. styles unchanged ... */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+        }
 
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            margin-top: 60px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            height: 60%;
+            width: 4px;
+            background-color: #ff6b00;
+            transform: translateY(-50%);
+        }
+
+        p { margin-bottom: 25px; font-weight: 300; }
+        ul { margin-left: 30px; margin-bottom: 25px; }
+        li { margin-bottom: 12px; position: relative; padding-left: 15px; }
+        li::before { content: '•'; color: #ff6b00; position: absolute; left: 0; }
+        strong { color: #ffffff; }
+        a { color: #ff6b00; text-decoration: none; transition: color 0.3s ease; }
+        a:hover { color: #ffffff; text-decoration: underline; }
+        .effective-date { font-style: italic; color: #aaaaaa; text-align: center; margin-bottom: 50px; font-size: 1.1em; }
+        .back-link { display: block; margin-top: 80px; text-align: center; }
+        .back-link a {
+            background-color: #ff6b00;
+            color: #0f0f0f;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+            margin: 0 10px;
+        }
+        .back-link a:hover {
+            background-color: #ffffff;
+            color: #0f0f0f;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.5);
+        }
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            color: #666666;
+            font-size: 0.9em;
+            padding: 20px;
+            border-top: 1px solid #333;
+        }
+
+        @media (max-width: 768px) {
+            .container { margin: 40px auto; padding: 40px 20px; }
+            h1 { font-size: 2.8em; }
+        }
     </style>
 </head>
 <body>
@@ -180,9 +260,6 @@
 <div id="loading-screen">
     <div class="loading-content">
 
-        <!-- LOGO - place your logo.png in the same folder as this file -->
-        <img src="logo.png" alt="POO STUDIO Logo" class="loading-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="logo-fallback" style="display:none;">POO STUDIO</div>
 
         <h1 class="loading-title">POOSTUDIO</h1>
 
@@ -193,12 +270,11 @@
         </div>
 
         <p class="error-message" id="error-message">
-            Connection Failed.<br>
-            <span id="retry-text">No signal received. Try again?</span>
+            No Signal.<br>
+            <span id="retry-text">Reconnecting to Privacy Policy...</span>
         </p>
 
         <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
-
     </div>
 
     <div class="glitch-overlay"></div>
@@ -210,23 +286,93 @@
         <h1>Privacy Policy</h1>
         <p class="effective-date">Effective Date: January 07, 2026</p>
 
-        <!-- Your privacy policy content remains exactly the same -->
-        <p>At POOSTUDIO, we are committed to protecting your privacy...</p>
+        <p>At POOSTUDIO, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines our practices regarding the collection, use, and protection of your data when you visit our website or use our services.</p>
 
-        <!-- ... rest of your privacy policy text ... -->
+        <p>If you do not agree with this policy, please do not access or use our services. We may update this policy periodically, and continued use of the site after changes constitutes acceptance of the revised terms.</p>
+
+        <h2>1. Information We Collect</h2>
+        <p>We collect information to provide, improve, and personalize our services. The types of information we may collect include:</p>
+        <ul>
+            <li><strong>Personal Information:</strong> Data that identifies you personally, such as your name, email address, postal address, phone number, or payment information, which you voluntarily provide.</li>
+            <li><strong>Usage Data:</strong> Automatically collected information about your interactions with our site, including IP address, browser type, operating system, referral sources, pages viewed, and timestamps.</li>
+            <li><strong>Device Information:</strong> Details about the device you use to access our site, such as hardware model, unique device identifiers, mobile network information, and location data (if enabled).</li>
+            <li><strong>Cookies and Similar Technologies:</strong> We use cookies, web beacons, pixel tags, and local storage to track user activity, store preferences, and enhance functionality.</li>
+            <li><strong>Third-Party Data:</strong> Information from third-party services, such as social media platforms or analytics providers, if you link accounts or interact with integrated features.</li>
+        </ul>
+
+        <h2>2. How We Use Your Information</h2>
+        <p>We use the collected information for legitimate business purposes, including:</p>
+        <ul>
+            <li>Providing and maintaining our website and services.</li>
+            <li>Processing transactions, subscriptions, and requests.</li>
+            <li>Personalizing content, recommendations, and user experience.</li>
+            <li>Communicating with you, including sending newsletters, updates, promotional materials, and responding to inquiries.</li>
+            <li>Analyzing usage patterns to improve site performance, features, and security.</li>
+            <li>Detecting, preventing, and addressing technical issues, fraud, or illegal activities.</li>
+            <li>Complying with legal obligations, resolving disputes, and enforcing agreements.</li>
+            <li>Conducting research and development to enhance our offerings.</li>
+        </ul>
+
+        <h2>3. Sharing and Disclosure of Information</h2>
+        <p>We do not sell, rent, or trade your personal information to third parties for marketing purposes. However, we may share information in the following circumstances:</p>
+        <ul>
+            <li><strong>Service Providers:</strong> With trusted vendors and partners who assist in operating our site.</li>
+            <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or asset sales.</li>
+            <li><strong>Legal Requirements:</strong> To comply with laws, regulations, court orders, or to protect rights and safety.</li>
+            <li><strong>Aggregated Data:</strong> Non-personally identifiable information for research or marketing.</li>
+            <li><strong>With Your Consent:</strong> For any other purpose with your explicit permission.</li>
+        </ul>
+
+        <h2>4. Data Security</h2>
+        <p>We implement encryption, firewalls, access controls, and regular security assessments. In the event of a breach, we will notify affected users as required by law.</p>
+
+        <h2>5. Cookies and Tracking Technologies</h2>
+        <p>You can manage cookies in your browser settings. Disabling them may limit functionality.</p>
+
+        <h2>6. Third-Party Links and Services</h2>
+        <p>We are not responsible for the privacy practices of external sites linked from our website.</p>
+
+        <h2>7. Children's Privacy</h2>
+        <p>Our services are not intended for children under 13 (or 16 in some jurisdictions).</p>
+
+        <h2>8. International Data Transfers</h2>
+        <p>By using our site, you consent to data transfers outside your jurisdiction with appropriate safeguards.</p>
+
+        <h2>9. Your Rights and Choices</h2>
+        <p>You may have rights to access, correct, delete, or port your data. Contact us at poostudioo@gmail.com to exercise them.</p>
+
+        <h2>10. Data Retention</h2>
+        <p>We retain data only as long as necessary or required by law.</p>
+
+        <h2>11. Changes to This Privacy Policy</h2>
+        <p>Updates will be posted here with a new effective date.</p>
+
+        <h2>12. Contact Us</h2>
+        <p>POOSTUDIO<br>Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>Phone: (915) 209-5101</p>
 
         <div class="back-link">
             <a href="index.html">← Return to Home</a>
             <a href="terms.html">View Terms of Service →</a>
         </div>
 
-        <footer>
-            <p>© <span id="year"></span> PooStudio</p>
-            <div class="footer-links">
-                <a href="privacy.html">Privacy</a>
-                <a href="terms.html">Terms</a>
-            </div>
-        </footer>
+
+    <footer>
+    <p>© <span id="year"></span> PooStudio</p>
+
+    <div class="footer-particles" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="footer-links">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+    </div>
+    </footer>
+
     </div>
 </div>
 
@@ -238,6 +384,7 @@
         const progressBar = document.querySelector('.loading-progress');
         const errorMessage = document.getElementById('error-message');
         const retryBtn = document.getElementById('retry-btn');
+        const logo = document.querySelector('.loading-logo');
 
         let loadProgress = 0;
         let animationId;
@@ -255,6 +402,7 @@
             loadingText.classList.add('revealed');
             errorMessage.style.display = 'none';
             retryBtn.style.opacity = '0';
+            retryBtn.style.display = 'none';
             progressBar.style.width = '0%';
             progressBar.style.background = 'linear-gradient(90deg, #d97706, #ff6b00, #b8860b)';
             updateProgress();
@@ -265,6 +413,7 @@
             progressBar.style.width = '100%';
             setTimeout(() => {
                 loadingScreen.classList.add('fade-out');
+                if (logo) logo.classList.add('scale-up');
                 setTimeout(() => {
                     mainContent.style.display = 'block';
                     setTimeout(() => loadingScreen.remove(), 1400);
@@ -276,6 +425,7 @@
             cancelAnimationFrame(animationId);
             progressBar.style.width = '100%';
             progressBar.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
+            progressBar.style.boxShadow = '0 0 20px #ef4444';
             loadingText.style.opacity = '0';
             errorMessage.style.display = 'block';
             setTimeout(() => errorMessage.style.opacity = '1', 100);
@@ -285,24 +435,25 @@
 
         startLoading();
 
-        const loadTimer = setTimeout(showError, 12000);
+        const loadTimer = setTimeout(showError, 14000);
 
         window.addEventListener('load', () => {
             clearTimeout(loadTimer);
             completeLoading();
         });
 
-        // Make retry button actually reload the page
         retryBtn.addEventListener('click', () => {
-            window.location.reload();
+            startLoading();
+            setTimeout(() => {
+                if (navigator.onLine) completeLoading();
+                else showError();
+            }, 1500);
         });
 
-        if (!navigator.onLine) {
-            showError();
-        }
-
-        document.getElementById('year').textContent = new Date().getFullYear();
+        if (!navigator.onLine) showError();
     });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
-</html>
+</html>>
