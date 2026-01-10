@@ -176,17 +176,17 @@
 
     /* ===== FORM CONTAINER ===== */
     .container {
-      max-width: 620px;
+      max-width: 760px;
       margin: 6vh auto 10vh;
-      padding: 3.5rem 2.2rem;
-      background: rgba(17,17,24,0.68);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
+      padding: 3rem 2.2rem;
+      background: linear-gradient(180deg, rgba(17,17,24,0.72), rgba(17,17,24,0.6));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.03);
       border-radius: 16px;
-      box-shadow: 0 25px 70px rgba(0,0,0,0.65);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
+      transform: translateY(24px) scale(0.995);
+      transition: opacity 0.6s cubic-bezier(.2,.9,.3,1), transform 0.6s cubic-bezier(.2,.9,.3,1);
     }
 
     .container.visible {
@@ -221,10 +221,17 @@
     input, textarea, select {
       width: 100%;
       padding: 1rem 1.2rem;
-      background: rgba(30,30,45,0.65);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
       border-radius: 10px;
       color: var(--text);
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 6px 30px rgba(245,158,11,0.06), inset 0 0 0 1px rgba(245,158,11,0.02);
+      transform: translateY(-1px);
     }
 
     .btn {
@@ -237,7 +244,11 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
     }
+
+    .btn:active { transform: translateY(1px) scale(0.998); }
+    .btn[disabled] { opacity: 0.7; cursor: progress; }
 
     /* ===== FOOTER ===== */
     .site-footer {
@@ -257,6 +268,17 @@
 
     .site-footer a:hover {
       color: var(--accent-glow);
+    }
+
+    /* status messages */
+    .status { display: none; margin-top: 1rem; padding: 0.9rem 1rem; border-radius: 8px; font-weight: 600; }
+    .status.visible { display: block; }
+    #status-success { background: rgba(16,185,129,0.09); color: var(--success); border: 1px solid rgba(16,185,129,0.12); }
+    #status-error { background: rgba(239,68,68,0.07); color: var(--error); border: 1px solid rgba(239,68,68,0.1); }
+
+    @media (max-width: 640px) {
+      .loading-title { font-size: 3.2rem; }
+      .container { margin: 4vh 1rem 8vh; padding: 2rem 1rem; }
     }
   </style>
 </head>
@@ -317,9 +339,8 @@
     </div>
 
     <button type="submit" class="btn" id="submit-btn">SUBMIT APPLICATION</button>
-
-    <div class="status" id="status-success">Application sent successfully! We'll review it soon ✦</div>
-    <div class="status" id="status-error">Something went wrong. Please try again or contact us directly.</div>
+    <div class="status" id="status-success" role="status" aria-live="polite">Application sent successfully! We'll review it soon ✦</div>
+    <div class="status" id="status-error" role="alert" aria-live="assertive">Something went wrong. Please try again or contact us directly.</div>
   </form>
 
   <!-- ===== FOOTER ===== -->
@@ -341,6 +362,7 @@ const mainContent   = document.getElementById('main-content');
 const progress      = document.getElementById('progress');
 const errorMessage  = document.getElementById('error-message');
 const retryBtn      = document.getElementById('retry-btn');
+const homeButton = document.querySelector('.home-button');
 
 let progressValue = 0;
 let hasFailed = false;
@@ -353,15 +375,16 @@ function startLoading() {
   retryBtn.classList.remove('visible');
   hasFailed = false;
 
+  // deterministic smooth progress
   loadingTimer = setInterval(() => {
-    progressValue += Math.random() * 8 + 4; 
+    progressValue += 6 + Math.random() * 4;
     if (progressValue >= 100) {
       progressValue = 100;
       clearInterval(loadingTimer);
-      setTimeout(showMainContent, 700);
+      setTimeout(showMainContent, 600);
     }
     progress.style.width = progressValue + '%';
-  }, 160);
+  }, 140);
 }
 
 function showMainContent() {
@@ -369,6 +392,8 @@ function showMainContent() {
     loadingScreen.classList.add('hidden');
     setTimeout(() => {
       mainContent.classList.add('visible');
+      // reveal home button when content visible
+      if (homeButton) homeButton.style.pointerEvents = 'auto';
     }, 400);
   }
 }
@@ -391,9 +416,32 @@ setTimeout(() => {
 }, 10000 + Math.random() * 4000);
 
 document.getElementById('application-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.currentTarget;
   const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'SENDING...';
+  const success = document.getElementById('status-success');
+  const error = document.getElementById('status-error');
+  success.classList.remove('visible'); error.classList.remove('visible');
+  btn.disabled = true; btn.textContent = 'SENDING...';
+
+  const data = new FormData(form);
+  fetch(form.action, {
+    method: form.method || 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  }).then(resp => {
+    if (resp.ok) {
+      success.classList.add('visible');
+      form.reset();
+      btn.textContent = 'SENT';
+      setTimeout(() => { btn.disabled = false; btn.textContent = 'SUBMIT APPLICATION'; success.classList.remove('visible'); }, 3500);
+    } else {
+      return resp.json().then(j => { throw j; });
+    }
+  }).catch(() => {
+    error.classList.add('visible');
+    btn.disabled = false; btn.textContent = 'SUBMIT APPLICATION';
+  });
 });
 </script>
 
