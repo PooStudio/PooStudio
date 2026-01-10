@@ -238,6 +238,26 @@
       border-radius: 10px;
       cursor: pointer;
     }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      text-align: center;
+      margin-top: 3.5rem;
+      padding-bottom: 5.5rem; /* space for home button */
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .site-footer a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 0.5rem;
+      transition: color 0.25s ease;
+    }
+
+    .site-footer a:hover {
+      color: var(--accent-glow);
+    }
   </style>
 </head>
 
@@ -257,48 +277,124 @@
 
 <div class="container" id="main-content">
   <h1 class="glow-text">DEV / MOD APPLICATION</h1>
-  <p class="subtitle">Tell us who you are and why you want to join POOSTUDIO.</p>
+  <p class="subtitle">We're looking for talented people. Tell us who you are and why you want to join POOSTUDIO.</p>
 
   <form id="application-form" action="https://formspree.io/f/mykkgpqq" method="POST">
-    <label>FULL NAME / NICKNAME</label>
-    <input type="text" name="name" required>
+    <div class="form-group">
+      <label for="name">FULL NAME / NICKNAME</label>
+      <input type="text" id="name" name="name" required placeholder="How should we call you?">
+    </div>
 
-    <label>EMAIL</label>
-    <input type="email" name="email" required>
+    <div class="form-group">
+      <label for="email">EMAIL ADDRESS</label>
+      <input type="email" id="email" name="email" required placeholder="Where we can reach you">
+    </div>
 
-    <label>ROLE</label>
-    <select name="role" required>
-      <option disabled selected>Select role</option>
-      <option>Developer</option>
-      <option>Moderator</option>
-      <option>Both</option>
-    </select>
+    <div class="form-group">
+      <label for="role">ROLE YOU'RE APPLYING FOR</label>
+      <select id="role" name="role" required>
+        <option value="" disabled selected>Select role...</option>
+        <option value="Developer">Developer</option>
+        <option value="Moderator">Moderator</option>
+        <option value="Both">Both (Dev + Mod)</option>
+        <option value="Other">Other (please specify in message)</option>
+      </select>
+    </div>
 
-    <label>WHY SHOULD WE CHOOSE YOU?</label>
-    <textarea name="why" rows="6" required></textarea>
+    <div class="form-group">
+      <label for="discord">DISCORD TAG (optional)</label>
+      <input type="text" id="discord" name="discord" placeholder="username#0000 or @username">
+    </div>
 
-    <button type="submit" class="btn">SUBMIT APPLICATION</button>
+    <div class="form-group">
+      <label for="experience">BRIEF EXPERIENCE / PORTFOLIO LINKS</label>
+      <textarea id="experience" name="experience" rows="4" placeholder="Previous projects, skills, GitHub, past moderation experience, etc..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="why">WHY SHOULD WE CHOOSE YOU? *</label>
+      <textarea id="why" name="why" required rows="6" placeholder="Explain why you want to join POOSTUDIO and what makes you stand out."></textarea>
+    </div>
+
+    <button type="submit" class="btn" id="submit-btn">SUBMIT APPLICATION</button>
+
+    <div class="status" id="status-success">Application sent successfully! We'll review it soon ✦</div>
+    <div class="status" id="status-error">Something went wrong. Please try again or contact us directly.</div>
   </form>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="site-footer">
+    <div>© 2026 PooStudio</div>
+    <div>
+      <a href="privacy.html">Privacy</a> ·
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
 </div>
 
-<!-- HOME BUTTON -->
+<!-- ===== HOME BUTTON ===== -->
 <a href="index.html" class="home-button">HOME</a>
 
 <script>
 const loadingScreen = document.getElementById('loading-screen');
-const mainContent = document.getElementById('main-content');
-const progress = document.getElementById('progress');
+const mainContent   = document.getElementById('main-content');
+const progress      = document.getElementById('progress');
+const errorMessage  = document.getElementById('error-message');
+const retryBtn      = document.getElementById('retry-btn');
 
-let value = 0;
-const timer = setInterval(() => {
-  value += 6;
-  progress.style.width = value + '%';
-  if (value >= 100) {
-    clearInterval(timer);
+let progressValue = 0;
+let hasFailed = false;
+let loadingTimer;
+
+function startLoading() {
+  progressValue = 0;
+  progress.style.width = '0%';
+  errorMessage.classList.remove('visible');
+  retryBtn.classList.remove('visible');
+  hasFailed = false;
+
+  loadingTimer = setInterval(() => {
+    progressValue += Math.random() * 8 + 4; 
+    if (progressValue >= 100) {
+      progressValue = 100;
+      clearInterval(loadingTimer);
+      setTimeout(showMainContent, 700);
+    }
+    progress.style.width = progressValue + '%';
+  }, 160);
+}
+
+function showMainContent() {
+  if (!hasFailed) {
     loadingScreen.classList.add('hidden');
-    mainContent.classList.add('visible');
+    setTimeout(() => {
+      mainContent.classList.add('visible');
+    }, 400);
   }
-}, 140);
+}
+
+function triggerFailure() {
+  if (!hasFailed) {
+    hasFailed = true;
+    clearInterval(loadingTimer);
+    errorMessage.classList.add('visible');
+    retryBtn.classList.add('visible');
+    progress.style.width = '92%'; 
+  }
+}
+
+retryBtn.addEventListener('click', startLoading);
+startLoading();
+
+setTimeout(() => {
+  if (progressValue < 94) triggerFailure();
+}, 10000 + Math.random() * 4000);
+
+document.getElementById('application-form').addEventListener('submit', function(e) {
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'SENDING...';
+});
 </script>
 
 </body>
