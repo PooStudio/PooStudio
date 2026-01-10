@@ -336,3 +336,29 @@ select:focus {
   text-decoration: none;
   margin: 0 0.5rem;
 }
+
+/* status messages */
+.status {
+  display: none;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.status.visible {
+  display: block;
+}
+
+#status-success {
+  background: rgba(16,185,129,0.09);
+  color: var(--success);
+  border: 1px solid rgba(16,185,129,0.12);
+}
+
+#status-error {
+  background: rgba(239,68,68,0.07);
+  color: var(--error);
+  border: 1px solid rgba(239,68,68,68,0.1);
+}
+
