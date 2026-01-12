@@ -305,7 +305,18 @@
         }
 
         
+       @media (max-width: 768px) {
+            .container { margin: 40px auto; padding: 40px 20px; }
+            h1 { font-size: 2.8em; }
+            .loading-title { font-size: 14vw; }
+        }
+
         @media (max-width: 480px) {
+            .loading-bar { width: 90vw; }
+            .loading-text { font-size: 1.4rem; letter-spacing: 0.3rem; }
+        }
+        
+        @media (max-width: 600px) {
             .container {
                 padding: 30px 15px;
             }
@@ -315,27 +326,10 @@
             h2 {
                 font-size: 1.8em;
             }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 15px;
-            }
-            h1 {
-                font-size: 2.5em;
-            }
-            h2 {
-                font-size: 1.8em;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .loading-title {
-                font-size: 16vw;
-            }
-            .loading-text {
-                font-size: 1.2rem;
-                letter-spacing: 0.2rem;
+            .back-link a {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
             }
         }
     </style>
