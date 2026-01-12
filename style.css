@@ -501,7 +501,7 @@ html.scrolled #starsContainer {
     animation: intenseGlitch 0.8s infinite steps(8);
 }
 
-@keyframes intenseGlitch {
+@keyframes intenseGlitch {      
     0% { 
         clip-path: inset(0 0 0 0); 
         transform: translate(0); 
@@ -546,4 +546,78 @@ html.scrolled #starsContainer {
 @keyframes scan {
     0% { transform: translateY(0); }
     100% { transform: translateY(6px); }
+}
+
+/* ========================
+   MOBILE RESPONSIVE
+======================== */
+@media (max-width: 768px) {
+
+  #three-container,
+  #noise,
+  #particles,
+  #starsContainer {
+    height: 100svh;
+  }
+
+  header {
+    padding: 20px;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  nav ul {
+    gap: 24px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-text {
+    position: relative;
+    transform: none;
+    padding: 140px 20px 80px;
+  }
+
+  h1 {
+    font-size: 14vw;
+    margin: 40px 0;
+  }
+
+  .text-left,
+  .text-right {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    transform: none;
+    max-width: 100%;
+    margin: 30px auto;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .scroll-indicator {
+    position: relative;
+    margin-top: 40px;
+  }
+
+  main {
+    padding: 80px 20px;
+  }
+
+  section h2 {
+    font-size: 2.5rem;
+  }
+
+  footer {
+    padding: 80px 20px;
+    min-height: auto;
+  }
+
+  footer p {
+    font-size: 0.9rem;
+    letter-spacing: 0.25rem;
+    text-align: center;
+  }
 }
