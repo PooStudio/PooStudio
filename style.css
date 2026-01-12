@@ -552,72 +552,37 @@ html.scrolled #starsContainer {
    MOBILE RESPONSIVE
 ======================== */
 @media (max-width: 768px) {
-
-  #three-container,
-  #noise,
-  #particles,
-  #starsContainer {
-    height: 100svh;
-  }
-
-  header {
-    padding: 20px;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  nav ul {
-    gap: 24px;
-    font-size: 0.9rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .hero-text {
-    position: relative;
-    transform: none;
-    padding: 140px 20px 80px;
-  }
-
-  h1 {
-    font-size: 14vw;
-    margin: 40px 0;
-  }
-
-  .text-left,
-  .text-right {
-    position: relative;
-    left: auto;
-    right: auto;
-    top: auto;
-    transform: none;
-    max-width: 100%;
-    margin: 30px auto;
-    text-align: center;
-    font-size: 1.1rem;
-  }
-
-  .scroll-indicator {
-    position: relative;
-    margin-top: 40px;
-  }
-
-  main {
-    padding: 80px 20px;
-  }
-
-  section h2 {
-    font-size: 2.5rem;
-  }
-
-  footer {
-    padding: 80px 20px;
-    min-height: auto;
-  }
-
-  footer p {
-    font-size: 0.9rem;
-    letter-spacing: 0.25rem;
-    text-align: center;
-  }
+    nav ul {
+        gap: 30px;
+        font-size: 1rem;
+    }
+    h1 {
+        font-size: 15vw;
+    }
+    .text-left, .text-right {
+        font-size: 1rem;
+        max-width: 90%;
+    }
+    .text-left {
+        left: 5%;
+        top: auto;
+        bottom: 20%;
+        transform: translateY(0);
+    }
+    .text-right {
+        right: 5%;
+        top: auto;
+        bottom: 10%;
+        transform: translateY(0);
+    }
+    main {
+        padding: 80px 20px;
+    }
+    section h2 {
+        font-size: 3rem;
+    }
+    footer {
+        padding: 80px 20px;
+        min-height: 40vh;
+    }
 }
