@@ -549,32 +549,23 @@ html.scrolled #starsContainer {
 }
 
 /* ========================
-   MOBILE RESPONSIVE
+   MOBILE Corrections
 ======================== */
+
 @media (max-width: 768px) {
+    h1 {
+        font-size: 18vw;
+    }
     nav ul {
         gap: 30px;
         font-size: 1rem;
     }
-    h1 {
-        font-size: 15vw;
-    }
     .text-left, .text-right {
-        font-size: 1rem;
+        font-size: 1.1rem;
         max-width: 90%;
     }
-    .text-left {
-        left: 5%;
-        top: auto;
-        bottom: 20%;
-        transform: translateY(0);
-    }
-    .text-right {
-        right: 5%;
-        top: auto;
-        bottom: 10%;
-        transform: translateY(0);
-    }
+    .text-left { left: 5%; }
+    .text-right { right: 5%; }
     main {
         padding: 80px 20px;
     }
@@ -583,32 +574,33 @@ html.scrolled #starsContainer {
     }
     footer {
         padding: 80px 20px;
-        min-height: 40vh;
     }
 }
 
+/* MOBILE RESPONSIVE */
 @media (max-width: 480px) {
+    h1 {
+        font-size: 22vw;
+    }
     nav ul {
         gap: 20px;
         font-size: 0.9rem;
     }
-    h1 {
-        font-size: 18vw;
-    }
-    .accent {
-        font-size: 1.4rem;
-    }
-    .scroll-indicator {
-        font-size: 0.9rem;
-        bottom: 40px;
-    }
-    .circle {
-        width: 20px;
-        height: 20px;
-        border-width: 1.5px;
-    }
-    footer p {
+    .text-left, .text-right {
         font-size: 1rem;
-        letter-spacing: 0.3rem;
+        max-width: 100%;
+    }
+    main {
+        padding: 60px 15px;
+    }
+    section h2 {
+        font-size: 2.5rem;
+    }
+    footer {
+        padding: 60px 15px;
     }
 }
+
+
+
+
