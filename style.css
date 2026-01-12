@@ -586,3 +586,29 @@ html.scrolled #starsContainer {
         min-height: 40vh;
     }
 }
+
+@media (max-width: 480px) {
+    nav ul {
+        gap: 20px;
+        font-size: 0.9rem;
+    }
+    h1 {
+        font-size: 18vw;
+    }
+    .accent {
+        font-size: 1.4rem;
+    }
+    .scroll-indicator {
+        font-size: 0.9rem;
+        bottom: 40px;
+    }
+    .circle {
+        width: 20px;
+        height: 20px;
+        border-width: 1.5px;
+    }
+    footer p {
+        font-size: 1rem;
+        letter-spacing: 0.3rem;
+    }
+}
