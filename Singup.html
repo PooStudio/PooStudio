@@ -28,7 +28,7 @@
   </div>
 </div>
 
-<div class="container" id="main-content">
+<div class="container" id="main-content" style="opacity:0; transition:opacity 0.6s;">
   <h1 class="glow-text">DEV / MOD APPLICATION</h1>
   <p class="subtitle">We're looking for talented people. Tell us who you are and why you want to join POOSTUDIO.</p>
 
@@ -91,140 +91,124 @@
 <a href="index.html" class="home-button">HOME</a>
 
 <script>
+const loadingScreen = document.getElementById('loading-screen');
+const mainContent = document.getElementById('main-content');
+const progress = document.getElementById('progress');
+const errorMessage = document.getElementById('error-message');
+const retryBtn = document.getElementById('retry-btn');
+const form = document.getElementById('application-form');
+const submitBtn = document.getElementById('submit-btn');
 
-const STORAGE_KEY = "poostudio_last_application_time";
-const COOLDOWN_KEY = "poostudio_submit_cooldown";
-const form = document.getElementById("application-form");
-const submitBtn = document.getElementById("submit-btn");
+const STORAGE_KEY = "poostudio_last_app_time";
+const COOLDOWN_KEY = "poostudio_cooldown";
 
-function getNextResetDate(from = new Date()) {
-  const d = new Date(from);
+function startLoading() {
+  let val = 0;
+  progress.style.width = '0%';
+  errorMessage.classList.remove('visible');
+  retryBtn.classList.remove('visible');
+
+  const timer = setInterval(() => {
+    val += 5 + Math.random() * 9;
+    progress.style.width = Math.min(100, val) + '%';
+    if (val >= 100) {
+      clearInterval(timer);
+      setTimeout(showContent, 300);
+    }
+  }, 80);
+
+  setTimeout(() => {
+    if (val < 90) {
+      clearInterval(timer);
+      showContent();
+    }
+  }, 6000);
+}
+
+function showContent() {
+  loadingScreen.classList.add('hidden');
+  setTimeout(() => {
+    mainContent.style.opacity = '1';
+  }, 200);
+}
+
+retryBtn.addEventListener('click', startLoading);
+startLoading(); 
+
+function getNextMidnight() {
+  const d = new Date();
   d.setDate(d.getDate() + 1);
-  d.setHours(0, 5, 0, 0);
+  d.setHours(0, 3, 0, 0);
   return d;
 }
 
-function formatTimeLeft(ms) {
-  if (ms <= 0) return "Now – refresh page";
-  const s = Math.floor(ms / 1000);
-  const m = Math.floor(s / 60);
-  const h = Math.floor(m / 60);
-  const d = Math.floor(h / 24);
+function timeLeftStr(ms) {
+  if (ms <= 0) return "Now – refresh";
+  const s = Math.floor(ms/1000);
+  const m = Math.floor(s/60);
+  const h = Math.floor(m/60);
+  const d = Math.floor(h/24);
   const remS = s % 60;
   const remM = m % 60;
   const remH = h % 24;
-  let str = "";
-  if (d > 0) str += d + "d ";
-  if (remH > 0 || d > 0) str += remH + "h ";
+  let str = d ? d + "d " : "";
+  if (remH || d) str += remH + "h ";
   str += remM + "m " + (remS < 10 ? "0" : "") + remS + "s";
   return str.trim();
 }
 
-function isOnCooldown() {
-  const cd = localStorage.getItem(COOLDOWN_KEY);
-  if (!cd) return false;
-  return Date.now() < Number(cd);
-}
-
-function setCooldown(seconds = 12) {
-  localStorage.setItem(COOLDOWN_KEY, Date.now() + seconds * 1000);
-}
-
-function showLocked(message = "Next submission available in:", big = false) {
-  const nextReset = getNextResetDate();
+function showCountdown(msg = "Next submission in:", big = false) {
+  const next = getNextMidnight();
   form.innerHTML = `
-    <div style="text-align:center; padding: ${big ? '6rem' : '4rem'} 1.5rem; color:#aaa;">
-      <p style="font-size:${big ? '1.8rem' : '1.4rem'}; margin-bottom:2rem;">
-        ${message}
-      </p>
-      <div id="countdown" style="
-        font-size:${big ? '4.2rem' : '3.4rem'};
-        font-weight:bold;
-        color:#00ffea;
-        text-shadow:0 0 18px #00ffea90;
-        letter-spacing:3px;
-        font-family:'Orbitron',sans-serif;
-      ">:::...</div>
-      <p style="margin-top:2.5rem; opacity:0.5; font-size:1rem;">
-        (one application per day)
-      </p>
+    <div style="text-align:center; padding:${big?'5rem':'4rem'} 1rem; color:#bbb;">
+      <p style="font-size:${big?'1.7rem':'1.4rem'}; margin-bottom:1.8rem;">${msg}</p>
+      <div id="cd" style="font-size:${big?'4rem':'3.2rem'}; font-weight:bold; color:#00ffea; text-shadow:0 0 15px #00ffee80; font-family:'Orbitron',sans-serif;">
+        ...
+      </div>
+      <p style="margin-top:2rem; opacity:0.6;">(1 application per day)</p>
     </div>
   `;
-
-  const el = document.getElementById("countdown");
+  const cdEl = document.getElementById('cd');
   const update = () => {
-    const diff = nextReset - new Date();
-    if (diff <= 0) return location.reload();
-    el.textContent = formatTimeLeft(diff);
+    const left = next - Date.now();
+    if (left <= 0) location.reload();
+    else cdEl.textContent = timeLeftStr(left);
   };
   update();
-  setInterval(update, 980);
-}
-
-function showSuccess() {
-  localStorage.setItem(STORAGE_KEY, new Date().toISOString());
-  form.innerHTML = `
-    <div style="text-align:center; padding:5rem 1.5rem; color:#ddd;">
-      <h2 style="color:#00ffea; font-family:'Orbitron',sans-serif; font-size:2.8rem; margin-bottom:1rem; text-shadow:0 0 12px #00ffea70;">
-        APPLICATION SENT!
-      </h2>
-      <p style="font-size:1.3rem; margin:1.5rem 0; opacity:0.9;">
-        Thank you! We'll review it soon.
-      </p>
-      <p style="font-size:1.45rem; margin:2.5rem 0 1rem;">
-        Next submission in:
-      </p>
-      <div id="countdown" style="
-        font-size:3.6rem;
-        font-weight:bold;
-        color:#00ffea;
-        text-shadow:0 0 18px #00ffea90;
-        letter-spacing:2px;
-        font-family:'Orbitron',sans-serif;
-      ">:::...</div>
-    </div>
-  `;
-
-  const nextReset = getNextResetDate();
-  const cd = document.getElementById("countdown");
-  const tick = () => {
-    const diff = nextReset - new Date();
-    if (diff <= 0) return location.reload();
-    cd.textContent = formatTimeLeft(diff);
-  };
-  tick();
-  setInterval(tick, 980);
+  setInterval(update, 950);
 }
 
 if (localStorage.getItem(STORAGE_KEY)) {
-  showLocked("Next submission available in:", true);
-} else if (isOnCooldown()) {
-  showLocked("Please wait a moment...", false);
+  showCountdown("Next submission available in:", true);
 } else {
+  let submitting = false;
 
-  form.addEventListener("submit", function(e) {
-    if (isOnCooldown()) {
+  form.addEventListener('submit', e => {
+    if (submitting) {
       e.preventDefault();
-      alert("Please wait a few seconds before trying again.");
       return;
     }
 
+    submitting = true;
     submitBtn.disabled = true;
     submitBtn.textContent = "SENDING...";
-    setCooldown(12); 
 
-    setTimeout(() => {
-      if (!document.getElementById("countdown")) {
-        showSuccess();
-      }
-    }, 6000);
+    localStorage.setItem(COOLDOWN_KEY, Date.now() + 8000);
   });
 
-  window.addEventListener("message", function(e) {
-    if (e.data && typeof e.data === "string" && 
-        (e.data.includes("success") || e.data.includes("Thanks") || e.data.includes("sent"))) {
-      showSuccess();
+  window.addEventListener('message', e => {
+    if (typeof e.data === 'string' && /thanks|success|sent/i.test(e.data)) {
+      localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+      showCountdown("Application sent! Next in:", true);
     }
+  });
+  form.addEventListener('submit', () => {
+    setTimeout(() => {
+      if (submitting && !document.getElementById('cd')) {
+        localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+        showCountdown("Application sent! Next in:", true);
+      }
+    }, 7000);
   });
 }
 </script>
