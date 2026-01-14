@@ -1,6 +1,3 @@
-/* ========================
-   ROOT VARIABLES
-======================== */
 :root {
   --bg: #0a0a0f;
   --surface: #111118;
@@ -13,9 +10,6 @@
   --error: #ef4444;
 }
 
-/* ========================
-   RESET & BASE
-======================== */
 * {
   margin: 0;
   padding: 0;
@@ -44,9 +38,6 @@ body {
   opacity: 0.8;
 }
 
-/* ========================
-   HOME BUTTON
-======================== */
 .home-button {
   position: absolute;
   bottom: 24px;
@@ -82,9 +73,6 @@ body {
 }
 
 
-/* ========================
-   LOADING SCREEN
-======================== */
 #loading-screen {
   position: fixed;
   inset: 0;
@@ -186,9 +174,6 @@ body {
   pointer-events: auto;
 }
 
-/* ========================
-   FORM CONTAINER
-======================== */
 .container {
   max-width: 760px;
   margin: 6vh auto 10vh;
@@ -234,9 +219,7 @@ h1.glow-text {
   color: var(--text-muted);
 }
 
-/* ========================
-   FORM ELEMENTS
-======================== */
+
 label {
   display: block;
   margin-bottom: 0.6rem;
@@ -262,9 +245,6 @@ select {
   letter-spacing: 0.01em;
 }
 
-/* ========================
-   SELECT ROLE POLISH
-======================== */
 select {
   appearance: none;
   background-color: rgba(17,17,24,0.85);
@@ -308,9 +288,6 @@ select:focus {
     0 8px 30px rgba(245,158,11,0.15);
 }
 
-/* ========================
-   BUTTONS & FOOTER
-======================== */
 .btn {
   width: 100%;
   padding: 1.2rem;
@@ -341,7 +318,6 @@ select:focus {
   margin: 0 0.5rem;
 }
 
-/* status messages */
 .status {
   display: none;
   margin-top: 1rem;
@@ -367,7 +343,6 @@ select:focus {
 }
 
 
-/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
   .container {
     margin: 4vh auto 8vh;

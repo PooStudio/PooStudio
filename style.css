@@ -496,7 +496,6 @@ html.scrolled #starsContainer {
     }
 }
 
-/* Full Glitch Mode (Error State) */
 .glitch-overlay[style*="animation: glitch"] {
     animation: intenseGlitch 0.8s infinite steps(8);
 }
@@ -532,7 +531,6 @@ html.scrolled #starsContainer {
     }
 }
 
-/* Scanlines */
 .scanlines {
     position: absolute;
     inset: 0;
@@ -548,12 +546,8 @@ html.scrolled #starsContainer {
     100% { transform: translateY(6px); }
 }
 
-/* ========================
-   MOBILE LAYOUT FIX
-======================== */
 
 @media (max-width: 768px) {
-  /* REMOVE ABSOLUTE COLUMNS */
   .text-left,
   .text-right {
     position: relative;
@@ -569,14 +563,12 @@ html.scrolled #starsContainer {
     font-size: 1.2rem;
   }
 
-  /* TITLE */
   h1 {
     font-size: clamp(3rem, 18vw, 5rem);
     margin: 20px 0;
     line-height: 1.05;
   }
 
-  /* NAV BAR */
   header {
     padding: 20px;
     justify-content: center;
@@ -588,7 +580,6 @@ html.scrolled #starsContainer {
     letter-spacing: 0.15rem;
   }
 
-  /* SCROLL INDICATOR */
   .scroll-indicator {
     position: relative;
     bottom: auto;
@@ -596,7 +587,6 @@ html.scrolled #starsContainer {
     opacity: 0.6;
   }
 
-  /* CANVAS / EFFECTS PERFORMANCE */
   #three-container,
   #noise,
   #particles,
@@ -605,7 +595,6 @@ html.scrolled #starsContainer {
   }
 }
 
-/* EXTRA SMALL PHONES */
 @media (max-width: 480px) {
 
   nav ul {
@@ -628,14 +617,9 @@ html.scrolled #starsContainer {
   }
 }
 
-/* ========================
-   HERO TITLE – RESPONSIVE FIX
-======================== */
-
 #hero-title {
   font-family: 'Orbitron', sans-serif;
 
-  /* Prevents overflow on all devices */
   font-size: clamp(2.8rem, 14vw, 8rem);
 
   line-height: 1;
@@ -655,10 +639,6 @@ html.scrolled #starsContainer {
     0 0 32px rgba(217, 119, 6, 0.2);
 }
 
-/* ========================
-   MOBILE OPTIMIZATION
-======================== */
-
 @media (max-width: 768px) {
   #hero-title {
     font-size: clamp(3rem, 18vw, 5.5rem);
@@ -669,7 +649,6 @@ html.scrolled #starsContainer {
   #hero-title {
     font-size: clamp(2.6rem, 16vw, 4.2rem);
 
-    /* Reduce glow so it doesn’t “look” oversized */
     text-shadow:
       0 0 3px #d97706,
       0 0 6px rgba(217, 119, 6, 0.6),
@@ -677,9 +656,6 @@ html.scrolled #starsContainer {
   }
 }
 
-/* ========================
-   ULTRA-SMALL DEVICES (OPTIONAL)
-======================== */
 
 @media (max-width: 360px) {
   #hero-title {

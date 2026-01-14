@@ -31,8 +31,11 @@
 <div class="container" id="main-content">
   <h1 class="glow-text">DEV / MOD APPLICATION</h1>
   <p class="subtitle">We're looking for talented people. Tell us who you are and why you want to join POOSTUDIO.</p>
+  <form id="application-form" 
+        action="https://formspree.io/f/mykkgpqq" 
+        method="POST">
+    <input type="text" name="_gotcha" style="display:none" />
 
-  <form id="application-form" action="https://formspree.io/f/mykkgpqq" method="POST">
     <div class="form-group">
       <label for="name">FULL NAME / NICKNAME</label>
       <input type="text" id="name" name="name" required placeholder="How should we call you?">
@@ -69,12 +72,9 @@
       <textarea id="why" name="why" required rows="6" placeholder="Explain why you want to join POOSTUDIO and what makes you stand out."></textarea>
     </div>
 
-    <button type="submit" class="btn" id="submit-btn">SUBMIT APPLICATION</button>
-    <div class="status" id="status-success" role="status" aria-live="polite">Application sent successfully! We'll review it soon ✦</div>
-    <div class="status" id="status-error" role="alert" aria-live="assertive">Something went wrong. Please try again or contact us directly.</div>
+    <button type="submit" class="btn">SUBMIT APPLICATION</button>
   </form>
 
-  <!-- ===== FOOTER ===== -->
   <div class="site-footer">
     <div>© 2026 PooStudio</div>
     <div>
@@ -84,7 +84,6 @@
   </div>
 </div>
 
-<!-- ===== HOME BUTTON ===== -->
 <a href="index.html" class="home-button">HOME</a>
 
 <script>
@@ -93,7 +92,7 @@ const mainContent   = document.getElementById('main-content');
 const progress      = document.getElementById('progress');
 const errorMessage  = document.getElementById('error-message');
 const retryBtn      = document.getElementById('retry-btn');
-const homeButton = document.querySelector('.home-button');
+const homeButton    = document.querySelector('.home-button');
 
 let progressValue = 0;
 let hasFailed = false;
@@ -106,7 +105,6 @@ function startLoading() {
   retryBtn.classList.remove('visible');
   hasFailed = false;
 
-  // deterministic smooth progress
   loadingTimer = setInterval(() => {
     progressValue += 6 + Math.random() * 4;
     if (progressValue >= 100) {
@@ -123,7 +121,6 @@ function showMainContent() {
     loadingScreen.classList.add('hidden');
     setTimeout(() => {
       mainContent.classList.add('visible');
-      // reveal home button when content visible
       if (homeButton) homeButton.style.pointerEvents = 'auto';
     }, 400);
   }
@@ -135,7 +132,7 @@ function triggerFailure() {
     clearInterval(loadingTimer);
     errorMessage.classList.add('visible');
     retryBtn.classList.add('visible');
-    progress.style.width = '92%'; 
+    progress.style.width = '92%';
   }
 }
 
@@ -145,35 +142,6 @@ startLoading();
 setTimeout(() => {
   if (progressValue < 94) triggerFailure();
 }, 10000 + Math.random() * 4000);
-
-document.getElementById('application-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const form = e.currentTarget;
-  const btn = document.getElementById('submit-btn');
-  const success = document.getElementById('status-success');
-  const error = document.getElementById('status-error');
-  success.classList.remove('visible'); error.classList.remove('visible');
-  btn.disabled = true; btn.textContent = 'SENDING...';
-
-  const data = new FormData(form);
-  fetch(form.action, {
-    method: form.method || 'POST',
-    body: data,
-    headers: { 'Accept': 'application/json' }
-  }).then(resp => {
-    if (resp.ok) {
-      success.classList.add('visible');
-      form.reset();
-      btn.textContent = 'SENT';
-      setTimeout(() => { btn.disabled = false; btn.textContent = 'SUBMIT APPLICATION'; success.classList.remove('visible'); }, 3500);
-    } else {
-      return resp.json().then(j => { throw j; });
-    }
-  }).catch(() => {
-    error.classList.add('visible');
-    btn.disabled = false; btn.textContent = 'SUBMIT APPLICATION';
-  });
-});
 </script>
 
 </body>
