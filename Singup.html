@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Application ✦  POOSTUDIO</title>
+  <title>Application ✦ POOSTUDIO</title>
 
   <link rel="icon" href="logo.png" type="image/png" />
   <link rel="apple-touch-icon" href="logo.png" />
@@ -32,16 +32,12 @@
   <h1 class="glow-text">DEV / MOD APPLICATION</h1>
   <p class="subtitle">We're looking for talented people. Tell us who you are and why you want to join POOSTUDIO.</p>
 
-  <!-- 
-       ★★★ IMPROVED FORM ★★★
-       Native POST + redirect to thank-you page
-  -->
   <form id="application-form" 
         action="https://formspree.io/f/mykkgpqq" 
         method="POST">
 
     <input type="text" name="_gotcha" style="display:none" />
-    <input type="hidden" name="_next" value="https://poostudio.github.io/PooStudio/thanks-application.html">
+
     <input type="hidden" name="_subject" value="New POOSTUDIO Application - {{name}}">
 
     <div class="form-group">
@@ -80,7 +76,7 @@
       <textarea id="why" name="why" required rows="6" placeholder="Explain why you want to join POOSTUDIO and what makes you stand out."></textarea>
     </div>
 
-    <button type="submit" class="btn">SUBMIT APPLICATION</button>
+    <button type="submit" class="btn" id="submit-btn">SUBMIT APPLICATION</button>
   </form>
 
   <div class="site-footer">
@@ -95,62 +91,138 @@
 <a href="index.html" class="home-button">HOME</a>
 
 <script>
-// Loading animation logic (unchanged)
-const loadingScreen = document.getElementById('loading-screen');
-const mainContent   = document.getElementById('main-content');
-const progress      = document.getElementById('progress');
-const errorMessage  = document.getElementById('error-message');
-const retryBtn      = document.getElementById('retry-btn');
-const homeButton    = document.querySelector('.home-button');
 
-let progressValue = 0;
-let hasFailed = false;
-let loadingTimer;
+const STORAGE_KEY = "poostudio_last_application_time";
+const form = document.getElementById("application-form");
+const submitBtn = document.getElementById("submit-btn");
 
-function startLoading() {
-  progressValue = 0;
-  progress.style.width = '0%';
-  errorMessage.classList.remove('visible');
-  retryBtn.classList.remove('visible');
-  hasFailed = false;
+function getNextResetDate(from = new Date()) {
+  const tomorrow = new Date(from);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 5, 0, 0); // next day ~00:05
+  return tomorrow;
+}
 
-  loadingTimer = setInterval(() => {
-    progressValue += 6 + Math.random() * 4;
-    if (progressValue >= 100) {
-      progressValue = 100;
-      clearInterval(loadingTimer);
-      setTimeout(showMainContent, 600);
+function formatTimeLeft(ms) {
+  if (ms <= 0) return "Now – refresh the page";
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const h = Math.floor(m / 60);
+  const d = Math.floor(h / 24);
+  const remS = s % 60;
+  const remM = m % 60;
+  const remH = h % 24;
+  let str = "";
+  if (d > 0) str += d + "d ";
+  if (remH > 0 || d > 0) str += remH + "h ";
+  str += remM + "m " + (remS < 10 ? "0" : "") + remS + "s";
+  return str.trim();
+}
+
+function showSuccessAndStartCountdown() {
+  const now = new Date();
+  localStorage.setItem(STORAGE_KEY, now.toISOString());
+
+  form.innerHTML = `
+    <div style="text-align:center; padding: 4rem 1.5rem; color:#ddd;">
+      <h2 style="color:#00ffea; font-family:'Orbitron',sans-serif; font-size:2.6rem; margin-bottom:1.2rem; text-shadow:0 0 12px #00ffea70;">
+        APPLICATION SENT!
+      </h2>
+      <p style="font-size:1.3rem; margin:1.5rem 0; opacity:0.9;">
+        Thank you for applying to POOSTUDIO!<br>
+        We will review your submission soon.
+      </p>
+      <p style="font-size:1.45rem; margin:3rem 0 1rem;">
+        Next submission available in:
+      </p>
+      <div id="countdown" style="
+        font-size:3.4rem;
+        font-weight:bold;
+        color:#00ffea;
+        text-shadow:0 0 18px #00ffea90;
+        letter-spacing:2px;
+        font-family:'Orbitron',sans-serif;
+      ">:::...</div>
+      <p style="margin-top:2.5rem; opacity:0.55; font-size:1rem;">
+        (one application per day)
+      </p>
+    </div>
+  `;
+
+  const nextReset = getNextResetDate(now);
+  const countdownEl = document.getElementById("countdown");
+
+  function update() {
+    const diff = nextReset - new Date();
+    if (diff <= 0) {
+      location.reload();
+      return;
     }
-    progress.style.width = progressValue + '%';
-  }, 140);
-}
-
-function showMainContent() {
-  if (!hasFailed) {
-    loadingScreen.classList.add('hidden');
-    setTimeout(() => {
-      mainContent.classList.add('visible');
-      if (homeButton) homeButton.style.pointerEvents = 'auto';
-    }, 400);
+    countdownEl.textContent = formatTimeLeft(diff);
   }
+
+  update();
+  setInterval(update, 980);
 }
 
-function triggerFailure() {
-  if (!hasFailed) {
-    hasFailed = true;
-    clearInterval(loadingTimer);
-    errorMessage.classList.add('visible');
-    retryBtn.classList.add('visible');
-    progress.style.width = '92%';
+function showCountdownOnly(lastTime) {
+  const lastDate = new Date(lastTime);
+  const nextReset = getNextResetDate(lastDate);
+
+  if (new Date() >= nextReset) {
+    localStorage.removeItem(STORAGE_KEY);
+    return false;
   }
+
+  form.innerHTML = `
+    <div style="text-align:center; padding: 5rem 1.5rem; color:#aaa;">
+      <p style="font-size:1.5rem; margin-bottom:2rem;">
+        Next submission available in:
+      </p>
+      <div id="countdown" style="
+        font-size:4rem;
+        font-weight:bold;
+        color:#00ffea;
+        text-shadow:0 0 20px #00ffea90;
+        letter-spacing:3px;
+        font-family:'Orbitron',sans-serif;
+      ">:::...</div>
+      <p style="margin-top:3rem; opacity:0.5; font-size:1.1rem;">
+        (limit: 1 application per day)
+      </p>
+    </div>
+  `;
+
+  const countdownEl = document.getElementById("countdown");
+
+  function update() {
+    const diff = nextReset - new Date();
+    if (diff <= 0) {
+      location.reload();
+      return;
+    }
+    countdownEl.textContent = formatTimeLeft(diff);
+  }
+
+  update();
+  setInterval(update, 980);
+  return true;
 }
 
-retryBtn.addEventListener('click', startLoading);
-startLoading();
-
-setTimeout(() => {
-  if (progressValue < 94) triggerFailure();
-}, 10000 + Math.random() * 4000);
+const lastSubmission = localStorage.getItem(STORAGE_KEY);
+if (lastSubmission && showCountdownOnly(lastSubmission)) {
+  // locked - do nothing else
+} else {
+  window.addEventListener("message", function(event) {
+    if (event.data && typeof event.data === "string" && event.data.includes("Thanks for your submission")) {
+      showSuccessAndStartCountdown();
+    }
+  });
+  form.addEventListener("submit", function() {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "SENDING...";
+  });
+}
 </script>
 
 </body>
