@@ -93,18 +93,19 @@
 <script>
 
 const STORAGE_KEY = "poostudio_last_application_time";
+const COOLDOWN_KEY = "poostudio_submit_cooldown";
 const form = document.getElementById("application-form");
 const submitBtn = document.getElementById("submit-btn");
 
 function getNextResetDate(from = new Date()) {
-  const tomorrow = new Date(from);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(0, 5, 0, 0); // next day ~00:05
-  return tomorrow;
+  const d = new Date(from);
+  d.setDate(d.getDate() + 1);
+  d.setHours(0, 5, 0, 0);
+  return d;
 }
 
 function formatTimeLeft(ms) {
-  if (ms <= 0) return "Now – refresh the page";
+  if (ms <= 0) return "Now – refresh page";
   const s = Math.floor(ms / 1000);
   const m = Math.floor(s / 60);
   const h = Math.floor(m / 60);
@@ -119,108 +120,111 @@ function formatTimeLeft(ms) {
   return str.trim();
 }
 
-function showSuccessAndStartCountdown() {
-  const now = new Date();
-  localStorage.setItem(STORAGE_KEY, now.toISOString());
+function isOnCooldown() {
+  const cd = localStorage.getItem(COOLDOWN_KEY);
+  if (!cd) return false;
+  return Date.now() < Number(cd);
+}
 
+function setCooldown(seconds = 12) {
+  localStorage.setItem(COOLDOWN_KEY, Date.now() + seconds * 1000);
+}
+
+function showLocked(message = "Next submission available in:", big = false) {
+  const nextReset = getNextResetDate();
   form.innerHTML = `
-    <div style="text-align:center; padding: 4rem 1.5rem; color:#ddd;">
-      <h2 style="color:#00ffea; font-family:'Orbitron',sans-serif; font-size:2.6rem; margin-bottom:1.2rem; text-shadow:0 0 12px #00ffea70;">
+    <div style="text-align:center; padding: ${big ? '6rem' : '4rem'} 1.5rem; color:#aaa;">
+      <p style="font-size:${big ? '1.8rem' : '1.4rem'}; margin-bottom:2rem;">
+        ${message}
+      </p>
+      <div id="countdown" style="
+        font-size:${big ? '4.2rem' : '3.4rem'};
+        font-weight:bold;
+        color:#00ffea;
+        text-shadow:0 0 18px #00ffea90;
+        letter-spacing:3px;
+        font-family:'Orbitron',sans-serif;
+      ">:::...</div>
+      <p style="margin-top:2.5rem; opacity:0.5; font-size:1rem;">
+        (one application per day)
+      </p>
+    </div>
+  `;
+
+  const el = document.getElementById("countdown");
+  const update = () => {
+    const diff = nextReset - new Date();
+    if (diff <= 0) return location.reload();
+    el.textContent = formatTimeLeft(diff);
+  };
+  update();
+  setInterval(update, 980);
+}
+
+function showSuccess() {
+  localStorage.setItem(STORAGE_KEY, new Date().toISOString());
+  form.innerHTML = `
+    <div style="text-align:center; padding:5rem 1.5rem; color:#ddd;">
+      <h2 style="color:#00ffea; font-family:'Orbitron',sans-serif; font-size:2.8rem; margin-bottom:1rem; text-shadow:0 0 12px #00ffea70;">
         APPLICATION SENT!
       </h2>
       <p style="font-size:1.3rem; margin:1.5rem 0; opacity:0.9;">
-        Thank you for applying to POOSTUDIO!<br>
-        We will review your submission soon.
+        Thank you! We'll review it soon.
       </p>
-      <p style="font-size:1.45rem; margin:3rem 0 1rem;">
-        Next submission available in:
+      <p style="font-size:1.45rem; margin:2.5rem 0 1rem;">
+        Next submission in:
       </p>
       <div id="countdown" style="
-        font-size:3.4rem;
+        font-size:3.6rem;
         font-weight:bold;
         color:#00ffea;
         text-shadow:0 0 18px #00ffea90;
         letter-spacing:2px;
         font-family:'Orbitron',sans-serif;
       ">:::...</div>
-      <p style="margin-top:2.5rem; opacity:0.55; font-size:1rem;">
-        (one application per day)
-      </p>
     </div>
   `;
 
-  const nextReset = getNextResetDate(now);
-  const countdownEl = document.getElementById("countdown");
-
-  function update() {
+  const nextReset = getNextResetDate();
+  const cd = document.getElementById("countdown");
+  const tick = () => {
     const diff = nextReset - new Date();
-    if (diff <= 0) {
-      location.reload();
-      return;
-    }
-    countdownEl.textContent = formatTimeLeft(diff);
-  }
-
-  update();
-  setInterval(update, 980);
+    if (diff <= 0) return location.reload();
+    cd.textContent = formatTimeLeft(diff);
+  };
+  tick();
+  setInterval(tick, 980);
 }
 
-function showCountdownOnly(lastTime) {
-  const lastDate = new Date(lastTime);
-  const nextReset = getNextResetDate(lastDate);
-
-  if (new Date() >= nextReset) {
-    localStorage.removeItem(STORAGE_KEY);
-    return false;
-  }
-
-  form.innerHTML = `
-    <div style="text-align:center; padding: 5rem 1.5rem; color:#aaa;">
-      <p style="font-size:1.5rem; margin-bottom:2rem;">
-        Next submission available in:
-      </p>
-      <div id="countdown" style="
-        font-size:4rem;
-        font-weight:bold;
-        color:#00ffea;
-        text-shadow:0 0 20px #00ffea90;
-        letter-spacing:3px;
-        font-family:'Orbitron',sans-serif;
-      ">:::...</div>
-      <p style="margin-top:3rem; opacity:0.5; font-size:1.1rem;">
-        (limit: 1 application per day)
-      </p>
-    </div>
-  `;
-
-  const countdownEl = document.getElementById("countdown");
-
-  function update() {
-    const diff = nextReset - new Date();
-    if (diff <= 0) {
-      location.reload();
-      return;
-    }
-    countdownEl.textContent = formatTimeLeft(diff);
-  }
-
-  update();
-  setInterval(update, 980);
-  return true;
-}
-
-const lastSubmission = localStorage.getItem(STORAGE_KEY);
-if (lastSubmission && showCountdownOnly(lastSubmission)) {
-  // locked - do nothing else
+if (localStorage.getItem(STORAGE_KEY)) {
+  showLocked("Next submission available in:", true);
+} else if (isOnCooldown()) {
+  showLocked("Please wait a moment...", false);
 } else {
-  window.addEventListener("message", function(event) {
-    if (event.data && typeof event.data === "string" && event.data.includes("Thanks for your submission")) {
-      showSuccessAndStartCountdown();
+
+  form.addEventListener("submit", function(e) {
+    if (isOnCooldown()) {
+      e.preventDefault();
+      alert("Please wait a few seconds before trying again.");
+      return;
     }
-  });
-  form.addEventListener("submit", function() {
+
     submitBtn.disabled = true;
     submitBtn.textContent = "SENDING...";
+    setCooldown(12); 
+
+    setTimeout(() => {
+      if (!document.getElementById("countdown")) {
+        showSuccess();
+      }
+    }, 6000);
+  });
+
+  window.addEventListener("message", function(e) {
+    if (e.data && typeof e.data === "string" && 
+        (e.data.includes("success") || e.data.includes("Thanks") || e.data.includes("sent"))) {
+      showSuccess();
+    }
   });
 }
 </script>
