@@ -398,8 +398,33 @@
         const emailInput = form.querySelector('input[type="email"]');
         const errorMsg = sidebar.querySelector('#email-error');
         const submitBtn = form.querySelector('button[type="submit"]');
+        const cooldownKey = 'signupLastSubmitTime';
+        const cooldownHours = 3;
+        const cooldownMs = cooldownHours * 60 * 60 * 1000; 
 
         const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+
+        function getRemainingTime() {
+            const lastSubmit = localStorage.getItem(cooldownKey);
+            if (!lastSubmit) return 0;
+            const timePassed = Date.now() - parseInt(lastSubmit, 10);
+            return Math.max(0, cooldownMs - timePassed);
+        }
+
+        function updateCooldownStatus() {
+            const remaining = getRemainingTime();
+            if (remaining > 0) {
+                const hours = Math.floor(remaining / (60 * 60 * 1000));
+                const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+                showError(`Please wait ${hours}h ${minutes}m before submitting again.`);
+                submitBtn.disabled = true;
+                emailInput.disabled = true;
+            } else {
+                clearError(); 
+                submitBtn.disabled = false;
+                emailInput.disabled = false;
+            }
+        }
 
         function validateEmail() {
             const value = emailInput.value.trim();
@@ -424,20 +449,35 @@
         function clearError() {
             errorMsg.textContent = '';
             emailInput.classList.remove('invalid');
-            submitBtn.disabled = false;
         }
 
-        emailInput.addEventListener('input', validateEmail);
+        updateCooldownStatus();
+
+        setInterval(updateCooldownStatus, 60000);
+
+        emailInput.addEventListener('input', () => {
+            validateEmail();
+            updateCooldownStatus();
+        });
 
         form.addEventListener('submit', (e) => {
-            if (!validateEmail()) {
-                e.preventDefault(); 
+            e.preventDefault(); 
+
+            if (getRemainingTime() > 0 || !validateEmail()) {
+                return; 
             }
+
+            localStorage.setItem(cooldownKey, Date.now().toString());
+            form.submit();
+            updateCooldownStatus();
+
+            sidebar.classList.remove('open');
         });
 
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
             sidebar.classList.toggle('open');
+            updateCooldownStatus();
         });
 
         closeBtn.addEventListener('click', () => {
