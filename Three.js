@@ -21,7 +21,7 @@ window.addEventListener("load", () => {
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
-    let NODE_COUNT = isMobile ? 2200 : 4200; // Will adjust based on total users
+    let NODE_COUNT = isMobile ? 2200 : 4200; 
     const MAX_LINKS = isMobile ? 4000 : 9000;
     const SPHERE_RADIUS = 85;
     const LINK_DISTANCE = isMobile ? 16 : 20;
@@ -31,11 +31,9 @@ window.addEventListener("load", () => {
 
     let positions, basePositions, colors, heat;
 
-    // Country colors (add more as needed)
     const countryColors = {
         US: new THREE.Color(0x0000ff), // Blue
         CA: new THREE.Color(0xff0000), // Red
-        // Add e.g., GB: new THREE.Color(0x00ff00)
     };
 
     function initNodes(data) {
@@ -71,7 +69,6 @@ window.addEventListener("load", () => {
                 const isHot = Math.random() < HOT_RATIO;
                 heat[idx] = isHot ? 0.7 + Math.random() * 0.3 : Math.random() * 0.4;
 
-                // Blend with country color
                 const col = countryCol.clone().multiplyScalar(0.5 + heat[idx] * 0.5);
 
                 colors.set([col.r, col.g, col.b], idx * 3);
@@ -213,7 +210,6 @@ window.addEventListener("load", () => {
                     pos[i3 + 1] = basePositions[i3 + 1] + pulse * 0.8;
                     pos[i3 + 2] = basePositions[i3 + 2] + pulse;
 
-                    // Update color with pulse
                     const baseCol = new THREE.Color(col[i3], col[i3+1], col[i3+2]);
                     const pulsedCol = baseCol.clone().multiplyScalar(1 + Math.abs(pulse) * 0.2);
                     col[i3] = pulsedCol.r;
@@ -226,7 +222,6 @@ window.addEventListener("load", () => {
 
                 if (frame++ % (isMobile ? 6 : 4) === 0) updateLinks();
 
-                // Periodic refresh data
                 if (frame % 600 === 0) { // ~10 secs
                     fetch('/api/user-stats')
                         .then(response => response.json())
