@@ -100,6 +100,33 @@ window.addEventListener("load", () => {
             const links = new THREE.LineSegments(linkGeo, linkMat);
             scene.add(links);
 
+            // Add the unique "Postudio" 3D text
+            const loader = new THREE.FontLoader();
+            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+                const textGeometry = new THREE.TextGeometry('Postudio', {
+                    font: font,
+                    size: 12,  // Adjust size based on your sphere (smaller for mobile)
+                    height: 2,
+                    curveSegments: 12,
+                    bevelEnabled: true,
+                    bevelThickness: 0.5,
+                    bevelSize: 0.3,
+                    bevelOffset: 0,
+                    bevelSegments: 5
+                });
+                const textMaterial = new THREE.MeshBasicMaterial({
+                    color: 0xffd700,  // Gold-ish to match the warm hues in your nodes
+                    transparent: true,
+                    opacity: 0.8,
+                    blending: THREE.AdditiveBlending
+                });
+                const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+                textMesh.position.set(0, 0, SPHERE_RADIUS + 10);  // Position it outside the sphere a bit
+                scene.add(textMesh);
+
+                // We'll update its rotation/pulse in the animate function below
+            });
+
             function updateLinks() {
                 let count = 0;
                 const pos = nodeGeo.attributes.position.array;
@@ -152,6 +179,13 @@ window.addEventListener("load", () => {
                 nodes.rotation.y += 0.0006;
                 nodes.rotation.x += 0.0003;
                 links.rotation.copy(nodes.rotation);
+
+                // If textMesh exists (after font load), update it
+                if (scene.getObjectByName('textMesh')) {  // Wait for it to load
+                    const textMesh = scene.getObjectByName('textMesh');
+                    textMesh.rotation.y += 0.001;  // Slow rotate
+                    textMesh.scale.set(1 + Math.sin(time * 0.5) * 0.1, 1 + Math.sin(time * 0.5) * 0.1, 1);  // Subtle pulse
+                }
 
                 const pos = nodeGeo.attributes.position.array;
                 const col = nodeGeo.attributes.color.array;
