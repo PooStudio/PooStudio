@@ -100,12 +100,12 @@ window.addEventListener("load", () => {
             const links = new THREE.LineSegments(linkGeo, linkMat);
             scene.add(links);
 
-            // Add the unique "Postudio" 3D text
+            // Add the unique "Postudio" 3D text with holographic shader
             const loader = new THREE.FontLoader();
             loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
                 const textGeometry = new THREE.TextGeometry('Postudio', {
                     font: font,
-                    size: 12,  // Adjust size based on your sphere (smaller for mobile)
+                    size: isMobile ? 8 : 12,  // Smaller for mobile
                     height: 2,
                     curveSegments: 12,
                     bevelEnabled: true,
@@ -114,17 +114,41 @@ window.addEventListener("load", () => {
                     bevelOffset: 0,
                     bevelSegments: 5
                 });
-                const textMaterial = new THREE.MeshBasicMaterial({
-                    color: 0xffd700,  // Gold-ish to match the warm hues in your nodes
+                textGeometry.computeBoundingBox(); // For UVs in shader
+                textGeometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(textGeometry.attributes.position.count * 2), 2)); // Fake UVs if needed
+
+                const textMaterial = new THREE.ShaderMaterial({
+                    uniforms: {
+                        color: { value: new THREE.Color(0xffd700) },
+                        time: { value: 0.0 },
+                        opacity: { value: 0.8 }
+                    },
+                    vertexShader: `
+                        varying vec2 vUv;
+                        void main() {
+                            vUv = uv;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform vec3 color;
+                        uniform float time;
+                        uniform float opacity;
+                        varying vec2 vUv;
+                        void main() {
+                            float scan = sin(vUv.y * 10.0 + time * 5.0) * 0.5 + 0.5; // Scanning line for holo
+                            vec3 holoColor = color * (1.0 + scan * 0.3);
+                            gl_FragColor = vec4(holoColor, opacity * (0.7 + scan * 0.3));
+                        }
+                    `,
                     transparent: true,
-                    opacity: 0.8,
-                    blending: THREE.AdditiveBlending
+                    blending: THREE.AdditiveBlending,
+                    side: THREE.DoubleSide
                 });
                 const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-                textMesh.position.set(0, 0, SPHERE_RADIUS + 10);  // Position it outside the sphere a bit
+                textMesh.position.set(0, 0, SPHERE_RADIUS + 10);  // Outside the sphere
+                textMesh.name = 'textMesh';
                 scene.add(textMesh);
-
-                // We'll update its rotation/pulse in the animate function below
             });
 
             function updateLinks() {
@@ -180,11 +204,12 @@ window.addEventListener("load", () => {
                 nodes.rotation.x += 0.0003;
                 links.rotation.copy(nodes.rotation);
 
-                // If textMesh exists (after font load), update it
-                if (scene.getObjectByName('textMesh')) {  // Wait for it to load
+                // Update holo text if loaded
+                if (scene.getObjectByName('textMesh')) {
                     const textMesh = scene.getObjectByName('textMesh');
+                    textMesh.material.uniforms.time.value = time;
                     textMesh.rotation.y += 0.001;  // Slow rotate
-                    textMesh.scale.set(1 + Math.sin(time * 0.5) * 0.1, 1 + Math.sin(time * 0.5) * 0.1, 1);  // Subtle pulse
+                    textMesh.scale.set(1 + Math.sin(time * 0.5) * 0.1, 1 + Math.sin(time * 0.5) * 0.1, 1);  // Pulse
                 }
 
                 const pos = nodeGeo.attributes.position.array;
