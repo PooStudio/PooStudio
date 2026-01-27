@@ -100,7 +100,7 @@ window.addEventListener("load", () => {
             const links = new THREE.LineSegments(linkGeo, linkMat);
             scene.add(links);
 
-            // Add the unique "Postudio" 3D text with holographic shader
+            // Add the unique "Postudio" 3D text with fixed holographic shader (position-based, no UVs)
             const loader = new THREE.FontLoader();
             loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
                 const textGeometry = new THREE.TextGeometry('Postudio', {
@@ -114,8 +114,7 @@ window.addEventListener("load", () => {
                     bevelOffset: 0,
                     bevelSegments: 5
                 });
-                textGeometry.computeBoundingBox(); // For UVs in shader
-                textGeometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(textGeometry.attributes.position.count * 2), 2)); // Fake UVs if needed
+                textGeometry.computeBoundingBox();
 
                 const textMaterial = new THREE.ShaderMaterial({
                     uniforms: {
@@ -124,9 +123,9 @@ window.addEventListener("load", () => {
                         opacity: { value: 0.8 }
                     },
                     vertexShader: `
-                        varying vec2 vUv;
+                        varying vec3 vPosition;
                         void main() {
-                            vUv = uv;
+                            vPosition = position;
                             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
                         }
                     `,
@@ -134,9 +133,9 @@ window.addEventListener("load", () => {
                         uniform vec3 color;
                         uniform float time;
                         uniform float opacity;
-                        varying vec2 vUv;
+                        varying vec3 vPosition;
                         void main() {
-                            float scan = sin(vUv.y * 10.0 + time * 5.0) * 0.5 + 0.5; // Scanning line for holo
+                            float scan = sin(vPosition.y * 0.5 + time * 5.0) * 0.5 + 0.5; // Position-based scan for holo
                             vec3 holoColor = color * (1.0 + scan * 0.3);
                             gl_FragColor = vec4(holoColor, opacity * (0.7 + scan * 0.3));
                         }
@@ -149,6 +148,8 @@ window.addEventListener("load", () => {
                 textMesh.position.set(0, 0, SPHERE_RADIUS + 10);  // Outside the sphere
                 textMesh.name = 'textMesh';
                 scene.add(textMesh);
+            }, undefined, function (error) {
+                console.error('Font load error:', error); // Fallback log
             });
 
             function updateLinks() {
