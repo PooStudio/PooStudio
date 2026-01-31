@@ -1,109 +1,198 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>POOSTUDIO Application</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --accent: #f59e0b;
+  --text: #e5e7eb;
+  --text-muted: #94a3b8;
+  --border: #1e293b;
+}
 
-  <link rel="stylesheet" href="signupcss.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-</head>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-<body>
+body {
+  font-family: Inter, system-ui, sans-serif;
+  min-height: 100vh;
+  color: var(--text);
+  background: var(--bg);
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(245,158,11,0.06), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(245,158,11,0.05), transparent 45%);
+}
 
-<!-- LOADING SCREEN -->
-<div id="loading-screen">
-  <div class="loading-content">
-    <div class="loading-title">POOSTUDIO</div>
-    <div class="loading-bar">
-      <div class="loading-progress" id="progress"></div>
-    </div>
-  </div>
-</div>
+/* ===== LOADING SCREEN ===== */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
 
-<!-- MAIN CONTENT -->
-<div class="container" id="container">
-  <h1 class="glow-text">DEV / MOD APPLICATION</h1>
-  <p class="subtitle">
-    We take this process seriously.<br>
-    Selected applicants <strong>MUST</strong> complete a face-to-face call.
-  </p>
+.loading-content {
+  text-align: center;
+}
 
-  <form id="form" action="https://formspree.io/f/mykkgpqq" method="POST">
-    <label>NAME</label>
-    <input name="name" required>
+.loading-title {
+  font-family: Orbitron, monospace;
+  font-size: 4rem;
+  letter-spacing: 0.2em;
+  color: #fbbf24;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 30px rgba(245,158,11,0.6);
+}
 
-    <label>EMAIL</label>
-    <input type="email" name="email" required>
+.loading-bar {
+  width: 280px;
+  height: 6px;
+  background: rgba(245,158,11,0.15);
+  border-radius: 4px;
+  overflow: hidden;
+}
 
-    <label>ROLE</label>
-    <select name="role" required>
-      <option value="">Select role</option>
-      <option>Developer</option>
-      <option>Moderator</option>
-      <option>Both</option>
-    </select>
+.loading-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+  transition: width 0.2s ease;
+}
 
-    <label>WHY SHOULD WE PICK YOU?</label>
-    <textarea name="why" rows="5" required></textarea>
+/* ===== MAIN CONTAINER ===== */
+.container {
+  max-width: 720px;
+  margin: 8vh auto;
+  padding: 3rem;
+  background: rgba(17,17,24,0.78);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  display: none;
+}
 
-    <button id="submit">SUBMIT APPLICATION</button>
-  </form>
-</div>
+.glow-text {
+  font-family: Orbitron, monospace;
+  text-align: center;
+  font-size: 2.5rem;
+  letter-spacing: 0.15em;
+  background: linear-gradient(90deg,#f59e0b,#fde68a,#f59e0b);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+}
 
-<script>
-/* LOADING SCREEN */
-let p = 0;
-const bar = document.getElementById("progress");
-const loading = document.getElementById("loading-screen");
-const container = document.getElementById("container");
+.subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
 
-const loader = setInterval(() => {
-  p += Math.random() * 15;
-  bar.style.width = Math.min(p,100) + "%";
-  if (p >= 100) {
-    clearInterval(loader);
-    loading.style.display = "none";
-    container.style.display = "block";
+/* ===== FORM ===== */
+label {
+  margin-top: 1.4rem;
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: #9ca3af;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 0.4rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* ===== DARK SELECT FIX ===== */
+select {
+  appearance: none;
+  cursor: pointer;
+  background-color: rgba(10,10,15,0.95);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+    linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 14px) 50%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+}
+
+select option {
+  background-color: #0a0a0f;
+  color: #e5e7eb;
+}
+
+select option:hover {
+  background-color: rgba(245,158,11,0.2);
+  color: #ffffff;
+}
+
+select option:checked {
+  background-color: rgba(245,158,11,0.3);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,0.35),
+    0 0 20px rgba(245,158,11,0.2);
+}
+
+/* ===== BUTTON ===== */
+button {
+  margin-top: 2.5rem;
+  width: 100%;
+  padding: 1.1rem;
+  background: linear-gradient(90deg,#d97706,#f59e0b,#fbbf24);
+  border: none;
+  border-radius: 10px;
+  font-family: Orbitron, monospace;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  color: #111;
+  font-weight: 700;
+}
+
+/* ===== LOCKED STATE ===== */
+.locked {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.timer {
+  font-size: 3.5rem;
+  font-family: Orbitron, monospace;
+  color: #00ffee;
+  margin: 2rem 0;
+  text-shadow: 0 0 20px #00ffee80;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .container {
+    margin: 4vh auto;
+    padding: 2rem;
   }
-}, 120);
 
-/* 24 HOUR COOLDOWN */
-const KEY = "poostudio_apply_time";
-const DAY = 86400000;
-const form = document.getElementById("form");
-
-function lock(ms) {
-  container.innerHTML = `
-    <div class="locked">
-      <h2 class="glow-text">APPLICATION LOCKED</h2>
-      <p>You may only apply once every 24 hours.</p>
-      <div class="timer" id="t"></div>
-      <p>
-        We are not playing around.<br>
-        A face-to-face call is mandatory.
-      </p>
-    </div>`;
-  const t = document.getElementById("t");
-  setInterval(() => {
-    const r = ms - Date.now();
-    if (r <= 0) location.reload();
-    t.textContent =
-      Math.floor(r/3600000) + "h " +
-      Math.floor(r/60000)%60 + "m " +
-      Math.floor(r/1000)%60 + "s";
-  }, 1000);
+  .glow-text {
+    font-size: 2rem;
+  }
 }
-
-const last = localStorage.getItem(KEY);
-if (last && Date.now() - last < DAY) {
-  lock(Number(last) + DAY);
-}
-
-form.addEventListener("submit", () => {
-  localStorage.setItem(KEY, Date.now());
-});
-</script>
-
-</body>
-</html>
