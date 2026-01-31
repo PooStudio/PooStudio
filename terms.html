@@ -1,465 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Terms of Service ✦  POOSTUDIO</title>
-    <link rel="icon" href="logo.png" type="image/png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service ✦ POOSTUDIO</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: rgba(20, 20, 20, 0.85);
+  --accent: #f59e0b;
+  --text: #e5e7eb;
+  --text-muted: #94a3b8;
+}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+* { margin:0; padding:0; box-sizing:border-box; }
 
-    <style>
-        :root {
-            --accent: #d97706;
-            --accent-bright: #ff8c00;
-            --accent-dark: #b8860b;
-            --error: #ff4444;
-            --error-glow: #ff6666;
-            --text: #e0e0e0;
-            --text-muted: #aaaaaa;
-        }
+body {
+  font-family: Inter, system-ui, sans-serif;
+  min-height:100vh;
+  color: var(--text);
+  background: var(--bg);
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(245,158,11,0.06), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(245,158,11,0.05), transparent 45%);
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* LOADING SCREEN */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0f0f0f;
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-image: 
-                linear-gradient(rgba(15,15,15,0.96), rgba(15,15,15,0.96)),
-                radial-gradient(circle at 20% 30%, rgba(217,119,6,0.07) 0%, transparent 50%);
-            background-attachment: fixed;
-            background-size: cover;
-        }
+.loading-title {
+  font-family: Orbitron, monospace;
+  font-size: 4rem;
+  letter-spacing: 0.25em;
+  color: #fbbf24;
+  text-shadow: 0 0 30px rgba(245,158,11,0.6);
+  margin-bottom: 1.5rem;
+}
 
-        #loading-screen {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            opacity: 1;
-            transition: opacity 1.6s ease-out;
-        }
+.loading-text {
+  font-size: 1.6rem;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.2s ease-out;
+  margin-bottom: 40px;
+}
 
-        #loading-screen.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
+.loading-text.revealed {
+  opacity: 0.9;
+  transform: translateY(0);
+}
 
-        .loading-content {
-            text-align: center;
-            max-width: 90%;
-            z-index: 10;
-        }
+.loading-bar {
+  width: 280px;
+  height: 6px;
+  background: rgba(245,158,11,0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
 
-        .loading-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(5.5rem, 11vw, 10rem);
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            background: linear-gradient(90deg, var(--accent), var(--accent-bright), var(--accent-dark), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 40px rgba(217,119,6,0.75);
-            animation: titlePulse 5s ease-in-out infinite alternate;
-            margin-bottom: 1.5rem;
-        }
+.loading-progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg,#f59e0b,#fbbf24);
+  transition: width 0.4s ease;
+}
 
-        @keyframes titlePulse {
-            from { filter: brightness(1) hue-rotate(0deg); }
-            to   { filter: brightness(1.45) hue-rotate(18deg); }
-        }
+/* CONTAINER */
+.container {
+  max-width: 720px;
+  margin: 8vh auto;
+  padding: 3rem;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  display: none;
+}
 
-        .loading-text {
-            font-size: 1.7rem;
-            letter-spacing: 0.5rem;
-            color: var(--accent);
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.4s ease-out;
-            margin: 40px 0;
-        }
+h1 {
+  font-family: Orbitron, monospace;
+  font-size: 2.8rem;
+  text-align: center;
+  background: linear-gradient(90deg,#f59e0b,#fde68a,#f59e0b);
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(245,158,11,0.6);
+}
 
-        .loading-text.revealed {
-            opacity: 0.9;
-            transform: translateY(0);
-        }
+h2 {
+  font-family: Orbitron, monospace;
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
 
-        .loading-bar {
-            width: 450px;
-            max-width: 85vw;
-            height: 4px;
-            background: rgba(217,119,6,0.15);
-            margin: 60px auto;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(217,119,6,0.3);
-        }
+p, li { margin-bottom: 1rem; }
+ul { margin-left: 1.5rem; }
+strong { color:#fff; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: #fff; text-decoration: underline; }
 
-        .loading-progress {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-bright), var(--accent-dark));
-            transition: width 0.6s ease-out, background 0.6s ease, box-shadow 0.6s ease;
-            box-shadow: 0 0 25px var(--accent);
-            will-change: width;
-        }
+/* BUTTONS / LINKS */
+.back-link {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.back-link a {
+  background: linear-gradient(90deg,#d97706,#f59e0b,#fbbf24);
+  color: #111;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-family: Orbitron, monospace;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.back-link a:hover {
+  background: #fff;
+  color: #111;
+  transform: translateY(-3px);
+}
 
-        .error-message {
-            color: var(--error);
-            font-size: 1.6rem;
-            line-height: 1.8;
-            opacity: 0;
-            transition: opacity 1s ease;
-            margin: 40px 0;
-            pointer-events: none;
-        }
+/* FOOTER */
+footer {
+  text-align: center;
+  margin-top: 4rem;
+  padding: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
 
-        .error-message.visible {
-            opacity: 1;
-            display: block;
-        }
-
-        .error-message span {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            display: block;
-            margin-top: 15px;
-        }
-
-        .retry-button {
-            margin-top: 40px;
-            padding: 14px 32px;
-            background: transparent;
-            border: 2px solid var(--error);
-            color: var(--error-glow);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            letter-spacing: 0.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.4s ease;
-            pointer-events: none;
-            box-shadow: 0 0 15px rgba(239,68,68,0.4);
-        }
-
-        .retry-button.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .retry-button:hover {
-            background: var(--error);
-            color: #fff;
-            box-shadow: 0 0 40px rgba(239,68,68,0.9);
-            transform: translateY(-4px);
-        }
-
-        .glitch-overlay {
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(217,119,6,0.05) 12px, rgba(217,119,6,0.05) 24px);
-            pointer-events: none;
-            opacity: 0.3;
-            transition: opacity 0.8s ease;
-        }
-
-        .glitch-overlay.glitch-pulse {
-            animation: glitchPulse 1s ease-in-out;
-        }
-
-        @keyframes glitchPulse {
-            0%, 100% { opacity: 0.3; transform: translate(0) skew(0deg); }
-            15% { opacity: 0.7; transform: translate(-8px, 8px) skew(5deg); }
-            30% { opacity: 0.5; transform: translate(10px, -6px) skew(-8deg); }
-            50% { opacity: 0.8; transform: translate(-6px, -10px) skew(10deg); }
-            70% { opacity: 0.6; transform: translate(8px, 4px) skew(-6deg); }
-            85% { opacity: 0.4; transform: translate(-4px, 6px) skew(4deg); }
-        }
-
-        .scanlines {
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 6px);
-            pointer-events: none;
-            opacity: 0.5;
-            animation: scan 12s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(6px); }
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 80px auto;
-            padding: 60px;
-            background-color: rgba(20, 20, 20, 0.85);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.9s ease, transform 0.9s ease;
-        }
-
-        .container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            color: #ffffff;
-            text-align: center;
-            background: linear-gradient(90deg, var(--accent), var(--accent-bright));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 30px rgba(217,119,6,0.5);
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2em;
-            margin-top: 60px;
-            margin-bottom: 20px;
-            color: var(--accent);
-            position: relative;
-            padding-left: 20px;
-        }
-
-        h2::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            height: 60%;
-            width: 4px;
-            background-color: var(--accent);
-            transform: translateY(-50%);
-        }
-
-        p { margin-bottom: 25px; font-weight: 300; }
-        ul { margin-left: 30px; margin-bottom: 25px; }
-        li { margin-bottom: 12px; position: relative; padding-left: 15px; }
-        li::before { content: '•'; color: var(--accent); position: absolute; left: 0; }
-        strong { color: #ffffff; }
-        a { color: var(--accent); text-decoration: none; transition: color 0.3s ease; }
-        a:hover { color: #ffffff; text-decoration: underline; }
-        .effective-date { font-style: italic; color: var(--text-muted); text-align: center; margin-bottom: 50px; font-size: 1.1em; }
-        .back-link { display: block; margin-top: 80px; text-align: center; }
-        .back-link a {
-            background-color: var(--accent);
-            color: #0f0f0f;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(217,119,6,0.3);
-        }
-        .back-link a:hover {
-            background-color: #ffffff;
-            color: #0f0f0f;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(217,119,6,0.5);
-            text-decoration: none;
-        }
-        footer {
-            text-align: center;
-            margin-top: 80px;
-            color: #666666;
-            font-size: 0.9em;
-            padding: 20px;
-            border-top: 1px solid #333;
-        }
-
-        @media (max-width: 768px) {
-            .container { margin: 40px auto; padding: 40px 20px; }
-            h1 { font-size: 2.8em; }
-            .loading-title { font-size: 14vw; }
-        }
-
-
-        @media (max-width: 480px) {
-            .loading-bar { width: 90vw; }
-            .loading-text { font-size: 1.4rem; letter-spacing: 0.3rem; }
-        }
-
-        
-       @media (max-width: 768px) {
-            .container { margin: 40px auto; padding: 40px 20px; }
-            h1 { font-size: 2.8em; }
-            .loading-title { font-size: 14vw; }
-        }
-
-        @media (max-width: 480px) {
-            .loading-bar { width: 90vw; }
-            .loading-text { font-size: 1.4rem; letter-spacing: 0.3rem; }
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 15px;
-            }
-            h1 {
-                font-size: 2.5em;
-            }
-            h2 {
-                font-size: 1.8em;
-            }
-            .back-link a {
-                display: block;
-                margin: 10px auto;
-                width: 80%;
-            }
-        }
-    </style>
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .container { padding: 2rem; margin: 5vh auto; }
+  h1 { font-size: 2.2rem; }
+  .loading-title { font-size: 8vw; }
+}
+</style>
 </head>
 <body>
 
-    <div id="loading-screen">
-        <div class="loading-content">
-            <h1 class="loading-title">POOSTUDIO</h1>
-            <p class="loading-text">Loading Terms of Service...</p>
-            <div class="loading-bar">
-                <div class="loading-progress" id="progress"></div>
-            </div>
-            <p class="error-message" id="error-message">
-                No Signal.<br>
-                <span id="retry-text">Reconnecting to Terms of Service...</span>
-            </p>
-            <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
-        </div>
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <h1 class="loading-title">POOSTUDIO</h1>
+  <p class="loading-text">Loading Terms of Service...</p>
+  <div class="loading-bar"><div class="loading-progress" id="progress"></div></div>
+</div>
 
-        <div class="glitch-overlay" id="glitch-overlay"></div>
-        <div class="scanlines"></div>
-    </div>
+<!-- MAIN CONTENT -->
+<div class="container" id="main-content">
+  <h1>Terms of Service</h1>
+  <p>Effective Date: January 07, 2026</p>
 
-    <div id="main-content" class="container">
-        <h1>Terms of Service</h1>
-        <p class="effective-date">Effective Date: January 07, 2026</p>
+  <p>Welcome to POOSTUDIO. These Terms of Service ("Terms") govern your access to and use of our website, services, digital products, and any related content (collectively, the "Services") provided by POOSTUDIO.</p>
 
-        <p>Welcome to POOSTUDIO. These Terms of Service ("Terms") govern your access to and use of our website, services, digital products, and any related content (collectively, the "Services") provided by POOSTUDIO.</p>
+  <p>By accessing or using our Services, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our Services.</p>
 
-        <p>By accessing or using our Services, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our Services.</p>
+  <h2>1. Use of Our Services</h2>
+  <ul>
+    <li>Use the Services only for lawful purposes.</li>
+    <li>Do not attempt unauthorized access or disruption.</li>
+    <li>Do not restrict or inhibit others’ use of the Services.</li>
+    <li>Do not use bots or automated access tools.</li>
+    <li>Do not copy, reproduce, or exploit content without permission.</li>
+  </ul>
 
-        <h2>1. Use of Our Services</h2>
-        <p>You may use our Services only for lawful purposes and in accordance with these Terms. You agree not to:</p>
-        <ul>
-            <li>Use the Services in any way that violates any applicable national or international law or regulation</li>
-            <li>Attempt to gain unauthorized access to, interfere with, damage, or disrupt any parts of the Services</li>
-            <li>Engage in any conduct that restricts or inhibits anyone’s use or enjoyment of the Services</li>
-            <li>Use any robot, spider, or other automatic device, process, or means to access the Services for any purpose</li>
-            <li>Copy, reproduce, distribute, modify, create derivative works of, publicly display, or exploit any part of the Services without our express written permission</li>
-        </ul>
+  <h2>2. Contact Us</h2>
+  <p>If you have any questions about these Terms, please contact us at:</p>
+  <p>
+    POOSTUDIO<br>
+    Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>
+    Phone: (915) 209-5101
+  </p>
 
-        <h2>11. Contact Us</h2>
-        <p>If you have any questions about these Terms, please contact us at:</p>
-        <p>
-            POOSTUDIO<br><br>
-            Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>
-            Phone: (915) 209-5101
-        </p>
+  <div class="back-link">
+    <a href="index.html">← Home</a>
+    <a href="privacy.html">Privacy Policy →</a>
+  </div>
 
-        <div class="back-link">
-            <a href="index.html">← Return to Home</a>
-            <a href="privacy.html">View Privacy Policy →</a>
-        </div>
+  <footer>© <span id="year"></span> PooStudio</footer>
+</div>
 
-        <footer>
-            <p>© <span id="year"></span> PooStudio</p>
-            <div class="footer-links">
-                <a href="privacy.html">Privacy</a>
-                <a href="terms.html">Terms</a>
-            </div>
-        </footer>
-    </div>
+<script>
+const loading = document.getElementById('loading-screen');
+const main = document.getElementById('main-content');
+const progress = document.getElementById('progress');
+const loadingText = document.querySelector('.loading-text');
 
-    <script>
-        const loadingScreen = document.getElementById('loading-screen');
-        const mainContent = document.getElementById('main-content');
-        const progress = document.getElementById('progress');
-        const errorMessage = document.getElementById('error-message');
-        const retryBtn = document.getElementById('retry-btn');
-        const glitchOverlay = document.getElementById('glitch-overlay');
+let value=0;
+let interval = setInterval(()=>{
+  value+=Math.random()*8+4;
+  if(value>=100){ value=100; clearInterval(interval); loading.style.display='none'; main.style.display='block'; loadingText.classList.add('revealed'); }
+  progress.style.width = value+'%';
+},160);
 
-        let progressValue = 0;
-        let hasFailed = false;
-        let loadingTimer;
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 
-        function startLoading() {
-            progressValue = 0;
-            progress.style.width = '0%';
-            errorMessage.classList.remove('visible');
-            retryBtn.classList.remove('visible');
-            hasFailed = false;
-            glitchOverlay.classList.remove('glitch-pulse');
-
-            loadingTimer = setInterval(() => {
-                progressValue += Math.random() * 8 + 4;
-                if (progressValue >= 100) {
-                    progressValue = 100;
-                    clearInterval(loadingTimer);
-                    setTimeout(showMainContent, 700);
-                }
-                progress.style.width = progressValue + '%';
-            }, 160);
-        }
-
-        function showMainContent() {
-            if (!hasFailed) {
-                loadingScreen.classList.add('fade-out');
-                setTimeout(() => {
-                    mainContent.classList.add('visible');
-                }, 400);
-            }
-        }
-
-        function triggerFailure() {
-            if (!hasFailed) {
-                hasFailed = true;
-                clearInterval(loadingTimer);
-                errorMessage.classList.add('visible');
-                retryBtn.classList.add('visible');
-                progress.style.width = '92%';
-                glitchOverlay.classList.add('glitch-pulse');
-            }
-        }
-
-        retryBtn.addEventListener('click', startLoading);
-
-        startLoading();
-
-        setTimeout(() => {
-            if (progressValue < 94) {
-                triggerFailure();
-            }
-        }, 10000 + Math.random() * 4000);
-
-        setTimeout(() => {
-            document.querySelector('.loading-text').classList.add('revealed');
-        }, 800);
-
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
 </body>
 </html>
