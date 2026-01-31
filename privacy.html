@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy ✦ POOSTUDIO</title>
 <link rel="icon" href="logo.png" type="image/png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -17,8 +15,8 @@
   --text-muted: #94a3b8;
 }
 
-/* RESET */
 * { margin:0; padding:0; box-sizing:border-box; }
+
 body {
   font-family: Inter, system-ui, sans-serif;
   min-height:100vh;
@@ -35,6 +33,7 @@ body {
   inset: 0;
   background: var(--bg);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 9999;
@@ -59,7 +58,9 @@ body {
 
 .loading-progress {
   height: 100%;
+  width:0%;
   background: linear-gradient(90deg,#f59e0b,#fbbf24);
+  transition: width 0.4s ease;
 }
 
 /* CONTAINER */
@@ -75,85 +76,15 @@ body {
   display: none;
 }
 
-.glow-text {
-  font-family: Orbitron, monospace;
-  text-align: center;
-  font-size: 2.5rem;
-  letter-spacing: 0.15em;
-  background: linear-gradient(90deg,#f59e0b,#fde68a,#f59e0b);
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 1rem;
-}
-
-.subtitle {
-  text-align: center;
-  color: var(--text-muted);
-  margin-bottom: 2.5rem;
-}
-
-label {
-  display: block;
-  margin-top: 1.4rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  color: #9ca3af;
-}
-
-input, textarea, select {
-  width: 100%;
-  padding: 0.9rem;
-  margin-top: 0.4rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 8px;
-  color: var(--text);
-}
-
-button {
-  margin-top: 2.5rem;
-  width: 100%;
-  padding: 1.1rem;
-  background: linear-gradient(90deg,#d97706,#f59e0b,#fbbf24);
-  border: none;
-  border-radius: 10px;
-  font-family: Orbitron, monospace;
-  letter-spacing: 0.15em;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.back-link {
-  display: block;
-  margin-top: 2rem;
-  text-align: center;
-}
-.back-link a {
-  background: var(--accent);
-  color: #111;
-  padding: 12px 30px;
-  border-radius: 50px;
-  font-family: Orbitron, monospace;
-  letter-spacing: 0.12em;
-  text-decoration: none;
-  display: inline-block;
-  margin: 0 10px;
-  transition: all 0.3s ease;
-}
-.back-link a:hover {
-  background: #fff;
-  color: #111;
-  transform: translateY(-3px);
-}
-
 h1 {
   font-family: Orbitron, monospace;
+  font-size: 2.8rem;
   text-align: center;
-  font-size: 3em;
   background: linear-gradient(90deg,#f59e0b,#fde68a,#f59e0b);
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(245,158,11,0.6);
 }
 
 h2 {
@@ -164,13 +95,36 @@ h2 {
   margin-bottom: 1rem;
 }
 
-p { margin-bottom: 1rem; }
-ul { margin-left: 1.5rem; margin-bottom: 1rem; }
-li { margin-bottom: 0.5rem; }
+p, li { margin-bottom: 1rem; }
+ul { margin-left: 1.5rem; }
 strong { color:#fff; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { color: #fff; text-decoration: underline; }
 
+/* BUTTONS / LINKS */
+.back-link {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.back-link a {
+  background: linear-gradient(90deg,#d97706,#f59e0b,#fbbf24);
+  color: #111;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-family: Orbitron, monospace;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.back-link a:hover {
+  background: #fff;
+  color: #111;
+  transform: translateY(-3px);
+}
+
+/* FOOTER */
 footer {
   text-align: center;
   margin-top: 4rem;
@@ -180,31 +134,32 @@ footer {
   font-size: 0.85rem;
 }
 
+/* RESPONSIVE */
 @media (max-width: 768px) {
   .container { padding: 2rem; margin: 5vh auto; }
   h1 { font-size: 2.2rem; }
+  .loading-title { font-size: 8vw; }
 }
-
 </style>
 </head>
 <body>
 
+<!-- LOADING SCREEN -->
 <div id="loading-screen">
-  <div>
-    <h1 class="loading-title">POOSTUDIO</h1>
-    <div class="loading-bar"><div class="loading-progress" id="progress"></div></div>
-  </div>
+  <h1 class="loading-title">POOSTUDIO</h1>
+  <div class="loading-bar"><div class="loading-progress" id="progress"></div></div>
 </div>
 
+<!-- MAIN CONTENT -->
 <div class="container" id="main-content">
   <h1>Privacy Policy</h1>
-  <p class="subtitle">Effective Date: January 07, 2026</p>
+  <p>Effective Date: January 07, 2026</p>
 
-  <p>At POOSTUDIO, we are committed to protecting your privacy and ensuring the security of your personal information...</p>
+  <p>At POOSTUDIO, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines our practices regarding the collection, use, and protection of your data when you visit our website or use our services.</p>
 
   <h2>1. Information We Collect</h2>
   <ul>
-    <li><strong>Personal Info:</strong> Name, email, etc.</li>
+    <li><strong>Personal Information:</strong> Name, email, etc.</li>
     <li><strong>Usage Data:</strong> IP, browser info, timestamps.</li>
   </ul>
 
