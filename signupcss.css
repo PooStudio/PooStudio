@@ -1,11 +1,25 @@
+/* =========================
+   THEME VARIABLES
+========================= */
 :root {
   --bg: #0a0a0f;
   --surface: #111118;
-  --accent: #f59e0b;
-  --text: #e5e7eb;
+
+  --accent-main: #f59e0b;
+  --accent-hot: #fbbf24;
+  --accent-deep: #d97706;
+
+  --text-main: #e5e7eb;
   --text-muted: #94a3b8;
+
+  --glow-soft: 0 0 12px rgba(245,158,11,0.35);
+  --glow-med: 0 0 28px rgba(245,158,11,0.55);
+  --glow-strong: 0 0 48px rgba(245,158,11,0.75);
 }
 
+/* =========================
+   RESET
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -15,29 +29,32 @@
 body {
   font-family: Inter, system-ui, sans-serif;
   min-height: 100vh;
-  color: var(--text);
+  color: var(--text-main);
   background: var(--bg);
   background-image:
     radial-gradient(circle at 15% 15%, rgba(245,158,11,0.06), transparent 40%),
     radial-gradient(circle at 85% 80%, rgba(245,158,11,0.05), transparent 45%);
 }
 
+/* =========================
+   LOADING SCREEN
+========================= */
 #loading-screen {
   position: fixed;
   inset: 0;
   background: var(--bg);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 9999;
 }
 
 .loading-title {
   font-family: Orbitron, monospace;
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 6vw, 4rem);
   letter-spacing: 0.25em;
-  color: #fbbf24;
-  text-shadow: 0 0 30px rgba(245,158,11,0.6);
+  color: var(--accent-hot);
+  text-shadow: var(--glow-med);
   margin-bottom: 1.5rem;
 }
 
@@ -47,13 +64,25 @@ body {
   background: rgba(245,158,11,0.2);
   border-radius: 6px;
   overflow: hidden;
+  box-shadow: 0 0 18px rgba(245,158,11,0.25);
 }
 
 .loading-progress {
   height: 100%;
-  background: linear-gradient(90deg,#f59e0b,#fbbf24);
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--accent-deep),
+    var(--accent-main),
+    var(--accent-hot)
+  );
+  box-shadow: var(--glow-soft);
+  transition: width 0.4s ease;
 }
 
+/* =========================
+   MAIN CONTAINER
+========================= */
 .container {
   max-width: 720px;
   margin: 8vh auto;
@@ -66,15 +95,25 @@ body {
   display: none;
 }
 
+/* =========================
+   HEADINGS
+========================= */
 .glow-text {
   font-family: Orbitron, monospace;
   text-align: center;
   font-size: 2.5rem;
   letter-spacing: 0.15em;
-  background: linear-gradient(90deg,#f59e0b,#fde68a,#f59e0b);
+  background: linear-gradient(
+    90deg,
+    var(--accent-main),
+    #fde68a,
+    var(--accent-main)
+  );
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   margin-bottom: 1rem;
+  text-shadow: var(--glow-soft);
 }
 
 .subtitle {
@@ -83,6 +122,9 @@ body {
   margin-bottom: 2.5rem;
 }
 
+/* =========================
+   FORM ELEMENTS
+========================= */
 label {
   display: block;
   margin-top: 1.4rem;
@@ -91,34 +133,64 @@ label {
   color: #9ca3af;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   width: 100%;
   padding: 0.9rem;
   margin-top: 0.4rem;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 8px;
-  color: var(--text);
+  color: var(--text-main);
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-main);
+  box-shadow: 0 0 0 2px rgba(245,158,11,0.25);
 }
 
 select {
   appearance: none;
-  background-color: #0a0a0f;
+  background-color: var(--bg);
 }
 
+/* =========================
+   BUTTONS
+========================= */
 button {
   margin-top: 2.5rem;
   width: 100%;
   padding: 1.1rem;
-  background: linear-gradient(90deg,#d97706,#f59e0b,#fbbf24);
+  background: linear-gradient(
+    90deg,
+    var(--accent-deep),
+    var(--accent-main),
+    var(--accent-hot)
+  );
   border: none;
   border-radius: 10px;
   font-family: Orbitron, monospace;
   letter-spacing: 0.15em;
   font-weight: 700;
+  color: #111;
   cursor: pointer;
+  box-shadow: var(--glow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-strong);
+}
+
+/* =========================
+   LOCKED / TIMER
+========================= */
 .locked {
   text-align: center;
   padding: 4rem 1rem;
@@ -129,6 +201,7 @@ button {
   font-family: Orbitron, monospace;
   color: #00ffee;
   margin: 2rem 0;
+  text-shadow: 0 0 25px rgba(0,255,238,0.6);
 }
 
 .back-btn {
@@ -136,13 +209,27 @@ button {
   margin-top: 2rem;
   padding: 0.9rem 2rem;
   border-radius: 10px;
-  background: linear-gradient(90deg,#f59e0b,#fbbf24);
+  background: linear-gradient(
+    90deg,
+    var(--accent-main),
+    var(--accent-hot)
+  );
   color: #111;
   text-decoration: none;
   font-family: Orbitron, monospace;
   letter-spacing: 0.15em;
+  box-shadow: var(--glow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-strong);
+}
+
+/* =========================
+   FOOTER
+========================= */
 .site-footer {
   margin-top: 6rem;
   padding: 2.5rem 1.5rem 3rem;
@@ -161,7 +248,8 @@ button {
 .footer-logo {
   font-family: Orbitron, monospace;
   letter-spacing: 0.25em;
-  color: #fbbf24;
+  color: var(--accent-hot);
+  text-shadow: var(--glow-soft);
 }
 
 .footer-copy {
@@ -175,15 +263,26 @@ button {
   letter-spacing: 0.15em;
   color: #9ca3af;
   text-decoration: none;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 
 .footer-links a:hover {
-  color: #fbbf24;
+  color: var(--accent-hot);
+  text-shadow: var(--glow-soft);
 }
 
+/* =========================
+   MOBILE
+========================= */
 @media (max-width: 768px) {
+  .container {
+    margin: 5vh 1rem;
+    padding: 2rem;
+  }
+
   .footer-inner {
     flex-direction: column;
     gap: 1.5rem;
+    text-align: center;
   }
 }
