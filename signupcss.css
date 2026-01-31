@@ -22,6 +22,7 @@ body {
     radial-gradient(circle at 85% 80%, rgba(245,158,11,0.05), transparent 45%);
 }
 
+/* ===== LOADING ===== */
 #loading-screen {
   position: fixed;
   inset: 0;
