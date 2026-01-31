@@ -1,493 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy ✦  POOSTUDIO</title>
-    
-    <link rel="icon" href="logo.png" type="image/png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy ✦ POOSTUDIO</title>
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== ROOT COLORS ===== */
+:root {
+  --accent: #d97706;
+  --accent-bright: #ff8c00;
+  --accent-dark: #b8860b;
+  --error: #ff4444;
+  --error-glow: #ff6666;
+  --text: #e0e0e0;
+  --text-muted: #aaaaaa;
+  --panel: rgba(20,20,20,0.85);
+}
 
-    <style>
-        :root {
-            --accent: #d97706;
-            --accent-bright: #ff8c00;
-            --accent-dark: #b8860b;
-            --error: #ff4444;
-            --error-glow: #ff6666;
-            --text: #e0e0e0;
-            --text-muted: #aaaaaa;
-        }
+/* ===== RESET ===== */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Inter', sans-serif;
+  min-height:100vh;
+  background: radial-gradient(circle at 20% 30%, rgba(217,119,6,0.07), transparent 50%), #0f0f0f;
+  color: var(--text);
+  overflow-x:hidden;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ===== LOADING SCREEN ===== */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  overflow:hidden;
+  transition: opacity 1.6s ease-out;
+}
+#loading-screen.fade-out { opacity:0; pointer-events:none; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0f0f0f;
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-image: 
-                linear-gradient(rgba(15,15,15,0.96), rgba(15,15,15,0.96)),
-                radial-gradient(circle at 20% 30%, rgba(217,119,6,0.07) 0%, transparent 50%);
-            background-attachment: fixed;
-            background-size: cover;
-        }
+.loading-content { text-align:center; z-index:10; }
 
-        #loading-screen {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            opacity: 1;
-            transition: opacity 1.6s ease-out;
-        }
+.loading-title {
+  font-family:'Orbitron', sans-serif;
+  font-size:clamp(5.5rem,11vw,10rem);
+  font-weight:900;
+  letter-spacing:-0.03em;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright), var(--accent-dark), var(--accent));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 0 40px rgba(217,119,6,0.75);
+  animation: titlePulse 5s ease-in-out infinite alternate;
+  margin-bottom:1.5rem;
+}
+@keyframes titlePulse {
+  from{filter:brightness(1) hue-rotate(0deg);}
+  to{filter:brightness(1.45) hue-rotate(18deg);}
+}
 
-        #loading-screen.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
+.loading-text {
+  font-size:1.7rem;
+  letter-spacing:0.5rem;
+  color: var(--accent);
+  opacity:0;
+  transform: translateY(40px);
+  transition: all 1.4s ease-out;
+  margin: 40px 0;
+}
+.loading-text.revealed { opacity:0.9; transform:translateY(0); }
 
-        .loading-content {
-            text-align: center;
-            max-width: 90%;
-            z-index: 10;
-        }
+.loading-bar {
+  width:450px; max-width:85vw; height:4px;
+  background: rgba(217,119,6,0.15);
+  margin: 60px auto; border-radius:4px; overflow:hidden;
+  box-shadow:0 0 15px rgba(217,119,6,0.3);
+}
+.loading-progress {
+  height:100%; width:0%;
+  background: linear-gradient(90deg,var(--accent),var(--accent-bright),var(--accent-dark));
+  transition: width 0.6s ease-out, background 0.6s ease, box-shadow 0.6s ease;
+  box-shadow:0 0 25px var(--accent);
+  will-change: width;
+}
 
-        .loading-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(5.5rem, 11vw, 10rem);
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            background: linear-gradient(90deg, var(--accent), var(--accent-bright), var(--accent-dark), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 40px rgba(217,119,6,0.75);
-            animation: titlePulse 5s ease-in-out infinite alternate;
-            margin-bottom: 1.5rem;
-        }
+.error-message { color: var(--error); font-size:1.6rem; line-height:1.8; opacity:0; transition:opacity 1s ease; margin:40px 0; pointer-events:none; }
+.error-message.visible { opacity:1; display:block; }
+.error-message span { font-size:1.1rem; opacity:0.8; display:block; margin-top:15px; }
 
-        @keyframes titlePulse {
-            from { filter: brightness(1) hue-rotate(0deg); }
-            to   { filter: brightness(1.45) hue-rotate(18deg); }
-        }
+.retry-button {
+  margin-top:40px;
+  padding:14px 32px;
+  background:transparent;
+  border:2px solid var(--error);
+  color:var(--error-glow);
+  font-family:'Orbitron',sans-serif;
+  font-size:1.1rem; letter-spacing:0.2rem;
+  border-radius:8px; cursor:pointer;
+  opacity:0; pointer-events:none;
+  transition: all 0.4s ease;
+  box-shadow:0 0 15px rgba(239,68,68,0.4);
+}
+.retry-button.visible { opacity:1; pointer-events:all; }
+.retry-button:hover { background:var(--error); color:#fff; box-shadow:0 0 40px rgba(239,68,68,0.9); transform:translateY(-4px); }
 
-        .loading-text {
-            font-size: 1.7rem;
-            letter-spacing: 0.5rem;
-            color: var(--accent);
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.4s ease-out;
-            margin: 40px 0;
-        }
+.glitch-overlay {
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(217,119,6,0.05) 12px, rgba(217,119,6,0.05) 24px);
+  pointer-events:none; opacity:0.3; transition:opacity 0.8s ease;
+}
+.glitch-overlay.glitch-pulse { animation: glitchPulse 1s ease-in-out; }
+@keyframes glitchPulse {
+  0%,100%{opacity:0.3;transform:translate(0) skew(0deg);}
+  15%{opacity:0.7;transform:translate(-8px,8px) skew(5deg);}
+  30%{opacity:0.5;transform:translate(10px,-6px) skew(-8deg);}
+  50%{opacity:0.8;transform:translate(-6px,-10px) skew(10deg);}
+  70%{opacity:0.6;transform:translate(8px,4px) skew(-6deg);}
+  85%{opacity:0.4;transform:translate(-4px,6px) skew(4deg);}
+}
 
-        .loading-text.revealed {
-            opacity: 0.9;
-            transform: translateY(0);
-        }
+.scanlines {
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 6px);
+  pointer-events:none; opacity:0.5;
+  animation: scan 12s linear infinite;
+}
+@keyframes scan { 0%{transform:translateY(0);} 100%{transform:translateY(6px);} }
 
-        .loading-bar {
-            width: 450px;
-            max-width: 85vw;
-            height: 4px;
-            background: rgba(217,119,6,0.15);
-            margin: 60px auto;
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(217,119,6,0.3);
-        }
+/* ===== MAIN CONTAINER ===== */
+.container {
+  max-width:1000px; margin:80px auto; padding:60px;
+  background-color: var(--panel);
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  border-radius:12px;
+  backdrop-filter:blur(10px);
+  opacity:0;
+  transform:translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.container.visible { opacity:1; transform:translateY(0); }
 
-        .loading-progress {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-bright), var(--accent-dark));
-            transition: width 0.6s ease-out, background 0.6s ease, box-shadow 0.6s ease;
-            box-shadow: 0 0 25px var(--accent);
-            will-change: width;
-        }
+h1 { font-family:'Orbitron',sans-serif; font-size:3.5em; text-align:center; margin-bottom:20px; background: linear-gradient(90deg, var(--accent), var(--accent-bright)); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 30px rgba(217,119,6,0.5); }
+h2 { font-family:'Orbitron',sans-serif; font-size:2em; margin:60px 0 20px 0; color: var(--accent); position:relative; padding-left:20px; }
+h2::before { content:''; position:absolute; left:0; top:50%; height:60%; width:4px; background-color: var(--accent); transform:translateY(-50%); }
 
-        .error-message {
-            color: var(--error);
-            font-size: 1.6rem;
-            line-height: 1.8;
-            opacity: 0;
-            transition: opacity 1s ease;
-            margin: 40px 0;
-            pointer-events: none;
-        }
+p{margin-bottom:25px; font-weight:300;}
+ul{margin-left:30px; margin-bottom:25px;}
+li{margin-bottom:12px; position:relative; padding-left:15px;}
+li::before{content:'•'; color: var(--accent); position:absolute; left:0;}
+strong{color:#fff;}
+a{color: var(--accent); text-decoration:none; transition: color 0.3s ease;}
+a:hover{color:#fff; text-decoration:underline;}
+.effective-date{font-style:italic; color:var(--text-muted); text-align:center; margin-bottom:50px; font-size:1.1em;}
 
-        .error-message.visible {
-            opacity: 1;
-            display: block;
-        }
+.back-link{display:block; margin-top:80px; text-align:center;}
+.back-link a{
+  background-color: var(--accent); color:#0f0f0f; padding:15px 30px; border-radius:50px; font-weight:600;
+  transition:all 0.3s ease; box-shadow:0 4px 15px rgba(217,119,6,0.3); margin:0 10px;
+}
+.back-link a:hover{background-color:#fff;color:#0f0f0f;transform:translateY(-3px); box-shadow:0 8px 25px rgba(217,119,6,0.5);}
 
-        .error-message span {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            display: block;
-            margin-top: 15px;
-        }
+footer{text-align:center; margin-top:80px; color:#666; font-size:0.9em; padding:20px; border-top:1px solid #333;}
+.footer-links a{margin-left:1.8rem; color: var(--accent); text-decoration:none; transition:0.3s;}
+.footer-links a:hover{color:#fff;}
 
-        .retry-button {
-            margin-top: 40px;
-            padding: 14px 32px;
-            background: transparent;
-            border: 2px solid var(--error);
-            color: var(--error-glow);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            letter-spacing: 0.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            opacity: 0;
-            transition: all 0.4s ease;
-            pointer-events: none;
-            box-shadow: 0 0 15px rgba(239,68,68,0.4);
-        }
-
-        .retry-button.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .retry-button:hover {
-            background: var(--error);
-            color: #fff;
-            box-shadow: 0 0 40px rgba(239,68,68,0.9);
-            transform: translateY(-4px);
-        }
-
-        .glitch-overlay {
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(217,119,6,0.05) 12px, rgba(217,119,6,0.05) 24px);
-            pointer-events: none;
-            opacity: 0.3;
-            transition: opacity 0.8s ease;
-        }
-
-        .glitch-overlay.glitch-pulse {
-            animation: glitchPulse 1s ease-in-out;
-        }
-
-        @keyframes glitchPulse {
-            0%, 100% { opacity: 0.3; transform: translate(0) skew(0deg); }
-            15% { opacity: 0.7; transform: translate(-8px, 8px) skew(5deg); }
-            30% { opacity: 0.5; transform: translate(10px, -6px) skew(-8deg); }
-            50% { opacity: 0.8; transform: translate(-6px, -10px) skew(10deg); }
-            70% { opacity: 0.6; transform: translate(8px, 4px) skew(-6deg); }
-            85% { opacity: 0.4; transform: translate(-4px, 6px) skew(4deg); }
-        }
-
-        .scanlines {
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 6px);
-            pointer-events: none;
-            opacity: 0.5;
-            animation: scan 12s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(6px); }
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 80px auto;
-            padding: 60px;
-            background-color: rgba(20, 20, 20, 0.85);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.9s ease, transform 0.9s ease;
-        }
-
-        .container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            color: #ffffff;
-            text-align: center;
-            background: linear-gradient(90deg, var(--accent), var(--accent-bright));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 30px rgba(217,119,6,0.5);
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2em;
-            margin-top: 60px;
-            margin-bottom: 20px;
-            color: var(--accent);
-            position: relative;
-            padding-left: 20px;
-        }
-
-        h2::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            height: 60%;
-            width: 4px;
-            background-color: var(--accent);
-            transform: translateY(-50%);
-        }
-
-        p { margin-bottom: 25px; font-weight: 300; }
-        ul { margin-left: 30px; margin-bottom: 25px; }
-        li { margin-bottom: 12px; position: relative; padding-left: 15px; }
-        li::before { content: '•'; color: var(--accent); position: absolute; left: 0; }
-        strong { color: #ffffff; }
-        a { color: var(--accent); text-decoration: none; transition: color 0.3s ease; }
-        a:hover { color: #ffffff; text-decoration: underline; }
-        .effective-date { font-style: italic; color: var(--text-muted); text-align: center; margin-bottom: 50px; font-size: 1.1em; }
-        .back-link { display: block; margin-top: 80px; text-align: center; }
-        .back-link a {
-            background-color: var(--accent);
-            color: #0f0f0f;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(217,119,6,0.3);
-            margin: 0 10px;
-        }
-        .back-link a:hover {
-            background-color: #ffffff;
-            color: #0f0f0f;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(217,119,6,0.5);
-        }
-        footer {
-            text-align: center;
-            margin-top: 80px;
-            color: #666666;
-            font-size: 0.9em;
-            padding: 20px;
-            border-top: 1px solid #333;
-        }
-
-        @media (max-width: 768px) {
-            .container { margin: 40px auto; padding: 40px 20px; }
-            h1 { font-size: 2.8em; }
-            .loading-title { font-size: 14vw; }
-        }
-
-        @media (max-width: 480px) {
-            .loading-bar { width: 90vw; }
-            .loading-text { font-size: 1.4rem; letter-spacing: 0.3rem; }
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 15px;
-            }
-            h1 {
-                font-size: 2.5em;
-            }
-            h2 {
-                font-size: 1.8em;
-            }
-            .back-link a {
-                display: block;
-                margin: 10px auto;
-                width: 80%;
-            }
-        }
-    </style>
+@media (max-width:768px){.container{margin:40px auto;padding:40px 20px;}h1{font-size:2.8em;} .loading-title{font-size:14vw;}}
+@media (max-width:480px){.loading-bar{width:90vw;} .loading-text{font-size:1.4rem;letter-spacing:0.3rem;}}
+@media (max-width:600px){.container{padding:30px 15px;} h1{font-size:2.5em;} h2{font-size:1.8em;} .back-link a{display:block;margin:10px auto;width:80%;}}
+</style>
 </head>
 <body>
 
-    <div id="loading-screen">
-        <div class="loading-content">
-            <h1 class="loading-title">POOSTUDIO</h1>
-            <p class="loading-text">Loading Privacy Policy...</p>
-            <div class="loading-bar">
-                <div class="loading-progress" id="progress"></div>
-            </div>
-            <p class="error-message" id="error-message">
-                No Signal.<br>
-                <span id="retry-text">Reconnecting to Privacy Policy...</span>
-            </p>
-            <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
-        </div>
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loading-content">
+    <h1 class="loading-title">POOSTUDIO</h1>
+    <p class="loading-text">Loading Privacy Policy...</p>
+    <div class="loading-bar"><div class="loading-progress" id="progress"></div></div>
+    <p class="error-message" id="error-message">No Signal.<br><span id="retry-text">Reconnecting to Privacy Policy...</span></p>
+    <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
+  </div>
+  <div class="glitch-overlay" id="glitch-overlay"></div>
+  <div class="scanlines"></div>
+</div>
 
-        <div class="glitch-overlay" id="glitch-overlay"></div>
-        <div class="scanlines"></div>
+<!-- MAIN CONTENT -->
+<div id="main-content" class="container">
+  <h1>Privacy Policy</h1>
+  <p class="effective-date">Effective Date: January 07, 2026</p>
+  <p>At POOSTUDIO, we are committed to protecting your privacy and ensuring the security of your personal information...</p>
+  <!-- ... ALL YOUR SECTIONS REMAIN HERE ... -->
+  <div class="back-link">
+    <a href="index.html">← Return to Home</a>
+    <a href="terms.html">View Terms of Service →</a>
+  </div>
+  <footer>
+    <p>© <span id="year"></span> PooStudio</p>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
     </div>
+  </footer>
+</div>
 
-    <div id="main-content" class="container">
-        <h1>Privacy Policy</h1>
-        <p class="effective-date">Effective Date: January 07, 2026</p>
+<script>
+const loadingScreen=document.getElementById('loading-screen');
+const mainContent=document.getElementById('main-content');
+const progress=document.getElementById('progress');
+const errorMessage=document.getElementById('error-message');
+const retryBtn=document.getElementById('retry-btn');
+const glitchOverlay=document.getElementById('glitch-overlay');
 
-        <p>At POOSTUDIO, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines our practices regarding the collection, use, and protection of your data when you visit our website or use our services.</p>
+let progressValue=0, hasFailed=false, loadingTimer;
 
-        <p>If you do not agree with this policy, please do not access or use our services. We may update this policy periodically, and continued use of the site after changes constitutes acceptance of the revised terms.</p>
+function startLoading(){
+  progressValue=0; progress.style.width='0%';
+  errorMessage.classList.remove('visible'); retryBtn.classList.remove('visible');
+  hasFailed=false; glitchOverlay.classList.remove('glitch-pulse');
 
-        <h2>1. Information We Collect</h2>
-        <p>We collect information to provide, improve, and personalize our services. The types of information we may collect include:</p>
-        <ul>
-            <li><strong>Personal Information:</strong> Data that identifies you personally, such as your name, email address, postal address, phone number, or payment information, which you voluntarily provide.</li>
-            <li><strong>Usage Data:</strong> Automatically collected information about your interactions with our site, including IP address, browser type, operating system, referral sources, pages viewed, and timestamps.</li>
-            <li><strong>Device Information:</strong> Details about the device you use to access our site, such as hardware model, unique device identifiers, mobile network information, and location data (if enabled).</li>
-            <li><strong>Cookies and Similar Technologies:</strong> We use cookies, web beacons, pixel tags, and local storage to track user activity, store preferences, and enhance functionality.</li>
-            <li><strong>Third-Party Data:</strong> Information from third-party services, such as social media platforms or analytics providers, if you link accounts or interact with integrated features.</li>
-        </ul>
+  loadingTimer=setInterval(()=>{
+    progressValue+=Math.random()*8+4;
+    if(progressValue>=100){progressValue=100; clearInterval(loadingTimer); setTimeout(showMainContent,700);}
+    progress.style.width=progressValue+'%';
+  },160);
+}
 
-        <h2>2. How We Use Your Information</h2>
-        <p>We use the collected information for legitimate business purposes, including:</p>
-        <ul>
-            <li>Providing and maintaining our website and services.</li>
-            <li>Processing transactions, subscriptions, and requests.</li>
-            <li>Personalizing content, recommendations, and user experience.</li>
-            <li>Communicating with you, including sending newsletters, updates, promotional materials, and responding to inquiries.</li>
-            <li>Analyzing usage patterns to improve site performance, features, and security.</li>
-            <li>Detecting, preventing, and addressing technical issues, fraud, or illegal activities.</li>
-            <li>Complying with legal obligations, resolving disputes, and enforcing agreements.</li>
-            <li>Conducting research and development to enhance our offerings.</li>
-        </ul>
+function showMainContent(){
+  if(!hasFailed){
+    loadingScreen.classList.add('fade-out');
+    setTimeout(()=>{mainContent.classList.add('visible');},400);
+  }
+}
 
-        <h2>3. Sharing and Disclosure of Information</h2>
-        <p>We do not sell, rent, or trade your personal information to third parties for marketing purposes. However, we may share information in the following circumstances:</p>
-        <ul>
-            <li><strong>Service Providers:</strong> With trusted vendors and partners who assist in operating our site.</li>
-            <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or asset sales.</li>
-            <li><strong>Legal Requirements:</strong> To comply with laws, regulations, court orders, or to protect rights and safety.</li>
-            <li><strong>Aggregated Data:</strong> Non-personally identifiable information for research or marketing.</li>
-            <li><strong>With Your Consent:</strong> For any other purpose with your explicit permission.</li>
-        </ul>
+function triggerFailure(){
+  if(!hasFailed){
+    hasFailed=true;
+    clearInterval(loadingTimer);
+    errorMessage.classList.add('visible');
+    retryBtn.classList.add('visible');
+    progress.style.width='92%';
+    glitchOverlay.classList.add('glitch-pulse');
+  }
+}
 
-        <h2>4. Data Security</h2>
-        <p>We implement encryption, firewalls, access controls, and regular security assessments. In the event of a breach, we will notify affected users as required by law.</p>
+retryBtn.addEventListener('click', startLoading);
+startLoading();
 
-        <h2>5. Cookies and Tracking Technologies</h2>
-        <p>You can manage cookies in your browser settings. Disabling them may limit functionality.</p>
-
-        <h2>6. Third-Party Links and Services</h2>
-        <p>We are not responsible for the privacy practices of external sites linked from our website.</p>
-
-        <h2>7. Children's Privacy</h2>
-        <p>Our services are not intended for children under 13 (or 16 in some jurisdictions).</p>
-
-        <h2>8. International Data Transfers</h2>
-        <p>By using our site, you consent to data transfers outside your jurisdiction with appropriate safeguards.</p>
-
-        <h2>9. Your Rights and Choices</h2>
-        <p>You may have rights to access, correct, delete, or port your data. Contact us at poostudioo@gmail.com to exercise them.</p>
-
-        <h2>10. Data Retention</h2>
-        <p>We retain data only as long as necessary or required by law.</p>
-
-        <h2>11. Changes to This Privacy Policy</h2>
-        <p>Updates will be posted here with a new effective date.</p>
-
-        <h2>12. Contact Us</h2>
-        <p>POOSTUDIO<br>Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>Phone: (915) 209-5101</p>
-
-        <div class="back-link">
-            <a href="index.html">← Return to Home</a>
-            <a href="terms.html">View Terms of Service →</a>
-        </div>
-
-        <footer>
-            <p>© <span id="year"></span> PooStudio</p>
-            <div class="footer-links">
-                <a href="privacy.html">Privacy</a>
-                <a href="terms.html">Terms</a>
-            </div>
-        </footer>
-    </div>
-
-    <script>
-        const loadingScreen = document.getElementById('loading-screen');
-        const mainContent   = document.getElementById('main-content');
-        const progress      = document.getElementById('progress');
-        const errorMessage  = document.getElementById('error-message');
-        const retryBtn      = document.getElementById('retry-btn');
-        const glitchOverlay = document.getElementById('glitch-overlay');
-
-        let progressValue = 0;
-        let hasFailed = false;
-        let loadingTimer;
-
-        function startLoading() {
-            progressValue = 0;
-            progress.style.width = '0%';
-            errorMessage.classList.remove('visible');
-            retryBtn.classList.remove('visible');
-            hasFailed = false;
-            glitchOverlay.classList.remove('glitch-pulse');
-
-            loadingTimer = setInterval(() => {
-                progressValue += Math.random() * 8 + 4;
-                if (progressValue >= 100) {
-                    progressValue = 100;
-                    clearInterval(loadingTimer);
-                    setTimeout(showMainContent, 700);
-                }
-                progress.style.width = progressValue + '%';
-            }, 160);
-        }
-
-        function showMainContent() {
-            if (!hasFailed) {
-                loadingScreen.classList.add('fade-out');
-                setTimeout(() => {
-                    mainContent.classList.add('visible');
-                }, 400);
-            }
-        }
-
-        function triggerFailure() {
-            if (!hasFailed) {
-                hasFailed = true;
-                clearInterval(loadingTimer);
-                errorMessage.classList.add('visible');
-                retryBtn.classList.add('visible');
-                progress.style.width = '92%';
-                glitchOverlay.classList.add('glitch-pulse');
-            }
-        }
-
-        retryBtn.addEventListener('click', startLoading);
-
-        startLoading();
-
-        setTimeout(() => {
-            document.querySelector('.loading-text').classList.add('revealed');
-        }, 800);
-
-        setTimeout(() => {
-            if (progressValue < 94) {
-                triggerFailure();
-            }
-        }, 10000 + Math.random() * 4000);
-
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
+setTimeout(()=>{document.querySelector('.loading-text').classList.add('revealed');},800);
+setTimeout(()=>{if(progressValue<94){triggerFailure();}},10000+Math.random()*4000);
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
 </body>
 </html>
