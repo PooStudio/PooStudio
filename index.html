@@ -163,13 +163,20 @@
             });
     </script>
 
-<div id="signup-sidebar">
-    <div class="sidebar-panel">
-        <button class="close-sidebar" aria-label="Close">&times;</button>
-        <h3>Stay in the Loop</h3>
-        <p>Get the latest updates, new features, and exclusive drops from POOSTUDIO.</p>
+<button class="modal-trigger" aria-label="Open login form">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+</button>
 
-        <form id="signup-form" action="https://formspree.io/f/xdkgnelb" method="POST" novalidate>
+<div id="login-modal">
+    <div class="login-panel">
+        <button class="close-modal" aria-label="Close">&times;</button>
+        <h3>Login to PooStudio</h3>
+        <p>Access exclusive features and content from the depths up.</p>
+
+        <form id="login-form" action="/login" method="POST" novalidate>
             <input
                 type="email"
                 name="email"
@@ -179,37 +186,49 @@
                 aria-label="Your email address"
             >
             <div class="error-message" id="email-error" role="alert"></div>
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                autocomplete="current-password"
+                aria-label="Your password"
+            >
+            <div class="error-message" id="password-error" role="alert"></div>
 
-            <input type="hidden" name="_subject" value="Sidebar Signup - POOSTUDIO Updates">
-
-            <button type="submit">Subscribe</button>
+            <button type="submit">Login</button>
         </form>
 
         <p class="privacy-small">
-            We respect your inbox. <a href="privacy.html">Privacy Policy</a>
+            Don't have an account? <a href="Singup.html">Sign up</a>
         </p>
     </div>
-
-    <button class="sidebar-trigger" aria-label="Open signup form">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-        </svg>
-    </button>
 </div>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap');
 
-    #signup-sidebar {
+    #login-modal {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
+        inset: 0;
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(16px);
         z-index: 1000;
         font-family: 'Inter', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
     }
 
-    .sidebar-trigger {
+    #login-modal.open {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .modal-trigger {
         width: 60px;
         height: 60px;
         background: linear-gradient(135deg, #ff6b00, #d97706);
@@ -222,17 +241,19 @@
         align-items: center;
         justify-content: center;
         transition: all 0.4s ease;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 999;
     }
 
-    .sidebar-trigger:hover {
+    .modal-trigger:hover {
         transform: scale(1.1);
         box-shadow: 0 12px 35px rgba(255, 107, 0, 0.6);
     }
 
-    .sidebar-panel {
-        position: absolute;
-        bottom: 80px;
-        right: 0;
+    .login-panel {
+        position: relative;
         width: 360px;
         max-width: 90vw;
         background-color: rgba(20, 20, 20, 0.95);
@@ -241,21 +262,9 @@
         border-radius: 16px;
         padding: 30px;
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 107, 0, 0.2);
-        transform: translateX(120%);
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        pointer-events: none;
     }
 
-    #signup-sidebar.open .sidebar-panel {
-        transform: translateX(0);
-        opacity: 1;
-        visibility: visible;
-        pointer-events: all;
-    }
-
-    .sidebar-panel h3 {
+    .login-panel h3 {
         font-family: 'Playfair Display', serif;
         font-size: 1.6em;
         color: #ffffff;
@@ -263,7 +272,7 @@
         text-align: center;
     }
 
-    .sidebar-panel > p {
+    .login-panel > p {
         font-size: 0.95em;
         color: #bbbbbb;
         margin-bottom: 24px;
@@ -271,7 +280,8 @@
         text-align: center;
     }
 
-    .sidebar-panel input[type="email"] {
+    .login-panel input[type="email"],
+    .login-panel input[type="password"] {
         width: 100%;
         padding: 14px 18px;
         background-color: rgba(40, 40, 40, 0.8);
@@ -284,13 +294,15 @@
         box-sizing: border-box;
     }
 
-    .sidebar-panel input[type="email"]:focus {
+    .login-panel input[type="email"]:focus,
+    .login-panel input[type="password"]:focus {
         outline: none;
         border-color: #ff6b00;
         box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.25);
     }
 
-    .sidebar-panel input[type="email"].invalid {
+    .login-panel input[type="email"].invalid,
+    .login-panel input[type="password"].invalid {
         border-color: #ff4444;
         box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
     }
@@ -303,7 +315,7 @@
         text-align: left;
     }
 
-    .sidebar-panel button[type="submit"] {
+    .login-panel button[type="submit"] {
         width: 100%;
         background: linear-gradient(90deg, #ff6b00, #d97706);
         color: #0f0f0f;
@@ -317,19 +329,19 @@
         box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
     }
 
-    .sidebar-panel button[type="submit"]:hover:not(:disabled) {
+    .login-panel button[type="submit"]:hover:not(:disabled) {
         background: #ffffff;
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(255, 107, 0, 0.6);
     }
 
-    .sidebar-panel button[type="submit"]:disabled {
+    .login-panel button[type="submit"]:disabled {
         opacity: 0.6;
         cursor: not-allowed;
         transform: none;
     }
 
-    .close-sidebar {
+    .close-modal {
         position: absolute;
         top: 12px;
         right: 16px;
@@ -347,7 +359,7 @@
         transition: all 0.3s ease;
     }
 
-    .close-sidebar:hover {
+    .close-modal:hover {
         background: rgba(239, 68, 68, 0.2);
         color: #ff4444;
     }
@@ -370,19 +382,19 @@
     }
 
     @media (max-width: 480px) {
-        .sidebar-panel {
+        .login-panel {
             width: 320px;
             padding: 24px;
         }
     }
 
     @media (max-width: 400px) {
-        #signup-sidebar {
+        .modal-trigger {
             bottom: 20px;
             right: 20px;
         }
 
-        .sidebar-panel {
+        .login-panel {
             width: 280px;
             padding: 20px;
         }
@@ -391,106 +403,88 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const sidebar = document.getElementById('signup-sidebar');
-        const trigger = sidebar.querySelector('.sidebar-trigger');
-        const closeBtn = sidebar.querySelector('.close-sidebar');
-        const form = sidebar.querySelector('#signup-form');
+        const modal = document.getElementById('login-modal');
+        const trigger = document.querySelector('.modal-trigger');
+        const closeBtn = modal.querySelector('.close-modal');
+        const form = modal.querySelector('#login-form');
         const emailInput = form.querySelector('input[type="email"]');
-        const errorMsg = sidebar.querySelector('#email-error');
+        const passwordInput = form.querySelector('input[type="password"]');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
         const submitBtn = form.querySelector('button[type="submit"]');
-        const cooldownKey = 'signupLastSubmitTime';
-        const cooldownHours = 3;
-        const cooldownMs = cooldownHours * 60 * 60 * 1000; 
 
         const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
-
-        function getRemainingTime() {
-            const lastSubmit = localStorage.getItem(cooldownKey);
-            if (!lastSubmit) return 0;
-            const timePassed = Date.now() - parseInt(lastSubmit, 10);
-            return Math.max(0, cooldownMs - timePassed);
-        }
-
-        function updateCooldownStatus() {
-            const remaining = getRemainingTime();
-            if (remaining > 0) {
-                const hours = Math.floor(remaining / (60 * 60 * 1000));
-                const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-                showError(`Please wait ${hours}h ${minutes}m before submitting again.`);
-                submitBtn.disabled = true;
-                emailInput.disabled = true;
-            } else {
-                clearError(); 
-                submitBtn.disabled = false;
-                emailInput.disabled = false;
-            }
-        }
 
         function validateEmail() {
             const value = emailInput.value.trim();
             if (value === '') {
-                showError('Email is required.');
+                showError('Email is required.', emailError, emailInput);
                 return false;
             } else if (!emailRegex.test(value)) {
-                showError('Please enter a valid email address.');
+                showError('Please enter a valid email address.', emailError, emailInput);
                 return false;
             } else {
-                clearError();
+                clearError(emailError, emailInput);
                 return true;
             }
         }
 
-        function showError(message) {
-            errorMsg.textContent = message;
-            emailInput.classList.add('invalid');
-            submitBtn.disabled = true;
+        function validatePassword() {
+            const value = passwordInput.value;
+            if (value === '') {
+                showError('Password is required.', passwordError, passwordInput);
+                return false;
+            } else if (value.length < 6) {
+                showError('Password must be at least 6 characters.', passwordError, passwordInput);
+                return false;
+            } else {
+                clearError(passwordError, passwordInput);
+                return true;
+            }
         }
 
-        function clearError() {
-            errorMsg.textContent = '';
-            emailInput.classList.remove('invalid');
+        function showError(message, errorEl, inputEl) {
+            errorEl.textContent = message;
+            inputEl.classList.add('invalid');
         }
 
-        updateCooldownStatus();
+        function clearError(errorEl, inputEl) {
+            errorEl.textContent = '';
+            inputEl.classList.remove('invalid');
+        }
 
-        setInterval(updateCooldownStatus, 60000);
+        function updateSubmitButton() {
+            submitBtn.disabled = !(validateEmail() && validatePassword());
+        }
 
-        emailInput.addEventListener('input', () => {
-            validateEmail();
-            updateCooldownStatus();
-        });
+        emailInput.addEventListener('input', updateSubmitButton);
+        passwordInput.addEventListener('input', updateSubmitButton);
 
         form.addEventListener('submit', (e) => {
-            e.preventDefault(); 
-
-            if (getRemainingTime() > 0 || !validateEmail()) {
-                return; 
+            if (!validateEmail() || !validatePassword()) {
+                e.preventDefault();
             }
-
-            localStorage.setItem(cooldownKey, Date.now().toString());
-            form.submit();
-            updateCooldownStatus();
-
-            sidebar.classList.remove('open');
+            // If valid, the form will submit to /login (assume backend handles authentication)
         });
 
         trigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            sidebar.classList.toggle('open');
-            updateCooldownStatus();
+            modal.classList.add('open');
         });
 
         closeBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
+            modal.classList.remove('open');
         });
 
-        document.addEventListener('click', (e) => {
-            if (!sidebar.contains(e.target) && sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-            }
+        modal.addEventListener('click', () => {
+            modal.classList.remove('open');
         });
 
-        setTimeout(() => sidebar.classList.add('open'), 8000);
+        modal.querySelector('.login-panel').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        setTimeout(() => modal.classList.add('open'), 8000);
     });
 </script>
 </body>
