@@ -11,7 +11,6 @@
 
 <body>
 
-<!-- LOADING SCREEN -->
 <div id="loading-screen">
   <div class="loading-content">
     <div class="loading-title">POOSTUDIO</div>
@@ -21,7 +20,6 @@
   </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="container" id="container">
   <h1 class="glow-text">DEV / MOD APPLICATION</h1>
   <p class="subtitle">
@@ -50,8 +48,6 @@
     <button id="submit">SUBMIT APPLICATION</button>
   </form>
 </div>
-
-<!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
@@ -74,10 +70,8 @@
 </footer>
 
 <script>
-/* YEAR */
 document.getElementById("year").textContent = new Date().getFullYear();
 
-/* LOADING SCREEN */
 let p = 0;
 const bar = document.getElementById("progress");
 const loading = document.getElementById("loading-screen");
@@ -93,7 +87,6 @@ const loader = setInterval(() => {
   }
 }, 120);
 
-/* 24 HOUR COOLDOWN */
 const KEY = "poostudio_apply_time";
 const DAY = 86400000;
 const form = document.getElementById("form");
