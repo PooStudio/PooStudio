@@ -1,20 +1,20 @@
 /* =========================
-   THEME VARIABLES
+   CORE STUDIO THEME
 ========================= */
 :root {
-  --bg: #0a0a0f;
-  --surface: #111118;
+  --bg: #000;
+  --panel: rgba(15,15,20,0.82);
 
-  --accent-main: #f59e0b;
-  --accent-hot: #fbbf24;
-  --accent-deep: #d97706;
+  --gold-main: #d97706;
+  --gold-hot: #ff8c00;
+  --gold-soft: #b8860b;
 
-  --text-main: #e5e7eb;
-  --text-muted: #94a3b8;
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
 
-  --glow-soft: 0 0 12px rgba(245,158,11,0.35);
-  --glow-med: 0 0 28px rgba(245,158,11,0.55);
-  --glow-strong: 0 0 48px rgba(245,158,11,0.75);
+  --glow-soft: 0 0 8px rgba(217,119,6,0.35);
+  --glow-med: 0 0 20px rgba(217,119,6,0.55);
+  --glow-strong: 0 0 40px rgba(217,119,6,0.75);
 }
 
 /* =========================
@@ -29,167 +29,161 @@
 body {
   font-family: Inter, system-ui, sans-serif;
   min-height: 100vh;
+  background: radial-gradient(circle at 20% 20%, rgba(217,119,6,0.08), transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(255,140,0,0.06), transparent 45%),
+              #000;
   color: var(--text-main);
-  background: var(--bg);
-  background-image:
-    radial-gradient(circle at 15% 15%, rgba(245,158,11,0.06), transparent 40%),
-    radial-gradient(circle at 85% 80%, rgba(245,158,11,0.05), transparent 45%);
+  overflow-x: hidden;
 }
 
 /* =========================
-   LOADING SCREEN
+   LOADING SCREEN (STUDIO)
 ========================= */
 #loading-screen {
   position: fixed;
   inset: 0;
-  background: var(--bg);
+  background: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 
+.loading-wrapper {
+  text-align: center;
+}
+
 .loading-title {
-  font-family: Orbitron, monospace;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  letter-spacing: 0.25em;
-  color: var(--accent-hot);
-  text-shadow: var(--glow-med);
-  margin-bottom: 1.5rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(3rem, 12vw, 6rem);
+  letter-spacing: 0.4rem;
+  background: linear-gradient(90deg, var(--gold-main), var(--gold-hot), var(--gold-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: var(--glow-strong);
+  margin-bottom: 40px;
 }
 
 .loading-bar {
-  width: 280px;
-  height: 6px;
-  background: rgba(245,158,11,0.2);
-  border-radius: 6px;
+  width: 420px;
+  max-width: 80vw;
+  height: 4px;
+  background: rgba(217,119,6,0.18);
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 0 18px rgba(245,158,11,0.25);
+  box-shadow: var(--glow-soft);
 }
 
 .loading-progress {
   height: 100%;
   width: 0%;
-  background: linear-gradient(
-    90deg,
-    var(--accent-deep),
-    var(--accent-main),
-    var(--accent-hot)
-  );
-  box-shadow: var(--glow-soft);
-  transition: width 0.4s ease;
+  background: linear-gradient(90deg, var(--gold-main), var(--gold-hot));
+  box-shadow: var(--glow-strong);
+  transition: width 0.6s ease;
 }
 
 /* =========================
-   MAIN CONTAINER
+   STUDIO PANEL
 ========================= */
 .container {
-  max-width: 720px;
-  margin: 8vh auto;
-  padding: 3rem;
-  background: rgba(17,17,24,0.78);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  max-width: 760px;
+  margin: 10vh auto;
+  padding: 3.5rem;
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow:
+    0 0 0 1px rgba(217,119,6,0.15),
+    0 30px 80px rgba(0,0,0,0.75);
   display: none;
 }
 
 /* =========================
-   HEADINGS
+   STUDIO TITLES
 ========================= */
 .glow-text {
-  font-family: Orbitron, monospace;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.8rem;
   text-align: center;
-  font-size: 2.5rem;
-  letter-spacing: 0.15em;
-  background: linear-gradient(
-    90deg,
-    var(--accent-main),
-    #fde68a,
-    var(--accent-main)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: 1rem;
-  text-shadow: var(--glow-soft);
+  letter-spacing: 0.25rem;
+  color: #fff;
+  text-shadow:
+    0 0 6px var(--gold-main),
+    0 0 20px rgba(217,119,6,0.6);
+  margin-bottom: 12px;
 }
 
 .subtitle {
   text-align: center;
   color: var(--text-muted);
-  margin-bottom: 2.5rem;
+  letter-spacing: 0.15rem;
+  margin-bottom: 3rem;
 }
 
 /* =========================
-   FORM ELEMENTS
+   FORM (STUDIO TOOL FEEL)
 ========================= */
 label {
   display: block;
-  margin-top: 1.4rem;
+  margin-top: 1.8rem;
   font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  color: #9ca3af;
+  letter-spacing: 0.2rem;
+  color: var(--gold-soft);
 }
 
 input,
 textarea,
 select {
   width: 100%;
-  padding: 0.9rem;
-  margin-top: 0.4rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 8px;
+  margin-top: 0.6rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(217,119,6,0.25);
+  border-radius: 10px;
   color: var(--text-main);
-  transition: border 0.25s ease, box-shadow 0.25s ease;
+  font-size: 0.95rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: var(--accent-main);
-  box-shadow: 0 0 0 2px rgba(245,158,11,0.25);
-}
-
-select {
-  appearance: none;
-  background-color: var(--bg);
+  border-color: var(--gold-hot);
+  box-shadow: 0 0 0 2px rgba(255,140,0,0.25);
 }
 
 /* =========================
-   BUTTONS
+   PRIMARY ACTION
 ========================= */
 button {
-  margin-top: 2.5rem;
+  margin-top: 3rem;
   width: 100%;
-  padding: 1.1rem;
-  background: linear-gradient(
-    90deg,
-    var(--accent-deep),
-    var(--accent-main),
-    var(--accent-hot)
-  );
+  padding: 1.2rem;
+  border-radius: 12px;
   border: none;
-  border-radius: 10px;
-  font-family: Orbitron, monospace;
-  letter-spacing: 0.15em;
-  font-weight: 700;
-  color: #111;
   cursor: pointer;
-  box-shadow: var(--glow-soft);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.25rem;
+  font-weight: 700;
+
+  background: linear-gradient(90deg, var(--gold-main), var(--gold-hot), var(--gold-soft));
+  color: #000;
+
+  box-shadow: var(--glow-med);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: var(--glow-strong);
 }
 
 /* =========================
-   LOCKED / TIMER
+   LOCKED / TIMER (SYSTEM MODE)
 ========================= */
 .locked {
   text-align: center;
@@ -197,29 +191,24 @@ button:hover {
 }
 
 .timer {
-  font-size: 3.5rem;
-  font-family: Orbitron, monospace;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.8rem;
   color: #00ffee;
-  margin: 2rem 0;
-  text-shadow: 0 0 25px rgba(0,255,238,0.6);
+  text-shadow: 0 0 30px rgba(0,255,238,0.7);
+  margin: 2.5rem 0;
 }
 
 .back-btn {
   display: inline-block;
-  margin-top: 2rem;
-  padding: 0.9rem 2rem;
-  border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    var(--accent-main),
-    var(--accent-hot)
-  );
-  color: #111;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--gold-hot), var(--gold-main));
+  color: #000;
   text-decoration: none;
-  font-family: Orbitron, monospace;
-  letter-spacing: 0.15em;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.25rem;
   box-shadow: var(--glow-soft);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .back-btn:hover {
@@ -228,13 +217,13 @@ button:hover {
 }
 
 /* =========================
-   FOOTER
+   FOOTER (STUDIO)
 ========================= */
 .site-footer {
-  margin-top: 6rem;
-  padding: 2.5rem 1.5rem 3rem;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  background: rgba(10,10,15,0.95);
+  margin-top: 8rem;
+  padding: 3rem 2rem;
+  border-top: 1px solid rgba(217,119,6,0.2);
+  background: rgba(0,0,0,0.85);
 }
 
 .footer-inner {
@@ -246,9 +235,9 @@ button:hover {
 }
 
 .footer-logo {
-  font-family: Orbitron, monospace;
-  letter-spacing: 0.25em;
-  color: var(--accent-hot);
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.35rem;
+  color: #fff;
   text-shadow: var(--glow-soft);
 }
 
@@ -258,16 +247,15 @@ button:hover {
 }
 
 .footer-links a {
-  margin-left: 1.5rem;
+  margin-left: 1.8rem;
   font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  color: #9ca3af;
+  letter-spacing: 0.2rem;
+  color: var(--gold-soft);
   text-decoration: none;
-  transition: color 0.25s ease, text-shadow 0.25s ease;
 }
 
 .footer-links a:hover {
-  color: var(--accent-hot);
+  color: var(--gold-hot);
   text-shadow: var(--glow-soft);
 }
 
@@ -276,8 +264,8 @@ button:hover {
 ========================= */
 @media (max-width: 768px) {
   .container {
-    margin: 5vh 1rem;
-    padding: 2rem;
+    margin: 6vh 1rem;
+    padding: 2.5rem;
   }
 
   .footer-inner {
