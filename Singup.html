@@ -50,23 +50,33 @@
     <button id="submit">SUBMIT APPLICATION</button>
   </form>
 </div>
-    <footer>
-    <p>© <span id="year"></span> PooStudio</p>
 
-    <div class="footer-particles" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">POOSTUDIO</span>
+      <p class="footer-copy">
+        © <span id="year"></span> PooStudio. All rights reserved.
+      </p>
     </div>
 
     <div class="footer-links">
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
+      <a href="index.html">Home</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
     </div>
-    </footer>
+  </div>
+
+  <div class="footer-particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+</footer>
+
 <script>
+/* YEAR */
+document.getElementById("year").textContent = new Date().getFullYear();
+
 /* LOADING SCREEN */
 let p = 0;
 const bar = document.getElementById("progress");
@@ -94,10 +104,8 @@ function lock(ms) {
       <h2 class="glow-text">APPLICATION LOCKED</h2>
       <p>You may only apply once every 24 hours.</p>
       <div class="timer" id="t"></div>
-      <p>
-        We are not playing around.<br>
-        A face-to-face call is mandatory.
-      </p>
+      <p>A face-to-face call is mandatory.</p>
+      <a href="index.html" class="back-btn">BACK TO HOME</a>
     </div>`;
   const t = document.getElementById("t");
   setInterval(() => {
