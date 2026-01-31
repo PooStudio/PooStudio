@@ -1,158 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Application ✦ POOSTUDIO</title>
+  <meta charset="UTF-8">
+  <title>POOSTUDIO Application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="icon" href="logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="logo.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="signupcss.css" />
+  <link rel="stylesheet" href="signupcss.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
+<!-- LOADING SCREEN -->
 <div id="loading-screen">
   <div class="loading-content">
-    <h1 class="loading-title">POOSTUDIO</h1>
-    <p class="loading-text">Loading APPLICATION...</p>
+    <div class="loading-title">POOSTUDIO</div>
     <div class="loading-bar">
       <div class="loading-progress" id="progress"></div>
     </div>
-    <p class="error-message" id="error-message">No Signal.<br>Reconnecting...</p>
-    <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
   </div>
 </div>
 
-<div class="container" id="main-content" style="opacity:0; transition:opacity 0.6s;">
+<!-- MAIN CONTENT -->
+<div class="container" id="container">
   <h1 class="glow-text">DEV / MOD APPLICATION</h1>
-  <p class="subtitle">We're looking for talented people. Tell us who you are and why you want to join POOSTUDIO.</p>
+  <p class="subtitle">
+    We take this process seriously.<br>
+    Selected applicants <strong>MUST</strong> complete a face-to-face call.
+  </p>
 
-  <form id="application-form" 
-        action="https://formspree.io/f/mykkgpqq" 
-        method="POST">
+  <form id="form" action="https://formspree.io/f/mykkgpqq" method="POST">
+    <label>NAME</label>
+    <input name="name" required>
 
-    <input type="text" name="_gotcha" style="display:none" />
+    <label>EMAIL</label>
+    <input type="email" name="email" required>
 
-    <input type="hidden" name="_subject" value="New POOSTUDIO Application - {{name}}">
+    <label>ROLE</label>
+    <select name="role" required>
+      <option value="">Select role</option>
+      <option>Developer</option>
+      <option>Moderator</option>
+      <option>Both</option>
+    </select>
 
-    <div class="form-group">
-      <label for="name">FULL NAME / NICKNAME</label>
-      <input type="text" id="name" name="name" required placeholder="How should we call you?">
-    </div>
+    <label>WHY SHOULD WE PICK YOU?</label>
+    <textarea name="why" rows="5" required></textarea>
 
-    <div class="form-group">
-      <label for="email">EMAIL ADDRESS</label>
-      <input type="email" id="email" name="email" required placeholder="Where we can reach you">
-    </div>
-
-    <div class="form-group">
-      <label for="role">ROLE YOU'RE APPLYING FOR</label>
-      <select id="role" name="role" required>
-        <option value="" disabled selected>Select role...</option>
-        <option value="Developer">Developer</option>
-        <option value="Moderator">Moderator</option>
-        <option value="Both">Both (Dev + Mod)</option>
-        <option value="Other">Other (please specify in message)</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="discord">DISCORD TAG (optional)</label>
-      <input type="text" id="discord" name="discord" placeholder="username#0000 or @username">
-    </div>
-
-    <div class="form-group">
-      <label for="experience">BRIEF EXPERIENCE / PORTFOLIO LINKS</label>
-      <textarea id="experience" name="experience" rows="4" placeholder="Previous projects, skills, GitHub, past moderation experience, etc..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="why">WHY SHOULD WE CHOOSE YOU? *</label>
-      <textarea id="why" name="why" required rows="6" placeholder="Explain why you want to join POOSTUDIO and what makes you stand out."></textarea>
-    </div>
-
-    <button type="submit" class="btn" id="submit-btn">SUBMIT APPLICATION</button>
+    <button id="submit">SUBMIT APPLICATION</button>
   </form>
-
-  <div class="site-footer">
-    <div>© 2026 PooStudio</div>
-    <div>
-      <a href="privacy.html">Privacy</a> ·
-      <a href="terms.html">Terms</a>
-    </div>
-  </div>
 </div>
-
-<a href="index.html" class="home-button">HOME</a>
 
 <script>
-const form = document.getElementById("application-form");
-const submitBtn = document.getElementById("submit-btn");
+/* LOADING SCREEN */
+let p = 0;
+const bar = document.getElementById("progress");
+const loading = document.getElementById("loading-screen");
+const container = document.getElementById("container");
 
-const STORAGE_KEY = "poostudio_last_application";
-const COOLDOWN_MS = 24 * 60 * 60 * 1000;
+const loader = setInterval(() => {
+  p += Math.random() * 15;
+  bar.style.width = Math.min(p,100) + "%";
+  if (p >= 100) {
+    clearInterval(loader);
+    loading.style.display = "none";
+    container.style.display = "block";
+  }
+}, 120);
 
-function format(ms) {
-  const s = Math.floor(ms / 1000);
-  const m = Math.floor(s / 60);
-  const h = Math.floor(m / 60);
-  const d = Math.floor(h / 24);
-  return `${d}d ${h%24}h ${m%60}m ${s%60}s`;
-}
+/* 24 HOUR COOLDOWN */
+const KEY = "poostudio_apply_time";
+const DAY = 86400000;
+const form = document.getElementById("form");
 
-function lockForm(timeLeft) {
-  form.innerHTML = `
-    <div style="text-align:center;padding:5rem 1rem;">
-      <h2 style="color:#f59e0b;margin-bottom:1.5rem;">APPLICATION LOCKED</h2>
-      <p style="margin-bottom:1.5rem;">
-        You may submit <strong>once every 24 hours</strong>.<br>
-        This process is taken seriously.
+function lock(ms) {
+  container.innerHTML = `
+    <div class="locked">
+      <h2 class="glow-text">APPLICATION LOCKED</h2>
+      <p>You may only apply once every 24 hours.</p>
+      <div class="timer" id="t"></div>
+      <p>
+        We are not playing around.<br>
+        A face-to-face call is mandatory.
       </p>
-
-      <div id="timer" style="
-        font-size:3.5rem;
-        font-family:Orbitron;
-        color:#00ffee;
-        text-shadow:0 0 15px #00ffee80;
-      ">--</div>
-
-      <p style="margin-top:2rem;opacity:0.7;">
-        All applicants <strong>MUST</strong> complete a face-to-face call.<br>
-        No exceptions. No shortcuts.
-      </p>
-    </div>
-  `;
-
-  const timer = document.getElementById("timer");
-
-  const interval = setInterval(() => {
-    const remaining = timeLeft - Date.now();
-    if (remaining <= 0) location.reload();
-    timer.textContent = format(remaining);
+    </div>`;
+  const t = document.getElementById("t");
+  setInterval(() => {
+    const r = ms - Date.now();
+    if (r <= 0) location.reload();
+    t.textContent =
+      Math.floor(r/3600000) + "h " +
+      Math.floor(r/60000)%60 + "m " +
+      Math.floor(r/1000)%60 + "s";
   }, 1000);
 }
 
-const last = localStorage.getItem(STORAGE_KEY);
-
-if (last) {
-  const expires = Number(last) + COOLDOWN_MS;
-  if (Date.now() < expires) {
-    lockForm(expires);
-  }
+const last = localStorage.getItem(KEY);
+if (last && Date.now() - last < DAY) {
+  lock(Number(last) + DAY);
 }
 
 form.addEventListener("submit", () => {
-  submitBtn.disabled = true;
-  submitBtn.textContent = "SUBMITTING…";
-  localStorage.setItem(STORAGE_KEY, Date.now());
+  localStorage.setItem(KEY, Date.now());
 });
 </script>
-
 
 </body>
 </html>
