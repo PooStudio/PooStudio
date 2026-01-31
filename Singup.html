@@ -91,127 +91,68 @@
 <a href="index.html" class="home-button">HOME</a>
 
 <script>
-const loadingScreen = document.getElementById('loading-screen');
-const mainContent = document.getElementById('main-content');
-const progress = document.getElementById('progress');
-const errorMessage = document.getElementById('error-message');
-const retryBtn = document.getElementById('retry-btn');
-const form = document.getElementById('application-form');
-const submitBtn = document.getElementById('submit-btn');
+const form = document.getElementById("application-form");
+const submitBtn = document.getElementById("submit-btn");
 
-const STORAGE_KEY = "poostudio_last_app_time";
-const COOLDOWN_KEY = "poostudio_cooldown";
+const STORAGE_KEY = "poostudio_last_application";
+const COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
-function startLoading() {
-  let val = 0;
-  progress.style.width = '0%';
-  errorMessage.classList.remove('visible');
-  retryBtn.classList.remove('visible');
-
-  const timer = setInterval(() => {
-    val += 5 + Math.random() * 9;
-    progress.style.width = Math.min(100, val) + '%';
-    if (val >= 100) {
-      clearInterval(timer);
-      setTimeout(showContent, 300);
-    }
-  }, 80);
-
-  setTimeout(() => {
-    if (val < 90) {
-      clearInterval(timer);
-      showContent();
-    }
-  }, 6000);
+function format(ms) {
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const h = Math.floor(m / 60);
+  const d = Math.floor(h / 24);
+  return `${d}d ${h%24}h ${m%60}m ${s%60}s`;
 }
 
-function showContent() {
-  loadingScreen.classList.add('hidden');
-  setTimeout(() => {
-    mainContent.style.opacity = '1';
-  }, 200);
-}
-
-retryBtn.addEventListener('click', startLoading);
-startLoading(); 
-
-function getNextMidnight() {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  d.setHours(0, 3, 0, 0);
-  return d;
-}
-
-function timeLeftStr(ms) {
-  if (ms <= 0) return "Now – refresh";
-  const s = Math.floor(ms/1000);
-  const m = Math.floor(s/60);
-  const h = Math.floor(m/60);
-  const d = Math.floor(h/24);
-  const remS = s % 60;
-  const remM = m % 60;
-  const remH = h % 24;
-  let str = d ? d + "d " : "";
-  if (remH || d) str += remH + "h ";
-  str += remM + "m " + (remS < 10 ? "0" : "") + remS + "s";
-  return str.trim();
-}
-
-function showCountdown(msg = "Next submission in:", big = false) {
-  const next = getNextMidnight();
+function lockForm(timeLeft) {
   form.innerHTML = `
-    <div style="text-align:center; padding:${big?'5rem':'4rem'} 1rem; color:#bbb;">
-      <p style="font-size:${big?'1.7rem':'1.4rem'}; margin-bottom:1.8rem;">${msg}</p>
-      <div id="cd" style="font-size:${big?'4rem':'3.2rem'}; font-weight:bold; color:#00ffea; text-shadow:0 0 15px #00ffee80; font-family:'Orbitron',sans-serif;">
-        ...
-      </div>
-      <p style="margin-top:2rem; opacity:0.6;">(1 application per day)</p>
+    <div style="text-align:center;padding:5rem 1rem;">
+      <h2 style="color:#f59e0b;margin-bottom:1.5rem;">APPLICATION LOCKED</h2>
+      <p style="margin-bottom:1.5rem;">
+        You may submit <strong>once every 24 hours</strong>.<br>
+        This process is taken seriously.
+      </p>
+
+      <div id="timer" style="
+        font-size:3.5rem;
+        font-family:Orbitron;
+        color:#00ffee;
+        text-shadow:0 0 15px #00ffee80;
+      ">--</div>
+
+      <p style="margin-top:2rem;opacity:0.7;">
+        All applicants <strong>MUST</strong> complete a face-to-face call.<br>
+        No exceptions. No shortcuts.
+      </p>
     </div>
   `;
-  const cdEl = document.getElementById('cd');
-  const update = () => {
-    const left = next - Date.now();
-    if (left <= 0) location.reload();
-    else cdEl.textContent = timeLeftStr(left);
-  };
-  update();
-  setInterval(update, 950);
+
+  const timer = document.getElementById("timer");
+
+  const interval = setInterval(() => {
+    const remaining = timeLeft - Date.now();
+    if (remaining <= 0) location.reload();
+    timer.textContent = format(remaining);
+  }, 1000);
 }
 
-if (localStorage.getItem(STORAGE_KEY)) {
-  showCountdown("Next submission available in:", true);
-} else {
-  let submitting = false;
+const last = localStorage.getItem(STORAGE_KEY);
 
-  form.addEventListener('submit', e => {
-    if (submitting) {
-      e.preventDefault();
-      return;
-    }
-
-    submitting = true;
-    submitBtn.disabled = true;
-    submitBtn.textContent = "SENDING...";
-
-    localStorage.setItem(COOLDOWN_KEY, Date.now() + 8000);
-  });
-
-  window.addEventListener('message', e => {
-    if (typeof e.data === 'string' && /thanks|success|sent/i.test(e.data)) {
-      localStorage.setItem(STORAGE_KEY, new Date().toISOString());
-      showCountdown("Application sent! Next in:", true);
-    }
-  });
-  form.addEventListener('submit', () => {
-    setTimeout(() => {
-      if (submitting && !document.getElementById('cd')) {
-        localStorage.setItem(STORAGE_KEY, new Date().toISOString());
-        showCountdown("Application sent! Next in:", true);
-      }
-    }, 7000);
-  });
+if (last) {
+  const expires = Number(last) + COOLDOWN_MS;
+  if (Date.now() < expires) {
+    lockForm(expires);
+  }
 }
+
+form.addEventListener("submit", () => {
+  submitBtn.disabled = true;
+  submitBtn.textContent = "SUBMITTING…";
+  localStorage.setItem(STORAGE_KEY, Date.now());
+});
 </script>
+
 
 </body>
 </html>
