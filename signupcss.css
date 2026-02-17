@@ -208,6 +208,38 @@ html.scrolled #starsContainer {
 }
 
 /* =========================
+   LINKS (GLOBAL) - ENHANCED FOR FRUTIGER AERO
+========================= */
+a,
+nav a,
+.footer-links a,
+.back-btn {
+  color: var(--aero-white);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+  padding: 8px 16px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(127,255,212,0.1), rgba(0,191,255,0.1));
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(127,255,212,0.15);
+  text-shadow: 0 0 4px rgba(127,255,212,0.3);
+}
+
+a:hover,
+nav a:hover,
+.footer-links a:hover,
+.back-btn:hover {
+  color: var(--y2k-cyan);
+  background: linear-gradient(135deg, rgba(127,255,212,0.2), rgba(0,191,255,0.2));
+  transform: translateY(-2px);
+  box-shadow: var(--glow-strong);
+  backdrop-filter: blur(8px);
+  border-color: rgba(127,255,212,0.3);
+  animation: glitchAnim 0.5s steps(5) infinite, aeroPulse 2s ease-in-out infinite alternate;
+}
+
+/* =========================
    STUDIO PANEL (AERO GLASS)
 ========================= */
 .container {
