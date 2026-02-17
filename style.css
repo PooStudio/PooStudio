@@ -54,6 +54,122 @@ html.scrolled #starsContainer {
 }
 
 /* =========================
+   GLITCH EFFECTS
+========================= */
+.glitch {
+  position: relative;
+  animation: glitchAnim 2s infinite linear alternate-reverse;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  clip: rect(0, 900px, 0, 0);
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #ff00c1;
+  animation: glitchAnimBefore 3s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+  animation: glitchAnimAfter 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitchAnim {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchAnimBefore {
+  0% { clip: rect(36px, 9999px, 9px, 0); }
+  5% { clip: rect(25px, 9999px, 29px, 0); }
+  10% { clip: rect(85px, 9999px, 95px, 0); }
+  15% { clip: rect(91px, 9999px, 7px, 0); }
+  20% { clip: rect(14px, 9999px, 16px, 0); }
+  25% { clip: rect(105px, 9999px, 78px, 0); }
+  30% { clip: rect(38px, 9999px, 73px, 0); }
+  35% { clip: rect(7px, 9999px, 54px, 0); }
+  40% { clip: rect(96px, 9999px, 49px, 0); }
+  45% { clip: rect(64px, 9999px, 41px, 0); }
+  50% { clip: rect(23px, 9999px, 111px, 0); }
+  55% { clip: rect(119px, 9999px, 84px, 0); }
+  60% { clip: rect(40px, 9999px, 4px, 0); }
+  65% { clip: rect(111px, 9999px, 47px, 0); }
+  70% { clip: rect(99px, 9999px, 8px, 0); }
+  75% { clip: rect(95px, 9999px, 11px, 0); }
+  80% { clip: rect(19px, 9999px, 53px, 0); }
+  85% { clip: rect(74px, 9999px, 54px, 0); }
+  90% { clip: rect(86px, 9999px, 32px, 0); }
+  95% { clip: rect(37px, 9999px, 65px, 0); }
+  100% { clip: rect(12px, 9999px, 43px, 0); }
+}
+
+@keyframes glitchAnimAfter {
+  0% { clip: rect(65px, 9999px, 119px, 0); }
+  5% { clip: rect(78px, 9999px, 111px, 0); }
+  10% { clip: rect(105px, 9999px, 7px, 0); }
+  15% { clip: rect(22px, 9999px, 42px, 0); }
+  20% { clip: rect(7px, 9999px, 37px, 0); }
+  25% { clip: rect(34px, 9999px, 22px, 0); }
+  30% { clip: rect(42px, 9999px, 41px, 0); }
+  35% { clip: rect(5px, 9999px, 101px, 0); }
+  40% { clip: rect(31px, 9999px, 7px, 0); }
+  45% { clip: rect(82px, 9999px, 11px, 0); }
+  50% { clip: rect(95px, 9999px, 9px, 0); }
+  55% { clip: rect(106px, 9999px, 46px, 0); }
+  60% { clip: rect(22px, 9999px, 73px, 0); }
+  65% { clip: rect(28px, 9999px, 98px, 0); }
+  70% { clip: rect(3px, 9999px, 85px, 0); }
+  75% { clip: rect(71px, 9999px, 17px, 0); }
+  80% { clip: rect(21px, 9999px, 95px, 0); }
+  85% { clip: rect(37px, 9999px, 87px, 0); }
+  90% { clip: rect(37px, 9999px, 95px, 0); }
+  95% { clip: rect(8px, 9999px, 22px, 0); }
+  100% { clip: rect(67px, 9999px, 53px, 0); }
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.05) 1px);
+  pointer-events: none;
+  animation: scanlineMove 6s linear infinite;
+}
+
+@keyframes scanlineMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 2px; }
+}
+
+.glitch-overlay {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.1;
+  animation: glitchOverlay 1s infinite;
+}
+
+@keyframes glitchOverlay {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.1; }
+}
+
+/* =========================
    OVERLAY + HEADER
 ========================= */
 #overlay {
@@ -101,6 +217,7 @@ nav a:hover {
     0 0 12px rgba(0,255,255,0.9),
     0 0 28px rgba(0,191,255,0.6),
     0 0 48px rgba(0,191,255,0.4);
+  animation: glitchAnim 0.5s steps(5) infinite;
 }
 
 a::after,
@@ -144,24 +261,16 @@ h1,
     0 0 8px var(--y2k-cyan),
     0 0 16px rgba(0,255,255,0.4),
     0 0 32px rgba(0,255,255,0.2);
-  animation: neonPulse 5s ease-in-out infinite alternate;
+  animation: neonPulse 5s ease-in-out infinite alternate, glitchAnim 3s infinite linear alternate-reverse;
+  position: relative;
+  data-text: "POOSTUDIO";
 }
 
-@keyframes neonPulse {
-  from {
-    text-shadow:
-      0 0 4px var(--y2k-cyan),
-      0 0 8px var(--y2k-cyan),
-      0 0 16px rgba(0,255,255,0.3),
-      0 0 32px rgba(0,255,255,0.15);
-  }
-  to {
-    text-shadow:
-      0 0 6px var(--y2k-cyan),
-      0 0 12px var(--y2k-cyan),
-      0 0 24px rgba(0,255,255,0.5),
-      0 0 48px rgba(0,255,255,0.3);
-  }
+h1.glitch::before,
+h1.glitch::after,
+#hero-title.glitch::before,
+#hero-title.glitch::after {
+  content: attr(data-text);
 }
 
 /* =========================
@@ -172,6 +281,12 @@ h1,
   font-size: 1.3rem;
   line-height: 1.7;
   max-width: 420px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .text-left {
@@ -193,6 +308,7 @@ h1,
   color: var(--y2k-cyan);
   font-size: 1.6rem;
   margin-bottom: 20px;
+  text-shadow: var(--glow-soft);
 }
 
 .accent::before { content: '○ '; }
@@ -207,6 +323,13 @@ h1,
   transform: translateX(-50%);
   letter-spacing: 0.4rem;
   opacity: 0.7;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
 }
 
 .circle {
@@ -215,6 +338,12 @@ h1,
   border: 2px solid var(--y2k-cyan);
   border-radius: 50%;
   margin: 30px auto 0;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
 }
 
 /* =========================
@@ -236,6 +365,8 @@ section h2 {
   font-size: 4rem;
   margin-bottom: 40px;
   color: var(--y2k-purple);
+  text-shadow: var(--glow-med);
+  animation: glitchAnim 4s infinite linear alternate-reverse;
 }
 
 /* =========================
@@ -260,6 +391,7 @@ section h2 {
   font-family: 'Orbitron', sans-serif;
   letter-spacing: 0.35rem;
   text-shadow: var(--glow-med);
+  animation: neonPulse 3s ease-in-out infinite alternate;
 }
 
 .footer-copy {
@@ -291,7 +423,37 @@ section h2 {
 .loading-logo {
   height: 120px;
   filter: drop-shadow(0 0 30px var(--y2k-cyan));
-  animation: logoFadeIn 1.8s ease-out forwards;
+  animation: logoFadeIn 1.8s ease-out forwards, glitchAnim 1s infinite;
+}
+
+.loading-title {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--y2k-cyan);
+  text-shadow: var(--glow-strong);
+  animation: glitchAnim 2s infinite linear alternate-reverse;
+}
+
+.loading-text {
+  color: var(--y2k-purple);
+  animation: fadeIn 1s ease-in;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  margin: 20px 0;
+}
+
+.loading-progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--y2k-blue), var(--y2k-cyan));
+  animation: progress 2s linear infinite;
+}
+
+@keyframes progress {
+  0% { width: 0; }
+  100% { width: 100%; }
 }
 
 @keyframes logoFadeIn {
