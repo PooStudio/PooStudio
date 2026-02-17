@@ -2,13 +2,13 @@
    GLOBAL RESET + VARIABLES
 ========================= */
 :root {
-  --gold-main: #d97706;
-  --gold-hot: #ff8c00;
-  --gold-soft: #b8860b;
+  --y2k-cyan: #00ffff;
+  --y2k-blue: #00bfff;
+  --y2k-purple: #9370db;
 
-  --glow-soft: 0 0 8px rgba(217,119,6,0.4);
-  --glow-med: 0 0 16px rgba(217,119,6,0.6);
-  --glow-strong: 0 0 32px rgba(217,119,6,0.8);
+  --glow-soft: 0 0 8px rgba(0,255,255,0.4);
+  --glow-med: 0 0 16px rgba(0,255,255,0.6);
+  --glow-strong: 0 0 32px rgba(0,255,255,0.8);
 }
 
 * {
@@ -86,7 +86,7 @@ nav ul {
 ========================= */
 a,
 nav a {
-  color: var(--gold-hot);
+  color: var(--y2k-blue);
   text-decoration: none;
   position: relative;
   text-shadow: var(--glow-soft), var(--glow-med);
@@ -95,12 +95,12 @@ nav a {
 
 a:hover,
 nav a:hover {
-  color: #ff9f33;
+  color: #00ffff;
   transform: translateY(-3px) scale(1.05);
   text-shadow:
-    0 0 12px rgba(255,159,51,0.9),
-    0 0 28px rgba(255,140,0,0.6),
-    0 0 48px rgba(255,140,0,0.4);
+    0 0 12px rgba(0,255,255,0.9),
+    0 0 28px rgba(0,191,255,0.6),
+    0 0 48px rgba(0,191,255,0.4);
 }
 
 a::after,
@@ -111,7 +111,7 @@ nav a::after {
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold-hot), transparent);
+  background: linear-gradient(90deg, transparent, var(--y2k-blue), transparent);
   transition: width 0.4s ease;
 }
 
@@ -140,27 +140,27 @@ h1,
   color: #fff;
   line-height: 1;
   text-shadow:
-    0 0 4px var(--gold-main),
-    0 0 8px var(--gold-main),
-    0 0 16px rgba(217,119,6,0.4),
-    0 0 32px rgba(217,119,6,0.2);
+    0 0 4px var(--y2k-cyan),
+    0 0 8px var(--y2k-cyan),
+    0 0 16px rgba(0,255,255,0.4),
+    0 0 32px rgba(0,255,255,0.2);
   animation: neonPulse 5s ease-in-out infinite alternate;
 }
 
 @keyframes neonPulse {
   from {
     text-shadow:
-      0 0 4px var(--gold-main),
-      0 0 8px var(--gold-main),
-      0 0 16px rgba(217,119,6,0.3),
-      0 0 32px rgba(217,119,6,0.15);
+      0 0 4px var(--y2k-cyan),
+      0 0 8px var(--y2k-cyan),
+      0 0 16px rgba(0,255,255,0.3),
+      0 0 32px rgba(0,255,255,0.15);
   }
   to {
     text-shadow:
-      0 0 6px var(--gold-main),
-      0 0 12px var(--gold-main),
-      0 0 24px rgba(217,119,6,0.5),
-      0 0 48px rgba(217,119,6,0.3);
+      0 0 6px var(--y2k-cyan),
+      0 0 12px var(--y2k-cyan),
+      0 0 24px rgba(0,255,255,0.5),
+      0 0 48px rgba(0,255,255,0.3);
   }
 }
 
@@ -190,7 +190,7 @@ h1,
 
 .accent {
   display: block;
-  color: var(--gold-main);
+  color: var(--y2k-cyan);
   font-size: 1.6rem;
   margin-bottom: 20px;
 }
@@ -212,7 +212,7 @@ h1,
 .circle {
   width: 24px;
   height: 24px;
-  border: 2px solid var(--gold-main);
+  border: 2px solid var(--y2k-cyan);
   border-radius: 50%;
   margin: 30px auto 0;
 }
@@ -235,7 +235,7 @@ section {
 section h2 {
   font-size: 4rem;
   margin-bottom: 40px;
-  color: var(--gold-soft);
+  color: var(--y2k-purple);
 }
 
 /* =========================
@@ -265,7 +265,7 @@ section h2 {
 .footer-copy {
   font-size: 0.85rem;
   letter-spacing: 0.25rem;
-  color: var(--gold-soft);
+  color: var(--y2k-purple);
   opacity: 0.85;
 }
 
@@ -290,7 +290,7 @@ section h2 {
 
 .loading-logo {
   height: 120px;
-  filter: drop-shadow(0 0 30px var(--gold-main));
+  filter: drop-shadow(0 0 30px var(--y2k-cyan));
   animation: logoFadeIn 1.8s ease-out forwards;
 }
 
