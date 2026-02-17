@@ -1,24 +1,23 @@
 /* =========================
-   CORE STUDIO THEME
+   CORE STUDIO THEME (ADAPTED TO AERO Y2K)
 ========================= */
 :root {
-  --bg: #000;
+  --bg: #000033;
   --panel: rgba(15,15,20,0.82);
-
-  --gold-main: #d97706;
-  --gold-hot: #ff8c00;
-  --gold-soft: #b8860b;
-
-  --text-main: #ffffff;
-  --text-muted: #9ca3af;
-
-  --glow-soft: 0 0 8px rgba(217,119,6,0.35);
-  --glow-med: 0 0 20px rgba(217,119,6,0.55);
-  --glow-strong: 0 0 40px rgba(217,119,6,0.75);
 
   --aero-blue: #00bfff;
   --aero-green: #00ff7f;
   --aero-aqua: #7fffd4;
+  --aero-white: rgba(255,255,255,0.8);
+  --y2k-cyan: #00ffff;
+  --y2k-purple: #9370db;
+
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+
+  --glow-soft: 0 0 8px rgba(127,255,212,0.4);
+  --glow-med: 0 0 16px rgba(127,255,212,0.6);
+  --glow-strong: 0 0 32px rgba(127,255,212,0.8);
 
   --glass-bg: rgba(255,255,255,0.1);
   --glass-blur: blur(10px);
@@ -34,17 +33,15 @@
 }
 
 body {
-  font-family: Inter, system-ui, sans-serif;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   min-height: 100vh;
-  background: radial-gradient(circle at 20% 20%, rgba(217,119,6,0.08), transparent 40%),
-              radial-gradient(circle at 80% 70%, rgba(255,140,0,0.06), transparent 45%),
-              #000;
+  background: linear-gradient(135deg, #000033, #003366);
   color: var(--text-main);
   overflow-x: hidden;
 }
 
 /* =========================
-   GLITCH EFFECTS (Y2K)
+   GLITCH + SCANLINE EFFECTS (Y2K TOUCH)
 ========================= */
 .glitch {
   position: relative;
@@ -65,13 +62,13 @@ body {
 
 .glitch::before {
   left: 1px;
-  text-shadow: -1px 0 var(--aero-blue);
+  text-shadow: -1px 0 var(--y2k-purple);
   animation: glitchAnimBefore 4s infinite linear alternate-reverse;
 }
 
 .glitch::after {
   left: -1px;
-  text-shadow: -1px 0 var(--aero-aqua), 1px 1px var(--aero-blue);
+  text-shadow: -1px 0 var(--y2k-cyan), 1px 1px var(--y2k-purple);
   animation: glitchAnimAfter 3s infinite linear alternate-reverse;
 }
 
@@ -132,22 +129,79 @@ body {
   100% { clip: rect(67px, 9999px, 53px, 0); }
 }
 
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.03) 1px);
+  pointer-events: none;
+  animation: scanlineMove 8s linear infinite;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+}
+
+@keyframes scanlineMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 2px; }
+}
+
+.glitch-overlay {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.05;
+  animation: glitchOverlay 2s infinite;
+}
+
+@keyframes glitchOverlay {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.05; }
+}
+
+/* =========================
+   AERO EFFECTS
+========================= */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+}
+
+.aero-glow {
+  text-shadow: var(--glow-soft);
+  animation: aeroPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes aeroPulse {
+  from {
+    text-shadow: 0 0 4px var(--aero-aqua),
+                 0 0 8px var(--aero-aqua);
+  }
+  to {
+    text-shadow: 0 0 8px var(--aero-aqua),
+                 0 0 16px var(--aero-blue);
+  }
+}
+
 /* =========================
    LOADING SCREEN (STUDIO)
 ========================= */
 #loading-screen {
   position: fixed;
   inset: 0;
-  background: #000;
+  background: linear-gradient(135deg, #000033, #003366);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  transition: opacity 1.2s ease-out;
+  transition: opacity 1.6s ease-out;
 }
 
 #loading-screen.fade-out {
   opacity: 0;
+  pointer-events: none;
 }
 
 .loading-wrapper {
@@ -155,10 +209,10 @@ body {
 }
 
 .loading-title {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: clamp(3rem, 12vw, 6rem);
   letter-spacing: 0.4rem;
-  background: linear-gradient(90deg, var(--gold-main), var(--aero-blue), var(--gold-soft));
+  background: linear-gradient(90deg, var(--aero-blue), var(--y2k-cyan), var(--aero-aqua));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -168,11 +222,11 @@ body {
 }
 
 .loading-bar {
-  width: 420px;
-  max-width: 80vw;
+  width: 200px;
   height: 4px;
-  background: rgba(217,119,6,0.18);
-  border-radius: 4px;
+  background: rgba(255,255,255,0.1);
+  margin: 20px auto;
+  border-radius: 2px;
   overflow: hidden;
   box-shadow: var(--glow-soft);
 }
@@ -180,7 +234,7 @@ body {
 .loading-progress {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--aero-blue), var(--gold-hot));
+  background: linear-gradient(90deg, var(--aero-blue), var(--y2k-cyan));
   box-shadow: var(--glow-strong);
   transition: width 0.6s ease;
 }
@@ -195,10 +249,9 @@ body {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.2);
   box-shadow:
-    0 0 0 1px rgba(217,119,6,0.15),
-    0 30px 80px rgba(0,0,0,0.75);
+    0 4px 30px rgba(0,0,0,0.1);
   display: none;
 }
 
@@ -206,7 +259,7 @@ body {
    STUDIO TITLES
 ========================= */
 .glow-text {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 2.8rem;
   text-align: center;
   letter-spacing: 0.25rem;
@@ -216,11 +269,6 @@ body {
     0 0 20px rgba(127,255,212,0.6);
   margin-bottom: 12px;
   animation: aeroPulse 4s ease-in-out infinite alternate;
-}
-
-@keyframes aeroPulse {
-  from { text-shadow: 0 0 4px var(--aero-aqua), 0 0 8px var(--aero-aqua); }
-  to { text-shadow: 0 0 8px var(--aero-aqua), 0 0 16px var(--aero-blue); }
 }
 
 .subtitle {
@@ -274,7 +322,7 @@ button {
   border: none;
   cursor: pointer;
 
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   letter-spacing: 0.25rem;
   font-weight: 700;
 
@@ -299,7 +347,7 @@ button:hover {
 }
 
 .timer {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   font-size: 3.8rem;
   color: var(--aero-aqua);
   text-shadow: 0 0 30px rgba(127,255,212,0.7);
@@ -313,7 +361,7 @@ button:hover {
   background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
   color: #000;
   text-decoration: none;
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   letter-spacing: 0.25rem;
   box-shadow: var(--glow-soft);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -330,12 +378,11 @@ button:hover {
 .site-footer {
   margin-top: 8rem;
   padding: 3rem 2rem;
-  border-top: 1px solid rgba(127,255,212,0.2);
-  background: rgba(0,0,0,0.85);
+  background: linear-gradient(to top, #000033, transparent);
 }
 
 .footer-inner {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -343,14 +390,15 @@ button:hover {
 }
 
 .footer-logo {
-  font-family: 'Orbitron', sans-serif;
+  font-family: 'Helvetica Neue', sans-serif;
   letter-spacing: 0.35rem;
   color: #fff;
   text-shadow: var(--glow-soft);
+  animation: aeroPulse 3s ease-in-out infinite alternate;
 }
 
 .footer-copy {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
 }
 
