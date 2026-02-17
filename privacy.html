@@ -1,159 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy ✦ POOSTUDIO</title>
-<link rel="icon" href="logo.png" type="image/png">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0a0a0f;
-  --surface: #111118;
-  --accent: #f59e0b;
-  --text: #e5e7eb;
-  --text-muted: #94a3b8;
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: Inter, system-ui, sans-serif;
-  min-height:100vh;
-  color: var(--text);
-  background: var(--bg);
-  background-image:
-    radial-gradient(circle at 15% 15%, rgba(245,158,11,0.06), transparent 40%),
-    radial-gradient(circle at 85% 80%, rgba(245,158,11,0.05), transparent 45%);
-}
-
-/* LOADING SCREEN */
-#loading-screen {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.loading-title {
-  font-family: Orbitron, monospace;
-  font-size: 4rem;
-  letter-spacing: 0.25em;
-  color: #fbbf24;
-  text-shadow: 0 0 30px rgba(245,158,11,0.6);
-  margin-bottom: 1.5rem;
-}
-
-.loading-bar {
-  width: 280px;
-  height: 6px;
-  background: rgba(245,158,11,0.2);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.loading-progress {
-  height: 100%;
-  width:0%;
-  background: linear-gradient(90deg,#f59e0b,#fbbf24);
-  transition: width 0.4s ease;
-}
-
-/* CONTAINER */
-.container {
-  max-width: 720px;
-  margin: 8vh auto;
-  padding: 3rem;
-  background: rgba(17,17,24,0.78);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-  display: none;
-}
-
-h1 {
-  font-family: Orbitron, monospace;
-  font-size: 2.8rem;
-  text-align: center;
-  background: linear-gradient(90deg,#f59e0b,#fde68a,#f59e0b);
-  -webkit-background-clip: text;
-  color: transparent;
-  margin-bottom: 1rem;
-  text-shadow: 0 0 20px rgba(245,158,11,0.6);
-}
-
-h2 {
-  font-family: Orbitron, monospace;
-  font-size: 1.8rem;
-  color: var(--accent);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-}
-
-p, li { margin-bottom: 1rem; }
-ul { margin-left: 1.5rem; }
-strong { color:#fff; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { color: #fff; text-decoration: underline; }
-
-/* BUTTONS / LINKS */
-.back-link {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-.back-link a {
-  background: linear-gradient(90deg,#d97706,#f59e0b,#fbbf24);
-  color: #111;
-  padding: 12px 30px;
-  border-radius: 50px;
-  font-family: Orbitron, monospace;
-  letter-spacing: 0.12em;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-.back-link a:hover {
-  background: #fff;
-  color: #111;
-  transform: translateY(-3px);
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  margin-top: 4rem;
-  padding: 2rem;
-  border-top: 1px solid rgba(255,255,255,0.05);
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .container { padding: 2rem; margin: 5vh auto; }
-  h1 { font-size: 2.2rem; }
-  .loading-title { font-size: 8vw; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy ✦ POOSTUDIO</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="privacy.css">
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
+<div id="three-container"></div>
+<div id="noise"></div>
+<div id="particles"></div>
+<div id="starsContainer"></div>
+<div class="scanlines"></div>
+<div class="glitch-overlay"></div>
+
 <div id="loading-screen">
-  <h1 class="loading-title">POOSTUDIO</h1>
-  <div class="loading-bar"><div class="loading-progress" id="progress"></div></div>
+  <div class="loading-content">
+    <div class="loading-logo glitch" data-text="POOSTUDIO">POOSTUDIO</div>
+    <div class="loading-title glitch" data-text="Loading Privacy Policy">Loading Privacy Policy</div>
+    <p class="loading-text">Securing your data insights...</p>
+    <div class="loading-bar">
+      <div class="loading-progress" id="progress"></div>
+    </div>
+  </div>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="container" id="main-content">
-  <h1>Privacy Policy</h1>
-  <p>Effective Date: January 07, 2026</p>
+  <h1 class="glow-text">Privacy Policy</h1>
+  <p class="subtitle">Effective Date: January 07, 2026</p>
 
   <p>At POOSTUDIO, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines our practices regarding the collection, use, and protection of your data when you visit our website or use our services.</p>
 
@@ -174,22 +51,41 @@ footer {
     <a href="terms.html">Terms →</a>
   </div>
 
-  <footer>© <span id="year"></span> PooStudio</footer>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo glitch" data-text="POOSTUDIO">POOSTUDIO</span>
+        <p class="footer-copy">
+          © <span id="year"></span> POOSTUDIO. All rights reserved.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="signup.html">Signup</a>
+        <a href="terms.html">Terms</a>
+      </div>
+    </div>
+
+    <div class="footer-particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </footer>
 </div>
 
 <script>
-const loading = document.getElementById('loading-screen');
-const main = document.getElementById('main-content');
-const progress = document.getElementById('progress');
+document.getElementById('year').textContent = new Date().getFullYear();
 
 let value=0;
-let interval = setInterval(()=>{
+const progress = document.getElementById('progress');
+const loading = document.getElementById('loading-screen');
+const main = document.getElementById('main-content');
+
+const interval = setInterval(()=>{
   value+=Math.random()*8+4;
   if(value>=100){value=100; clearInterval(interval); loading.style.display='none'; main.style.display='block';}
   progress.style.width = value+'%';
 },160);
-
-document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
 </body>
