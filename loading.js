@@ -7,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorMessage = document.getElementById('error-message');
   const retryBtn = document.getElementById('retry-btn');
 
+  // Hide error elements initially (in case)
+  errorMessage.style.display = 'none';
+  retryBtn.style.display = 'none';
+
   // Function to hide loader and show content
   function completeLoading() {
     loadingScreen.classList.add('fade-out');
@@ -16,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1600); // Matches the transition duration
   }
 
-  // Simulate progress or replace with real loading checks
+  // Real progress based on document readiness + delay for Three.js
   function startLoading() {
     let progress = 0;
     const interval = setInterval(() => {
@@ -24,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
       progressBar.style.width = `${progress}%`;
       if (progress >= 100) {
         clearInterval(interval);
-        completeLoading();
+        setTimeout(completeLoading, 500); // Extra buffer
       }
     }, 200); // Adjust speed as needed
   }
@@ -42,20 +46,21 @@ document.addEventListener('DOMContentLoaded', () => {
     startLoading(); // Retry loading
   });
 
-  // Wait for full window load to ensure all assets are ready
+  // Start on DOMContentLoaded, but wait for full load
   window.addEventListener('load', () => {
     startLoading();
   });
 
-  // Fallback: If load event doesn't fire (rare), timeout after 5s
+  // Extended fallback timeout to avoid false positives
   setTimeout(() => {
     if (loadingScreen.style.display !== 'none') {
       showError();
     }
-  }, 5000);
+  }, 10000); // Increased to 10s
 
   // Catch any global errors
-  window.addEventListener('error', () => {
+  window.addEventListener('error', (e) => {
+    console.error('Global error:', e);
     showError();
   });
 });

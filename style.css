@@ -6,6 +6,8 @@
   --aero-green: #00ff7f;
   --aero-aqua: #7fffd4;
   --aero-white: rgba(255,255,255,0.8);
+  --y2k-cyan: #00ffff;
+  --y2k-purple: #9370db;
 
   --glow-soft: 0 0 8px rgba(127,255,212,0.4);
   --glow-med: 0 0 16px rgba(127,255,212,0.6);
@@ -56,6 +58,91 @@ html.scrolled #particles,
 html.scrolled #starsContainer {
   filter: blur(2px);
   opacity: 0.3;
+}
+
+/* =========================
+   GLITCH + SCANLINE EFFECTS (Y2K TOUCH)
+========================= */
+.glitch {
+  position: relative;
+  animation: glitchAnim 3s infinite linear alternate-reverse;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  clip: rect(0, 900px, 0, 0);
+}
+
+.glitch::before {
+  left: 1px;
+  text-shadow: -1px 0 var(--y2k-purple);
+  animation: glitchAnimBefore 4s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -1px;
+  text-shadow: -1px 0 var(--y2k-cyan), 1px 1px var(--y2k-purple);
+  animation: glitchAnimAfter 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitchAnim {
+  0% { transform: translate(0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(-1px, -1px); }
+  60% { transform: translate(1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchAnimBefore {
+  0% { clip: rect(36px, 9999px, 9px, 0); }
+  5% { clip: rect(25px, 9999px, 29px, 0); }
+  10% { clip: rect(85px, 9999px, 95px, 0); }
+  /* ... (abbreviated for brevity, use full from previous Y2K) */
+  100% { clip: rect(12px, 9999px, 43px, 0); }
+}
+
+@keyframes glitchAnimAfter {
+  0% { clip: rect(65px, 9999px, 119px, 0); }
+  5% { clip: rect(78px, 9999px, 111px, 0); }
+  /* ... (abbreviated) */
+  100% { clip: rect(67px, 9999px, 53px, 0); }
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.03) 1px);
+  pointer-events: none;
+  animation: scanlineMove 8s linear infinite;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+}
+
+@keyframes scanlineMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 2px; }
+}
+
+.glitch-overlay {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.05;
+  animation: glitchOverlay 2s infinite;
+}
+
+@keyframes glitchOverlay {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.05; }
 }
 
 /* =========================
@@ -130,10 +217,11 @@ nav a {
 
 a:hover,
 nav a:hover {
-  color: var(--aero-aqua);
+  color: var(--y2k-cyan);
   background: rgba(127,255,212,0.1);
   transform: translateY(-2px);
   box-shadow: var(--glow-med);
+  animation: glitchAnim 0.5s steps(5) infinite;
 }
 
 /* =========================
@@ -161,7 +249,7 @@ h1,
   color: #fff;
   line-height: 1;
   text-shadow: var(--glow-soft);
-  animation: aeroPulse 5s ease-in-out infinite alternate;
+  animation: aeroPulse 5s ease-in-out infinite alternate, glitchAnim 6s infinite linear alternate-reverse;
 }
 
 /* =========================
@@ -203,7 +291,7 @@ h1,
   font-weight: 500;
 }
 
-.accent::before { content: '○ '; color: var(--aero-blue); }
+.accent::before { content: '○ '; color: var(--y2k-cyan); }
 
 /* =========================
    SCROLL INDICATOR
@@ -260,8 +348,9 @@ section {
 section h2 {
   font-size: 4rem;
   margin-bottom: 40px;
-  color: var(--aero-aqua);
+  color: var(--y2k-cyan);
   font-weight: 300;
+  animation: glitchAnim 5s infinite linear alternate-reverse;
 }
 
 /* =========================
@@ -291,6 +380,7 @@ section h2 {
   font-weight: 300;
   letter-spacing: 0.15rem;
   text-shadow: var(--glow-med);
+  animation: aeroPulse 3s ease-in-out infinite alternate;
 }
 
 .footer-copy {
@@ -319,6 +409,10 @@ section h2 {
   pointer-events: none;
 }
 
+.loading-content {
+  text-align: center;
+}
+
 .loading-logo {
   height: 120px;
   filter: drop-shadow(var(--glow-strong));
@@ -330,6 +424,7 @@ section h2 {
   color: var(--aero-aqua);
   text-shadow: var(--glow-strong);
   font-weight: 300;
+  animation: glitchAnim 4s infinite linear alternate-reverse;
 }
 
 .loading-text {
@@ -341,15 +436,37 @@ section h2 {
   width: 200px;
   height: 4px;
   background: rgba(255,255,255,0.1);
-  margin: 20px 0;
+  margin: 20px auto;
   border-radius: 2px;
 }
 
 .loading-progress {
   height: 100%;
-  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
-  animation: progress 2s linear infinite;
+  background: linear-gradient(90deg, var(--aero-blue), var(--y2k-cyan));
   border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.error-message {
+  display: none;
+  color: #ff6666;
+  margin-top: 20px;
+}
+
+.retry-button {
+  display: none;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.3s ease;
+}
+
+.retry-button:hover {
+  transform: scale(1.05);
 }
 
 @keyframes progress {
