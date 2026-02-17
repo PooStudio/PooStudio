@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>POOSTUDIO Application</title>
+  <title>POOSTUDIO ✦ Signup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="signupcss.css">
@@ -13,7 +13,7 @@
 
 <div id="loading-screen">
   <div class="loading-content">
-    <div class="loading-title">POOSTUDIO</div>
+    <div class="loading-title glitch" data-text="POOSTUDIO">POOSTUDIO</div>
     <div class="loading-bar">
       <div class="loading-progress" id="progress"></div>
     </div>
@@ -21,31 +21,26 @@
 </div>
 
 <div class="container" id="container">
-  <h1 class="glow-text">DEV / MOD APPLICATION</h1>
+  <h1 class="glow-text">SIGN UP</h1>
   <p class="subtitle">
-    We take this process seriously.<br>
-    Selected applicants <strong>MUST</strong> complete a face-to-face call.
+    Create your account to join the community.<br>
+    Secure and easy access to all features.
   </p>
 
   <form id="form" action="https://formspree.io/f/mykkgpqq" method="POST">
-    <label>NAME</label>
-    <input name="name" required>
+    <label>USERNAME</label>
+    <input name="username" required minlength="3" maxlength="20">
 
     <label>EMAIL</label>
     <input type="email" name="email" required>
 
-    <label>ROLE</label>
-    <select name="role" required>
-      <option value="">Select role</option>
-      <option>Developer</option>
-      <option>Moderator</option>
-      <option>Both</option>
-    </select>
+    <label>PASSWORD</label>
+    <input type="password" name="password" required minlength="8">
 
-    <label>WHY SHOULD WE PICK YOU?</label>
-    <textarea name="why" rows="5" required></textarea>
+    <label>CONFIRM PASSWORD</label>
+    <input type="password" name="confirm_password" required minlength="8">
 
-    <button id="submit">SUBMIT APPLICATION</button>
+    <button id="submit">CREATE ACCOUNT</button>
   </form>
 </div>
 <footer class="site-footer">
@@ -87,17 +82,17 @@ const loader = setInterval(() => {
   }
 }, 120);
 
-const KEY = "poostudio_apply_time";
+const KEY = "poostudio_signup_time";
 const DAY = 86400000;
 const form = document.getElementById("form");
 
 function lock(ms) {
   container.innerHTML = `
     <div class="locked">
-      <h2 class="glow-text">APPLICATION LOCKED</h2>
-      <p>You may only apply once every 24 hours.</p>
+      <h2 class="glow-text">SIGNUP LOCKED</h2>
+      <p>You may only signup once every 24 hours.</p>
       <div class="timer" id="t"></div>
-      <p>A face-to-face call is mandatory.</p>
+      <p>Please try again later.</p>
       <a href="index.html" class="back-btn">BACK TO HOME</a>
     </div>`;
   const t = document.getElementById("t");
@@ -116,7 +111,14 @@ if (last && Date.now() - last < DAY) {
   lock(Number(last) + DAY);
 }
 
-form.addEventListener("submit", () => {
+form.addEventListener("submit", (e) => {
+  const password = form.querySelector('input[name="password"]').value;
+  const confirm = form.querySelector('input[name="confirm_password"]').value;
+  if (password !== confirm) {
+    e.preventDefault();
+    alert("Passwords do not match!");
+    return;
+  }
   localStorage.setItem(KEY, Date.now());
 });
 </script>

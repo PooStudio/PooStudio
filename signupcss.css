@@ -15,6 +15,13 @@
   --glow-soft: 0 0 8px rgba(217,119,6,0.35);
   --glow-med: 0 0 20px rgba(217,119,6,0.55);
   --glow-strong: 0 0 40px rgba(217,119,6,0.75);
+
+  --aero-blue: #00bfff;
+  --aero-green: #00ff7f;
+  --aero-aqua: #7fffd4;
+
+  --glass-bg: rgba(255,255,255,0.1);
+  --glass-blur: blur(10px);
 }
 
 /* =========================
@@ -37,6 +44,95 @@ body {
 }
 
 /* =========================
+   GLITCH EFFECTS (Y2K)
+========================= */
+.glitch {
+  position: relative;
+  animation: glitchAnim 3s infinite linear alternate-reverse;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  clip: rect(0, 900px, 0, 0);
+}
+
+.glitch::before {
+  left: 1px;
+  text-shadow: -1px 0 var(--aero-blue);
+  animation: glitchAnimBefore 4s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -1px;
+  text-shadow: -1px 0 var(--aero-aqua), 1px 1px var(--aero-blue);
+  animation: glitchAnimAfter 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitchAnim {
+  0% { transform: translate(0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(-1px, -1px); }
+  60% { transform: translate(1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchAnimBefore {
+  0% { clip: rect(36px, 9999px, 9px, 0); }
+  5% { clip: rect(25px, 9999px, 29px, 0); }
+  10% { clip: rect(85px, 9999px, 95px, 0); }
+  15% { clip: rect(91px, 9999px, 7px, 0); }
+  20% { clip: rect(14px, 9999px, 16px, 0); }
+  25% { clip: rect(105px, 9999px, 78px, 0); }
+  30% { clip: rect(38px, 9999px, 73px, 0); }
+  35% { clip: rect(7px, 9999px, 54px, 0); }
+  40% { clip: rect(96px, 9999px, 49px, 0); }
+  45% { clip: rect(64px, 9999px, 41px, 0); }
+  50% { clip: rect(23px, 9999px, 111px, 0); }
+  55% { clip: rect(119px, 9999px, 84px, 0); }
+  60% { clip: rect(40px, 9999px, 4px, 0); }
+  65% { clip: rect(111px, 9999px, 47px, 0); }
+  70% { clip: rect(99px, 9999px, 8px, 0); }
+  75% { clip: rect(95px, 9999px, 11px, 0); }
+  80% { clip: rect(19px, 9999px, 53px, 0); }
+  85% { clip: rect(74px, 9999px, 54px, 0); }
+  90% { clip: rect(86px, 9999px, 32px, 0); }
+  95% { clip: rect(37px, 9999px, 65px, 0); }
+  100% { clip: rect(12px, 9999px, 43px, 0); }
+}
+
+@keyframes glitchAnimAfter {
+  0% { clip: rect(65px, 9999px, 119px, 0); }
+  5% { clip: rect(78px, 9999px, 111px, 0); }
+  10% { clip: rect(105px, 9999px, 7px, 0); }
+  15% { clip: rect(22px, 9999px, 42px, 0); }
+  20% { clip: rect(7px, 9999px, 37px, 0); }
+  25% { clip: rect(34px, 9999px, 22px, 0); }
+  30% { clip: rect(42px, 9999px, 41px, 0); }
+  35% { clip: rect(5px, 9999px, 101px, 0); }
+  40% { clip: rect(31px, 9999px, 7px, 0); }
+  45% { clip: rect(82px, 9999px, 11px, 0); }
+  50% { clip: rect(95px, 9999px, 9px, 0); }
+  55% { clip: rect(106px, 9999px, 46px, 0); }
+  60% { clip: rect(22px, 9999px, 73px, 0); }
+  65% { clip: rect(28px, 9999px, 98px, 0); }
+  70% { clip: rect(3px, 9999px, 85px, 0); }
+  75% { clip: rect(71px, 9999px, 17px, 0); }
+  80% { clip: rect(21px, 9999px, 95px, 0); }
+  85% { clip: rect(37px, 9999px, 87px, 0); }
+  90% { clip: rect(37px, 9999px, 95px, 0); }
+  95% { clip: rect(8px, 9999px, 22px, 0); }
+  100% { clip: rect(67px, 9999px, 53px, 0); }
+}
+
+/* =========================
    LOADING SCREEN (STUDIO)
 ========================= */
 #loading-screen {
@@ -47,6 +143,11 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  transition: opacity 1.2s ease-out;
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
 }
 
 .loading-wrapper {
@@ -57,12 +158,13 @@ body {
   font-family: 'Orbitron', sans-serif;
   font-size: clamp(3rem, 12vw, 6rem);
   letter-spacing: 0.4rem;
-  background: linear-gradient(90deg, var(--gold-main), var(--gold-hot), var(--gold-soft));
+  background: linear-gradient(90deg, var(--gold-main), var(--aero-blue), var(--gold-soft));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   text-shadow: var(--glow-strong);
   margin-bottom: 40px;
+  animation: glitchAnim 4s infinite linear alternate-reverse;
 }
 
 .loading-bar {
@@ -78,20 +180,20 @@ body {
 .loading-progress {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--gold-main), var(--gold-hot));
+  background: linear-gradient(90deg, var(--aero-blue), var(--gold-hot));
   box-shadow: var(--glow-strong);
   transition: width 0.6s ease;
 }
 
 /* =========================
-   STUDIO PANEL
+   STUDIO PANEL (AERO GLASS)
 ========================= */
 .container {
   max-width: 760px;
   margin: 10vh auto;
   padding: 3.5rem;
-  background: var(--panel);
-  backdrop-filter: blur(14px);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.06);
   box-shadow:
@@ -110,9 +212,15 @@ body {
   letter-spacing: 0.25rem;
   color: #fff;
   text-shadow:
-    0 0 6px var(--gold-main),
-    0 0 20px rgba(217,119,6,0.6);
+    0 0 6px var(--aero-aqua),
+    0 0 20px rgba(127,255,212,0.6);
   margin-bottom: 12px;
+  animation: aeroPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes aeroPulse {
+  from { text-shadow: 0 0 4px var(--aero-aqua), 0 0 8px var(--aero-aqua); }
+  to { text-shadow: 0 0 8px var(--aero-aqua), 0 0 16px var(--aero-blue); }
 }
 
 .subtitle {
@@ -130,7 +238,7 @@ label {
   margin-top: 1.8rem;
   font-size: 0.75rem;
   letter-spacing: 0.2rem;
-  color: var(--gold-soft);
+  color: var(--aero-green);
 }
 
 input,
@@ -140,7 +248,7 @@ select {
   margin-top: 0.6rem;
   padding: 1rem;
   background: rgba(0,0,0,0.45);
-  border: 1px solid rgba(217,119,6,0.25);
+  border: 1px solid rgba(127,255,212,0.25);
   border-radius: 10px;
   color: var(--text-main);
   font-size: 0.95rem;
@@ -151,8 +259,8 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: var(--gold-hot);
-  box-shadow: 0 0 0 2px rgba(255,140,0,0.25);
+  border-color: var(--aero-blue);
+  box-shadow: 0 0 0 2px rgba(0,191,255,0.25);
 }
 
 /* =========================
@@ -170,7 +278,7 @@ button {
   letter-spacing: 0.25rem;
   font-weight: 700;
 
-  background: linear-gradient(90deg, var(--gold-main), var(--gold-hot), var(--gold-soft));
+  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green), var(--aero-aqua));
   color: #000;
 
   box-shadow: var(--glow-med);
@@ -193,8 +301,8 @@ button:hover {
 .timer {
   font-family: 'Orbitron', sans-serif;
   font-size: 3.8rem;
-  color: #00ffee;
-  text-shadow: 0 0 30px rgba(0,255,238,0.7);
+  color: var(--aero-aqua);
+  text-shadow: 0 0 30px rgba(127,255,212,0.7);
   margin: 2.5rem 0;
 }
 
@@ -202,7 +310,7 @@ button:hover {
   display: inline-block;
   padding: 1rem 2.5rem;
   border-radius: 12px;
-  background: linear-gradient(90deg, var(--gold-hot), var(--gold-main));
+  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
   color: #000;
   text-decoration: none;
   font-family: 'Orbitron', sans-serif;
@@ -222,7 +330,7 @@ button:hover {
 .site-footer {
   margin-top: 8rem;
   padding: 3rem 2rem;
-  border-top: 1px solid rgba(217,119,6,0.2);
+  border-top: 1px solid rgba(127,255,212,0.2);
   background: rgba(0,0,0,0.85);
 }
 
@@ -250,12 +358,12 @@ button:hover {
   margin-left: 1.8rem;
   font-size: 0.75rem;
   letter-spacing: 0.2rem;
-  color: var(--gold-soft);
+  color: var(--aero-green);
   text-decoration: none;
 }
 
 .footer-links a:hover {
-  color: var(--gold-hot);
+  color: var(--aero-aqua);
   text-shadow: var(--glow-soft);
 }
 
