@@ -1,19 +1,13 @@
 /* =========================
-   CORE STUDIO THEME (ADAPTED TO AERO Y2K)
+   GLOBAL RESET + VARIABLES (MATCHED TO MAIN PAGE)
 ========================= */
 :root {
-  --bg: #000033;
-  --panel: rgba(15,15,20,0.82);
-
   --aero-blue: #00bfff;
   --aero-green: #00ff7f;
   --aero-aqua: #7fffd4;
   --aero-white: rgba(255,255,255,0.8);
   --y2k-cyan: #00ffff;
   --y2k-purple: #9370db;
-
-  --text-main: #ffffff;
-  --text-muted: #9ca3af;
 
   --glow-soft: 0 0 8px rgba(127,255,212,0.4);
   --glow-med: 0 0 16px rgba(127,255,212,0.6);
@@ -23,21 +17,47 @@
   --glass-blur: blur(10px);
 }
 
-/* =========================
-   RESET
-========================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+html, body {
   min-height: 100vh;
   background: linear-gradient(135deg, #000033, #003366);
-  color: var(--text-main);
+  color: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   overflow-x: hidden;
+}
+
+/* =========================
+   BACKGROUND LAYERS
+========================= */
+#three-container,
+#noise,
+#particles,
+#starsContainer {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  pointer-events: none;
+  transition: filter 0.8s ease-out, opacity 0.8s ease;
+}
+
+#three-container { z-index: 1; background: radial-gradient(circle, rgba(0,191,255,0.1), transparent); }
+#noise, #particles, #starsContainer {
+  z-index: 2;
+  opacity: 0.15;
+  mix-blend-mode: screen;
+}
+
+html.scrolled #three-container,
+html.scrolled #noise,
+html.scrolled #particles,
+html.scrolled #starsContainer {
+  filter: blur(2px);
+  opacity: 0.3;
 }
 
 /* =========================
@@ -130,13 +150,14 @@ body {
 }
 
 .scanlines {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.03) 1px);
   pointer-events: none;
   animation: scanlineMove 8s linear infinite;
   opacity: 0.5;
   mix-blend-mode: overlay;
+  z-index: 3;
 }
 
 @keyframes scanlineMove {
@@ -145,12 +166,13 @@ body {
 }
 
 .glitch-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
   mix-blend-mode: screen;
   pointer-events: none;
   opacity: 0.05;
   animation: glitchOverlay 2s infinite;
+  z-index: 3;
 }
 
 @keyframes glitchOverlay {
@@ -186,72 +208,186 @@ body {
 }
 
 /* =========================
-   LOADING SCREEN (STUDIO)
+   OVERLAY + HEADER
 ========================= */
-#loading-screen {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(135deg, #000033, #003366);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: opacity 1.6s ease-out;
-}
-
-#loading-screen.fade-out {
-  opacity: 0;
+#overlay {
+  position: relative;
+  min-height: 100vh;
+  z-index: 10;
   pointer-events: none;
 }
 
-.loading-wrapper {
-  text-align: center;
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+  pointer-events: auto;
+  z-index: 20;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
 }
 
-.loading-title {
-  font-family: 'Helvetica Neue', sans-serif;
-  font-size: clamp(3rem, 12vw, 6rem);
-  letter-spacing: 0.4rem;
-  background: linear-gradient(90deg, var(--aero-blue), var(--y2k-cyan), var(--aero-aqua));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: var(--glow-strong);
-  margin-bottom: 40px;
-  animation: glitchAnim 4s infinite linear alternate-reverse;
+.logo {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.15rem;
+  color: #fff;
+  text-shadow: var(--glow-soft);
 }
 
-.loading-bar {
-  width: 200px;
-  height: 4px;
-  background: rgba(255,255,255,0.1);
-  margin: 20px auto;
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow: var(--glow-soft);
-}
-
-.loading-progress {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--aero-blue), var(--y2k-cyan));
-  box-shadow: var(--glow-strong);
-  transition: width 0.6s ease;
+nav ul {
+  display: flex;
+  gap: 50px;
+  list-style: none;
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
 }
 
 /* =========================
-   STUDIO PANEL (AERO GLASS)
+   LINKS (GLOBAL)
 ========================= */
-.container {
-  max-width: 760px;
-  margin: 10vh auto;
-  padding: 3.5rem;
+a,
+nav a {
+  color: var(--aero-white);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.35s ease, transform 0.35s ease;
+  padding: 8px 16px;
+  border-radius: 24px;
+}
+
+a:hover,
+nav a:hover {
+  color: var(--y2k-cyan);
+  background: rgba(127,255,212,0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--glow-med);
+  animation: glitchAnim 0.5s steps(5) infinite;
+}
+
+/* =========================
+   HERO
+========================= */
+.hero-text {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1600px;
+  text-align: center;
+  padding: 40px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border-radius: 18px;
+  border-radius: 32px;
+}
+
+h1,
+#hero-title {
+  font-weight: 300;
+  font-size: clamp(2.8rem, 14vw, 8rem);
+  letter-spacing: 0.02em;
+  color: #fff;
+  line-height: 1;
+  text-shadow: var(--glow-soft);
+  animation: aeroPulse 5s ease-in-out infinite alternate, glitchAnim 6s infinite linear alternate-reverse;
+}
+
+/* =========================
+   SIDE TEXT
+========================= */
+.text-left,
+.text-right {
+  font-size: 1.3rem;
+  line-height: 1.7;
+  max-width: 420px;
+  color: var(--aero-white);
+  animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.text-left {
+  position: absolute;
+  left: 8%;
+  top: 55%;
+  transform: translateY(-50%);
+}
+
+.text-right {
+  position: absolute;
+  right: 8%;
+  top: 55%;
+  transform: translateY(-50%);
+}
+
+.accent {
+  display: block;
+  color: var(--aero-green);
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.accent::before { content: '○ '; color: var(--y2k-cyan); }
+
+/* =========================
+   SCROLL INDICATOR
+========================= */
+.scroll-indicator {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: 0.2rem;
+  opacity: 0.8;
+  color: var(--aero-white);
+  animation: subtlePulse 2s infinite;
+  text-align: center;
+}
+
+@keyframes subtlePulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.circle {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--aero-aqua);
+  border-radius: 50%;
+  margin: 30px auto 0;
+  animation: subtleBounce 1.5s infinite ease-in-out;
+}
+
+@keyframes subtleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+main {
+  position: relative;
+  z-index: 15;
+  padding: 100px 40px;
+  background: rgba(0,51,102,0.3);
+}
+
+.container {
+  min-height: 80vh;
+  margin-bottom: 100px;
+  padding: 60px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: 24px;
   border: 1px solid rgba(255,255,255,0.2);
-  box-shadow:
-    0 4px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  max-width: 760px;
+  margin: 0 auto;
   display: none;
 }
 
@@ -259,7 +395,6 @@ body {
    STUDIO TITLES
 ========================= */
 .glow-text {
-  font-family: 'Helvetica Neue', sans-serif;
   font-size: 2.8rem;
   text-align: center;
   letter-spacing: 0.25rem;
@@ -273,7 +408,7 @@ body {
 
 .subtitle {
   text-align: center;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.7); /* Muted to match main's aero-white opacity */
   letter-spacing: 0.15rem;
   margin-bottom: 3rem;
 }
@@ -298,9 +433,13 @@ select {
   background: rgba(0,0,0,0.45);
   border: 1px solid rgba(127,255,212,0.25);
   border-radius: 10px;
-  color: var(--text-main);
+  color: var(--aero-white);
   font-size: 0.95rem;
   transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.5);
 }
 
 input:focus,
@@ -322,7 +461,6 @@ button {
   border: none;
   cursor: pointer;
 
-  font-family: 'Helvetica Neue', sans-serif;
   letter-spacing: 0.25rem;
   font-weight: 700;
 
@@ -347,7 +485,6 @@ button:hover {
 }
 
 .timer {
-  font-family: 'Helvetica Neue', sans-serif;
   font-size: 3.8rem;
   color: var(--aero-aqua);
   text-shadow: 0 0 30px rgba(127,255,212,0.7);
@@ -361,7 +498,6 @@ button:hover {
   background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
   color: #000;
   text-decoration: none;
-  font-family: 'Helvetica Neue', sans-serif;
   letter-spacing: 0.25rem;
   box-shadow: var(--glow-soft);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -376,9 +512,10 @@ button:hover {
    FOOTER (STUDIO)
 ========================= */
 .site-footer {
-  margin-top: 8rem;
-  padding: 3rem 2rem;
+  padding: 80px 40px;
   background: linear-gradient(to top, #000033, transparent);
+  position: relative;
+  z-index: 15;
 }
 
 .footer-inner {
@@ -386,42 +523,158 @@ button:hover {
   margin: auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  gap: 40px;
+  padding: 40px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: 24px;
 }
 
 .footer-logo {
-  font-family: 'Helvetica Neue', sans-serif;
-  letter-spacing: 0.35rem;
-  color: #fff;
-  text-shadow: var(--glow-soft);
+  font-weight: 300;
+  letter-spacing: 0.15rem;
+  text-shadow: var(--glow-med);
   animation: aeroPulse 3s ease-in-out infinite alternate;
 }
 
 .footer-copy {
   font-size: 0.85rem;
-  color: var(--text-muted);
+  letter-spacing: 0.1rem;
+  color: var(--aero-white);
+  opacity: 0.9;
 }
 
-.footer-links a {
-  margin-left: 1.8rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.2rem;
-  color: var(--aero-green);
-  text-decoration: none;
+.footer-particles {
+  display: none; /* Assuming this is for JS particles; hide if no JS */
 }
 
-.footer-links a:hover {
+/* =========================
+   LOADING SCREEN
+========================= */
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #000033, #003366);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1.6s ease-out;
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-logo {
+  font-size: clamp(3rem, 12vw, 6rem);
+  letter-spacing: 0.4rem;
   color: var(--aero-aqua);
-  text-shadow: var(--glow-soft);
+  text-shadow: var(--glow-strong);
+  animation: glitchAnim 4s infinite linear alternate-reverse;
+  margin-bottom: 20px;
+}
+
+.loading-title {
+  color: var(--aero-aqua);
+  text-shadow: var(--glow-strong);
+  font-weight: 300;
+  animation: glitchAnim 4s infinite linear alternate-reverse;
+  margin-bottom: 10px;
+}
+
+.loading-text {
+  color: var(--aero-white);
+  animation: fadeIn 1s ease-in;
+  margin-bottom: 20px;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  margin: 20px auto;
+  border-radius: 2px;
+}
+
+.loading-progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--aero-blue), var(--y2k-cyan));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.error-message {
+  display: none;
+  color: #ff6666;
+  margin-top: 20px;
+}
+
+.retry-button {
+  display: none;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 0.3s ease;
+}
+
+.retry-button:hover {
+  transform: scale(1.05);
+}
+
+@keyframes progress {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+@keyframes logoFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================
    MOBILE
 ========================= */
 @media (max-width: 768px) {
+  header { padding: 20px; justify-content: center; flex-direction: column; align-items: center; gap: 20px; }
+
+  .logo { margin-bottom: 10px; }
+
+  nav ul {
+    gap: 20px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-text { padding: 20px; }
+
+  .text-left,
+  .text-right {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    transform: none;
+    max-width: 90%;
+    text-align: center;
+    margin: 20px auto;
+  }
+
+  main { padding: 50px 20px; }
+
   .container {
-    margin: 6vh 1rem;
-    padding: 2.5rem;
+    padding: 40px 20px;
+    margin: 0 1rem;
   }
 
   .footer-inner {
@@ -429,4 +682,9 @@ button:hover {
     gap: 1.5rem;
     text-align: center;
   }
+}
+
+@media (max-width: 480px) {
+  nav ul { gap: 14px; font-size: 0.8rem; }
+  p { font-size: 0.95rem; }
 }

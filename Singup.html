@@ -6,47 +6,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="signupcss.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Removed Orbitron font link to match main page's system fonts; using Helvetica Neue approximation -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
+<div id="three-container"></div>
+<div id="noise"></div>
+<div id="particles"></div>
+<div id="starsContainer"></div>
+<div class="scanlines"></div>
+<div class="glitch-overlay"></div>
+
 <div id="loading-screen">
   <div class="loading-content">
-    <div class="loading-title glitch" data-text="POOSTUDIO">POOSTUDIO</div>
+    <div class="loading-logo glitch" data-text="POOSTUDIO">POOSTUDIO</div>
+    <div class="loading-title glitch" data-text="Preparing Signup">Preparing Signup</div>
+    <p class="loading-text">Loading your portal to the future...</p>
     <div class="loading-bar">
       <div class="loading-progress" id="progress"></div>
     </div>
   </div>
 </div>
 
-<div class="container" id="container">
-  <h1 class="glow-text">SIGN UP</h1>
-  <p class="subtitle">
-    Create your account to join the community.<br>
-    Secure and easy access to all features.
+<div id="overlay">
+  <header>
+    <span class="logo glitch" data-text="POOSTUDIO">POOSTUDIO</span>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li> <!-- Assuming a login page exists; adjust if needed -->
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="hero-text">
+    <h1 id="hero-title" class="glitch" data-text="Join POOSTUDIO">Join POOSTUDIO</h1>
+  </div>
+
+  <p class="text-left">
+    <span class="accent">Why Sign Up?</span>
+    Unlock premium tools, vibrant community forums, and personalized content tailored just for you.
   </p>
 
-  <form id="form" action="https://formspree.io/f/mykkgpqq" method="POST">
-    <label>USERNAME</label>
-    <input name="username" required minlength="3" maxlength="20">
+  <p class="text-right">
+    <span class="accent">Secure & Easy</span>
+    Your data is protected with cutting-edge security. Enjoy a seamless signup process in seconds.
+  </p>
 
-    <label>EMAIL</label>
-    <input type="email" name="email" required>
-
-    <label>PASSWORD</label>
-    <input type="password" name="password" required minlength="8">
-
-    <label>CONFIRM PASSWORD</label>
-    <input type="password" name="confirm_password" required minlength="8">
-
-    <button id="submit">CREATE ACCOUNT</button>
-  </form>
+  <div class="scroll-indicator">
+    Scroll to Create Account
+    <div class="circle"></div>
+  </div>
 </div>
+
+<main>
+  <section class="container" id="container">
+    <h1 class="glow-text">SIGN UP</h1>
+    <p class="subtitle">
+      Create your account to join the community.<br>
+      Secure and easy access to all features.
+    </p>
+
+    <form id="form" action="https://formspree.io/f/mykkgpqq" method="POST">
+      <label>USERNAME</label>
+      <input name="username" required minlength="3" maxlength="20" placeholder="Choose a unique username">
+
+      <label>EMAIL</label>
+      <input type="email" name="email" required placeholder="Enter your email address">
+
+      <label>PASSWORD</label>
+      <input type="password" name="password" required minlength="8" placeholder="Create a strong password">
+
+      <label>CONFIRM PASSWORD</label>
+      <input type="password" name="confirm_password" required minlength="8" placeholder="Confirm your password">
+
+      <button id="submit">CREATE ACCOUNT</button>
+    </form>
+  </section>
+</main>
+
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <span class="footer-logo">POOSTUDIO</span>
+      <span class="footer-logo glitch" data-text="POOSTUDIO">POOSTUDIO</span>
       <p class="footer-copy">
         © <span id="year"></span> PooStudio. All rights reserved.
       </p>
@@ -120,6 +166,15 @@ form.addEventListener("submit", (e) => {
     return;
   }
   localStorage.setItem(KEY, Date.now());
+});
+
+// Add scrolled class for background blur on scroll
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 0) {
+    document.documentElement.classList.add('scrolled');
+  } else {
+    document.documentElement.classList.remove('scrolled');
+  }
 });
 </script>
 
