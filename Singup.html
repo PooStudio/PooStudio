@@ -29,64 +29,29 @@
   </div>
 </div>
 
-<div id="overlay">
-  <header>
-    <span class="logo glitch" data-text="POOSTUDIO">POOSTUDIO</span>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <div class="hero-text">
-    <h1 id="hero-title" class="glitch" data-text="Join POOSTUDIO">Join POOSTUDIO</h1>
-  </div>
-
-  <p class="text-left">
-    <span class="accent">Why Sign Up?</span>
-    Unlock premium tools, vibrant community forums, and personalized content tailored just for you.
+<div class="container" id="container">
+  <h1 class="glow-text">SIGN UP</h1>
+  <p class="subtitle">
+    Create your account to join the community.<br>
+    Secure and easy access to all features.
   </p>
 
-  <p class="text-right">
-    <span class="accent">Secure & Easy</span>
-    Your data is protected with cutting-edge security. Enjoy a seamless signup process in seconds.
-  </p>
+  <form id="form" action="https://formspree.io/f/mykkgpqq" method="POST">
+    <label>USERNAME</label>
+    <input name="username" required minlength="3" maxlength="20" placeholder="Choose a unique username">
 
-  <div class="scroll-indicator">
-    Scroll to Create Account
-    <div class="circle"></div>
-  </div>
+    <label>EMAIL</label>
+    <input type="email" name="email" required placeholder="Enter your email address">
+
+    <label>PASSWORD</label>
+    <input type="password" name="password" required minlength="8" placeholder="Create a strong password">
+
+    <label>CONFIRM PASSWORD</label>
+    <input type="password" name="confirm_password" required minlength="8" placeholder="Confirm your password">
+
+    <button id="submit">CREATE ACCOUNT</button>
+  </form>
 </div>
-
-<main>
-  <section class="container" id="container">
-    <h1 class="glow-text">SIGN UP</h1>
-    <p class="subtitle">
-      Create your account to join the community.<br>
-      Secure and easy access to all features.
-    </p>
-
-    <form id="form" action="https://formspree.io/f/mykkgpqq" method="POST">
-      <label>USERNAME</label>
-      <input name="username" required minlength="3" maxlength="20" placeholder="Choose a unique username">
-
-      <label>EMAIL</label>
-      <input type="email" name="email" required placeholder="Enter your email address">
-
-      <label>PASSWORD</label>
-      <input type="password" name="password" required minlength="8" placeholder="Create a strong password">
-
-      <label>CONFIRM PASSWORD</label>
-      <input type="password" name="confirm_password" required minlength="8" placeholder="Confirm your password">
-
-      <button id="submit">CREATE ACCOUNT</button>
-    </form>
-  </section>
-</main>
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -165,15 +130,6 @@ form.addEventListener("submit", (e) => {
     return;
   }
   localStorage.setItem(KEY, Date.now());
-});
-
-// Add scrolled class for background blur on scroll
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 0) {
-    document.documentElement.classList.add('scrolled');
-  } else {
-    document.documentElement.classList.remove('scrolled');
-  }
 });
 </script>
 
