@@ -9,7 +9,7 @@
     <link rel="icon" href="logo.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 </head>
@@ -18,7 +18,7 @@
 <div id="loading-screen">
     <div class="loading-content">
 
-        <h1 class="loading-title glitch" data-text="POOSTUDIO">POOSTUDIO</h1>
+        <h1 class="loading-title aero-glow">POOSTUDIO</h1>
 
         <p class="loading-text">Loading Home...</p>
 
@@ -31,11 +31,9 @@
             <span id="retry-text">Reconnecting to Home...</span>
         </p>
 
-        <button id="retry-btn" class="retry-button">RETRY MANUALLY</button>
+        <button id="retry-btn" class="retry-button glass">RETRY MANUALLY</button>
     </div>
 
-    <div class="glitch-overlay"></div>
-    <div class="scanlines"></div>
 </div>
 
     <div id="main-content" style="display:none;">
@@ -46,7 +44,7 @@
         <div id="three-container" aria-hidden="true"></div>
 
         <div id="overlay">
-            <header>
+            <header class="glass">
                 <div>
                 
                 </div>
@@ -59,7 +57,7 @@
                 </nav>
             </header>
 
-            <section id="home" class="hero-text" aria-labelledby="hero-title">
+            <section id="home" class="hero-text glass" aria-labelledby="hero-title">
                 <div class="text-left">
                     <span class="accent">○ WE ARE</span>
                     <p>
@@ -71,7 +69,7 @@
                     </p>
                 </div>
 
-                <h1 class="Logo glitch" id="hero-title" data-text="POOSTUDIO">POOSTUDIO</h1>
+                <h1 class="Logo aero-glow" id="hero-title">POOSTUDIO</h1>
 
                 <div class="text-right">
                     <span class="accent">○ WE ARE</span>
@@ -93,9 +91,9 @@
 
 
 <footer class="site-footer">
-  <div class="footer-inner">
+  <div class="footer-inner glass">
     <div class="footer-brand">
-      <span class="footer-logo glitch" data-text="POOSTUDIO">POOSTUDIO</span>
+      <span class="footer-logo aero-glow">POOSTUDIO</span>
       <p class="footer-copy">
         © <span id="year"></span> PooStudio. All rights reserved.
       </p>
@@ -121,7 +119,7 @@
         <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
             <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: white; padding: 32px; border-radius: 12px; max-width: 640px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h2 id="tosTitle" style="margin:0; font-family: 'Orbitron', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#f19063,#f7ab55); background-clip: text; -webkit-background-clip: text; color: transparent;">
+                    <h2 id="tosTitle" style="margin:0; font-family: 'Helvetica Neue', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#00bfff,#00ff7f); background-clip: text; -webkit-background-clip: text; color: transparent;">
                         Welcome  Please agree to continue
                     </h2>
                     <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
@@ -131,7 +129,7 @@
                 </p>
                 <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
                     <button id="tosDeclineBtn" style="padding:10px 18px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer;">Decline</button>
-                    <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#6366f1,#a855f7); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree &amp; Continue</button>
+                    <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#00bfff,#00ff7f); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree &amp; Continue</button>
                 </div>
             </div>
         </div>
@@ -160,7 +158,7 @@
             });
     </script>
 
-<button class="modal-trigger" aria-label="Open login form">
+<button class="modal-trigger glass" aria-label="Open login form">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
         <circle cx="12" cy="7" r="4"></circle>
@@ -168,7 +166,7 @@
 </button>
 
 <div id="login-modal">
-    <div class="login-panel">
+    <div class="login-panel glass">
         <button class="close-modal" aria-label="Close">&times;</button>
         <h3>Login to PooStudio</h3>
         <p>Access exclusive features and content from the depths up.</p>
@@ -203,7 +201,7 @@
 </div>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap');
 
     #login-modal {
         position: fixed;
@@ -211,7 +209,7 @@
         background: rgba(0,0,0,0.8);
         backdrop-filter: blur(16px);
         z-index: 1000;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Helvetica Neue', sans-serif;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -228,11 +226,11 @@
     .modal-trigger {
         width: 60px;
         height: 60px;
-        background: linear-gradient(135deg, #00ffff, #00bfff);
-        color: #0f0f0f;
+        background: linear-gradient(135deg, #00bfff, #00ff7f);
+        color: #fff;
         border: none;
         border-radius: 50%;
-        box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
+        box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -246,32 +244,33 @@
 
     .modal-trigger:hover {
         transform: scale(1.1);
-        box-shadow: 0 12px 35px rgba(0, 255, 255, 0.6);
+        box-shadow: 0 12px 35px rgba(0, 191, 255, 0.6);
     }
 
     .login-panel {
         position: relative;
         width: 360px;
         max-width: 90vw;
-        background-color: rgba(20, 20, 20, 0.95);
+        background-color: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(16px);
-        border: 1px solid #333;
+        border: 1px solid rgba(255,255,255,0.2);
         border-radius: 16px;
         padding: 30px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 255, 255, 0.2);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(127, 255, 212, 0.2);
     }
 
     .login-panel h3 {
-        font-family: 'Playfair Display', serif;
+        font-family: 'Helvetica Neue', sans-serif;
         font-size: 1.6em;
         color: #ffffff;
         margin: 0 0 12px 0;
         text-align: center;
+        font-weight: 300;
     }
 
     .login-panel > p {
         font-size: 0.95em;
-        color: #bbbbbb;
+        color: #dddddd;
         margin-bottom: 24px;
         line-height: 1.5;
         text-align: center;
@@ -281,8 +280,8 @@
     .login-panel input[type="password"] {
         width: 100%;
         padding: 14px 18px;
-        background-color: rgba(40, 40, 40, 0.8);
-        border: 1px solid #444;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255,255,255,0.2);
         border-radius: 8px;
         color: #e0e0e0;
         font-size: 1em;
@@ -294,8 +293,8 @@
     .login-panel input[type="email"]:focus,
     .login-panel input[type="password"]:focus {
         outline: none;
-        border-color: #00ffff;
-        box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.25);
+        border-color: #7fffd4;
+        box-shadow: 0 0 0 3px rgba(127, 255, 212, 0.25);
     }
 
     .login-panel input[type="email"].invalid,
@@ -314,22 +313,22 @@
 
     .login-panel button[type="submit"] {
         width: 100%;
-        background: linear-gradient(90deg, #00ffff, #00bfff);
-        color: #0f0f0f;
+        background: linear-gradient(90deg, #00bfff, #00ff7f);
+        color: #fff;
         padding: 14px;
         border: none;
         border-radius: 50px;
-        font-weight: 600;
+        font-weight: 400;
         font-size: 1em;
         cursor: pointer;
         transition: all 0.4s ease;
-        box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+        box-shadow: 0 4px 15px rgba(127, 255, 212, 0.4);
     }
 
     .login-panel button[type="submit"]:hover:not(:disabled) {
-        background: #ffffff;
+        background: linear-gradient(90deg, #7fffd4, #00bfff);
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 255, 255, 0.6);
+        box-shadow: 0 8px 25px rgba(127, 255, 212, 0.6);
     }
 
     .login-panel button[type="submit"]:disabled {
@@ -344,7 +343,7 @@
         right: 16px;
         background: none;
         border: none;
-        color: #888;
+        color: #aaa;
         font-size: 1.8em;
         cursor: pointer;
         width: 36px;
@@ -363,13 +362,13 @@
 
     .privacy-small {
         font-size: 0.8em;
-        color: #777;
+        color: #aaa;
         margin-top: 20px;
         text-align: center;
     }
 
     .privacy-small a {
-        color: #00ffff;
+        color: #7fffd4;
         text-decoration: none;
     }
 
