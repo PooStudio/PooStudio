@@ -31,28 +31,26 @@ html, body {
 
 
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 0px;
   background: transparent; 
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
-  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #003366, #000033); /* Normal dark blue gradient matching background */
-  border-radius: 6px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #004080, #001a4d); 
+  background: transparent;
 }
 
 
 html {
-  scrollbar-width: thin;
-  scrollbar-color: #003366 transparent; 
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent; 
 }
 
 
