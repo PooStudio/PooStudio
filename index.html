@@ -20,7 +20,7 @@
 
         <h1 class="loading-title aero-glow glitch" data-text="POOSTUDIO">POOSTUDIO</h1>
 
-        <p class="loading-text">Summoning the Chaos...</p> 
+        <p class="loading-text">Summoning the Chaos...</p> <!-- Updated for thematic flair -->
 
         <div class="loading-bar">
             <div class="loading-progress"></div>
@@ -110,6 +110,7 @@
                 <p>
                     Explore our gallery of masterpieces. From glitchy medieval worlds to futuristic absurdities, each project showcases our unhinged prowess. (Add image placeholders or links here in production.)
                 </p>
+                <!-- Example: Add a grid of portfolio items -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
                     <div class="glass" style="padding: 20px; text-align: center;">
                         <h3>Project 1: Chaos Realm</h3>
@@ -464,4 +465,73 @@
             if (value === '') {
                 showError('Email is required.', emailError, emailInput);
                 return false;
-            } else if (!emailRegex.test
+            } else if (!emailRegex.test(value)) {
+                showError('Please enter a valid email address.', emailError, emailInput);
+                return false;
+            } else {
+                clearError(emailError, emailInput);
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            const value = passwordInput.value;
+            if (value === '') {
+                showError('Password is required.', passwordError, passwordInput);
+                return false;
+            } else if (value.length < 6) {
+                showError('Password must be at least 6 characters.', passwordError, passwordInput);
+                return false;
+            } else {
+                clearError(passwordError, passwordInput);
+                return true;
+            }
+        }
+
+        function showError(message, errorEl, inputEl) {
+            errorEl.textContent = message;
+            inputEl.classList.add('invalid');
+        }
+
+        function clearError(errorEl, inputEl) {
+            errorEl.textContent = '';
+            inputEl.classList.remove('invalid');
+        }
+
+        function updateSubmitButton() {
+            submitBtn.disabled = !(validateEmail() && validatePassword());
+        }
+
+        emailInput.addEventListener('input', updateSubmitButton);
+        passwordInput.addEventListener('input', updateSubmitButton);
+
+        form.addEventListener('submit', (e) => {
+            if (!validateEmail() || !validatePassword()) {
+                e.preventDefault();
+            }
+            // If valid, the form will submit to /login (assume backend handles authentication)
+        });
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modal.classList.add('open');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+
+        modal.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+
+        modal.querySelector('.login-panel').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        setTimeout(() => modal.classList.add('open'), 8000);
+    });
+</script>
+
+</body>
+</html>
