@@ -5,7 +5,6 @@ window.addEventListener("load", () => {
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const DPR = Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2);
 
-    // ============== Y2K NEON FIRE SETUP ==============
     fetch('/api/active-users')
         .then(response => response.json())
         .then(data => {
@@ -98,7 +97,6 @@ window.addEventListener("load", () => {
             const links = new THREE.LineSegments(linkGeo, linkMat);
             scene.add(links);
 
-            // ============== POSTUDIO HOLO TEXT (Y2K cycling) ==============
             const loader = new THREE.FontLoader();
             loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
                 const textGeometry = new THREE.TextGeometry('Postudio', {
@@ -150,7 +148,6 @@ window.addEventListener("load", () => {
                 scene.add(textMesh);
             }, undefined, err => console.warn('Font fallback – text skipped', err));
 
-            // ============== SMARTER LINK UPDATE (fast + natural) ==============
             function updateLinks() {
                 let count = 0;
                 const pos = nodeGeo.attributes.position.array;
@@ -203,12 +200,10 @@ window.addEventListener("load", () => {
                 requestAnimationFrame(animate);
                 const time = t * 0.001;
 
-                // Slow dreamy spin + fire energy
                 nodes.rotation.y += 0.00065;
                 nodes.rotation.x += 0.00028;
                 links.rotation.copy(nodes.rotation);
 
-                // Holo text magic
                 const textMesh = scene.getObjectByName('postudioText');
                 if (textMesh) {
                     const hue = (time * 0.22) % 1.0;
@@ -244,7 +239,6 @@ window.addEventListener("load", () => {
                 nodeGeo.attributes.position.needsUpdate = true;
                 nodeGeo.attributes.color.needsUpdate = true;
 
-                // Smart link timing
                 if (frame - lastLinkUpdate > (isMobile ? 7 : 5)) {
                     updateLinks();
                     lastLinkUpdate = frame;
@@ -273,7 +267,6 @@ window.addEventListener("load", () => {
 
             animate(0);
 
-            // ============== RESIZE + USER COUNT ==============
             window.addEventListener("resize", () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
