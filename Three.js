@@ -1,24 +1,23 @@
 window.addEventListener("load", () => {
-    const container = document.getElementById("three-container");
-    if (!container) return;
 
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const DPR = Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2);
 
-    // ===== SAFE CLICK-THROUGH LOAD OVERLAY =====
+    // ===== SAFE VISUAL LOAD OVERLAY (CLICK-THROUGH) =====
     const overlay = document.createElement("div");
     overlay.style.position = "fixed";
     overlay.style.inset = "0";
     overlay.style.background = "radial-gradient(circle at 50% 40%, rgba(120,255,255,0.25), rgba(0,0,0,0.95))";
     overlay.style.backdropFilter = "blur(18px)";
+    overlay.style.pointerEvents = "none";
     overlay.style.zIndex = "9999";
     overlay.style.transition = "opacity 1.4s ease";
-    overlay.style.pointerEvents = "none"; // IMPORTANT: does not block clicks
     document.body.appendChild(overlay);
 
     fetch('/api/active-users')
-        .then(response => response.json())
+        .then(r => r.json())
         .then(data => {
+
             let activeUsers = data.count || 100;
             let HOT_RATIO = Math.min(0.12 + (activeUsers / 8000) * 0.28, 0.38);
 
@@ -33,15 +32,26 @@ window.addEventListener("load", () => {
             );
             camera.position.z = isMobile ? 240 : 190;
 
-            const renderer = new THREE.WebGLRenderer({ 
-                antialias: true, 
+            const renderer = new THREE.WebGLRenderer({
+                antialias: true,
                 alpha: true,
                 powerPreference: "high-performance"
             });
+
             renderer.setPixelRatio(DPR);
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setClearColor(0x000000, 0);
-            container.appendChild(renderer.domElement);
+
+            // ===== TRUE BACKGROUND MODE =====
+            renderer.domElement.style.position = "fixed";
+            renderer.domElement.style.top = "0";
+            renderer.domElement.style.left = "0";
+            renderer.domElement.style.width = "100%";
+            renderer.domElement.style.height = "100%";
+            renderer.domElement.style.zIndex = "-1";
+            renderer.domElement.style.pointerEvents = "none";
+
+            document.body.appendChild(renderer.domElement);
 
             const NODE_COUNT = isMobile ? 2400 : 4600;
             const MAX_LINKS = isMobile ? 8000 : 16000;
@@ -68,9 +78,7 @@ window.addEventListener("load", () => {
                 const isHot = Math.random() < HOT_RATIO;
                 heat[i] = isHot ? 0.75 + Math.random() * 0.25 : Math.random() * 0.45;
 
-                const hue = 0.52 + heat[i] * 0.18;
-                const col = new THREE.Color().setHSL(hue, 0.7, 0.65);
-
+                const col = new THREE.Color().setHSL(0.52 + heat[i] * 0.18, 0.7, 0.65);
                 colors.set([col.r, col.g, col.b], i * 3);
             }
 
@@ -189,9 +197,7 @@ window.addEventListener("load", () => {
 
                 if (overlay && frame === 20) {
                     overlay.style.opacity = "0";
-                    setTimeout(() => {
-                        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-                    }, 1400);
+                    setTimeout(() => overlay.remove(), 1400);
                 }
             }
 
@@ -204,5 +210,5 @@ window.addEventListener("load", () => {
             });
 
         })
-        .catch(err => console.error('Three.js background init failed:', err));
+        .catch(err => console.error("Three.js init failed:", err));
 });
