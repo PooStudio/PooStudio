@@ -6,9 +6,9 @@
   --y2k-cyan: #00ffff;
   --y2k-purple: #9370db;
 
-  --glow-soft: 0 0 8px rgba(127,255,212,0.4);
-  --glow-med: 0 0 16px rgba(127,255,212,0.6);
-  --glow-strong: 0 0 32px rgba(127,255,212,0.8);
+  --glow-soft: 0 0 8px rgba(0,128,255,0.4);
+  --glow-med: 0 0 16px rgba(0,128,255,0.6);
+  --glow-strong: 0 0 32px rgba(0,128,255,0.8);
 
   --glass-bg: rgba(255,255,255,0.1);
   --glass-blur: blur(10px);
@@ -41,20 +41,20 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(0,191,255,0.8), rgba(127,255,212,0.8)); /* Water-like gradient */
+  background: linear-gradient(180deg, rgba(0,51,102,0.8), rgba(0,102,153,0.8)); /* Darker blue gradient for aero feel */
   border-radius: 6px;
   box-shadow: var(--glow-med);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   box-shadow: var(--glow-strong);
-  background: linear-gradient(180deg, rgba(127,255,212,0.9), rgba(0,191,255,0.9)); 
+  background: linear-gradient(180deg, rgba(0,102,153,0.9), rgba(0,51,102,0.9)); 
 }
 
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0,191,255,0.8) transparent; 
+  scrollbar-color: rgba(0,51,102,0.8) transparent; 
 }
 
 
