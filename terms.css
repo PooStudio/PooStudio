@@ -29,6 +29,37 @@ html, body {
 }
 
 
+::-webkit-scrollbar {
+  width: 12px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-left: 1px solid rgba(127,255,212,0.15);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--aero-blue), var(--aero-green));
+  border-radius: 6px;
+  box-shadow: var(--glow-med);
+  border: 2px solid rgba(127,255,212,0.25);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  box-shadow: var(--glow-strong);
+  background: linear-gradient(180deg, var(--aero-green), var(--aero-aqua));
+}
+
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--aero-green) var(--glass-bg);
+}
+
+
 #three-container,
 #noise,
 #particles,
@@ -54,7 +85,6 @@ html.scrolled #starsContainer {
   filter: blur(2px);
   opacity: 0.3;
 }
-
 
 .glitch {
   position: relative;
@@ -228,6 +258,7 @@ nav a:hover,
   animation: glitchAnim 0.5s steps(5) infinite, aeroPulse 2s ease-in-out infinite alternate;
 }
 
+
 .container {
   max-width: 760px;
   margin: 10vh auto;
@@ -239,6 +270,7 @@ nav a:hover,
   box-shadow: 0 4px 30px rgba(0,0,0,0.1);
   display: none;
 }
+
 
 .glow-text {
   font-size: 2.8rem;
@@ -284,6 +316,7 @@ strong {
   color: #fff; 
   font-weight: 600;
 }
+
 
 .back-link {
   display: flex;
@@ -425,6 +458,7 @@ strong {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
 
 @media (max-width: 768px) {
   .container {
