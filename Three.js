@@ -3,17 +3,6 @@ window.addEventListener("load", () => {
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const DPR = Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2);
 
-    // ===== SAFE VISUAL LOAD OVERLAY (CLICK-THROUGH) =====
-    const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.inset = "0";
-    overlay.style.background = "radial-gradient(circle at 50% 40%, rgba(120,255,255,0.25), rgba(0,0,0,0.95))";
-    overlay.style.backdropFilter = "blur(18px)";
-    overlay.style.pointerEvents = "none";
-    overlay.style.zIndex = "9999";
-    overlay.style.transition = "opacity 1.4s ease";
-    document.body.appendChild(overlay);
-
     fetch('/api/active-users')
         .then(r => r.json())
         .then(data => {
@@ -22,7 +11,9 @@ window.addEventListener("load", () => {
             let HOT_RATIO = Math.min(0.12 + (activeUsers / 8000) * 0.28, 0.38);
 
             const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x9fd6ff, 0.0025);
+
+            scene.background = null;
+            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0016);
 
             const camera = new THREE.PerspectiveCamera(
                 66,
@@ -42,7 +33,7 @@ window.addEventListener("load", () => {
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setClearColor(0x000000, 0);
 
-            // ===== TRUE BACKGROUND MODE =====
+            // ⭐ TRUE BACKGROUND MODE
             renderer.domElement.style.position = "fixed";
             renderer.domElement.style.top = "0";
             renderer.domElement.style.left = "0";
@@ -76,9 +67,12 @@ window.addEventListener("load", () => {
                 basePositions.set([x, y, z], i * 3);
 
                 const isHot = Math.random() < HOT_RATIO;
-                heat[i] = isHot ? 0.75 + Math.random() * 0.25 : Math.random() * 0.45;
+                heat[i] = isHot ? 1 : 0.4;
 
-                const col = new THREE.Color().setHSL(0.52 + heat[i] * 0.18, 0.7, 0.65);
+                // aqua → sky blue → white glow
+                const hue = 0.52 + Math.random() * 0.08;
+                const col = new THREE.Color().setHSL(hue, 0.6, 0.72);
+
                 colors.set([col.r, col.g, col.b], i * 3);
             }
 
@@ -87,10 +81,10 @@ window.addEventListener("load", () => {
             nodeGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
             const nodeMat = new THREE.PointsMaterial({
-                size: isMobile ? 1.8 : 2.4,
+                size: isMobile ? 2.2 : 2.8,
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.97,
+                opacity: 0.9,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
             });
@@ -108,7 +102,7 @@ window.addEventListener("load", () => {
             const linkMat = new THREE.LineBasicMaterial({
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.42,
+                opacity: 0.25,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
             });
@@ -119,23 +113,19 @@ window.addEventListener("load", () => {
             function updateLinks() {
                 let count = 0;
                 const pos = nodeGeo.attributes.position.array;
-                const maxNeighbors = isMobile ? 5 : 9;
 
                 for (let i = 0; i < NODE_COUNT; i++) {
-                    let connected = 0;
-                    for (let attempt = 0; attempt < 75 && connected < maxNeighbors; attempt++) {
-                        let j = Math.floor(Math.random() * NODE_COUNT);
-                        if (j === i || j < i) continue;
-
+                    for (let j = i + 1; j < NODE_COUNT; j++) {
                         const i3 = i * 3;
                         const j3 = j * 3;
+
                         const dx = pos[i3] - pos[j3];
                         const dy = pos[i3 + 1] - pos[j3 + 1];
                         const dz = pos[i3 + 2] - pos[j3 + 2];
                         const d2 = dx*dx + dy*dy + dz*dz;
 
                         if (d2 < LINK_DISTANCE * LINK_DISTANCE) {
-                            const c = new THREE.Color().setHSL(0.55, 0.9, 0.65);
+                            const c = new THREE.Color(0xaeefff);
 
                             linkPositions.set([
                                 pos[i3], pos[i3+1], pos[i3+2],
@@ -145,7 +135,6 @@ window.addEventListener("load", () => {
                             linkColors.set([c.r, c.g, c.b, c.r, c.g, c.b], count);
 
                             count += 6;
-                            connected++;
                             if (count >= MAX_LINKS * 6) break;
                         }
                     }
@@ -163,25 +152,19 @@ window.addEventListener("load", () => {
                 requestAnimationFrame(animate);
                 const time = t * 0.001;
 
-                const floatY = Math.sin(time * 0.6) * 6;
-                const floatX = Math.sin(time * 0.3) * 4;
+                nodes.rotation.y += 0.00045;
+                nodes.rotation.x += 0.00015;
 
-                nodes.rotation.y += 0.0006;
-                nodes.rotation.x += 0.00025;
-                nodes.position.y = floatY;
-                nodes.position.x = floatX;
+                nodes.position.y = Math.sin(time * 0.5) * 8;
+                nodes.position.x = Math.sin(time * 0.25) * 5;
 
                 links.rotation.copy(nodes.rotation);
                 links.position.copy(nodes.position);
 
-                camera.position.y = Math.sin(time * 0.4) * 10;
-                camera.lookAt(0, 0, 0);
-
                 const pos = nodeGeo.attributes.position.array;
-
                 for (let i = 0; i < NODE_COUNT; i++) {
                     const i3 = i * 3;
-                    const pulse = Math.sin(time * 1.4 + i * 0.15) * 0.35;
+                    const pulse = Math.sin(time * 1.2 + i * 0.12) * 0.4;
 
                     pos[i3] = basePositions[i3] + pulse;
                     pos[i3 + 1] = basePositions[i3 + 1] + pulse;
@@ -190,15 +173,13 @@ window.addEventListener("load", () => {
 
                 nodeGeo.attributes.position.needsUpdate = true;
 
-                if (frame % 6 === 0) updateLinks();
+                if (frame % 8 === 0) updateLinks();
+
+                camera.position.y = Math.sin(time * 0.35) * 12;
+                camera.lookAt(0, 0, 0);
 
                 renderer.render(scene, camera);
                 frame++;
-
-                if (overlay && frame === 20) {
-                    overlay.style.opacity = "0";
-                    setTimeout(() => overlay.remove(), 1400);
-                }
             }
 
             animate(0);
