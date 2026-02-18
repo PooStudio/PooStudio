@@ -496,9 +496,22 @@ section h2 {
 @media (max-width: 768px) {
   header { padding: 20px; justify-content: center; }
 
+  .hero-text {
+    position: relative;
+    inset: auto;
+    transform: none;
+    width: auto;
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 40px 20px;
+  }
+
   .text-left,
   .text-right {
     position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
     transform: none;
     max-width: 90%;
     text-align: center;
@@ -524,4 +537,40 @@ section h2 {
 @media (max-width: 480px) {
   nav ul { gap: 14px; font-size: 0.8rem; }
   p { font-size: 0.95rem; }
+
+  .hero-text {
+    padding: 20px 10px;
+  }
+
+  section {
+    padding: 20px;
+  }
+
+  main {
+    padding: 50px 20px;
+  }
+
+  .site-footer {
+    padding: 40px 20px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  h1,
+  #hero-title {
+    font-size: clamp(2rem, 12vw, 5rem);
+  }
+
+  section h2 {
+    font-size: 2.5rem;
+  }
+
+  .text-left,
+  .text-right {
+    font-size: 1.2rem;
+  }
 }
