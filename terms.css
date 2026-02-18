@@ -41,20 +41,18 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(0,51,102,0.8), rgba(0,102,153,0.8)); /* Darker blue gradient for aero feel */
+  background: linear-gradient(180deg, #003366, #000033); /* Normal dark blue gradient matching background */
   border-radius: 6px;
-  box-shadow: var(--glow-med);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  box-shadow: var(--glow-strong);
-  background: linear-gradient(180deg, rgba(0,102,153,0.9), rgba(0,51,102,0.9)); 
+  background: linear-gradient(180deg, #004080, #001a4d); 
 }
 
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(0,51,102,0.8) transparent; 
+  scrollbar-color: #003366 transparent; 
 }
 
 
