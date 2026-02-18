@@ -132,7 +132,7 @@
 
     <script src="loading.js" defer></script>
 
-    <!-- ==================== Y2K FIRE THREE.JS BACKGROUND ==================== -->
+    <!-- ==================== Y2K FIRE THREE.JS BACKGROUND (JUST ADDED) ==================== -->
     <script>
         window.addEventListener("load", () => {
             const container = document.getElementById("three-container");
@@ -149,12 +149,7 @@
 
                     const scene = new THREE.Scene();
 
-                    const camera = new THREE.PerspectiveCamera(
-                        66,
-                        window.innerWidth / window.innerHeight,
-                        0.5,
-                        1200
-                    );
+                    const camera = new THREE.PerspectiveCamera(66, window.innerWidth / window.innerHeight, 0.5, 1200);
                     camera.position.z = isMobile ? 240 : 190;
 
                     const renderer = new THREE.WebGLRenderer({ 
@@ -194,7 +189,6 @@
 
                         const hue = 0.52 + heat[i] * 0.42;
                         const col = new THREE.Color().setHSL(hue, 0.95, 0.42 + heat[i] * 0.52);
-
                         colors.set([col.r, col.g, col.b], i * 3);
                     }
 
@@ -247,23 +241,10 @@
                         textGeometry.computeBoundingBox();
 
                         const textMaterial = new THREE.ShaderMaterial({
-                            uniforms: {
-                                color: { value: new THREE.Color(0x00ffff) },
-                                time: { value: 0.0 },
-                                opacity: { value: 0.92 }
-                            },
-                            vertexShader: `
-                                varying vec3 vPosition;
-                                void main() {
-                                    vPosition = position;
-                                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                                }
-                            `,
+                            uniforms: { color: { value: new THREE.Color(0x00ffff) }, time: { value: 0.0 }, opacity: { value: 0.92 } },
+                            vertexShader: `varying vec3 vPosition; void main() { vPosition = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
                             fragmentShader: `
-                                uniform vec3 color;
-                                uniform float time;
-                                uniform float opacity;
-                                varying vec3 vPosition;
+                                uniform vec3 color; uniform float time; uniform float opacity; varying vec3 vPosition;
                                 void main() {
                                     float scan = sin(vPosition.y * 0.6 + time * 6.0) * 0.5 + 0.5;
                                     float pulse = sin(time * 3.0) * 0.2 + 0.8;
@@ -281,7 +262,7 @@
                         textMesh.position.set(0, 8, SPHERE_RADIUS + 18);
                         textMesh.name = 'postudioText';
                         scene.add(textMesh);
-                    }, undefined, err => console.warn('Font fallback – text skipped', err));
+                    });
 
                     function updateLinks() {
                         let count = 0;
@@ -293,28 +274,16 @@
                             for (let attempt = 0; attempt < 75 && connected < maxNeighbors; attempt++) {
                                 let j = Math.floor(Math.random() * NODE_COUNT);
                                 if (j === i || j < i) continue;
-
-                                const i3 = i * 3;
-                                const j3 = j * 3;
-                                const dx = pos[i3] - pos[j3];
-                                const dy = pos[i3 + 1] - pos[j3 + 1];
-                                const dz = pos[i3 + 2] - pos[j3 + 2];
+                                const i3 = i * 3, j3 = j * 3;
+                                const dx = pos[i3] - pos[j3], dy = pos[i3 + 1] - pos[j3 + 1], dz = pos[i3 + 2] - pos[j3 + 2];
                                 const d2 = dx*dx + dy*dy + dz*dz;
-
                                 if (d2 < LINK_DISTANCE * LINK_DISTANCE) {
                                     const strength = 1 - Math.sqrt(d2) / LINK_DISTANCE;
                                     const weight = strength * (heat[i] + heat[j]) * 0.6;
-
-                                    linkPositions.set([
-                                        pos[i3], pos[i3+1], pos[i3+2],
-                                        pos[j3], pos[j3+1], pos[j3+2]
-                                    ], count);
-
+                                    linkPositions.set([pos[i3], pos[i3+1], pos[i3+2], pos[j3], pos[j3+1], pos[j3+2]], count);
                                     const hue = 0.48 + weight * 0.38;
                                     const c = new THREE.Color().setHSL(hue, 0.96, 0.3 + weight * 0.68);
-
                                     linkColors.set([c.r, c.g, c.b, c.r, c.g, c.b], count);
-
                                     count += 6;
                                     connected++;
                                     if (count >= MAX_LINKS * 6) break;
@@ -322,14 +291,12 @@
                             }
                             if (count >= MAX_LINKS * 6) break;
                         }
-
                         linkGeo.setDrawRange(0, count / 3);
                         if (linkGeo.attributes.position) linkGeo.attributes.position.needsUpdate = true;
                         if (linkGeo.attributes.color) linkGeo.attributes.color.needsUpdate = true;
                     }
 
-                    let frame = 0;
-                    let lastLinkUpdate = 0;
+                    let frame = 0, lastLinkUpdate = 0;
 
                     function animate(t) {
                         requestAnimationFrame(animate);
@@ -344,7 +311,6 @@
                             const hue = (time * 0.22) % 1.0;
                             textMesh.material.uniforms.color.value.setHSL(hue, 0.95, 0.88);
                             textMesh.material.uniforms.time.value = time;
-
                             textMesh.rotation.y = Math.sin(time * 0.4) * 0.12;
                             textMesh.position.y = 8 + Math.sin(time * 0.6) * 6;
                             const pulse = 1 + Math.sin(time * 1.8) * 0.08;
@@ -357,17 +323,13 @@
                         for (let i = 0; i < NODE_COUNT; i++) {
                             const i3 = i * 3;
                             const pulse = Math.sin(time * (2.2 + heat[i] * 3.8) + i) * 0.42;
-
-                            pos[i3]     = basePositions[i3]     + pulse * 1.1;
+                            pos[i3] = basePositions[i3] + pulse * 1.1;
                             pos[i3 + 1] = basePositions[i3 + 1] + pulse * 0.75;
                             pos[i3 + 2] = basePositions[i3 + 2] + pulse * 1.0;
 
                             const hue = 0.52 + heat[i] * 0.42 + pulse * 0.08;
                             const c = new THREE.Color().setHSL(hue, 0.96, 0.45 + heat[i] * 0.48 + Math.abs(pulse) * 0.2);
-
-                            col[i3] = c.r;
-                            col[i3 + 1] = c.g;
-                            col[i3 + 2] = c.b;
+                            col[i3] = c.r; col[i3 + 1] = c.g; col[i3 + 2] = c.b;
                         }
 
                         nodeGeo.attributes.position.needsUpdate = true;
@@ -379,18 +341,14 @@
                         }
 
                         if (frame % 280 === 0) {
-                            fetch('/api/active-users')
-                                .then(r => r.json())
-                                .then(data => {
-                                    activeUsers = data.count || 100;
-                                    HOT_RATIO = Math.min(0.12 + (activeUsers / 8000) * 0.28, 0.38);
-                                    for (let i = 0; i < NODE_COUNT; i++) {
-                                        const isHot = Math.random() < HOT_RATIO;
-                                        heat[i] = isHot ? 0.75 + Math.random() * 0.25 : Math.random() * 0.45;
-                                    }
-                                    updateUserCount();
-                                })
-                                .catch(() => {});
+                            fetch('/api/active-users').then(r => r.json()).then(data => {
+                                activeUsers = data.count || 100;
+                                HOT_RATIO = Math.min(0.12 + (activeUsers / 8000) * 0.28, 0.38);
+                                for (let i = 0; i < NODE_COUNT; i++) {
+                                    const isHot = Math.random() < HOT_RATIO;
+                                    heat[i] = isHot ? 0.75 + Math.random() * 0.25 : Math.random() * 0.45;
+                                }
+                            });
                         }
 
                         camera.lookAt(0, 0, 0);
@@ -405,20 +363,6 @@
                         camera.updateProjectionMatrix();
                         renderer.setSize(window.innerWidth, window.innerHeight);
                     });
-
-                    const userCountEl = document.getElementById('user-count');
-                    function updateUserCount() {
-                        if (!userCountEl) return;
-                        fetch('/api/active-users')
-                            .then(r => r.json())
-                            .then(d => {
-                                userCountEl.textContent = `${d.count || 100} peeps online right now 🔥`;
-                            })
-                            .catch(() => {});
-                    }
-
-                    updateUserCount();
-
                 })
                 .catch(err => console.error('Three.js background init failed:', err));
         });
@@ -427,7 +371,6 @@
     <script>
         const yearEl = document.getElementById('year');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
-
         document.addEventListener("contextmenu", e => e.preventDefault());
     </script>
 
@@ -437,12 +380,8 @@
                 if (!response.ok) throw new Error('Popup file not found');
                 return response.text();
             })
-            .then(html => {
-                document.body.insertAdjacentHTML('beforeend', html);
-            })
-            .catch(err => {
-                console.error('Could not load popup:', err);
-            });
+            .then(html => document.body.insertAdjacentHTML('beforeend', html))
+            .catch(err => console.error('Could not load popup:', err));
     </script>
 
 <button class="modal-trigger glass" aria-label="Open login form">
@@ -457,231 +396,40 @@
         <button class="close-modal" aria-label="Close">&times;</button>
         <h3>Login to PooStudio</h3>
         <p>Access exclusive features and content from the depths up.</p>
-
         <form id="login-form" action="/login" method="POST" novalidate>
-            <input
-                type="email"
-                name="email"
-                placeholder="you@example.com"
-                required
-                autocomplete="email"
-                aria-label="Your email address"
-            >
+            <input type="email" name="email" placeholder="you@example.com" required autocomplete="email" aria-label="Your email address">
             <div class="error-message" id="email-error" role="alert"></div>
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                autocomplete="current-password"
-                aria-label="Your password"
-            >
+            <input type="password" name="password" placeholder="Password" required autocomplete="current-password" aria-label="Your password">
             <div class="error-message" id="password-error" role="alert"></div>
-
             <button type="submit">Login</button>
         </form>
-
-        <p class="privacy-small">
-            Don't have an account? <a href="Singup.html">Sign up</a>
-        </p>
+        <p class="privacy-small">Don't have an account? <a href="Singup.html">Sign up</a></p>
     </div>
 </div>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap');
-
-    #login-modal {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.8);
-        backdrop-filter: blur(16px);
-        z-index: 1000;
-        font-family: 'Helvetica Neue', sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.4s ease;
-    }
-
-    #login-modal.open {
-        opacity: 1;
-        pointer-events: all;
-    }
-
-    .modal-trigger {
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #00bfff, #00ff7f);
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.4s ease;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 999;
-    }
-
-    .modal-trigger:hover {
-        transform: scale(1.1);
-        box-shadow: 0 12px 35px rgba(0, 191, 255, 0.6);
-    }
-
-    .login-panel {
-        position: relative;
-        width: 360px;
-        max-width: 90vw;
-        background-color: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(127, 255, 212, 0.2);
-    }
-
-    .login-panel h3 {
-        font-family: 'Helvetica Neue', sans-serif;
-        font-size: 1.6em;
-        color: #ffffff;
-        margin: 0 0 12px 0;
-        text-align: center;
-        font-weight: 300;
-    }
-
-    .login-panel > p {
-        font-size: 0.95em;
-        color: #dddddd;
-        margin-bottom: 24px;
-        line-height: 1.5;
-        text-align: center;
-    }
-
-    .login-panel input[type="email"],
-    .login-panel input[type="password"] {
-        width: 100%;
-        padding: 14px 18px;
-        background-color: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 8px;
-        color: #e0e0e0;
-        font-size: 1em;
-        margin-bottom: 8px;
-        transition: all 0.3s ease;
-        box-sizing: border-box;
-    }
-
-    .login-panel input[type="email"]:focus,
-    .login-panel input[type="password"]:focus {
-        outline: none;
-        border-color: #7fffd4;
-        box-shadow: 0 0 0 3px rgba(127, 255, 212, 0.25);
-    }
-
-    .login-panel input[type="email"].invalid,
-    .login-panel input[type="password"].invalid {
-        border-color: #ff4444;
-        box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
-    }
-
-    .error-message {
-        color: #ff6666;
-        font-size: 0.85em;
-        min-height: 20px;
-        margin-bottom: 12px;
-        text-align: left;
-    }
-
-    .login-panel button[type="submit"] {
-        width: 100%;
-        background: linear-gradient(90deg, #00bfff, #00ff7f);
-        color: #fff;
-        padding: 14px;
-        border: none;
-        border-radius: 50px;
-        font-weight: 400;
-        font-size: 1em;
-        cursor: pointer;
-        transition: all 0.4s ease;
-        box-shadow: 0 4px 15px rgba(127, 255, 212, 0.4);
-    }
-
-    .login-panel button[type="submit"]:hover:not(:disabled) {
-        background: linear-gradient(90deg, #7fffd4, #00bfff);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(127, 255, 212, 0.6);
-    }
-
-    .login-panel button[type="submit"]:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .close-modal {
-        position: absolute;
-        top: 12px;
-        right: 16px;
-        background: none;
-        border: none;
-        color: #aaa;
-        font-size: 1.8em;
-        cursor: pointer;
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-    }
-
-    .close-modal:hover {
-        background: rgba(239, 68, 68, 0.2);
-        color: #ff4444;
-    }
-
-    .privacy-small {
-        font-size: 0.8em;
-        color: #aaa;
-        margin-top: 20px;
-        text-align: center;
-    }
-
-    .privacy-small a {
-        color: #7fffd4;
-        text-decoration: none;
-    }
-
-    .privacy-small a:hover {
-        color: #ffffff;
-        text-decoration: underline;
-    }
-
-    @media (max-width: 480px) {
-        .login-panel {
-            width: 320px;
-            padding: 24px;
-        }
-    }
-
-    @media (max-width: 400px) {
-        .modal-trigger {
-            bottom: 20px;
-            right: 20px;
-        }
-
-        .login-panel {
-            width: 280px;
-            padding: 20px;
-        }
-    }
+    #login-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(16px); z-index: 1000; font-family: 'Helvetica Neue', sans-serif; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    #login-modal.open { opacity: 1; pointer-events: all; }
+    .modal-trigger { width: 60px; height: 60px; background: linear-gradient(135deg, #00bfff, #00ff7f); color: #fff; border: none; border-radius: 50%; box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.4s ease; position: fixed; bottom: 30px; right: 30px; z-index: 999; }
+    .modal-trigger:hover { transform: scale(1.1); box-shadow: 0 12px 35px rgba(0, 191, 255, 0.6); }
+    .login-panel { position: relative; width: 360px; max-width: 90vw; background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 30px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(127, 255, 212, 0.2); }
+    .login-panel h3 { font-family: 'Helvetica Neue', sans-serif; font-size: 1.6em; color: #ffffff; margin: 0 0 12px 0; text-align: center; font-weight: 300; }
+    .login-panel > p { font-size: 0.95em; color: #dddddd; margin-bottom: 24px; line-height: 1.5; text-align: center; }
+    .login-panel input[type="email"], .login-panel input[type="password"] { width: 100%; padding: 14px 18px; background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #e0e0e0; font-size: 1em; margin-bottom: 8px; transition: all 0.3s ease; box-sizing: border-box; }
+    .login-panel input[type="email"]:focus, .login-panel input[type="password"]:focus { outline: none; border-color: #7fffd4; box-shadow: 0 0 0 3px rgba(127, 255, 212, 0.25); }
+    .login-panel input[type="email"].invalid, .login-panel input[type="password"].invalid { border-color: #ff4444; box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2); }
+    .error-message { color: #ff6666; font-size: 0.85em; min-height: 20px; margin-bottom: 12px; text-align: left; }
+    .login-panel button[type="submit"] { width: 100%; background: linear-gradient(90deg, #00bfff, #00ff7f); color: #fff; padding: 14px; border: none; border-radius: 50px; font-weight: 400; font-size: 1em; cursor: pointer; transition: all 0.4s ease; box-shadow: 0 4px 15px rgba(127, 255, 212, 0.4); }
+    .login-panel button[type="submit"]:hover:not(:disabled) { background: linear-gradient(90deg, #7fffd4, #00bfff); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(127, 255, 212, 0.6); }
+    .login-panel button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .close-modal { position: absolute; top: 12px; right: 16px; background: none; border: none; color: #aaa; font-size: 1.8em; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s ease; }
+    .close-modal:hover { background: rgba(239, 68, 68, 0.2); color: #ff4444; }
+    .privacy-small { font-size: 0.8em; color: #aaa; margin-top: 20px; text-align: center; }
+    .privacy-small a { color: #7fffd4; text-decoration: none; }
+    .privacy-small a:hover { color: #ffffff; text-decoration: underline; }
+    @media (max-width: 480px) { .login-panel { width: 320px; padding: 24px; } }
+    @media (max-width: 400px) { .modal-trigger { bottom: 20px; right: 20px; } .login-panel { width: 280px; padding: 20px; } }
 </style>
 
 <script>
@@ -700,40 +448,23 @@
 
         function validateEmail() {
             const value = emailInput.value.trim();
-            if (value === '') {
-                showError('Email is required.', emailError, emailInput);
-                return false;
-            } else if (!emailRegex.test(value)) {
-                showError('Please enter a valid email address.', emailError, emailInput);
-                return false;
-            } else {
-                clearError(emailError, emailInput);
-                return true;
-            }
+            if (value === '') { showError('Email is required.', emailError, emailInput); return false; }
+            if (!emailRegex.test(value)) { showError('Please enter a valid email address.', emailError, emailInput); return false; }
+            clearError(emailError, emailInput); return true;
         }
 
         function validatePassword() {
             const value = passwordInput.value;
-            if (value === '') {
-                showError('Password is required.', passwordError, passwordInput);
-                return false;
-            } else if (value.length < 6) {
-                showError('Password must be at least 6 characters.', passwordError, passwordInput);
-                return false;
-            } else {
-                clearError(passwordError, passwordInput);
-                return true;
-            }
+            if (value === '') { showError('Password is required.', passwordError, passwordInput); return false; }
+            if (value.length < 6) { showError('Password must be at least 6 characters.', passwordError, passwordInput); return false; }
+            clearError(passwordError, passwordInput); return true;
         }
 
         function showError(message, errorEl, inputEl) {
-            errorEl.textContent = message;
-            inputEl.classList.add('invalid');
+            errorEl.textContent = message; inputEl.classList.add('invalid');
         }
-
         function clearError(errorEl, inputEl) {
-            errorEl.textContent = '';
-            inputEl.classList.remove('invalid');
+            errorEl.textContent = ''; inputEl.classList.remove('invalid');
         }
 
         function updateSubmitButton() {
@@ -744,27 +475,13 @@
         passwordInput.addEventListener('input', updateSubmitButton);
 
         form.addEventListener('submit', (e) => {
-            if (!validateEmail() || !validatePassword()) {
-                e.preventDefault();
-            }
+            if (!validateEmail() || !validatePassword()) e.preventDefault();
         });
 
-        trigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            modal.classList.add('open');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.querySelector('.login-panel').addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
+        trigger.addEventListener('click', (e) => { e.stopPropagation(); modal.classList.add('open'); });
+        closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+        modal.addEventListener('click', () => modal.classList.remove('open'));
+        modal.querySelector('.login-panel').addEventListener('click', (e) => e.stopPropagation());
 
         setTimeout(() => modal.classList.add('open'), 8000);
     });
