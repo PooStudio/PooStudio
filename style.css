@@ -2,19 +2,22 @@
   --aero-blue: #00bfff;
   --aero-green: #00ff7f;
   --aero-aqua: #7fffd4;
-  --aero-white: rgba(255,255,255,0.8);
+  --aero-white: rgba(255,255,255,0.9);
   --y2k-cyan: #00ffff;
   --y2k-purple: #9370db;
-  --medieval-dark: #2c1a0e; /* Added for medieval grit */
-  --medieval-gold: #d4af37; /* Gold accents for medieval feel */
-  --medieval-red: #8b0000; /* Dark red for unhinged madness */
+  --y2k-magenta: #ff00ff;
+  --y2k-lime: #39ff14;
+  --y2k-hotpink: #ff1493;
+  --medieval-dark: #2c1a0e;
+  --medieval-gold: #d4af37;
+  --medieval-red: #8b0000;
 
-  --glow-soft: 0 0 8px rgba(127,255,212,0.4);
-  --glow-med: 0 0 16px rgba(127,255,212,0.6);
-  --glow-strong: 0 0 32px rgba(127,255,212,0.8);
+  --glow-soft: 0 0 10px var(--y2k-cyan), 0 0 20px var(--y2k-purple);
+  --glow-med: 0 0 20px var(--y2k-cyan), 0 0 40px var(--y2k-magenta);
+  --glow-strong: 0 0 40px var(--y2k-cyan), 0 0 60px var(--y2k-lime);
 
-  --glass-bg: rgba(255,255,255,0.1);
-  --glass-blur: blur(10px);
+  --glass-bg: rgba(255,255,255,0.08);
+  --glass-blur: blur(12px);
 }
 
 * {
@@ -25,7 +28,7 @@
 
 html, body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #000033, #003366);
+  background: linear-gradient(135deg, #0a0026, #00334d, #33001a);
   color: #fff;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   overflow-x: hidden;
@@ -63,10 +66,10 @@ html {
   transition: filter 0.8s ease-out, opacity 0.8s ease;
 }
 
-#three-container { z-index: 1; background: radial-gradient(circle, rgba(0,191,255,0.1), transparent); }
+#three-container { z-index: 1; background: radial-gradient(circle, rgba(0,255,255,0.12), transparent); }
 #noise, #particles, #starsContainer {
   z-index: 2;
-  opacity: 0.15;
+  opacity: 0.18;
   mix-blend-mode: screen;
 }
 
@@ -75,12 +78,12 @@ html.scrolled #noise,
 html.scrolled #particles,
 html.scrolled #starsContainer {
   filter: blur(2px);
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
 .glitch {
   position: relative;
-  animation: glitchAnim 3s infinite linear alternate-reverse;
+  animation: glitchAnim 2.8s infinite linear alternate-reverse;
 }
 
 .glitch::before,
@@ -98,21 +101,21 @@ html.scrolled #starsContainer {
 .glitch::before {
   left: 1px;
   text-shadow: -1px 0 var(--y2k-purple);
-  animation: glitchAnimBefore 4s infinite linear alternate-reverse;
+  animation: glitchAnimBefore 3.5s infinite linear alternate-reverse;
 }
 
 .glitch::after {
   left: -1px;
-  text-shadow: -1px 0 var(--y2k-cyan), 1px 1px var(--y2k-purple);
-  animation: glitchAnimAfter 3s infinite linear alternate-reverse;
+  text-shadow: -1px 0 var(--y2k-cyan), 1px 1px var(--y2k-magenta);
+  animation: glitchAnimAfter 2.5s infinite linear alternate-reverse;
 }
 
 @keyframes glitchAnim {
   0% { transform: translate(0); }
-  20% { transform: translate(-1px, 1px); }
-  40% { transform: translate(-1px, -1px); }
-  60% { transform: translate(1px, 1px); }
-  80% { transform: translate(1px, -1px); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
   100% { transform: translate(0); }
 }
 
@@ -133,10 +136,10 @@ html.scrolled #starsContainer {
 .scanlines {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.03) 1px);
+  background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.04) 1px);
   pointer-events: none;
-  animation: scanlineMove 8s linear infinite;
-  opacity: 0.5;
+  animation: scanlineMove 6s linear infinite;
+  opacity: 0.6;
   mix-blend-mode: overlay;
 }
 
@@ -150,36 +153,37 @@ html.scrolled #starsContainer {
   inset: 0;
   mix-blend-mode: screen;
   pointer-events: none;
-  opacity: 0.05;
-  animation: glitchOverlay 2s infinite;
+  opacity: 0.06;
+  animation: glitchOverlay 1.8s infinite;
 }
 
 @keyframes glitchOverlay {
   0%, 100% { opacity: 0; }
-  50% { opacity: 0.05; }
+  50% { opacity: 0.06; }
 }
 
 .glass {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.25);
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.15);
 }
 
 .aero-glow {
   text-shadow: var(--glow-soft);
-  animation: aeroPulse 4s ease-in-out infinite alternate;
+  animation: aeroPulse 2.4s ease-in-out infinite alternate;
 }
 
 @keyframes aeroPulse {
   from {
-    text-shadow: 0 0 4px var(--aero-aqua),
-                 0 0 8px var(--aero-aqua);
+    text-shadow: 0 0 6px var(--y2k-cyan),
+                 0 0 14px var(--y2k-purple);
   }
   to {
-    text-shadow: 0 0 8px var(--aero-aqua),
-                 0 0 16px var(--aero-blue);
+    text-shadow: 0 0 14px var(--y2k-magenta),
+                 0 0 28px var(--y2k-cyan),
+                 0 0 42px var(--y2k-hotpink);
   }
 }
 
@@ -199,7 +203,7 @@ header {
   z-index: 20;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 
 .logo img { 
@@ -233,10 +237,10 @@ nav a {
 a:hover,
 nav a:hover {
   color: var(--y2k-cyan);
-  background: rgba(127,255,212,0.1);
+  background: rgba(57,255,20,0.1);
   transform: translateY(-2px);
   box-shadow: var(--glow-med);
-  animation: glitchAnim 0.5s steps(5) infinite;
+  animation: glitchAnim 0.4s steps(5) infinite;
 }
 
 .hero-text {
@@ -250,7 +254,7 @@ nav a:hover {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: 32px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25); 
 }
 
 h1,
@@ -259,10 +263,12 @@ h1,
   font-weight: 300;
   font-size: clamp(3.5rem, 14vw, 9rem); 
   letter-spacing: 0.02em;
-  color: #fff;
   line-height: 1;
+  background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-purple), var(--y2k-magenta), var(--y2k-lime));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-shadow: var(--glow-med);
-  animation: aeroPulse 5s ease-in-out infinite alternate, glitchAnim 6s infinite linear alternate-reverse;
+  animation: aeroPulse 2.4s ease-in-out infinite alternate, glitchAnim 5s infinite linear alternate-reverse;
 }
 
 .text-left,
@@ -270,9 +276,9 @@ h1,
   font-size: 1.4rem; 
   line-height: 1.8;
   max-width: 480px; 
-  color: var(--aero-white);
+  color: var(--y2k-cyan);
+  text-shadow: 0 0 12px var(--y2k-purple), var(--glow-soft);
   animation: fadeIn 1.5s ease-out;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3); 
 }
 
 @keyframes fadeIn {
@@ -296,16 +302,17 @@ h1,
 
 .accent {
   display: block;
-  color: var(--medieval-gold); 
+  color: var(--y2k-lime); 
   font-size: 1.8rem; 
   margin-bottom: 20px;
   font-weight: 500;
   letter-spacing: 0.15em;
+  text-shadow: var(--glow-soft);
 }
 
 .accent::before { 
   content: '⚔ '; 
-  color: var(--medieval-red); 
+  color: var(--y2k-hotpink); 
 }
 
 .scroll-indicator {
@@ -314,20 +321,20 @@ h1,
   left: 50%;
   transform: translateX(-50%);
   letter-spacing: 0.2rem;
-  opacity: 0.8;
-  color: var(--aero-white);
-  animation: subtlePulse 2s infinite;
+  opacity: 0.9;
+  color: var(--y2k-cyan);
+  animation: subtlePulse 1.8s infinite;
 }
 
 @keyframes subtlePulse {
-  0%, 100% { opacity: 0.8; }
+  0%, 100% { opacity: 0.9; }
   50% { opacity: 1; }
 }
 
 .circle {
   width: 24px;
   height: 24px;
-  border: 2px solid var(--aero-aqua);
+  border: 2px solid var(--y2k-lime);
   border-radius: 50%;
   margin: 30px auto 0;
   animation: subtleBounce 1.5s infinite ease-in-out;
@@ -342,7 +349,7 @@ main {
   position: relative;
   z-index: 15;
   padding: 100px 40px;
-  background: linear-gradient(to bottom, rgba(0,51,102,0.3), rgba(44,26,14,0.2)); /* Blend cyber with medieval dark */
+  background: linear-gradient(to bottom, rgba(10,0,38,0.4), rgba(51,0,26,0.3));
 }
 
 section {
@@ -352,7 +359,7 @@ section {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3); /* Enhanced shadow */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
 }
 
 section h2 {
@@ -360,13 +367,13 @@ section h2 {
   margin-bottom: 40px;
   color: var(--y2k-cyan);
   font-weight: 300;
-  animation: glitchAnim 5s infinite linear alternate-reverse;
+  animation: glitchAnim 4s infinite linear alternate-reverse;
   text-shadow: var(--glow-soft);
 }
 
 .site-footer {
   padding: 80px 40px;
-  background: linear-gradient(to top, #000033, transparent);
+  background: linear-gradient(to top, #0a0026, transparent);
   position: relative;
   z-index: 15;
 }
@@ -388,7 +395,7 @@ section h2 {
   font-weight: 300;
   letter-spacing: 0.15rem;
   text-shadow: var(--glow-med);
-  animation: aeroPulse 3s ease-in-out infinite alternate;
+  animation: aeroPulse 2.4s ease-in-out infinite alternate;
   font-size: 2rem; 
 }
 
@@ -402,7 +409,7 @@ section h2 {
 #loading-screen {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #000033, #003366);
+  background: linear-gradient(135deg, #0a0026, #00334d);
   z-index: 99999;
   display: flex;
   align-items: center;
@@ -427,10 +434,10 @@ section h2 {
 
 .loading-title {
   font-family: 'Helvetica Neue', sans-serif;
-  color: var(--aero-aqua);
+  color: var(--y2k-magenta);
   text-shadow: var(--glow-strong);
   font-weight: 300;
-  animation: glitchAnim 4s infinite linear alternate-reverse;
+  animation: glitchAnim 3.2s infinite linear alternate-reverse;
 }
 
 .loading-text {
@@ -448,7 +455,7 @@ section h2 {
 
 .loading-progress {
   height: 100%;
-  background: linear-gradient(90deg, var(--aero-blue), var(--y2k-cyan));
+  background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-lime));
   border-radius: 2px;
   transition: width 0.3s ease;
 }
@@ -462,7 +469,7 @@ section h2 {
 .retry-button {
   display: none;
   padding: 10px 20px;
-  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
+  background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-lime));
   color: #fff;
   border: none;
   border-radius: 24px;
