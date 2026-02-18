@@ -5,6 +5,9 @@
   --aero-white: rgba(255,255,255,0.8);
   --y2k-cyan: #00ffff;
   --y2k-purple: #9370db;
+  --medieval-dark: #2c1a0e; /* Added for medieval grit */
+  --medieval-gold: #d4af37; /* Gold accents for medieval feel */
+  --medieval-red: #8b0000; /* Dark red for unhinged madness */
 
   --glow-soft: 0 0 8px rgba(127,255,212,0.4);
   --glow-med: 0 0 16px rgba(127,255,212,0.6);
@@ -190,14 +193,24 @@ html.scrolled #starsContainer {
 header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 40px;
   pointer-events: auto;
   z-index: 20;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.logo img { height: 50px; filter: drop-shadow(var(--glow-soft)); }
+.logo img { 
+  height: 60px;
+  filter: drop-shadow(var(--glow-med)); 
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.1);
+}
 
 nav ul {
   display: flex;
@@ -233,31 +246,33 @@ nav a:hover {
   width: 90%;
   max-width: 1600px;
   text-align: center;
-  padding: 40px;
+  padding: 60px; 
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: 32px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
 }
 
 h1,
 #hero-title {
   font-family: 'Helvetica Neue', sans-serif;
   font-weight: 300;
-  font-size: clamp(2.8rem, 14vw, 8rem);
+  font-size: clamp(3.5rem, 14vw, 9rem); 
   letter-spacing: 0.02em;
   color: #fff;
   line-height: 1;
-  text-shadow: var(--glow-soft);
+  text-shadow: var(--glow-med);
   animation: aeroPulse 5s ease-in-out infinite alternate, glitchAnim 6s infinite linear alternate-reverse;
 }
 
 .text-left,
 .text-right {
-  font-size: 1.3rem;
-  line-height: 1.7;
-  max-width: 420px;
+  font-size: 1.4rem; 
+  line-height: 1.8;
+  max-width: 480px; 
   color: var(--aero-white);
   animation: fadeIn 1.5s ease-out;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3); 
 }
 
 @keyframes fadeIn {
@@ -281,13 +296,17 @@ h1,
 
 .accent {
   display: block;
-  color: var(--aero-green);
-  font-size: 1.6rem;
+  color: var(--medieval-gold); 
+  font-size: 1.8rem; 
   margin-bottom: 20px;
   font-weight: 500;
+  letter-spacing: 0.15em;
 }
 
-.accent::before { content: '○ '; color: var(--y2k-cyan); }
+.accent::before { 
+  content: '⚔ '; 
+  color: var(--medieval-red); 
+}
 
 .scroll-indicator {
   position: absolute;
@@ -323,7 +342,7 @@ main {
   position: relative;
   z-index: 15;
   padding: 100px 40px;
-  background: rgba(0,51,102,0.3);
+  background: linear-gradient(to bottom, rgba(0,51,102,0.3), rgba(44,26,14,0.2)); /* Blend cyber with medieval dark */
 }
 
 section {
@@ -333,6 +352,7 @@ section {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3); /* Enhanced shadow */
 }
 
 section h2 {
@@ -341,6 +361,7 @@ section h2 {
   color: var(--y2k-cyan);
   font-weight: 300;
   animation: glitchAnim 5s infinite linear alternate-reverse;
+  text-shadow: var(--glow-soft);
 }
 
 .site-footer {
@@ -368,6 +389,7 @@ section h2 {
   letter-spacing: 0.15rem;
   text-shadow: var(--glow-med);
   animation: aeroPulse 3s ease-in-out infinite alternate;
+  font-size: 2rem; 
 }
 
 .footer-copy {
@@ -473,11 +495,22 @@ section h2 {
     transform: none;
     max-width: 90%;
     text-align: center;
+    margin: 20px auto; 
   }
 
   nav ul {
     gap: 20px;
     font-size: 0.9rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-text {
+    padding: 40px;
+  }
+
+  section {
+    padding: 40px;
   }
 }
 

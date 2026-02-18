@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PooStudio:Unhinged Creative Power." />
+    <meta name="description" content="PooStudio: Unhinged Creative Power. Blending dark medieval grit with absurd modern madness." />
     <meta name="theme-color" content="#000000" />
     <title>PooStudio</title>
     <link rel="icon" href="logo.png" type="image/png" />
@@ -20,15 +20,15 @@
 
         <h1 class="loading-title aero-glow glitch" data-text="POOSTUDIO">POOSTUDIO</h1>
 
-        <p class="loading-text">Loading Home...</p>
+        <p class="loading-text">Summoning the Chaos...</p> 
 
         <div class="loading-bar">
             <div class="loading-progress"></div>
         </div>
 
         <p class="error-message" id="error-message">
-            No Signal.<br>
-            <span id="retry-text">Reconnecting to Home...</span>
+            Signal Lost in the Depths.<br>
+            <span id="retry-text">Reconnecting to the Abyss...</span>
         </p>
 
         <button id="retry-btn" class="retry-button glass">RETRY MANUALLY</button>
@@ -47,11 +47,16 @@
 
         <div id="overlay">
             <header class="glass">
-                <div>
-                
+                <div class="logo">
+                    <img src="logo.png" alt="PooStudio Logo">
                 </div>
                 <nav aria-label="Primary navigation">
                     <ul>
+                        <li><a href="#home">HOME</a></li>
+                        <li><a href="#about">ABOUT</a></li>
+                        <li><a href="#services">SERVICES</a></li>
+                        <li><a href="#portfolio">PORTFOLIO</a></li>
+                        <li><a href="#contact">CONTACT</a></li>
                         <li><a href="https://discord.gg/6nF9ABgJxW" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
                     </ul>
                 </nav>
@@ -59,35 +64,78 @@
 
             <section id="home" class="hero-text glass" aria-labelledby="hero-title">
                 <div class="text-left">
-                    <span class="accent">○ WE ARE</span>
+                    <span class="accent">WE ARE</span>
                     <p>
-                        a pioneer in chaotic creation<br>
-                        blending dark medieval grit<br>
-                        with absurd modern madness <br>
-                        powerful, fast, and<br>
-                        unhinged.
+                        Pioneers of unbridled chaos, forging digital realms where dark medieval grit collides with absurd modern madness. We craft experiences that are raw, powerful, lightning-fast, and utterly unhinged—unleashing creativity without chains.
                     </p>
                 </div>
 
                 <h1 class="Logo aero-glow glitch" id="hero-title" data-text="POOSTUDIO">POOSTUDIO</h1>
 
                 <div class="text-right">
-                    <span class="accent">○ WE ARE</span>
+                    <span class="accent">WE ARE</span>
                     <p>
-                        building the world's next <br>
-                        generation creative platform<br>
-                        from the depths up.
+                        Architects of the next-generation creative empire, rising from the shadowy depths to redefine innovation. Our platform empowers visionaries to build, disrupt, and dominate with tools born from pure, unfiltered genius.
                     </p>
                 </div>
 
                 <div class="scroll-indicator" aria-hidden="true">
-                    SCROLL
+                    DESCEND
                     <div class="circle"></div>
                 </div>
             </section>
         </div>
 
-        <main></main>
+        <main>
+            <section id="about">
+                <h2 class="glitch" data-text="ABOUT US">ABOUT US</h2>
+                <p>
+                    PooStudio is more than a creative hub—it's a rebellion against the ordinary. Founded in the fires of imagination, we blend ancient mystique with cutting-edge tech to deliver projects that captivate, challenge, and conquer. Our team of mad geniuses thrives on the edge, turning wild ideas into reality.
+                </p>
+            </section>
+
+            <section id="services">
+                <h2 class="glitch" data-text="OUR SERVICES">OUR SERVICES</h2>
+                <ul>
+                    <li>Custom Digital Design & Development</li>
+                    <li>Interactive Experiences & Games</li>
+                    <li>Branding with a Chaotic Twist</li>
+                    <li>AI-Powered Creative Tools</li>
+                    <li>Consulting for Unhinged Innovation</li>
+                </ul>
+            </section>
+
+            <section id="portfolio">
+                <h2 class="glitch" data-text="PORTFOLIO">PORTFOLIO</h2>
+                <p>
+                    Explore our gallery of masterpieces. From glitchy medieval worlds to futuristic absurdities, each project showcases our unhinged prowess. (Add image placeholders or links here in production.)
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="glass" style="padding: 20px; text-align: center;">
+                        <h3>Project 1: Chaos Realm</h3>
+                        <p>A dark, interactive medieval simulator with modern twists.</p>
+                    </div>
+                    <div class="glass" style="padding: 20px; text-align: center;">
+                        <h3>Project 2: Absurd Engine</h3>
+                        <p>AI-driven tool for generating unhinged art.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact">
+                <h2 class="glitch" data-text="CONTACT US">CONTACT US</h2>
+                <p>
+                    Ready to unleash the madness? Reach out via email at contact@poostudio.com or join our Discord for real-time chaos.
+                </p>
+                <!-- Simple contact form placeholder -->
+                <form style="max-width: 600px; margin: auto;">
+                    <input type="text" placeholder="Your Name" style="width: 100%; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white;">
+                    <input type="email" placeholder="Your Email" style="width: 100%; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white;">
+                    <textarea placeholder="Your Message" style="width: 100%; height: 150px; margin-bottom: 10px; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white;"></textarea>
+                    <button type="submit" style="padding: 10px 20px; background: linear-gradient(90deg, var(--aero-blue), var(--aero-green)); border: none; border-radius: 24px; color: white; cursor: pointer;">Send</button>
+                </form>
+            </section>
+        </main>
 
 
 <footer class="site-footer">
@@ -95,7 +143,7 @@
     <div class="footer-brand">
       <span class="footer-logo aero-glow glitch" data-text="POOSTUDIO">POOSTUDIO</span>
       <p class="footer-copy">
-        © <span id="year"></span> PooStudio. All rights reserved.
+        © <span id="year"></span> PooStudio. All rights reserved. Forged in chaos.
       </p>
     </div>
 
@@ -416,73 +464,4 @@
             if (value === '') {
                 showError('Email is required.', emailError, emailInput);
                 return false;
-            } else if (!emailRegex.test(value)) {
-                showError('Please enter a valid email address.', emailError, emailInput);
-                return false;
-            } else {
-                clearError(emailError, emailInput);
-                return true;
-            }
-        }
-
-        function validatePassword() {
-            const value = passwordInput.value;
-            if (value === '') {
-                showError('Password is required.', passwordError, passwordInput);
-                return false;
-            } else if (value.length < 6) {
-                showError('Password must be at least 6 characters.', passwordError, passwordInput);
-                return false;
-            } else {
-                clearError(passwordError, passwordInput);
-                return true;
-            }
-        }
-
-        function showError(message, errorEl, inputEl) {
-            errorEl.textContent = message;
-            inputEl.classList.add('invalid');
-        }
-
-        function clearError(errorEl, inputEl) {
-            errorEl.textContent = '';
-            inputEl.classList.remove('invalid');
-        }
-
-        function updateSubmitButton() {
-            submitBtn.disabled = !(validateEmail() && validatePassword());
-        }
-
-        emailInput.addEventListener('input', updateSubmitButton);
-        passwordInput.addEventListener('input', updateSubmitButton);
-
-        form.addEventListener('submit', (e) => {
-            if (!validateEmail() || !validatePassword()) {
-                e.preventDefault();
-            }
-            // If valid, the form will submit to /login (assume backend handles authentication)
-        });
-
-        trigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            modal.classList.add('open');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.querySelector('.login-panel').addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-
-        setTimeout(() => modal.classList.add('open'), 8000);
-    });
-</script>
-
-</body>
-</html>
+            } else if (!emailRegex.test
