@@ -39,6 +39,7 @@ window.addEventListener("load", () => {
 
             document.body.appendChild(renderer.domElement);
 
+            // ===== FLOATING NODE CLOUD =====
             const NODE_COUNT = isMobile ? 1800 : 3200;
             const positions = new Float32Array(NODE_COUNT * 3);
             const basePositions = new Float32Array(NODE_COUNT * 3);
@@ -71,6 +72,7 @@ window.addEventListener("load", () => {
             const nodes = new THREE.Points(nodeGeo, nodeMat);
             scene.add(nodes);
 
+            // ===== SHOOTING STARS =====
             const STAR_COUNT = isMobile ? 12 : 20;
             const stars = [];
 
@@ -105,6 +107,7 @@ window.addEventListener("load", () => {
                 stars.push(star);
             }
 
+            // ===== ANIMATION =====
             let frame = 0;
 
             function animate(t) {
@@ -126,6 +129,7 @@ window.addEventListener("load", () => {
                 }
                 nodeGeo.attributes.position.needsUpdate = true;
 
+                // ⭐ Shooting star motion
                 stars.forEach(star => {
                     star.position.add(star.userData.velocity);
 
