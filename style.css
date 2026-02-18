@@ -11,6 +11,7 @@
   --medieval-dark: #2c1a0e;
   --medieval-gold: #d4af37;
   --medieval-red: #8b0000;
+  --header-height: 140px;
 
   --glow-soft: 0 0 10px var(--y2k-cyan), 0 0 20px var(--y2k-purple);
   --glow-med: 0 0 20px var(--y2k-cyan), 0 0 40px var(--y2k-magenta);
@@ -572,5 +573,12 @@ section h2 {
   .text-left,
   .text-right {
     font-size: 1.2rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .hero-text {
+    inset: var(--header-height) auto auto 50%;
+    transform: translate(-50%, 0);
   }
 }
