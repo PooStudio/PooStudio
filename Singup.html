@@ -1,69 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>POOSTUDIO ✦ Signup</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="signupcss.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PooStudio: Unhinged Creative Power." />
+    <meta name="theme-color" content="#000000" />
+    <title>PooStudio</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 </head>
-
 <body>
 
-<div id="three-container"></div>
-<div id="noise"></div>
-<div id="particles"></div>
-<div id="starsContainer"></div>
-<div class="scanlines"></div>
-<div class="glitch-overlay"></div>
-
 <div id="loading-screen">
-  <div class="loading-content">
-    <div class="loading-logo glitch" data-text="POOSTUDIO">POOSTUDIO</div>
-    <div class="loading-title glitch" data-text="Preparing Signup">Preparing Signup</div>
-    <p class="loading-text">Loading your portal to the future...</p>
-    <div class="loading-bar">
-      <div class="loading-progress" id="progress"></div>
+    <div class="loading-content">
+
+        <h1 class="loading-title aero-glow glitch" data-text="POOSTUDIO">POOSTUDIO</h1>
+
+        <p class="loading-text">Loading Home...</p>
+
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+
+        <p class="error-message" id="error-message">
+            No Signal.<br>
+            <span id="retry-text">Reconnecting to Home...</span>
+        </p>
+
+        <button id="retry-btn" class="retry-button glass">RETRY MANUALLY</button>
     </div>
-  </div>
+
+    <div class="glitch-overlay"></div>
+    <div class="scanlines"></div>
 </div>
 
-<div class="container" id="container">
-  <h1 class="glow-text">SIGN UP</h1>
-  <p class="subtitle">
-    Create your account to join the community.<br>
-    Secure and easy access to all features.
-  </p>
+    <div id="main-content" style="display:none;">
 
-  <form id="form" action="https://formspree.io/f/mykkgpqq" method="POST">
-    <label>USERNAME</label>
-    <input name="username" required minlength="3" maxlength="20" placeholder="Choose a unique username">
+        <canvas id="noise" aria-hidden="true"></canvas>
+        <div id="particles" aria-hidden="true"></div>
+        <div id="starsContainer" aria-hidden="true"></div>
+        <div id="three-container" aria-hidden="true"></div>
 
-    <label>EMAIL</label>
-    <input type="email" name="email" required placeholder="Enter your email address">
+        <!-- Added floating orbs for cool Y2K Frutiger Aero element -->
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
 
-    <label>PASSWORD</label>
-    <input type="password" name="password" required minlength="8" placeholder="Create a strong password">
+        <div id="overlay">
+            <!-- Removed header -->
 
-    <label>CONFIRM PASSWORD</label>
-    <input type="password" name="confirm_password" required minlength="8" placeholder="Confirm your password">
+            <section id="home" class="hero-text glass" aria-labelledby="hero-title">
+                <div class="text-left">
+                    <span class="accent">O Hi there!</span>
+                    <p>
+                        Welcome to the studio.<br>
+                    </p>
+                </div>
 
-    <button id="submit">CREATE ACCOUNT</button>
-  </form>
-</div>
+                <h1 class="Logo aero-glow glitch" id="hero-title" data-text="POOSTUDIO">POOSTUDIO</h1>
+
+                <div class="text-right">
+                    <span class="accent">O WE ARE</span>
+                    <p>
+                         building the world's next<br>
+                        generation creative platform<br>
+                        from the ground up.
+                    </p>
+                </div>
+
+                <div class="scroll-indicator" aria-hidden="true">
+                    SCROLL
+                    <div class="circle"></div>
+                </div>
+            </section>
+        </div>
+
+        <main>
+            <!-- Added placeholder content to improve main page flow -->
+            <section id="about" aria-labelledby="about-title">
+                <h2 id="about-title" class="aero-glow glitch" data-text="About Us">About Us</h2>
+                <p>
+                    At PooStudio, we're channeling that nostalgic Y2K energy into a futuristic creative hub. Glossy interfaces, glowing elements, and endless possibilities await. Dive into a world where creativity flows like a dream.
+                </p>
+            </section>
+
+            <section id="features" aria-labelledby="features-title">
+                <h2 id="features-title" class="aero-glow glitch" data-text="Features">Features</h2>
+                <p>
+                    Explore glitchy tools, aero-inspired designs, and collaborative spaces that make creation feel effortless and fun.
+                </p>
+            </section>
+        </main>
+
 
 <footer class="site-footer">
-  <div class="footer-inner">
+  <div class="footer-inner glass">
     <div class="footer-brand">
-      <span class="footer-logo glitch" data-text="POOSTUDIO">POOSTUDIO</span>
+      <span class="footer-logo aero-glow glitch" data-text="POOSTUDIO">POOSTUDIO</span>
       <p class="footer-copy">
-        © <span id="year"></span> POOSTUDIO. All rights reserved.
+        © <span id="year"></span> PooStudio. All rights reserved.
       </p>
     </div>
 
     <div class="footer-links">
-      <a href="index.html">Home</a>
       <a href="privacy.html">Privacy</a>
       <a href="terms.html">Terms</a>
     </div>
@@ -74,64 +117,379 @@
   </div>
 </footer>
 
+        <noscript>
+            <div class="noscript-warning" role="status">
+                This site works best with JavaScript enabled.
+            </div>
+        </noscript>
+
+        <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
+            <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: white; padding: 32px; border-radius: 12px; max-width: 640px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 id="tosTitle" style="margin:0; font-family: 'Helvetica Neue', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#00bfff,#00ff7f); background-clip: text; -webkit-background-clip: text; color: transparent;">
+                        Welcome  Please agree to continue
+                    </h2>
+                    <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
+                </div>
+                <p id="tosDesc" style="margin-top:12px; line-height:1.5;">
+                    By using this site, you agree to our <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                </p>
+                <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
+                    <button id="tosDeclineBtn" style="padding:10px 18px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer;">Decline</button>
+                    <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#00bfff,#00ff7f); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree &amp; Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="Three.js" defer></script>
+    <script src="loading.js" defer></script>
+
+    <script>
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        document.addEventListener("contextmenu", e => e.preventDefault());
+    </script>
+
+    <script>
+        fetch('popup.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Popup file not found');
+                return response.text();
+            })
+            .then(html => {
+                document.body.insertAdjacentHTML('beforeend', html);
+            })
+            .catch(err => {
+                console.error('Could not load popup:', err);
+            });
+    </script>
+
+<button class="modal-trigger glass" aria-label="Open login form">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+</button>
+
+<div id="login-modal">
+    <div class="login-panel glass">
+        <button class="close-modal" aria-label="Close">&times;</button>
+        <h3>Login to PooStudio</h3>
+        <p>Access exclusive features and content from the depths up.</p>
+
+        <form id="login-form" action="/login" method="POST" novalidate>
+            <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+                autocomplete="email"
+                aria-label="Your email address"
+            >
+            <div class="error-message" id="email-error" role="alert"></div>
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                autocomplete="current-password"
+                aria-label="Your password"
+            >
+            <div class="error-message" id="password-error" role="alert"></div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p class="privacy-small">
+            Don't have an account? <a href="Singup.html">Sign up</a>
+        </p>
+    </div>
+</div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap');
+
+    #login-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.8);
+        backdrop-filter: blur(16px);
+        z-index: 1000;
+        font-family: 'Helvetica Neue', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+    }
+
+    #login-modal.open {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .modal-trigger {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #00bfff, #00ff7f);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s ease;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 999;
+    }
+
+    .modal-trigger:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 35px rgba(0, 191, 255, 0.6);
+    }
+
+    .login-panel {
+        position: relative;
+        width: 360px;
+        max-width: 90vw;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(127, 255, 212, 0.2);
+    }
+
+    .login-panel h3 {
+        font-family: 'Helvetica Neue', sans-serif;
+        font-size: 1.6em;
+        color: #ffffff;
+        margin: 0 0 12px 0;
+        text-align: center;
+        font-weight: 300;
+    }
+
+    .login-panel > p {
+        font-size: 0.95em;
+        color: #dddddd;
+        margin-bottom: 24px;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    .login-panel input[type="email"],
+    .login-panel input[type="password"] {
+        width: 100%;
+        padding: 14px 18px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 8px;
+        color: #e0e0e0;
+        font-size: 1em;
+        margin-bottom: 8px;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .login-panel input[type="email"]:focus,
+    .login-panel input[type="password"]:focus {
+        outline: none;
+        border-color: #7fffd4;
+        box-shadow: 0 0 0 3px rgba(127, 255, 212, 0.25);
+    }
+
+    .login-panel input[type="email"].invalid,
+    .login-panel input[type="password"].invalid {
+        border-color: #ff4444;
+        box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
+    }
+
+    .error-message {
+        color: #ff6666;
+        font-size: 0.85em;
+        min-height: 20px;
+        margin-bottom: 12px;
+        text-align: left;
+    }
+
+    .login-panel button[type="submit"] {
+        width: 100%;
+        background: linear-gradient(90deg, #00bfff, #00ff7f);
+        color: #fff;
+        padding: 14px;
+        border: none;
+        border-radius: 50px;
+        font-weight: 400;
+        font-size: 1em;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(127, 255, 212, 0.4);
+    }
+
+    .login-panel button[type="submit"]:hover:not(:disabled) {
+        background: linear-gradient(90deg, #7fffd4, #00bfff);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(127, 255, 212, 0.6);
+    }
+
+    .login-panel button[type="submit"]:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .close-modal {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 1.8em;
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .close-modal:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ff4444;
+    }
+
+    .privacy-small {
+        font-size: 0.8em;
+        color: #aaa;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .privacy-small a {
+        color: #7fffd4;
+        text-decoration: none;
+    }
+
+    .privacy-small a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+        .login-panel {
+            width: 320px;
+            padding: 24px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .modal-trigger {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .login-panel {
+            width: 280px;
+            padding: 20px;
+        }
+    }
+</style>
+
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('login-modal');
+        const trigger = document.querySelector('.modal-trigger');
+        const closeBtn = modal.querySelector('.close-modal');
+        const form = modal.querySelector('#login-form');
+        const emailInput = form.querySelector('input[type="email"]');
+        const passwordInput = form.querySelector('input[type="password"]');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+        const submitBtn = form.querySelector('button[type="submit"]');
 
-let p = 0;
-const bar = document.getElementById("progress");
-const loading = document.getElementById("loading-screen");
-const container = document.getElementById("container");
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
 
-const loader = setInterval(() => {
-  p += Math.random() * 15;
-  bar.style.width = Math.min(p,100) + "%";
-  if (p >= 100) {
-    clearInterval(loader);
-    loading.style.display = "none";
-    container.style.display = "block";
-  }
-}, 120);
+        function validateEmail() {
+            const value = emailInput.value.trim();
+            if (value === '') {
+                showError('Email is required.', emailError, emailInput);
+                return false;
+            } else if (!emailRegex.test(value)) {
+                showError('Please enter a valid email address.', emailError, emailInput);
+                return false;
+            } else {
+                clearError(emailError, emailInput);
+                return true;
+            }
+        }
 
-const KEY = "poostudio_signup_time";
-const DAY = 86400000;
-const form = document.getElementById("form");
+        function validatePassword() {
+            const value = passwordInput.value;
+            if (value === '') {
+                showError('Password is required.', passwordError, passwordInput);
+                return false;
+            } else if (value.length < 6) {
+                showError('Password must be at least 6 characters.', passwordError, passwordInput);
+                return false;
+            } else {
+                clearError(passwordError, passwordInput);
+                return true;
+            }
+        }
 
-function lock(ms) {
-  container.innerHTML = `
-    <div class="locked">
-      <h2 class="glow-text">SIGNUP LOCKED</h2>
-      <p>You may only signup once every 24 hours.</p>
-      <div class="timer" id="t"></div>
-      <p>Please try again later.</p>
-      <a href="index.html" class="back-btn">BACK TO HOME</a>
-    </div>`;
-  const t = document.getElementById("t");
-  setInterval(() => {
-    const r = ms - Date.now();
-    if (r <= 0) location.reload();
-    t.textContent =
-      Math.floor(r/3600000) + "h " +
-      Math.floor(r/60000)%60 + "m " +
-      Math.floor(r/1000)%60 + "s";
-  }, 1000);
-}
+        function showError(message, errorEl, inputEl) {
+            errorEl.textContent = message;
+            inputEl.classList.add('invalid');
+        }
 
-const last = localStorage.getItem(KEY);
-if (last && Date.now() - last < DAY) {
-  lock(Number(last) + DAY);
-}
+        function clearError(errorEl, inputEl) {
+            errorEl.textContent = '';
+            inputEl.classList.remove('invalid');
+        }
 
-form.addEventListener("submit", (e) => {
-  const password = form.querySelector('input[name="password"]').value;
-  const confirm = form.querySelector('input[name="confirm_password"]').value;
-  if (password !== confirm) {
-    e.preventDefault();
-    alert("Passwords do not match!");
-    return;
-  }
-  localStorage.setItem(KEY, Date.now());
-});
+        function updateSubmitButton() {
+            submitBtn.disabled = !(validateEmail() && validatePassword());
+        }
+
+        emailInput.addEventListener('input', updateSubmitButton);
+        passwordInput.addEventListener('input', updateSubmitButton);
+
+        form.addEventListener('submit', (e) => {
+            if (!validateEmail() || !validatePassword()) {
+                e.preventDefault();
+            }
+        });
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modal.classList.add('open');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+
+        modal.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+
+        modal.querySelector('.login-panel').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        setTimeout(() => modal.classList.add('open'), 8000);
+    });
 </script>
 
 </body>
+
 </html>

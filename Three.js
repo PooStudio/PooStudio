@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
 
             const scene = new THREE.Scene();
             scene.background = null;
-            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0016);
+            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0012); // Softer fog for dreamier feel
 
             const camera = new THREE.PerspectiveCamera(
                 66,
@@ -63,7 +63,7 @@ window.addEventListener("load", () => {
                 size: isMobile ? 2.2 : 2.8,
                 color: 0xaeefff,
                 transparent: true,
-                opacity: 0.9,
+                opacity: 0.85, // Slightly lower opacity for flow
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
             });
@@ -111,14 +111,14 @@ window.addEventListener("load", () => {
                 requestAnimationFrame(animate);
                 const time = t * 0.001;
 
-                nodes.rotation.y += 0.0004;
-                nodes.rotation.x += 0.00015;
-                nodes.position.y = Math.sin(time * 0.5) * 8;
+                nodes.rotation.y += 0.0003; // Slower rotation for calmer flow
+                nodes.rotation.x += 0.0001;
+                nodes.position.y = Math.sin(time * 0.4) * 10; // Smoother movement
 
                 const pos = nodeGeo.attributes.position.array;
                 for (let i = 0; i < NODE_COUNT; i++) {
                     const i3 = i * 3;
-                    const pulse = Math.sin(time * 1.2 + i * 0.12) * 0.4;
+                    const pulse = Math.sin(time * 1.0 + i * 0.1) * 0.5; // Softer pulse
 
                     pos[i3] = basePositions[i3] + pulse;
                     pos[i3 + 1] = basePositions[i3 + 1] + pulse;
@@ -138,7 +138,7 @@ window.addEventListener("load", () => {
                     }
                 });
 
-                camera.position.y = Math.sin(time * 0.35) * 12;
+                camera.position.y = Math.sin(time * 0.3) * 15; // Smoother camera movement
                 camera.lookAt(0, 0, 0);
 
                 renderer.render(scene, camera);
