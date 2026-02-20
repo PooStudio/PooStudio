@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
 
             const scene = new THREE.Scene();
             scene.background = null;
-            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0012); // Softer fog for dreamier feel
+            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0014); /* Adjusted fog density */
 
             const camera = new THREE.PerspectiveCamera(
                 66,
@@ -60,10 +60,10 @@ window.addEventListener("load", () => {
             nodeGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
 
             const nodeMat = new THREE.PointsMaterial({
-                size: isMobile ? 2.2 : 2.8,
+                size: isMobile ? 2.4 : 3.0, /* Slightly larger particles */
                 color: 0xaeefff,
                 transparent: true,
-                opacity: 0.85, // Slightly lower opacity for flow
+                opacity: 0.92,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
             });
@@ -83,7 +83,7 @@ window.addEventListener("load", () => {
                 const mat = new THREE.LineBasicMaterial({
                     color: 0xffffff,
                     transparent: true,
-                    opacity: 0.9,
+                    opacity: 0.92,
                     blending: THREE.AdditiveBlending
                 });
 
@@ -111,14 +111,14 @@ window.addEventListener("load", () => {
                 requestAnimationFrame(animate);
                 const time = t * 0.001;
 
-                nodes.rotation.y += 0.0003; // Slower rotation for calmer flow
-                nodes.rotation.x += 0.0001;
-                nodes.position.y = Math.sin(time * 0.4) * 10; // Smoother movement
+                nodes.rotation.y += 0.00035; /* Smoother rotation */
+                nodes.rotation.x += 0.00012;
+                nodes.position.y = Math.sin(time * 0.45) * 9; /* Adjusted movement */
 
                 const pos = nodeGeo.attributes.position.array;
                 for (let i = 0; i < NODE_COUNT; i++) {
                     const i3 = i * 3;
-                    const pulse = Math.sin(time * 1.0 + i * 0.1) * 0.5; // Softer pulse
+                    const pulse = Math.sin(time * 1.1 + i * 0.11) * 0.45; /* Softer pulse */
 
                     pos[i3] = basePositions[i3] + pulse;
                     pos[i3 + 1] = basePositions[i3 + 1] + pulse;
@@ -138,7 +138,7 @@ window.addEventListener("load", () => {
                     }
                 });
 
-                camera.position.y = Math.sin(time * 0.3) * 15; // Smoother camera movement
+                camera.position.y = Math.sin(time * 0.32) * 13; /* Smoother camera */
                 camera.lookAt(0, 0, 0);
 
                 renderer.render(scene, camera);
