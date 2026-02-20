@@ -2,7 +2,7 @@
   --aero-blue: #00bfff;
   --aero-green: #00ff7f;
   --aero-aqua: #7fffd4;
-  --aero-white: rgba(255,255,255,0.85); /* Slightly reduced opacity for darker feel */
+  --aero-white: rgba(255,255,255,0.8); /* Further reduced opacity for deeper blend */
   --y2k-cyan: #00ffff;
   --y2k-purple: #9370db;
   --y2k-magenta: #ff00ff;
@@ -13,12 +13,12 @@
   --medieval-red: #8b0000;
   --header-height: 140px;
 
-  --glow-soft: 0 0 8px var(--y2k-cyan), 0 0 16px var(--y2k-purple), 0 0 24px var(--aero-aqua); /* Softened glow */
-  --glow-med: 0 0 16px var(--y2k-cyan), 0 0 32px var(--y2k-magenta), 0 0 40px var(--aero-green);
-  --glow-strong: 0 0 32px var(--y2k-cyan), 0 0 48px var(--y2k-lime), 0 0 56px var(--aero-blue);
+  --glow-soft: 0 0 12px var(--y2k-cyan), 0 0 24px var(--y2k-purple), 0 0 36px var(--aero-aqua); /* Enhanced soft glow for blending */
+  --glow-med: 0 0 24px var(--y2k-cyan), 0 0 48px var(--y2k-magenta), 0 0 60px var(--aero-green);
+  --glow-strong: 0 0 48px var(--y2k-cyan), 0 0 72px var(--y2k-lime), 0 0 84px var(--aero-blue);
 
-  --glass-bg: rgba(10,10,10,0.15); /* Darker glass for modern feel */
-  --glass-blur: blur(16px); /* Slightly increased blur for smoother modern look */
+  --glass-bg: rgba(10,10,10,0.1); /* Even more transparent for seamless blend */
+  --glass-blur: blur(20px); /* Increased blur for no hard lines */
 }
 
 * {
@@ -29,16 +29,16 @@
 
 html, body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #050014, #001f30, #1a000d, #050014); /* Darker tones for modern depth */
+  background: linear-gradient(135deg, #03000e, #001524, #130009, #03000e); /* Deeper, smoother dark tones */
   color: #fff;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   overflow-x: hidden;
-  animation: bgPulse 18s ease-in-out infinite; /* Slower animation for calmer feel */
+  animation: bgPulse 20s ease-in-out infinite; /* Slower for immersive blend */
 }
 
 @keyframes bgPulse {
   0% { background-position: 0% 50%; opacity: 1; }
-  50% { background-position: 100% 50%; opacity: 0.92; }
+  50% { background-position: 100% 50%; opacity: 0.9; }
   100% { background-position: 0% 50%; opacity: 1; }
 }
 
@@ -71,27 +71,28 @@ html {
   inset: 0;
   height: 100vh;
   pointer-events: none;
-  transition: filter 1.2s ease-out, opacity 1.2s ease; /* Slightly smoother transitions */
+  transition: filter 1.5s ease-out, opacity 1.5s ease; /* Smoother, longer transitions */
+  filter: blur(2px); /* Added base blur for blending */
 }
 
-#three-container { z-index: 1; background: radial-gradient(circle, rgba(0,255,255,0.12), transparent 75%); } /* Softer, larger radial */
+#three-container { z-index: 1; background: radial-gradient(circle, rgba(0,255,255,0.1), transparent 80%); } /* Larger, softer radial */
 #noise, #particles, #starsContainer {
   z-index: 2;
-  opacity: 0.18;
-  mix-blend-mode: screen;
+  opacity: 0.15;
+  mix-blend-mode: soft-light; /* Changed to soft-light for better blending */
 }
 
 html.scrolled #three-container,
 html.scrolled #noise,
 html.scrolled #particles,
 html.scrolled #starsContainer {
-  filter: blur(3px);
-  opacity: 0.35;
+  filter: blur(4px);
+  opacity: 0.3;
 }
 
 .glitch {
   position: relative;
-  animation: glitchAnim 3.5s infinite linear alternate-reverse; /* Slightly slower */
+  animation: glitchAnim 4s infinite linear alternate-reverse; /* Slower for subtle effect */
 }
 
 .glitch::before,
@@ -104,26 +105,27 @@ html.scrolled #starsContainer {
   height: 100%;
   background: transparent;
   clip: rect(0, 900px, 0, 0);
+  filter: blur(1px); /* Added blur to soften glitch */
 }
 
 .glitch::before {
   left: 1px;
   text-shadow: -1px 0 var(--y2k-purple);
-  animation: glitchAnimBefore 4.5s infinite linear alternate-reverse; /* Adjusted */
+  animation: glitchAnimBefore 5s infinite linear alternate-reverse;
 }
 
 .glitch::after {
   left: -1px;
   text-shadow: -1px 0 var(--y2k-cyan), 1px 1px var(--y2k-magenta);
-  animation: glitchAnimAfter 3.5s infinite linear alternate-reverse;
+  animation: glitchAnimAfter 4s infinite linear alternate-reverse;
 }
 
 @keyframes glitchAnim {
   0% { transform: translate(0); }
-  20% { transform: translate(-1px, 1px); } /* Reduced intensity for modern feel */
-  40% { transform: translate(-1px, -1px); }
-  60% { transform: translate(1px, 1px); }
-  80% { transform: translate(1px, -1px); }
+  20% { transform: translate(-0.5px, 0.5px); } /* Even softer movement */
+  40% { transform: translate(-0.5px, -0.5px); }
+  60% { transform: translate(0.5px, 0.5px); }
+  80% { transform: translate(0.5px, -0.5px); }
   100% { transform: translate(0); }
 }
 
@@ -144,11 +146,11 @@ html.scrolled #starsContainer {
 .scanlines {
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.02) 1px); /* Even subtler lines */
+  background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.015) 1px); /* Subtler lines */
   pointer-events: none;
-  animation: scanlineMove 6s linear infinite; /* Slightly slower */
-  opacity: 0.5;
-  mix-blend-mode: overlay;
+  animation: scanlineMove 7s linear infinite; /* Slower */
+  opacity: 0.45;
+  mix-blend-mode: soft-light; /* Softer blend */
 }
 
 @keyframes scanlineMove {
@@ -159,39 +161,40 @@ html.scrolled #starsContainer {
 .glitch-overlay {
   position: absolute;
   inset: 0;
-  mix-blend-mode: screen;
+  mix-blend-mode: soft-light;
   pointer-events: none;
-  opacity: 0.06;
-  animation: glitchOverlay 2.5s infinite; /* Adjusted */
+  opacity: 0.05;
+  animation: glitchOverlay 3s infinite;
 }
 
 @keyframes glitchOverlay {
   0%, 100% { opacity: 0; }
-  50% { opacity: 0.06; }
+  50% { opacity: 0.05; }
 }
 
 .glass {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(255,255,255,0.15); /* Softer, darker border */
-  border-radius: 20px; /* Slightly smoother corners */
-  box-shadow: 0 6px 40px rgba(0,0,0,0.15); /* Deeper, softer shadow */
+  border: none; /* Removed border for no hard lines */
+  border-radius: 24px; /* Smoother corners */
+  box-shadow: 0 8px 45px rgba(0,0,0,0.2); /* Softer, spread shadow */
 }
 
 .aero-glow {
   text-shadow: var(--glow-soft);
-  animation: aeroPulse 3s ease-in-out infinite alternate; /* Slower pulse for modern calm */
+  animation: aeroPulse 3.5s ease-in-out infinite alternate; /* Slower pulse */
+  filter: blur(0.5px); /* Subtle text blur for blending */
 }
 
 @keyframes aeroPulse {
   from {
-    text-shadow: 0 0 6px var(--y2k-cyan),
-                 0 0 12px var(--y2k-purple);
+    text-shadow: 0 0 8px var(--y2k-cyan),
+                 0 0 16px var(--y2k-purple);
   }
   to {
-    text-shadow: 0 0 12px var(--y2k-magenta),
-                 0 0 24px var(--y2k-cyan),
-                 0 0 36px var(--y2k-hotpink);
+    text-shadow: 0 0 16px var(--y2k-magenta),
+                 0 0 32px var(--y2k-cyan),
+                 0 0 48px var(--y2k-hotpink);
   }
 }
 
@@ -204,14 +207,14 @@ html.scrolled #starsContainer {
 
 header {
   display: flex;
-  justify-content: flex-end; /* Moved nav to right since logo removed */
+  justify-content: flex-end;
   align-items: center;
   padding: 40px;
   pointer-events: auto;
   z-index: 20;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border-bottom: 1px solid rgba(255,255,255,0.1); /* Darker border */
+  border-bottom: none; /* Removed hard line */
 }
 
 nav ul {
@@ -227,18 +230,18 @@ nav a {
   color: var(--aero-white);
   text-decoration: none;
   position: relative;
-  transition: color 0.4s ease, transform 0.4s ease; /* Smoother transitions */
+  transition: color 0.5s ease, transform 0.5s ease; /* Smoother transitions */
   padding: 8px 16px;
-  border-radius: 24px;
+  border-radius: 28px; /* Softer */
 }
 
 a:hover,
 nav a:hover {
   color: var(--y2k-cyan);
-  background: rgba(57,255,20,0.1); /* Less opaque for modern subtlety */
+  background: rgba(57,255,20,0.08); /* More transparent */
   transform: translateY(-2px);
   box-shadow: var(--glow-med);
-  animation: glitchAnim 0.4s steps(5) infinite; /* Slightly faster glitch on hover */
+  animation: glitchAnim 0.45s steps(5) infinite;
 }
 
 .hero-text {
@@ -251,8 +254,8 @@ nav a:hover {
   padding: 60px; 
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border-radius: 32px;
-  box-shadow: 0 12px 50px rgba(0,0,0,0.25); /* Slightly deeper shadow */
+  border-radius: 40px; /* Even smoother */
+  box-shadow: 0 15px 60px rgba(0,0,0,0.3); /* Spread shadow */
 }
 
 h1,
@@ -262,12 +265,13 @@ h1,
   font-size: clamp(3.5rem, 14vw, 9rem); 
   letter-spacing: 0.02em;
   line-height: 1;
-  background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-purple), var(--y2k-magenta), var(--y2k-lime), var(--y2k-cyan)); /* Flowing gradient */
+  background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-purple), var(--y2k-magenta), var(--y2k-lime), var(--y2k-cyan)); 
   background-size: 200% 100%;
-  animation: gradientFlow 9s linear infinite, aeroPulse 3s ease-in-out infinite alternate, glitchAnim 6s infinite linear alternate-reverse; /* Slower animations */
+  animation: gradientFlow 10s linear infinite, aeroPulse 3.5s ease-in-out infinite alternate, glitchAnim 6.5s infinite linear alternate-reverse; /* Slower */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: var(--glow-med);
+  filter: blur(0.2px); /* Subtle blur */
 }
 
 @keyframes gradientFlow {
@@ -281,8 +285,9 @@ h1,
   line-height: 1.8;
   max-width: 480px; 
   color: var(--y2k-cyan);
-  text-shadow: 0 0 10px var(--y2k-purple), var(--glow-soft);
-  animation: fadeIn 2s ease-out; /* Slower fade in */
+  text-shadow: 0 0 12px var(--y2k-purple), var(--glow-soft);
+  animation: fadeIn 2.2s ease-out; /* Slower fade */
+  filter: blur(0.1px); /* Minimal blur for text blend */
 }
 
 @keyframes fadeIn {
@@ -325,35 +330,37 @@ h1,
   left: 50%;
   transform: translateX(-50%);
   letter-spacing: 0.2rem;
-  opacity: 0.85;
+  opacity: 0.8;
   color: var(--y2k-cyan);
-  animation: subtlePulse 2.2s infinite; /* Slower pulse */
+  animation: subtlePulse 2.5s infinite; /* Slower */
+  filter: blur(0.5px); /* Blur for blend */
 }
 
 @keyframes subtlePulse {
-  0%, 100% { opacity: 0.8; }
+  0%, 100% { opacity: 0.75; }
   50% { opacity: 1; }
 }
 
 .circle {
   width: 24px;
   height: 24px;
-  border: 2px solid var(--y2k-lime);
+  border: none; /* Removed hard border */
+  background: radial-gradient(circle, var(--y2k-lime) 20%, transparent 100%); /* Blended circle */
   border-radius: 50%;
   margin: 30px auto 0;
-  animation: subtleBounce 2s infinite ease-in-out; /* Slower bounce */
+  animation: subtleBounce 2.2s infinite ease-in-out;
 }
 
 @keyframes subtleBounce {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(10px); } /* Deeper bounce */
+  50% { transform: translateY(10px); }
 }
 
 main {
   position: relative;
   z-index: 15;
   padding: 100px 40px;
-  background: linear-gradient(to bottom, rgba(5,0,20,0.4), rgba(26,0,13,0.3)); /* Darker gradient */
+  background: linear-gradient(to bottom, rgba(3,0,14,0.45), rgba(19,0,9,0.35)); /* Softer, blended gradient */
 }
 
 section {
@@ -362,8 +369,8 @@ section {
   padding: 60px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border-radius: 24px;
-  box-shadow: 0 12px 45px rgba(0,0,0,0.35);
+  border-radius: 32px;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.4);
 }
 
 section h2 {
@@ -371,13 +378,14 @@ section h2 {
   margin-bottom: 40px;
   color: var(--y2k-cyan);
   font-weight: 300;
-  animation: glitchAnim 5s infinite linear alternate-reverse; /* Slower */
+  animation: glitchAnim 5.5s infinite linear alternate-reverse;
   text-shadow: var(--glow-soft);
+  filter: blur(0.3px);
 }
 
 .site-footer {
   padding: 80px 40px;
-  background: linear-gradient(to top, #050014, transparent);
+  background: linear-gradient(to top, #03000e, transparent);
   position: relative;
   z-index: 15;
 }
@@ -391,7 +399,7 @@ section h2 {
   padding: 40px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  border-radius: 24px;
+  border-radius: 32px;
 }
 
 .footer-logo {
@@ -399,26 +407,27 @@ section h2 {
   font-weight: 300;
   letter-spacing: 0.15rem;
   text-shadow: var(--glow-med);
-  animation: aeroPulse 3s ease-in-out infinite alternate;
+  animation: aeroPulse 3.5s ease-in-out infinite alternate;
   font-size: 2rem; 
+  filter: blur(0.2px);
 }
 
 .footer-copy {
   font-size: 0.85rem;
   letter-spacing: 0.1rem;
   color: var(--aero-white);
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 #loading-screen {
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #050014, #001f30);
+  background: linear-gradient(135deg, #03000e, #001524);
   z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 2s ease-out; /* Smoother fade out */
+  transition: opacity 2.2s ease-out; /* Longer fade */
 }
 
 #loading-screen.fade-out {
@@ -428,12 +437,13 @@ section h2 {
 
 .loading-content {
   text-align: center;
+  filter: blur(1px); /* Blur loading for blend */
 }
 
 .loading-logo {
   height: 120px;
   filter: drop-shadow(var(--glow-strong));
-  animation: logoFadeIn 2.2s ease-out forwards; /* Slower animation */
+  animation: logoFadeIn 2.5s ease-out forwards;
 }
 
 .loading-title {
@@ -441,27 +451,28 @@ section h2 {
   color: var(--y2k-magenta);
   text-shadow: var(--glow-strong);
   font-weight: 300;
-  animation: glitchAnim 4s infinite linear alternate-reverse; /* Adjusted */
+  animation: glitchAnim 4.5s infinite linear alternate-reverse;
 }
 
 .loading-text {
   color: var(--aero-white);
-  animation: fadeIn 1.4s ease-in; /* Slower */
+  animation: fadeIn 1.6s ease-in;
 }
 
 .loading-bar {
   width: 200px;
   height: 4px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.05);
   margin: 20px auto;
-  border-radius: 2px;
+  border-radius: 4px; /* Softer */
 }
 
 .loading-progress {
   height: 100%;
   background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-lime));
-  border-radius: 2px;
-  transition: width 0.5s ease; /* Slightly smoother progress */
+  border-radius: 4px;
+  transition: width 0.6s ease;
+  filter: blur(0.5px); /* Blur progress bar */
 }
 
 .error-message {
@@ -476,10 +487,11 @@ section h2 {
   background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-lime));
   color: #fff;
   border: none;
-  border-radius: 24px;
+  border-radius: 28px;
   cursor: pointer;
   margin-top: 10px;
   transition: transform 0.3s ease;
+  box-shadow: var(--glow-soft);
 }
 
 .retry-button:hover {

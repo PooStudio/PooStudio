@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
 
             const scene = new THREE.Scene();
             scene.background = null;
-            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0012); /* Slightly reduced fog for clearer network */
+            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.001); /* Reduced fog for softer blend */
 
             const camera = new THREE.PerspectiveCamera(
                 66,
@@ -36,15 +36,16 @@ window.addEventListener("load", () => {
             renderer.domElement.style.height = "100%";
             renderer.domElement.style.zIndex = "-1";
             renderer.domElement.style.pointerEvents = "none";
+            renderer.domElement.style.filter = "blur(1px)"; /* Added blur to canvas for overall blend */
 
             document.body.appendChild(renderer.domElement);
 
-            const NODE_COUNT = isMobile ? 1800 : 3200;
+            const NODE_COUNT = isMobile ? 2200 : 3800; /* Increased nodes for more density */
             const positions = new Float32Array(NODE_COUNT * 3);
             const basePositions = new Float32Array(NODE_COUNT * 3);
 
             for (let i = 0; i < NODE_COUNT; i++) {
-                const r = 90 * Math.cbrt(Math.random());
+                const r = 100 * Math.cbrt(Math.random()); /* Slightly larger spread */
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.acos(2 * Math.random() - 1);
 
@@ -60,20 +61,21 @@ window.addEventListener("load", () => {
             nodeGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
 
             const nodeMat = new THREE.PointsMaterial({
-                size: isMobile ? 2.2 : 2.8, /* Slightly smaller for cleaner look */
+                size: isMobile ? 2.0 : 2.5, /* Smaller for finer blend */
                 color: 0xaeefff,
                 transparent: true,
-                opacity: 0.88,
+                opacity: 0.85,
                 blending: THREE.AdditiveBlending,
-                depthWrite: false
+                depthWrite: false,
+                sizeAttenuation: true /* Added for distance-based sizing */
             });
 
             const nodes = new THREE.Points(nodeGeo, nodeMat);
             scene.add(nodes);
 
-            // Add network connections
+            // Add network connections with softer lines
             const pairs = [];
-            const DIST_THRESH = isMobile ? 12 : 15; // Smaller on mobile for performance
+            const DIST_THRESH = isMobile ? 14 : 18; // Increased threshold for more connections
 
             for (let i = 0; i < NODE_COUNT; i++) {
                 for (let j = i + 1; j < NODE_COUNT; j++) {
@@ -89,22 +91,23 @@ window.addEventListener("load", () => {
                 }
             }
 
-            const linePositions = new Float32Array(pairs.length * 6); // 2 points per line, 3 coords each
+            const linePositions = new Float32Array(pairs.length * 6);
             const lineGeo = new THREE.BufferGeometry();
             lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
 
             const lineMat = new THREE.LineBasicMaterial({
                 color: 0x00ffff,
                 transparent: true,
-                opacity: 0.25, // Low opacity for subtle network feel
+                opacity: 0.2, // Lower opacity for subtler lines
                 blending: THREE.AdditiveBlending,
-                depthWrite: false
+                depthWrite: false,
+                linewidth: 1.5 /* Thicker but softer */
             });
 
             const networkLines = new THREE.LineSegments(lineGeo, lineMat);
             scene.add(networkLines);
 
-            const STAR_COUNT = isMobile ? 12 : 20;
+            const STAR_COUNT = isMobile ? 15 : 25; /* More stars for added depth */
             const stars = [];
 
             for (let i = 0; i < STAR_COUNT; i++) {
@@ -116,7 +119,7 @@ window.addEventListener("load", () => {
                 const mat = new THREE.LineBasicMaterial({
                     color: 0xffffff,
                     transparent: true,
-                    opacity: 0.88,
+                    opacity: 0.85,
                     blending: THREE.AdditiveBlending
                 });
 
@@ -129,8 +132,8 @@ window.addEventListener("load", () => {
                 );
 
                 star.userData.velocity = new THREE.Vector3(
-                    -2 - Math.random() * 4,
-                    -0.5 - Math.random(),
+                    -1.5 - Math.random() * 3, /* Slower velocity */
+                    -0.4 - Math.random() * 0.8,
                     0
                 );
 
@@ -144,14 +147,14 @@ window.addEventListener("load", () => {
                 requestAnimationFrame(animate);
                 const time = t * 0.001;
 
-                nodes.rotation.y += 0.0003; /* Slightly slower rotation for modern calm */
-                nodes.rotation.x += 0.0001;
-                nodes.position.y = Math.sin(time * 0.4) * 8; /* Adjusted */
+                nodes.rotation.y += 0.00025; /* Slower rotation */
+                nodes.rotation.x += 0.00008;
+                nodes.position.y = Math.sin(time * 0.35) * 7; /* Softer movement */
 
                 const pos = nodeGeo.attributes.position.array;
                 for (let i = 0; i < NODE_COUNT; i++) {
                     const i3 = i * 3;
-                    const pulse = Math.sin(time * 1.0 + i * 0.1) * 0.4; /* Softer, slower pulse */
+                    const pulse = Math.sin(time * 0.9 + i * 0.09) * 0.35; /* Softer, slower pulse */
 
                     pos[i3] = basePositions[i3] + pulse;
                     pos[i3 + 1] = basePositions[i3 + 1] + pulse;
@@ -185,7 +188,7 @@ window.addEventListener("load", () => {
                     }
                 });
 
-                camera.position.y = Math.sin(time * 0.3) * 12; /* Smoother camera */
+                camera.position.y = Math.sin(time * 0.25) * 10; /* Smoother, slower camera */
                 camera.lookAt(0, 0, 0);
 
                 renderer.render(scene, camera);
