@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
 
             const scene = new THREE.Scene();
             scene.background = null;
-            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0014); /* Adjusted fog density */
+            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0012); /* Slightly reduced fog for clearer network */
 
             const camera = new THREE.PerspectiveCamera(
                 66,
@@ -60,16 +60,49 @@ window.addEventListener("load", () => {
             nodeGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
 
             const nodeMat = new THREE.PointsMaterial({
-                size: isMobile ? 2.4 : 3.0, /* Slightly larger particles */
+                size: isMobile ? 2.2 : 2.8, /* Slightly smaller for cleaner look */
                 color: 0xaeefff,
                 transparent: true,
-                opacity: 0.92,
+                opacity: 0.88,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
             });
 
             const nodes = new THREE.Points(nodeGeo, nodeMat);
             scene.add(nodes);
+
+            // Add network connections
+            const pairs = [];
+            const DIST_THRESH = isMobile ? 12 : 15; // Smaller on mobile for performance
+
+            for (let i = 0; i < NODE_COUNT; i++) {
+                for (let j = i + 1; j < NODE_COUNT; j++) {
+                    const i3 = i * 3;
+                    const j3 = j * 3;
+                    const dx = basePositions[i3] - basePositions[j3];
+                    const dy = basePositions[i3 + 1] - basePositions[j3 + 1];
+                    const dz = basePositions[i3 + 2] - basePositions[j3 + 2];
+                    const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                    if (dist < DIST_THRESH) {
+                        pairs.push([i, j]);
+                    }
+                }
+            }
+
+            const linePositions = new Float32Array(pairs.length * 6); // 2 points per line, 3 coords each
+            const lineGeo = new THREE.BufferGeometry();
+            lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+
+            const lineMat = new THREE.LineBasicMaterial({
+                color: 0x00ffff,
+                transparent: true,
+                opacity: 0.25, // Low opacity for subtle network feel
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            const networkLines = new THREE.LineSegments(lineGeo, lineMat);
+            scene.add(networkLines);
 
             const STAR_COUNT = isMobile ? 12 : 20;
             const stars = [];
@@ -83,7 +116,7 @@ window.addEventListener("load", () => {
                 const mat = new THREE.LineBasicMaterial({
                     color: 0xffffff,
                     transparent: true,
-                    opacity: 0.92,
+                    opacity: 0.88,
                     blending: THREE.AdditiveBlending
                 });
 
@@ -111,20 +144,34 @@ window.addEventListener("load", () => {
                 requestAnimationFrame(animate);
                 const time = t * 0.001;
 
-                nodes.rotation.y += 0.00035; /* Smoother rotation */
-                nodes.rotation.x += 0.00012;
-                nodes.position.y = Math.sin(time * 0.45) * 9; /* Adjusted movement */
+                nodes.rotation.y += 0.0003; /* Slightly slower rotation for modern calm */
+                nodes.rotation.x += 0.0001;
+                nodes.position.y = Math.sin(time * 0.4) * 8; /* Adjusted */
 
                 const pos = nodeGeo.attributes.position.array;
                 for (let i = 0; i < NODE_COUNT; i++) {
                     const i3 = i * 3;
-                    const pulse = Math.sin(time * 1.1 + i * 0.11) * 0.45; /* Softer pulse */
+                    const pulse = Math.sin(time * 1.0 + i * 0.1) * 0.4; /* Softer, slower pulse */
 
                     pos[i3] = basePositions[i3] + pulse;
                     pos[i3 + 1] = basePositions[i3 + 1] + pulse;
                     pos[i3 + 2] = basePositions[i3 + 2] + pulse;
                 }
                 nodeGeo.attributes.position.needsUpdate = true;
+
+                // Update network lines
+                let k = 0;
+                for (const [i, j] of pairs) {
+                    const i3 = i * 3;
+                    const j3 = j * 3;
+                    linePositions[k++] = pos[i3];
+                    linePositions[k++] = pos[i3 + 1];
+                    linePositions[k++] = pos[i3 + 2];
+                    linePositions[k++] = pos[j3];
+                    linePositions[k++] = pos[j3 + 1];
+                    linePositions[k++] = pos[j3 + 2];
+                }
+                lineGeo.attributes.position.needsUpdate = true;
 
                 stars.forEach(star => {
                     star.position.add(star.userData.velocity);
@@ -138,7 +185,7 @@ window.addEventListener("load", () => {
                     }
                 });
 
-                camera.position.y = Math.sin(time * 0.32) * 13; /* Smoother camera */
+                camera.position.y = Math.sin(time * 0.3) * 12; /* Smoother camera */
                 camera.lookAt(0, 0, 0);
 
                 renderer.render(scene, camera);
