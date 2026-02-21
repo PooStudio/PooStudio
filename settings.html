@@ -123,9 +123,14 @@
       }
 
       const resizedBlob = await resizeImage(file, 256);
-      const storageRef = ref(storage, `avatars/${user.uid}/avatar.jpg`);
-      await uploadBytes(storageRef, resizedBlob);
-      const url = await getDownloadURL(storageRef);
+      const form = new FormData();
+      form.append('avatar', resizedBlob, 'avatar.jpg');
+      form.append('uid', user.uid);
+      const uploadEndpoint = (window.UPLOAD_ENDPOINT || (window.location.origin + '/upload-avatar'));
+      const resp = await fetch(uploadEndpoint, { method: 'POST', body: form });
+      if (!resp.ok) throw new Error('upload-failed');
+      const data = await resp.json();
+      const url = data.url && data.url.startsWith('http') ? data.url : (new URL(data.url, uploadEndpoint).href);
       await updateProfile(user, { photoURL: url });
       populateUser(user);
       showMessage('Profile picture updated.');
