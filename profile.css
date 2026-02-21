@@ -375,14 +375,6 @@ header a:hover {
   word-break: break-all;
 }
 
-.action-panel {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-  justify-content: center;
-}
-
 .settings-menu {
   position: relative;
   display: inline-block;
@@ -410,8 +402,7 @@ header a:hover {
   display: none;
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: 16px;
@@ -554,8 +545,6 @@ header a:hover {
   }
 
   .profile-header { flex-direction: column; align-items: center; text-align: center; }
-
-  .action-panel { justify-content: center; }
 
   .footer-inner {
     flex-direction: column;
