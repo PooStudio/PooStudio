@@ -2,102 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>POOSTUDIO ✦ Signup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="signupcss.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <title>Profile ✦ POOSTUDIO</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="profile.css">
 </head>
-
 <body>
 
 <div id="three-container"></div>
 <div id="noise"></div>
 <div id="particles"></div>
 <div id="starsContainer"></div>
+
+<div id="not-auth">
+  <h2 class="glitch" data-text="Access Denied">Access Denied</h2>
+  <p>You need to be logged in to view this page.</p>
+  <a href="index.html" class="btn btn-primary">← Back to Home & Login</a>
+</div>
+
+<div id="overlay">
+  <div id="content" style="display: none;">
+    <div class="container glass">
+      <header class="glass">
+        <div class="settings-menu">
+          <button class="btn btn-primary glitch settings-toggle" data-text="⚙">⚙</button>
+          <div class="settings-dropdown glass" id="settings-dropdown">
+            <button class="btn btn-secondary glitch settings-item" onclick="handleVerifyEmail()" data-text="Send Verification Email">Send Verification Email</button>
+            <button class="btn btn-secondary glitch settings-item" onclick="handleChangePassword()" data-text="Change Password">Change Password</button>
+            <button class="btn btn-secondary glitch settings-item logout-btn" onclick="handleLogout()" data-text="Logout">Logout</button>
+          </div>
+        </div>
+        <div class="logo glitch aero-glow" data-text="POOSTUDIO">POOSTUDIO</div>
+        <nav>
+          <a href="index.html" class="glitch" data-text="Home">Home</a>
+        </nav>
+      </header>
+
+      <div id="message-container"></div>
+
+      <div class="profile-card glass">
+        <div class="profile-header">
+          <div class="avatar glitch aero-glow" id="avatar">👤</div>
+          <div class="user-info">
+            <h1 id="display-name" class="aero-glow glitch" data-text="User">User</h1>
+            <p id="status" class="text-left aero-glow"></p>
+          </div>
+        </div>
+
+        <div class="details-grid">
+          <div class="detail-item glass">
+            <label class="aero-glow">Account Created</label>
+            <span id="created-date" class="glitch" data-text="—">—</span>
+          </div>
+          <div class="detail-item glass">
+            <label class="aero-glow">Email Verified</label>
+            <span id="verified-status" class="glitch" data-text="—">—</span>
+          </div>
+          <div class="detail-item glass">
+            <label class="aero-glow">Last Login</label>
+            <span id="last-login" class="glitch" data-text="—">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer glass">
+      <div class="footer-inner glass">
+        <div class="footer-logo aero-glow glitch" data-text="PooStudio">PooStudio</div>
+        <p class="footer-copy aero-glow glitch" data-text="© YEAR PooStudio. All rights reserved.">© <span id="year"></span> PooStudio. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+</div>
+
 <div class="scanlines"></div>
 <div class="glitch-overlay"></div>
 
-<div id="loading-screen">
-  <div class="loading-content">
-    <div class="loading-logo glitch" data-text="POOSTUDIO">POOSTUDIO</div>
-    <div class="loading-title glitch" data-text="Preparing Signup">Preparing Signup</div>
-    <p class="loading-text">Loading your portal to the future...</p>
-    <div class="loading-bar">
-      <div class="loading-progress" id="progress"></div>
-    </div>
-  </div>
-</div>
-
-<div class="container" id="container">
-  <h1 class="glow-text">SIGN UP</h1>
-  <p class="subtitle">
-    Create your account to join the community.<br>
-    Secure and easy access to all features.
-  </p>
-
-  <div class="signup-warning" role="alert" aria-live="polite" style="background:linear-gradient(90deg,#fff4e5,#ffd6cc); color:#111; padding:14px; border-radius:10px; margin-bottom:18px; box-shadow:0 6px 24px rgba(0,0,0,0.25);">
-    <strong>Security Notice:</strong>
-    <span style="display:block; margin-top:6px;">Do not use your email account password here. Use a unique, strong password for this site and do not reuse the same password across multiple sites.</span>
-  </div>
-
-  <form id="form" action="Need link!!!!!!!!" method="POST">
-    <label>USERNAME</label>
-    <input name="username" required minlength="3" maxlength="20" placeholder="Choose a unique username">
-
-    <label>EMAIL</label>
-    <input type="email" name="email" required placeholder="Enter your email address">
-
-    <label>PASSWORD</label>
-    <input type="password" name="password" required minlength="8" placeholder="Create a strong password">
-
-    <label>CONFIRM PASSWORD</label>
-    <input type="password" name="confirm_password" required minlength="8" placeholder="Confirm your password">
-
-    <button id="submit">CREATE ACCOUNT</button>
-
-    <div style="margin: 16px 0; display: flex; align-items: center; gap: 12px;">
-      <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.2);"></div>
-      <span style="font-size: 0.85rem; color: #aaa;">OR</span>
-      <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.2);"></div>
-    </div>
-
-    <button type="button" onclick="handleGoogleSignUp()" style="width: 100%; padding: 12px; background: #fff; color: #000; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
-      Sign up with Google
-    </button>
-  </form>
-</div>
-
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <span class="footer-logo glitch" data-text="POOSTUDIO">POOSTUDIO</span>
-      <p class="footer-copy">
-        © <span id="year"></span> POOSTUDIO. All rights reserved.
-      </p>
-    </div>
-
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-    </div>
-  </div>
-
-  <div class="footer-particles" aria-hidden="true">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-</footer>
- 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged, 
+    signOut, 
+    sendEmailVerification, 
+    updatePassword 
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
@@ -110,138 +100,144 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const googleProvider = new GoogleAuthProvider();
 
-  window.handleGoogleSignUp = async () => {
+  const notAuthEl = document.getElementById('not-auth');
+  const contentEl = document.getElementById('content');
+  const msgContainer = document.getElementById('message-container');
+
+  function showMessage(text, isError = false) {
+    const messageEl = document.createElement('div');
+    messageEl.className = `message ${isError ? 'error' : ''} glass aero-glow`;
+    messageEl.textContent = text;
+    msgContainer.appendChild(messageEl);
+  }
+
+  function formatDate(timestamp) {
+    if (!timestamp) return '—';
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+  function populateProfile(user) {
+    const displayName = user.displayName || 'User';
+    const displayNameEl = document.getElementById('display-name');
+    displayNameEl.textContent = displayName;
+    displayNameEl.setAttribute('data-text', displayName);
+    
+    const initial = (user.displayName || user.email).charAt(0).toUpperCase();
+    document.getElementById('avatar').textContent = initial;
+
+    const verified = user.emailVerified ? '✓ Verified' : '✗ Not Verified';
+    const verifiedEl = document.getElementById('verified-status');
+    verifiedEl.textContent = verified;
+    verifiedEl.setAttribute('data-text', verified);
+    verifiedEl.style.color = user.emailVerified ? '#86efac' : '#fca5a5';
+
+    const statusEl = document.getElementById('status');
+    if (!user.emailVerified) {
+      statusEl.innerHTML = '<strong class="glitch" data-text="⚠ Email not verified" style="color: #fca5a5;">⚠ Email not verified</strong>';
+    } else {
+      statusEl.innerHTML = '<strong class="glitch" data-text="✓ Email verified" style="color: #86efac;">✓ Email verified</strong>';
+    }
+
+    const createdDateEl = document.getElementById('created-date');
+    const createdDate = formatDate(user.metadata?.creationTime);
+    createdDateEl.textContent = createdDate;
+    createdDateEl.setAttribute('data-text', createdDate);
+
+    const lastLoginEl = document.getElementById('last-login');
+    const lastLogin = formatDate(user.metadata?.lastSignInTime);
+    lastLoginEl.textContent = lastLogin;
+    lastLoginEl.setAttribute('data-text', lastLogin);
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      notAuthEl.style.display = 'none';
+      contentEl.style.display = 'block';
+      populateProfile(user);
+    } else {
+      notAuthEl.style.display = 'flex';
+      contentEl.style.display = 'none';
+    }
+  });
+
+  window.handleLogout = async () => {
     try {
-      const cred = await signInWithPopup(auth, googleProvider);
-      localStorage.setItem('poostudio_signup_time', Date.now());
-      
-      if (!cred.user.displayName) {
-        const username = prompt('Enter a username (3-20 characters):');
-        if (username && username.length >= 3 && username.length <= 20) {
-          try { await updateProfile(cred.user, { displayName: username }); } catch (uErr) { console.warn('updateProfile failed', uErr); }
-        }
-      }
-
-      try { await sendEmailVerification(cred.user); } catch (vErr) { console.warn('sendEmailVerification failed', vErr); }
-
-      alert('Account created with Google! A verification email has been sent.');
+      await signOut(auth);
       window.location.href = 'index.html';
     } catch (err) {
-      console.error('Google sign-up failed', err);
-      alert('Google sign-up failed: ' + (err && err.message ? err.message : err));
+      console.error('Logout failed', err);
+      showMessage('Logout failed: ' + err.message, true);
     }
   };
 
-  async function hashPassword(pw) {
-    const enc = new TextEncoder();
-    const data = enc.encode(pw);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  function getStoredHashes() {
-    try {
-      const raw = localStorage.getItem('poostudio_password_hashes');
-      return raw ? JSON.parse(raw) : [];
-    } catch (e) {
-      return [];
+  window.handleVerifyEmail = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      showMessage('Not authenticated', true);
+      return;
     }
-  }
+    try {
+      await sendEmailVerification(user);
+      showMessage('Verification email sent to ' + user.email);
+    } catch (err) {
+      console.error('Send verification failed', err);
+      showMessage('Failed: ' + (err.message || err.code), true);
+    }
+  };
 
-  function saveHash(hash) {
-    const arr = getStoredHashes();
-    arr.unshift(hash);
-    if (arr.length > 10) arr.length = 10; // keep last 10
-    localStorage.setItem('poostudio_password_hashes', JSON.stringify(arr));
-  }
+  window.handleChangePassword = async () => {
+    const newPassword = prompt('Enter your new password (min 8 chars):');
+    if (!newPassword || newPassword.length < 8) {
+      showMessage('Password must be at least 8 characters', true);
+      return;
+    }
+    const user = auth.currentUser;
+    if (!user) {
+      showMessage('Not authenticated', true);
+      return;
+    }
+    try {
+      await updatePassword(user, newPassword);
+      showMessage('Password updated. You may need to sign in again.');
+      setTimeout(() => { window.handleLogout(); }, 2000);
+    } catch (err) {
+      console.error('Password update failed', err);
+      showMessage('Failed: ' + (err.message || err.code), true);
+    }
+  };
 
-  const formEl = document.getElementById('form');
-  if (formEl) {
-    formEl.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+      document.documentElement.classList.add('scrolled');
+    } else {
+      document.documentElement.classList.remove('scrolled');
+    }
+  });
 
-      const username = formEl.querySelector('input[name="username"]').value.trim();
-      const email = formEl.querySelector('input[name="email"]').value.trim();
-      const password = formEl.querySelector('input[name="password"]').value;
-      const confirm = formEl.querySelector('input[name="confirm_password"]').value;
+  // Settings menu toggle
+  const settingsToggle = document.querySelector('.settings-toggle');
+  const settingsDropdown = document.getElementById('settings-dropdown');
 
-      if (password !== confirm) {
-        alert('Passwords do not match!');
-        return;
-      }
+  settingsToggle.addEventListener('click', () => {
+    settingsDropdown.classList.toggle('active');
+  });
 
-      try {
-        const hash = await hashPassword(password);
-
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-
-        try { await updateProfile(cred.user, { displayName: username }); } catch (uErr) { console.warn('updateProfile failed', uErr); }
-
-        try { await sendEmailVerification(cred.user); } catch (vErr) { console.warn('sendEmailVerification failed', vErr); }
-
-        saveHash(hash);
-        localStorage.setItem('poostudio_signup_time', Date.now());
-
-        alert('Account created. A verification email has been sent.');
-        window.location.href = 'index.html';
-      } catch (err) {
-        console.error('Signup failed', err);
-        alert('Signup failed: ' + (err && err.message ? err.message : err));
-      }
-    });
-  }
-</script>
-
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-let p = 0;
-const bar = document.getElementById("progress");
-const loading = document.getElementById("loading-screen");
-const container = document.getElementById("container");
-
-const loader = setInterval(() => {
-  p += Math.random() * 15;
-  bar.style.width = Math.min(p,100) + "%";
-  if (p >= 100) {
-    clearInterval(loader);
-    loading.style.display = "none";
-    container.style.display = "block";
-  }
-}, 120);
-
-
-const last = localStorage.getItem(KEY);
-if (last && Date.now() - last < DAY) {
-  lock(Number(last) + DAY);
-}
- 
-async function hashPassword(pw) {
-  const enc = new TextEncoder();
-  const data = enc.encode(pw);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-function getStoredHashes() {
-  try {
-    const raw = localStorage.getItem('poostudio_password_hashes');
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveHash(hash) {
-  const arr = getStoredHashes();
-  arr.unshift(hash);
-  if (arr.length > 10) arr.length = 10; // keep last 10
-  localStorage.setItem('poostudio_password_hashes', JSON.stringify(arr));
-}
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (event) => {
+    if (!settingsToggle.contains(event.target) && !settingsDropdown.contains(event.target)) {
+      settingsDropdown.classList.remove('active');
+    }
+  });
 </script>
 
 </body>
