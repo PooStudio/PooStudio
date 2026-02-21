@@ -239,32 +239,7 @@ function saveHash(hash) {
   if (arr.length > 10) arr.length = 10; // keep last 10
   localStorage.setItem('poostudio_password_hashes', JSON.stringify(arr));
 }
-
-form.addEventListener('submit', async (e) => {
-  const password = form.querySelector('input[name="password"]').value;
-  const confirm = form.querySelector('input[name="confirm_password"]').value;
-
-  if (password !== confirm) {
-    e.preventDefault();
-    alert('Passwords do not match!');
-    return;
-  }
-
-  try {
-    const hash = await hashPassword(password);
-    const stored = getStoredHashes();
-    if (stored.includes(hash)) {
-      e.preventDefault();
-      alert('This password was used before on this site. Please choose a different, unique password.');
-      return;
-    }
-    saveHash(hash);
-  } catch (err) {
-    console.error('Password hashing failed:', err);
-  }
-
-  localStorage.setItem(KEY, Date.now());
-});
+// Signup is handled in the module script using Firebase Auth; no duplicate submit handler here.
 </script>
 
 </body>
