@@ -96,6 +96,7 @@
     updateProfile 
   } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
+  import { getFirestore, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
@@ -109,6 +110,7 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const storage = getStorage(app);
+  const db = getFirestore(app);
 
   const notAuthEl = document.getElementById('not-auth');
   const contentEl = document.getElementById('content');
@@ -242,14 +244,29 @@
       return;
     }
     try {
-      const storageRef = ref(storage, `avatars/${user.uid}/${file.name}`);
-      await uploadBytes(storageRef, file);
+      async function resizeImage(fileBlob, size = 256) {
+        const img = await createImageBitmap(fileBlob);
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        const { width, height } = img;
+        const min = Math.min(width, height);
+        const sx = (width - min) / 2;
+        const sy = (height - min) / 2;
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
+        return await new Promise((res) => canvas.toBlob(res, 'image/jpeg', 0.9));
+      }
+
+      const resizedBlob = await resizeImage(file, 256);
+      const storageRef = ref(storage, `avatars/${user.uid}/avatar.jpg`);
+      await uploadBytes(storageRef, resizedBlob);
       const url = await getDownloadURL(storageRef);
       await updateProfile(user, { photoURL: url });
       populateProfile(user);
       showMessage('Profile picture updated.');
       const settingsDropdown = document.getElementById('settings-dropdown');
-      settingsDropdown.classList.remove('active');
+      if (settingsDropdown) settingsDropdown.classList.remove('active');
     } catch (err) {
       console.error('Avatar update failed', err);
       showMessage('Failed: ' + (err.message || err.code), true);
@@ -281,17 +298,35 @@
     const newName = prompt('Enter your new display name:');
     if (!newName) return;
     const user = auth.currentUser;
-    if (!user) {
-      showMessage('Not authenticated', true);
-      return;
-    }
+    if (!user) { showMessage('Not authenticated', true); return; }
     try {
+      const claimUsername = async (user, desiredName) => {
+        const key = desiredName.toLowerCase();
+        const desiredRef = doc(db, 'usernames', key);
+        await runTransaction(db, async (tx) => {
+          const snap = await tx.get(desiredRef);
+          if (snap.exists() && snap.data().uid !== user.uid) throw new Error('username-taken');
+          tx.set(desiredRef, { uid: user.uid, createdAt: serverTimestamp() });
+          const old = (user.displayName || '').toLowerCase();
+          if (old && old !== key) {
+            const oldRef = doc(db, 'usernames', old);
+            const oldSnap = await tx.get(oldRef);
+            if (oldSnap.exists() && oldSnap.data().uid === user.uid) tx.delete(oldRef);
+          }
+        });
+      };
+
+      await claimUsername(user, newName);
       await updateProfile(user, { displayName: newName });
       populateProfile(user);
       showMessage('Display name updated.');
     } catch (err) {
-      console.error('Name update failed', err);
-      showMessage('Failed: ' + (err.message || err.code), true);
+      if (err && err.message === 'username-taken') {
+        showMessage('That display name is already taken', true);
+      } else {
+        console.error('Name update failed', err);
+        showMessage('Failed: ' + (err.message || err.code), true);
+      }
     }
   };
 
@@ -325,18 +360,36 @@
         return;
       }
       const user = auth.currentUser;
-      if (!user) {
-        showMessage('Not authenticated', true);
-        return;
-      }
+      if (!user) { showMessage('Not authenticated', true); return; }
       try {
+        const claimUsername = async (user, desiredName) => {
+          const key = desiredName.toLowerCase();
+          const desiredRef = doc(db, 'usernames', key);
+          await runTransaction(db, async (tx) => {
+            const snap = await tx.get(desiredRef);
+            if (snap.exists() && snap.data().uid !== user.uid) throw new Error('username-taken');
+            tx.set(desiredRef, { uid: user.uid, createdAt: serverTimestamp() });
+            const old = (user.displayName || '').toLowerCase();
+            if (old && old !== key) {
+              const oldRef = doc(db, 'usernames', old);
+              const oldSnap = await tx.get(oldRef);
+              if (oldSnap.exists() && oldSnap.data().uid === user.uid) tx.delete(oldRef);
+            }
+          });
+        };
+
+        await claimUsername(user, newName);
         await updateProfile(user, { displayName: newName });
         populateProfile(user);
         showMessage('Display name updated.');
         settingsDropdown.classList.remove('active');
       } catch (err) {
-        console.error('Name update failed', err);
-        showMessage('Failed: ' + (err.message || err.code), true);
+        if (err && err.message === 'username-taken') {
+          showMessage('That display name is already taken', true);
+        } else {
+          console.error('Name update failed', err);
+          showMessage('Failed: ' + (err.message || err.code), true);
+        }
       }
     });
   }
