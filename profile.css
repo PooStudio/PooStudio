@@ -380,6 +380,84 @@ header a:hover {
   gap: 1rem;
   flex-wrap: wrap;
   margin-top: 2rem;
+  justify-content: center;
+}
+
+.settings-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.settings-toggle {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
+  color: #000;
+  box-shadow: var(--glow-med);
+}
+
+.settings-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-strong);
+  animation: glitchAnim 0.35s steps(5) infinite;
+}
+
+.settings-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: 16px;
+  box-shadow: 0 6px 35px rgba(0,0,0,0.1);
+  padding: 1rem;
+  min-width: 200px;
+  z-index: 100;
+  margin-top: 0.5rem;
+}
+
+.settings-dropdown.active {
+  display: block;
+}
+
+.settings-item {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(0, 191, 255, 0.5);
+  box-shadow: var(--glow-med);
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.settings-item:hover {
+  background: rgba(0, 191, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--glow-strong);
+  animation: glitchAnim 0.35s steps(5) infinite;
+}
+
+.settings-item:last-child {
+  margin-bottom: 0;
+  background: linear-gradient(90deg, var(--y2k-magenta), var(--y2k-hotpink));
+  border: none;
+  color: white;
+}
+
+.settings-item:last-child:hover {
+  transform: scale(1.05);
+  box-shadow: var(--glow-strong);
 }
 
 .btn {

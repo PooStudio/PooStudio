@@ -28,7 +28,6 @@
         <div class="logo glitch aero-glow" data-text="POOSTUDIO">POOSTUDIO</div>
         <nav>
           <a href="index.html" class="glitch" data-text="Home">Home</a>
-          <button class="logout-btn glitch" onclick="handleLogout()" data-text="Logout">Logout</button>
         </nav>
       </header>
 
@@ -59,8 +58,14 @@
         </div>
 
         <div class="action-panel">
-          <button class="btn btn-primary glitch" onclick="handleVerifyEmail()" data-text="Send Verification Email">Send Verification Email</button>
-          <button class="btn btn-secondary glitch" onclick="handleChangePassword()" data-text="Change Password">Change Password</button>
+          <div class="settings-menu">
+            <button class="btn btn-primary glitch settings-toggle" data-text="Settings">Settings</button>
+            <div class="settings-dropdown glass" id="settings-dropdown">
+              <button class="btn btn-secondary glitch settings-item" onclick="handleVerifyEmail()" data-text="Send Verification Email">Send Verification Email</button>
+              <button class="btn btn-secondary glitch settings-item" onclick="handleChangePassword()" data-text="Change Password">Change Password</button>
+              <button class="btn btn-secondary glitch settings-item logout-btn" onclick="handleLogout()" data-text="Logout">Logout</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -219,6 +224,21 @@
       document.documentElement.classList.add('scrolled');
     } else {
       document.documentElement.classList.remove('scrolled');
+    }
+  });
+
+  // Settings menu toggle
+  const settingsToggle = document.querySelector('.settings-toggle');
+  const settingsDropdown = document.getElementById('settings-dropdown');
+
+  settingsToggle.addEventListener('click', () => {
+    settingsDropdown.classList.toggle('active');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (event) => {
+    if (!settingsToggle.contains(event.target) && !settingsDropdown.contains(event.target)) {
+      settingsDropdown.classList.remove('active');
     }
   });
 </script>
