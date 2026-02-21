@@ -36,6 +36,11 @@
     Secure and easy access to all features.
   </p>
 
+  <div class="signup-warning" role="alert" aria-live="polite" style="background:linear-gradient(90deg,#fff4e5,#ffd6cc); color:#111; padding:14px; border-radius:10px; margin-bottom:18px; box-shadow:0 6px 24px rgba(0,0,0,0.25);">
+    <strong>Security Notice:</strong>
+    <span style="display:block; margin-top:6px;">Do not use your email account password here. Use a unique, strong password for this site and do not reuse the same password across multiple sites.</span>
+  </div>
+
   <form id="form" action="Need link!!!!!!!!" method="POST">
     <label>USERNAME</label>
     <input name="username" required minlength="3" maxlength="20" placeholder="Choose a unique username">
@@ -120,15 +125,54 @@ const last = localStorage.getItem(KEY);
 if (last && Date.now() - last < DAY) {
   lock(Number(last) + DAY);
 }
+ 
+async function hashPassword(pw) {
+  const enc = new TextEncoder();
+  const data = enc.encode(pw);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
-form.addEventListener("submit", (e) => {
+function getStoredHashes() {
+  try {
+    const raw = localStorage.getItem('poostudio_password_hashes');
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveHash(hash) {
+  const arr = getStoredHashes();
+  arr.unshift(hash);
+  if (arr.length > 10) arr.length = 10; // keep last 10
+  localStorage.setItem('poostudio_password_hashes', JSON.stringify(arr));
+}
+
+form.addEventListener('submit', async (e) => {
   const password = form.querySelector('input[name="password"]').value;
   const confirm = form.querySelector('input[name="confirm_password"]').value;
+
   if (password !== confirm) {
     e.preventDefault();
-    alert("Passwords do not match!");
+    alert('Passwords do not match!');
     return;
   }
+
+  try {
+    const hash = await hashPassword(password);
+    const stored = getStoredHashes();
+    if (stored.includes(hash)) {
+      e.preventDefault();
+      alert('This password was used before on this site. Please choose a different, unique password.');
+      return;
+    }
+    saveHash(hash);
+  } catch (err) {
+    console.error('Password hashing failed:', err);
+  }
+
   localStorage.setItem(KEY, Date.now());
 });
 </script>
