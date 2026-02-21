@@ -139,11 +139,6 @@
 
       try {
         const hash = await hashPassword(password);
-        const stored = getStoredHashes();
-        if (stored.includes(hash)) {
-          alert('This password was used before on this site. Please choose a different, unique password.');
-          return;
-        }
 
         // Create user in Firebase
         const cred = await createUserWithEmailAndPassword(auth, email, password);
