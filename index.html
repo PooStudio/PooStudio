@@ -50,6 +50,10 @@
                 <nav aria-label="Primary navigation">
                     <ul>
                         <li><a href="https://discord.gg/PF4ZxYrYGp" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
+                        <li id="auth-nav" style="display:none; align-items:center; gap:1rem;">
+                            <a href="profile.html" style="color:#00ff7f;">PROFILE</a>
+                            <span id="signed-in-indicator" style="font-size:0.85rem; color:#86efac;">✓ Signed in</span>
+                        </li>
                     </ul>
                 </nav>
             </header>
@@ -444,12 +448,19 @@
     // Expose signOut on window for debugging
     window.poostudioAuthSignOut = async () => { try { await signOut(auth); window.location.reload(); } catch(e){console.error(e);} };
 
-    // Optionally react to auth state
+    // Update nav when auth state changes
+    const authNav = document.getElementById('auth-nav');
+    const signedInIndicator = document.getElementById('signed-in-indicator');
+    
     onAuthStateChanged(auth, (user) => {
         if (user) {
             console.log('Signed in as', user.email);
+            authNav.style.display = 'flex'; // Show profile+logout
+            if (signedInIndicator) {
+                signedInIndicator.textContent = '✓ ' + user.email;
+            }
         } else {
-            // not signed in
+            authNav.style.display = 'none'; // Hide profile+logout
         }
     });
 </script>
