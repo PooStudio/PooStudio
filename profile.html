@@ -15,7 +15,6 @@
 <div id="particles"></div>
 <div id="starsContainer"></div>
 
-
 <div id="not-auth">
   <h2 class="glitch" data-text="Access Denied">Access Denied</h2>
   <p>You need to be logged in to view this page.</p>
@@ -100,7 +99,6 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  const loadingEl = document.getElementById('loading-screen');
   const notAuthEl = document.getElementById('not-auth');
   const contentEl = document.getElementById('content');
   const msgContainer = document.getElementById('message-container');
@@ -160,17 +158,14 @@
   }
 
   onAuthStateChanged(auth, (user) => {
-    setTimeout(() => {
-      loadingEl.classList.add('fade-out');
-      if (user) {
-        notAuthEl.style.display = 'none';
-        contentEl.style.display = 'block';
-        populateProfile(user);
-      } else {
-        notAuthEl.style.display = 'flex';
-        contentEl.style.display = 'none';
-      }
-    }, 2000); // Simulate loading time
+    if (user) {
+      notAuthEl.style.display = 'none';
+      contentEl.style.display = 'block';
+      populateProfile(user);
+    } else {
+      notAuthEl.style.display = 'flex';
+      contentEl.style.display = 'none';
+    }
   });
 
   window.handleLogout = async () => {
