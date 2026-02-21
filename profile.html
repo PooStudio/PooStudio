@@ -29,9 +29,20 @@
           <a href="index.html" class="glitch" data-text="Home">Home</a>
         </nav>
         <div class="logo glitch aero-glow" data-text="POOSTUDIO">POOSTUDIO</div>
-        <div class="settings-menu">
+          <div class="settings-menu">
           <button class="btn btn-primary glitch settings-toggle" data-text="⚙">⚙</button>
           <div class="settings-dropdown glass" id="settings-dropdown">
+            <div class="settings-row">
+              <label for="settings-display-name" class="aero-glow">Display Name</label>
+              <input id="settings-display-name" type="text" placeholder="Enter new display name" />
+              <button id="settings-save-name" class="btn btn-secondary glitch settings-item" data-text="Save Name">Save</button>
+            </div>
+            <div class="settings-row">
+              <label class="aero-glow">Profile Picture</label>
+              <input id="settings-avatar-input" type="file" accept="image/*" />
+              <button id="settings-upload-avatar" class="btn btn-secondary glitch settings-item" data-text="Upload">Upload</button>
+            </div>
+            <hr />
             <button class="btn btn-secondary glitch settings-item" onclick="handleVerifyEmail()" data-text="Send Verification Email">Send Verification Email</button>
             <button class="btn btn-secondary glitch settings-item" onclick="handleChangePassword()" data-text="Change Password">Change Password</button>
             <button class="btn btn-secondary glitch settings-item logout-btn" onclick="handleLogout()" data-text="Logout">Logout</button>
@@ -239,8 +250,7 @@
     document.getElementById('avatar-input').click();
   };
 
-  document.getElementById('avatar-input').addEventListener('change', async (event) => {
-    const file = event.target.files[0];
+  async function uploadAvatarFile(file) {
     if (!file) return;
     const user = auth.currentUser;
     if (!user) {
@@ -254,11 +264,34 @@
       await updateProfile(user, { photoURL: url });
       populateProfile(user);
       showMessage('Profile picture updated.');
+      const settingsDropdown = document.getElementById('settings-dropdown');
+      settingsDropdown.classList.remove('active');
     } catch (err) {
       console.error('Avatar update failed', err);
       showMessage('Failed: ' + (err.message || err.code), true);
     }
+  }
+
+  document.getElementById('avatar-input').addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    uploadAvatarFile(file);
   });
+
+  const settingsAvatarInputEl = document.getElementById('settings-avatar-input');
+  const settingsUploadBtn = document.getElementById('settings-upload-avatar');
+  if (settingsAvatarInputEl) {
+    settingsAvatarInputEl.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      uploadAvatarFile(file);
+    });
+  }
+  if (settingsUploadBtn) {
+    settingsUploadBtn.addEventListener('click', () => {
+      if (settingsAvatarInputEl) settingsAvatarInputEl.click();
+    });
+  }
 
   window.handleChangeName = async () => {
     const newName = prompt('Enter your new display name:');
@@ -298,6 +331,33 @@
       settingsDropdown.classList.remove('active');
     }
   });
+
+  // Settings: save display name
+  const settingsSaveNameBtn = document.getElementById('settings-save-name');
+  const settingsNameInput = document.getElementById('settings-display-name');
+  if (settingsSaveNameBtn) {
+    settingsSaveNameBtn.addEventListener('click', async () => {
+      const newName = (settingsNameInput && settingsNameInput.value) ? settingsNameInput.value.trim() : '';
+      if (!newName) {
+        showMessage('Please enter a display name', true);
+        return;
+      }
+      const user = auth.currentUser;
+      if (!user) {
+        showMessage('Not authenticated', true);
+        return;
+      }
+      try {
+        await updateProfile(user, { displayName: newName });
+        populateProfile(user);
+        showMessage('Display name updated.');
+        settingsDropdown.classList.remove('active');
+      } catch (err) {
+        console.error('Name update failed', err);
+        showMessage('Failed: ' + (err.message || err.code), true);
+      }
+    });
+  }
 </script>
 
 </body>
