@@ -29,24 +29,8 @@
           <a href="index.html" class="glitch" data-text="Home">Home</a>
         </nav>
         <div class="logo glitch aero-glow" data-text="POOSTUDIO">POOSTUDIO</div>
-          <div class="settings-menu">
-          <button class="btn btn-primary glitch settings-toggle" data-text="⚙">⚙</button>
-          <div class="settings-dropdown glass" id="settings-dropdown">
-            <div class="settings-row">
-              <label for="settings-display-name" class="aero-glow">Display Name</label>
-              <input id="settings-display-name" type="text" placeholder="Enter new display name" />
-              <button id="settings-save-name" class="btn btn-secondary glitch settings-item" data-text="Save Name">Save</button>
-            </div>
-            <div class="settings-row">
-              <label class="aero-glow">Profile Picture</label>
-              <input id="settings-avatar-input" type="file" accept="image/*" />
-              <button id="settings-upload-avatar" class="btn btn-secondary glitch settings-item" data-text="Upload">Upload</button>
-            </div>
-            <hr />
-            <button class="btn btn-secondary glitch settings-item" onclick="handleVerifyEmail()" data-text="Send Verification Email">Send Verification Email</button>
-            <button class="btn btn-secondary glitch settings-item" onclick="handleChangePassword()" data-text="Change Password">Change Password</button>
-            <button class="btn btn-secondary glitch settings-item logout-btn" onclick="handleLogout()" data-text="Logout">Logout</button>
-          </div>
+        <div class="settings-menu">
+          <a href="settings.html" class="btn btn-primary glitch" title="Settings" aria-label="Settings">⚙</a>
         </div>
       </header>
 
