@@ -140,20 +140,6 @@
         document.addEventListener("contextmenu", e => e.preventDefault());
     </script>
 
-    <script>
-        fetch('popup.html')
-            .then(response => {
-                if (!response.ok) throw new Error('Popup file not found');
-                return response.text();
-            })
-            .then(html => {
-                document.body.insertAdjacentHTML('beforeend', html);
-            })
-            .catch(err => {
-                console.error('Could not load popup:', err);
-            });
-    </script>
-
 <button class="modal-trigger glass" aria-label="Open login form">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
