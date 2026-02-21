@@ -408,7 +408,7 @@ header a:hover {
   display: none;
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   background: var(--dropdown-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: 20px; /* Smoother for aero */
