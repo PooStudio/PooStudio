@@ -302,7 +302,6 @@
         <div class="avatar" id="avatar">👤</div>
         <div class="user-info">
           <h1 id="display-name">User</h1>
-          <p id="email" style="font-size: 1rem; color: var(--aero-green);"></p>
           <p id="status" style="font-size: 0.9rem;"></p>
         </div>
       </div>
@@ -315,10 +314,6 @@
         <div class="detail-item">
           <label>Email Verified</label>
           <span id="verified-status">—</span>
-        </div>
-        <div class="detail-item">
-          <label>User ID</label>
-          <span id="user-id" style="font-size: 0.9rem; font-family: monospace;">—</span>
         </div>
         <div class="detail-item">
           <label>Last Login</label>
@@ -382,7 +377,6 @@
 
   function populateProfile(user) {
     document.getElementById('display-name').textContent = user.displayName || 'User';
-    document.getElementById('email').textContent = user.email;
     
     // Avatar: first letter of display name or email
     const initial = (user.displayName || user.email).charAt(0).toUpperCase();
@@ -398,7 +392,6 @@
       document.getElementById('status').innerHTML = '<strong style="color: #86efac;">✓ Email verified</strong>';
     }
 
-    document.getElementById('user-id').textContent = user.uid.substring(0, 20) + '...';
     document.getElementById('created-date').textContent = formatDate(user.metadata?.creationTime);
     document.getElementById('last-login').textContent = formatDate(user.metadata?.lastSignInTime);
   }
