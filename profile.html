@@ -42,6 +42,7 @@
             <div class="avatar glitch aero-glow" id="avatar">👤</div>
             <span class="edit-icon" id="edit-avatar" onclick="triggerAvatarUpload()" title="Edit Profile Picture">✏️</span>
             <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+            <button id="avatar-save-btn" class="btn btn-primary" style="display: none; margin-top:8px;">Save</button>
           </div>
           <div class="user-info">
             <div class="name-container">
@@ -273,11 +274,36 @@
     }
   }
 
-  document.getElementById('avatar-input').addEventListener('change', (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    uploadAvatarFile(file);
-  });
+  let selectedAvatarFileProfile = null;
+  function previewSelectedAvatarProfile(file) {
+    const avatarEl = document.getElementById('avatar');
+    const reader = new FileReader();
+    reader.onload = () => {
+      avatarEl.innerHTML = `<img src="${reader.result}" alt="Profile Picture" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  const avatarInputEl = document.getElementById('avatar-input');
+  const avatarSaveBtn = document.getElementById('avatar-save-btn');
+  if (avatarInputEl) {
+    avatarInputEl.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      selectedAvatarFileProfile = file;
+      previewSelectedAvatarProfile(file);
+      if (avatarSaveBtn) avatarSaveBtn.style.display = 'inline-block';
+    });
+  }
+
+  if (avatarSaveBtn) {
+    avatarSaveBtn.addEventListener('click', async () => {
+      if (!selectedAvatarFileProfile) return;
+      await uploadAvatarFile(selectedAvatarFileProfile);
+      selectedAvatarFileProfile = null;
+      avatarSaveBtn.style.display = 'none';
+    });
+  }
 
   const settingsAvatarInputEl = document.getElementById('settings-avatar-input');
   const settingsUploadBtn = document.getElementById('settings-upload-avatar');
