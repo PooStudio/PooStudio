@@ -196,6 +196,13 @@ html.scrolled #starsContainer {
   }
 }
 
+#overlay {
+  position: relative;
+  min-height: 100vh;
+  z-index: 10;
+  pointer-events: none;
+}
+
 #loading-screen {
   position: fixed;
   inset: 0;
@@ -296,6 +303,7 @@ html.scrolled #starsContainer {
   padding: 2rem;
   position: relative;
   z-index: 15;
+  pointer-events: auto;
 }
 
 header {
@@ -500,6 +508,7 @@ header a:hover {
   position: relative;
   z-index: 15;
   text-align: center;
+  pointer-events: auto;
 }
 
 .footer-inner {
@@ -507,6 +516,7 @@ header a:hover {
   margin: auto;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 40px;
   padding: 40px;
   border-radius: 24px;
@@ -543,15 +553,22 @@ header a:hover {
     text-align: center;
     padding: 20px;
   }
+
+  .site-footer {
+    padding: 40px 20px;
+  }
 }
 
 @media (max-width: 480px) {
   .avatar { width: 80px; height: 80px; font-size: 2rem; }
   .user-info h1 { font-size: 1.5rem; }
   .detail-item { padding: 1rem; }
-  .btn { padding: 8px 16px; }
+  .btn { padding: 8px 16px; font-size: 0.9rem; }
 
-  .site-footer {
-    padding: 40px 20px;
-  }
+  .footer-logo { font-size: 1.5rem; }
+  .footer-copy { font-size: 0.75rem; }
+}
+
+@media (max-height: 600px) {
+  .container { padding: 1rem; }
 }

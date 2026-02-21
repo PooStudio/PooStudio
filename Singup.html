@@ -96,7 +96,6 @@
 </footer>
  
 <script type="module">
-  // Firebase initialization and signup handler
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, updateProfile, sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
@@ -113,14 +112,11 @@
   const auth = getAuth(app);
   const googleProvider = new GoogleAuthProvider();
 
-  // Google Sign-Up handler
   window.handleGoogleSignUp = async () => {
     try {
       const cred = await signInWithPopup(auth, googleProvider);
-      // Save signup time locally
       localStorage.setItem('poostudio_signup_time', Date.now());
       
-      // If user has displayName from Google, we're good; otherwise ask for one
       if (!cred.user.displayName) {
         const username = prompt('Enter a username (3-20 characters):');
         if (username && username.length >= 3 && username.length <= 20) {
@@ -128,7 +124,6 @@
         }
       }
 
-      // Send verification email
       try { await sendEmailVerification(cred.user); } catch (vErr) { console.warn('sendEmailVerification failed', vErr); }
 
       alert('Account created with Google! A verification email has been sent.');
@@ -139,7 +134,6 @@
     }
   };
 
-  // Local utilities for reuse prevention (same storage key used earlier)
   async function hashPassword(pw) {
     const enc = new TextEncoder();
     const data = enc.encode(pw);
@@ -164,7 +158,6 @@
     localStorage.setItem('poostudio_password_hashes', JSON.stringify(arr));
   }
 
-  // Signup flow using Firebase Auth
   const formEl = document.getElementById('form');
   if (formEl) {
     formEl.addEventListener('submit', async (ev) => {
@@ -183,21 +176,16 @@
       try {
         const hash = await hashPassword(password);
 
-        // Create user in Firebase
         const cred = await createUserWithEmailAndPassword(auth, email, password);
 
-        // Update display name
         try { await updateProfile(cred.user, { displayName: username }); } catch (uErr) { console.warn('updateProfile failed', uErr); }
 
-        // Send verification email
         try { await sendEmailVerification(cred.user); } catch (vErr) { console.warn('sendEmailVerification failed', vErr); }
 
-        // Save hash and signup time locally
         saveHash(hash);
         localStorage.setItem('poostudio_signup_time', Date.now());
 
         alert('Account created. A verification email has been sent.');
-        // Optionally redirect to home
         window.location.href = 'index.html';
       } catch (err) {
         console.error('Signup failed', err);
@@ -254,7 +242,6 @@ function saveHash(hash) {
   if (arr.length > 10) arr.length = 10; // keep last 10
   localStorage.setItem('poostudio_password_hashes', JSON.stringify(arr));
 }
-// Signup is handled in the module script using Firebase Auth; no duplicate submit handler here.
 </script>
 
 </body>

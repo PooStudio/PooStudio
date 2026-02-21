@@ -439,17 +439,14 @@
 
         try {
             const cred = await signInWithEmailAndPassword(auth, email, password);
-            // Optionally check emailVerified
             if (!cred.user.emailVerified) {
                 alert('Please verify your email before signing in. A verification email was sent when you signed up.');
             }
             closeModal();
-            // Update UI or redirect
             window.location.reload();
         } catch (err) {
             const msg = (err && err.code) ? err.code : (err && err.message) || String(err);
             console.error('Login failed', err);
-            // Map common Firebase errors
             if (msg.includes('auth/user-not-found') || msg.includes('auth/invalid-email')) {
                 emailError.textContent = 'No account found for that email.';
             } else if (msg.includes('auth/wrong-password')) {
@@ -462,7 +459,6 @@
         }
     });
 
-    // Google Sign-In handler
     window.handleGoogleSignIn = async () => {
         try {
             const cred = await signInWithPopup(auth, googleProvider);
@@ -474,10 +470,8 @@
         }
     };
 
-    // Expose signOut on window for debugging
     window.poostudioAuthSignOut = async () => { try { await signOut(auth); window.location.reload(); } catch(e){console.error(e);} };
 
-    // Update nav when auth state changes
     const authNav = document.getElementById('auth-nav');
     const signedInIndicator = document.getElementById('signed-in-indicator');
     

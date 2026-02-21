@@ -10,64 +10,83 @@
 </head>
 <body>
 
-<div id="loading">
-  <div class="spinner"></div>
-  <p>Loading profile...</p>
+<div id="three-container"></div>
+<div id="noise"></div>
+<div id="particles"></div>
+<div id="starsContainer"></div>
+
+<div id="loading-screen">
+  <div class="loading-content">
+    <img class="loading-logo" src="logo.png" alt="PooStudio Logo">
+    <h1 class="loading-title glitch" data-text="Loading Profile...">Loading Profile...</h1>
+    <p class="loading-text">Preparing your dashboard...</p>
+    <div class="loading-bar">
+      <div class="loading-progress" style="animation: progress 2s ease-in-out infinite alternate;"></div>
+    </div>
+  </div>
 </div>
 
 <div id="not-auth">
-  <h2>Access Denied</h2>
+  <h2 class="glitch" data-text="Access Denied">Access Denied</h2>
   <p>You need to be logged in to view this page.</p>
-  <a href="index.html">← Back to Home & Login</a>
+  <a href="index.html" class="btn btn-primary">← Back to Home & Login</a>
 </div>
 
-<div id="content" style="display: none;">
-  <div class="container">
-    <header>
-      <div class="logo">POOSTUDIO</div>
-      <nav>
-        <a href="index.html">Home</a>
-        <button class="logout-btn" onclick="handleLogout()">Logout</button>
-      </nav>
-    </header>
+<div id="overlay">
+  <div id="content" style="display: none;">
+    <div class="container glass">
+      <header class="glass">
+        <div class="logo glitch aero-glow" data-text="POOSTUDIO">POOSTUDIO</div>
+        <nav>
+          <a href="index.html" class="glitch" data-text="Home">Home</a>
+          <button class="logout-btn glitch" onclick="handleLogout()" data-text="Logout">Logout</button>
+        </nav>
+      </header>
 
-    <div id="message-container"></div>
+      <div id="message-container"></div>
 
-    <div class="profile-card">
-      <div class="profile-header">
-        <div class="avatar" id="avatar">👤</div>
-        <div class="user-info">
-          <h1 id="display-name">User</h1>
-          <p id="status" style="font-size: 0.9rem;"></p>
+      <div class="profile-card glass">
+        <div class="profile-header">
+          <div class="avatar glitch aero-glow" id="avatar">👤</div>
+          <div class="user-info">
+            <h1 id="display-name" class="aero-glow glitch" data-text="User">User</h1>
+            <p id="status" class="text-left aero-glow"></p>
+          </div>
         </div>
-      </div>
 
-      <div class="details-grid">
-        <div class="detail-item">
-          <label>Account Created</label>
-          <span id="created-date">—</span>
+        <div class="details-grid">
+          <div class="detail-item glass">
+            <label class="aero-glow">Account Created</label>
+            <span id="created-date" class="glitch" data-text="—">—</span>
+          </div>
+          <div class="detail-item glass">
+            <label class="aero-glow">Email Verified</label>
+            <span id="verified-status" class="glitch" data-text="—">—</span>
+          </div>
+          <div class="detail-item glass">
+            <label class="aero-glow">Last Login</label>
+            <span id="last-login" class="glitch" data-text="—">—</span>
+          </div>
         </div>
-        <div class="detail-item">
-          <label>Email Verified</label>
-          <span id="verified-status">—</span>
-        </div>
-        <div class="detail-item">
-          <label>Last Login</label>
-          <span id="last-login">—</span>
-        </div>
-      </div>
 
-      <div class="action-panel">
-        <button class="btn btn-primary" onclick="handleVerifyEmail()">Send Verification Email</button>
-        <button class="btn btn-secondary" onclick="handleChangePassword()">Change Password</button>
+        <div class="action-panel">
+          <button class="btn btn-primary glitch" onclick="handleVerifyEmail()" data-text="Send Verification Email">Send Verification Email</button>
+          <button class="btn btn-secondary glitch" onclick="handleChangePassword()" data-text="Change Password">Change Password</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <footer>
-    <p>© <span id="year"></span> PooStudio. All rights reserved.</p>
-  </footer>
+    <footer class="site-footer glass">
+      <div class="footer-inner glass">
+        <div class="footer-logo aero-glow glitch" data-text="PooStudio">PooStudio</div>
+        <p class="footer-copy aero-glow glitch" data-text="© YEAR PooStudio. All rights reserved.">© <span id="year"></span> PooStudio. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
 </div>
+
+<div class="scanlines"></div>
+<div class="glitch-overlay"></div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
@@ -91,18 +110,22 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  const loadingEl = document.getElementById('loading');
+  const loadingEl = document.getElementById('loading-screen');
   const notAuthEl = document.getElementById('not-auth');
   const contentEl = document.getElementById('content');
   const msgContainer = document.getElementById('message-container');
 
   function showMessage(text, isError = false) {
-    msgContainer.innerHTML = `<div class="message ${isError ? 'error' : ''}">${text}</div>`;
+    const messageEl = document.createElement('div');
+    messageEl.className = `message ${isError ? 'error' : ''} glass aero-glow`;
+    messageEl.textContent = text;
+    msgContainer.appendChild(messageEl);
   }
 
-  function formatDate(ms) {
-    if (!ms) return '—';
-    return new Date(ms).toLocaleDateString('en-US', { 
+  function formatDate(timestamp) {
+    if (!timestamp) return '—';
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', { 
       year: 'numeric', 
       month: 'short', 
       day: 'numeric',
@@ -112,42 +135,54 @@
   }
 
   function populateProfile(user) {
-    document.getElementById('display-name').textContent = user.displayName || 'User';
+    const displayName = user.displayName || 'User';
+    const displayNameEl = document.getElementById('display-name');
+    displayNameEl.textContent = displayName;
+    displayNameEl.setAttribute('data-text', displayName);
     
-    // Avatar: first letter of display name or email
     const initial = (user.displayName || user.email).charAt(0).toUpperCase();
     document.getElementById('avatar').textContent = initial;
 
     const verified = user.emailVerified ? '✓ Verified' : '✗ Not Verified';
-    document.getElementById('verified-status').textContent = verified;
-    document.getElementById('verified-status').style.color = user.emailVerified ? '#86efac' : '#fca5a5';
+    const verifiedEl = document.getElementById('verified-status');
+    verifiedEl.textContent = verified;
+    verifiedEl.setAttribute('data-text', verified);
+    verifiedEl.style.color = user.emailVerified ? '#86efac' : '#fca5a5';
 
+    const statusEl = document.getElementById('status');
     if (!user.emailVerified) {
-      document.getElementById('status').innerHTML = '<strong style="color: #fca5a5;">⚠ Email not verified</strong>';
+      statusEl.innerHTML = '<strong class="glitch" data-text="⚠ Email not verified" style="color: #fca5a5;">⚠ Email not verified</strong>';
     } else {
-      document.getElementById('status').innerHTML = '<strong style="color: #86efac;">✓ Email verified</strong>';
+      statusEl.innerHTML = '<strong class="glitch" data-text="✓ Email verified" style="color: #86efac;">✓ Email verified</strong>';
     }
 
-    document.getElementById('created-date').textContent = formatDate(user.metadata?.creationTime);
-    document.getElementById('last-login').textContent = formatDate(user.metadata?.lastSignInTime);
+    const createdDateEl = document.getElementById('created-date');
+    const createdDate = formatDate(user.metadata?.creationTime);
+    createdDateEl.textContent = createdDate;
+    createdDateEl.setAttribute('data-text', createdDate);
+
+    const lastLoginEl = document.getElementById('last-login');
+    const lastLogin = formatDate(user.metadata?.lastSignInTime);
+    lastLoginEl.textContent = lastLogin;
+    lastLoginEl.setAttribute('data-text', lastLogin);
+
+    document.getElementById('year').textContent = new Date().getFullYear();
   }
 
-  // Check auth state
   onAuthStateChanged(auth, (user) => {
-    loadingEl.style.display = 'none';
-
-    if (user) {
-      notAuthEl.style.display = 'none';
-      contentEl.style.display = 'block';
-      populateProfile(user);
-      document.getElementById('year').textContent = new Date().getFullYear();
-    } else {
-      notAuthEl.style.display = 'flex';
-      contentEl.style.display = 'none';
-    }
+    setTimeout(() => {
+      loadingEl.classList.add('fade-out');
+      if (user) {
+        notAuthEl.style.display = 'none';
+        contentEl.style.display = 'block';
+        populateProfile(user);
+      } else {
+        notAuthEl.style.display = 'flex';
+        contentEl.style.display = 'none';
+      }
+    }, 2000); // Simulate loading time
   });
 
-  // Global functions
   window.handleLogout = async () => {
     try {
       await signOut(auth);
@@ -193,6 +228,14 @@
       showMessage('Failed: ' + (err.message || err.code), true);
     }
   };
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+      document.documentElement.classList.add('scrolled');
+    } else {
+      document.documentElement.classList.remove('scrolled');
+    }
+  });
 </script>
 
 </body>

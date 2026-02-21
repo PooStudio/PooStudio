@@ -57,7 +57,6 @@ window.addEventListener("load", () => {
                 positions.set([x, y, z], i * 3);
                 basePositions.set([x, y, z], i * 3);
 
-                // Assign random bright colors for euphoria
                 const hue = Math.random();
                 const color = new THREE.Color().setHSL(hue, 1, 0.7);
                 colors.set([color.r, color.g, color.b], i * 3);
@@ -132,7 +131,6 @@ window.addEventListener("load", () => {
                 const head = new THREE.Points(headGeo, headMat);
                 starGroup.add(head);
 
-                // Trail: fading lines/points behind
                 for (let j = 1; j <= trailLength; j++) {
                     const trailGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-j * 2, 0, 0)]);
                     const trailMat = new THREE.PointsMaterial({
@@ -152,7 +150,6 @@ window.addEventListener("load", () => {
                     (Math.random() - 0.5) * 200
                 );
 
-                // Random rotation for varied directions
                 starGroup.rotation.z = Math.random() * Math.PI * 2;
 
                 starGroup.userData.velocity = new THREE.Vector3(
@@ -161,7 +158,6 @@ window.addEventListener("load", () => {
                     0
                 ).applyAxisAngle(new THREE.Vector3(0, 0, 1), starGroup.rotation.z); // Apply direction
 
-                // Random color for euphoria
                 const starColor = new THREE.Color().setHSL(Math.random(), 1, 0.8);
                 head.material.color = starColor;
                 starGroup.children.slice(1).forEach(trail => trail.material.color = starColor);
@@ -197,7 +193,6 @@ window.addEventListener("load", () => {
                     const i3 = i * 3;
                     const j3 = j * 3;
 
-                    // Positions
                     linePositions[k++] = pos[i3];
                     linePositions[k++] = pos[i3 + 1];
                     linePositions[k++] = pos[i3 + 2];
@@ -205,7 +200,6 @@ window.addEventListener("load", () => {
                     linePositions[k++] = pos[j3 + 1];
                     linePositions[k++] = pos[j3 + 2];
 
-                    // Interpolate colors between connected nodes for smooth gradients
                     const colorI = new THREE.Color().fromArray(colors, i3);
                     const colorJ = new THREE.Color().fromArray(colors, j3);
                     lineColors[c++] = colorI.r; lineColors[c++] = colorI.g; lineColors[c++] = colorI.b;
@@ -224,7 +218,6 @@ window.addEventListener("load", () => {
                             (Math.random() - 0.5) * 200
                         );
 
-                        // Update velocity based on new random direction
                         starGroup.rotation.z = Math.random() * Math.PI * 2;
                         starGroup.userData.velocity = new THREE.Vector3(
                             -3 - Math.random() * 6,
@@ -232,7 +225,6 @@ window.addEventListener("load", () => {
                             0
                         ).applyAxisAngle(new THREE.Vector3(0, 0, 1), starGroup.rotation.z);
 
-                        // Randomize color on reset for variety
                         const newColor = new THREE.Color().setHSL(Math.random(), 1, 0.8);
                         starGroup.children.forEach(child => child.material.color = newColor);
                     }
