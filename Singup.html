@@ -187,29 +187,6 @@ const loader = setInterval(() => {
   }
 }, 120);
 
-const KEY = "poostudio_signup_time";
-const DAY = 86400000;
-const form = document.getElementById("form");
-
-function lock(ms) {
-  container.innerHTML = `
-    <div class="locked">
-      <h2 class="glow-text">SIGNUP LOCKED</h2>
-      <p>You may only signup once every 24 hours.</p>
-      <div class="timer" id="t"></div>
-      <p>Please try again later.</p>
-      <a href="index.html" class="back-btn">BACK TO HOME</a>
-    </div>`;
-  const t = document.getElementById("t");
-  setInterval(() => {
-    const r = ms - Date.now();
-    if (r <= 0) location.reload();
-    t.textContent =
-      Math.floor(r/3600000) + "h " +
-      Math.floor(r/60000)%60 + "m " +
-      Math.floor(r/1000)%60 + "s";
-  }, 1000);
-}
 
 const last = localStorage.getItem(KEY);
 if (last && Date.now() - last < DAY) {
