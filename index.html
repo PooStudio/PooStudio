@@ -488,8 +488,11 @@
             if (signedInIndicator) {
                 signedInIndicator.textContent = '✓ ' + (user.displayName || user.email);
             }
+            // Don't show login modal if already logged in
+            window.userIsLoggedIn = true;
         } else {
             authNav.style.display = 'none'; // Hide profile+logout
+            window.userIsLoggedIn = false;
         }
     });
 </script>
@@ -576,7 +579,12 @@
             e.stopPropagation();
         });
 
-        setTimeout(() => modal.classList.add('open'), 8000);
+        // Auto-open modal only if user is NOT logged in
+        setTimeout(() => {
+            if (!window.userIsLoggedIn) {
+                modal.classList.add('open');
+            }
+        }, 8000);
     });
 </script>
 
