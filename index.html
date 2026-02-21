@@ -376,6 +376,84 @@
     }
 </style>
 
+<script type="module">
+    // Firebase login handler for popup modal
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyD5SoqDcAYtY9fyQ8Udwu0bQUGbKLL3-5M",
+        authDomain: "laggyworld-be6e4.firebaseapp.com",
+        projectId: "laggyworld-be6e4",
+        storageBucket: "laggyworld-be6e4.firebasestorage.app",
+        messagingSenderId: "198058418554",
+        appId: "1:198058418554:web:be7c968e8181b87243f6c3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const modal = document.getElementById('login-modal');
+    const trigger = document.querySelector('.modal-trigger');
+    const closeBtn = modal.querySelector('.close-modal');
+    const form = document.getElementById('login-form');
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
+
+    function openModal() { modal.classList.add('open'); }
+    function closeModal() { modal.classList.remove('open'); }
+
+    trigger.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    // Prevent default form action and use Firebase sign-in
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        emailError.textContent = '';
+        passwordError.textContent = '';
+
+        const email = form.querySelector('input[name="email"]').value.trim();
+        const password = form.querySelector('input[name="password"]').value;
+
+        try {
+            const cred = await signInWithEmailAndPassword(auth, email, password);
+            // Optionally check emailVerified
+            if (!cred.user.emailVerified) {
+                alert('Please verify your email before signing in. A verification email was sent when you signed up.');
+            }
+            closeModal();
+            // Update UI or redirect
+            window.location.reload();
+        } catch (err) {
+            const msg = (err && err.code) ? err.code : (err && err.message) || String(err);
+            console.error('Login failed', err);
+            // Map common Firebase errors
+            if (msg.includes('auth/user-not-found') || msg.includes('auth/invalid-email')) {
+                emailError.textContent = 'No account found for that email.';
+            } else if (msg.includes('auth/wrong-password')) {
+                passwordError.textContent = 'Incorrect password.';
+            } else if (msg.includes('auth/too-many-requests')) {
+                passwordError.textContent = 'Too many attempts. Try again later.';
+            } else {
+                emailError.textContent = 'Login failed. Check console for details.';
+            }
+        }
+    });
+
+    // Expose signOut on window for debugging
+    window.poostudioAuthSignOut = async () => { try { await signOut(auth); window.location.reload(); } catch(e){console.error(e);} };
+
+    // Optionally react to auth state
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log('Signed in as', user.email);
+        } else {
+            // not signed in
+        }
+    });
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('login-modal');
