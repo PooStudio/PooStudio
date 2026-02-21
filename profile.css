@@ -319,6 +319,10 @@ header a:hover {
   margin-bottom: 2rem;
 }
 
+.avatar-container {
+  position: relative;
+}
+
 .avatar {
   width: 120px;
   height: 120px;
@@ -331,6 +335,32 @@ header a:hover {
   font-weight: bold;
   color: #000;
   box-shadow: var(--glow-strong);
+}
+
+.name-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.edit-icon {
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--aero-white);
+  transition: color 0.3s;
+}
+
+.edit-icon:hover {
+  color: var(--aero-aqua);
+}
+
+#edit-avatar {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--glass-bg);
+  border-radius: 50%;
+  padding: 4px;
 }
 
 .user-info h1 {
@@ -407,16 +437,16 @@ header a:hover {
 .settings-dropdown {
   display: none;
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   right: 0;
   background: var(--dropdown-bg);
   backdrop-filter: var(--glass-blur);
   border-radius: 20px; /* Smoother for aero */
-  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.08);
   padding: 1.2rem;
   min-width: 220px;
   z-index: 1000; /* Higher z-index to ensure on top */
-  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 
 .settings-dropdown.active {

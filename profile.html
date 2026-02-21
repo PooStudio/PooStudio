@@ -43,9 +43,16 @@
 
       <div class="profile-card glass">
         <div class="profile-header">
-          <div class="avatar glitch aero-glow" id="avatar">👤</div>
+          <div class="avatar-container">
+            <div class="avatar glitch aero-glow" id="avatar">👤</div>
+            <span class="edit-icon" id="edit-avatar" onclick="triggerAvatarUpload()">✏️</span>
+            <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+          </div>
           <div class="user-info">
-            <h1 id="display-name" class="aero-glow glitch" data-text="User">User</h1>
+            <div class="name-container">
+              <h1 id="display-name" class="aero-glow glitch" data-text="User">User</h1>
+              <span class="edit-icon" id="edit-name" onclick="handleChangeName()">✏️</span>
+            </div>
             <p id="status" class="text-left aero-glow"></p>
           </div>
         </div>
@@ -84,14 +91,16 @@
 <div class="glitch-overlay"></div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
   import { 
     getAuth, 
     onAuthStateChanged, 
     signOut, 
     sendEmailVerification, 
-    updatePassword 
-  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+    updatePassword,
+    updateProfile 
+  } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
@@ -104,6 +113,7 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const storage = getStorage(app);
 
   const notAuthEl = document.getElementById('not-auth');
   const contentEl = document.getElementById('content');
@@ -134,8 +144,13 @@
     displayNameEl.textContent = displayName;
     displayNameEl.setAttribute('data-text', displayName);
     
-    const initial = (user.displayName || user.email).charAt(0).toUpperCase();
-    document.getElementById('avatar').textContent = initial;
+    const avatarEl = document.getElementById('avatar');
+    if (user.photoURL) {
+      avatarEl.innerHTML = `<img src="${user.photoURL}" alt="Profile Picture" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+    } else {
+      const initial = (user.displayName || user.email).charAt(0).toUpperCase();
+      avatarEl.textContent = initial;
+    }
 
     const verified = user.emailVerified ? '✓ Verified' : '✗ Not Verified';
     const verifiedEl = document.getElementById('verified-status');
@@ -216,6 +231,49 @@
       setTimeout(() => { window.handleLogout(); }, 2000);
     } catch (err) {
       console.error('Password update failed', err);
+      showMessage('Failed: ' + (err.message || err.code), true);
+    }
+  };
+
+  window.triggerAvatarUpload = () => {
+    document.getElementById('avatar-input').click();
+  };
+
+  document.getElementById('avatar-input').addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const user = auth.currentUser;
+    if (!user) {
+      showMessage('Not authenticated', true);
+      return;
+    }
+    try {
+      const storageRef = ref(storage, `avatars/${user.uid}/${file.name}`);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      await updateProfile(user, { photoURL: url });
+      populateProfile(user);
+      showMessage('Profile picture updated.');
+    } catch (err) {
+      console.error('Avatar update failed', err);
+      showMessage('Failed: ' + (err.message || err.code), true);
+    }
+  });
+
+  window.handleChangeName = async () => {
+    const newName = prompt('Enter your new display name:');
+    if (!newName) return;
+    const user = auth.currentUser;
+    if (!user) {
+      showMessage('Not authenticated', true);
+      return;
+    }
+    try {
+      await updateProfile(user, { displayName: newName });
+      populateProfile(user);
+      showMessage('Display name updated.');
+    } catch (err) {
+      console.error('Name update failed', err);
       showMessage('Failed: ' + (err.message || err.code), true);
     }
   };
