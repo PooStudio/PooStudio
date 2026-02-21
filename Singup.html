@@ -154,7 +154,7 @@
   function saveHash(hash) {
     const arr = getStoredHashes();
     arr.unshift(hash);
-    if (arr.length > 10) arr.length = 10; // keep last 10
+    if (arr.length > 10) arr.length = 10;
     localStorage.setItem('poostudio_password_hashes', JSON.stringify(arr));
   }
 
@@ -239,7 +239,7 @@ function getStoredHashes() {
 function saveHash(hash) {
   const arr = getStoredHashes();
   arr.unshift(hash);
-  if (arr.length > 10) arr.length = 10; // keep last 10
+  if (arr.length > 10) arr.length = 10;
   localStorage.setItem('poostudio_password_hashes', JSON.stringify(arr));
 }
 </script>

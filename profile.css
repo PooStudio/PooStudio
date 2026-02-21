@@ -255,6 +255,7 @@ header {
   background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-purple), var(--aero-aqua), var(--y2k-lime)); /* Toned down colors for aero-dream */
   background-size: 200% 100%; /* Smoother animation */
   animation: gradientFlow 8s linear infinite;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: var(--glow-med);

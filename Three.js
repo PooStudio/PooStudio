@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
 
             const scene = new THREE.Scene();
             scene.background = null;
-            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0006); // Further reduced fog for even brighter, more vibrant scene
+            scene.fog = new THREE.FogExp2(0xbfe9ff, 0.0006);
 
             const camera = new THREE.PerspectiveCamera(
                 66,
@@ -36,17 +36,17 @@ window.addEventListener("load", () => {
             renderer.domElement.style.height = "100%";
             renderer.domElement.style.zIndex = "-1";
             renderer.domElement.style.pointerEvents = "none";
-            renderer.domElement.style.filter = "blur(0.6px)"; // Slightly softer blur for euphoric glow
+            renderer.domElement.style.filter = "blur(0.6px)";
 
             document.body.appendChild(renderer.domElement);
 
-            const NODE_COUNT = isMobile ? 2200 : 3800; // Increased for denser, more euphoric network
+            const NODE_COUNT = isMobile ? 2200 : 3800;
             const positions = new Float32Array(NODE_COUNT * 3);
             const basePositions = new Float32Array(NODE_COUNT * 3);
-            const colors = new Float32Array(NODE_COUNT * 3); // Added for colorful nodes
+            const colors = new Float32Array(NODE_COUNT * 3);
 
             for (let i = 0; i < NODE_COUNT; i++) {
-                const r = 100 * Math.cbrt(Math.random()); // Slightly larger spread for more dynamic feel
+                const r = 100 * Math.cbrt(Math.random());
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.acos(2 * Math.random() - 1);
 
@@ -64,13 +64,13 @@ window.addEventListener("load", () => {
 
             const nodeGeo = new THREE.BufferGeometry();
             nodeGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-            nodeGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3)); // Vertex colors for variety
+            nodeGeo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
             const nodeMat = new THREE.PointsMaterial({
-                size: isMobile ? 2.8 : 3.5, // Larger points for brighter impact
-                vertexColors: true, // Use vertex colors
+                size: isMobile ? 2.8 : 3.5,
+                vertexColors: true,
                 transparent: true,
-                opacity: 0.98, // Almost full opacity for vibrancy
+                opacity: 0.98,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
             });
@@ -79,7 +79,7 @@ window.addEventListener("load", () => {
             scene.add(nodes);
 
             const pairs = [];
-            const DIST_THRESH = isMobile ? 14 : 18; // Increased for more connections, euphoric web
+            const DIST_THRESH = isMobile ? 14 : 18;
 
             for (let i = 0; i < NODE_COUNT; i++) {
                 for (let j = i + 1; j < NODE_COUNT; j++) {
@@ -96,15 +96,15 @@ window.addEventListener("load", () => {
             }
 
             const linePositions = new Float32Array(pairs.length * 6);
-            const lineColors = new Float32Array(pairs.length * 6); // Added colors for lines
+            const lineColors = new Float32Array(pairs.length * 6);
             const lineGeo = new THREE.BufferGeometry();
             lineGeo.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
             lineGeo.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
 
             const lineMat = new THREE.LineBasicMaterial({
-                vertexColors: true, // Colorful lines
+                vertexColors: true,
                 transparent: true,
-                opacity: 0.35, // Slightly brighter lines
+                opacity: 0.35,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
             });
@@ -112,14 +112,13 @@ window.addEventListener("load", () => {
             const networkLines = new THREE.LineSegments(lineGeo, lineMat);
             scene.add(networkLines);
 
-            const STAR_COUNT = isMobile ? 20 : 35; // Increased for more shooting stars, adding euphoria
+            const STAR_COUNT = isMobile ? 20 : 35;
             const stars = [];
-            const trailLength = 10; // Trail segments per star for shooting star effect
+            const trailLength = 10;
 
             for (let i = 0; i < STAR_COUNT; i++) {
-                const starGroup = new THREE.Group(); // Group for star and its trail
+                const starGroup = new THREE.Group();
 
-                // Main star head (brighter point)
                 const headGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0)]);
                 const headMat = new THREE.PointsMaterial({
                     size: isMobile ? 4 : 5,
@@ -134,10 +133,10 @@ window.addEventListener("load", () => {
                 for (let j = 1; j <= trailLength; j++) {
                     const trailGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-j * 2, 0, 0)]);
                     const trailMat = new THREE.PointsMaterial({
-                        size: 3 - (j * 0.2), // Smaller towards tail
+                        size: 3 - (j * 0.2),
                         color: 0xffffff,
                         transparent: true,
-                        opacity: 1 - (j / trailLength) * 0.8, // Fading opacity
+                        opacity: 1 - (j / trailLength) * 0.8,
                         blending: THREE.AdditiveBlending
                     });
                     const trailPoint = new THREE.Points(trailGeo, trailMat);
@@ -153,10 +152,10 @@ window.addEventListener("load", () => {
                 starGroup.rotation.z = Math.random() * Math.PI * 2;
 
                 starGroup.userData.velocity = new THREE.Vector3(
-                    -3 - Math.random() * 6, // Faster for shooting star feel
+                    -3 - Math.random() * 6,
                     -0.8 - Math.random() * 1.2,
                     0
-                ).applyAxisAngle(new THREE.Vector3(0, 0, 1), starGroup.rotation.z); // Apply direction
+                ).applyAxisAngle(new THREE.Vector3(0, 0, 1), starGroup.rotation.z);
 
                 const starColor = new THREE.Color().setHSL(Math.random(), 1, 0.8);
                 head.material.color = starColor;
@@ -172,14 +171,14 @@ window.addEventListener("load", () => {
                 requestAnimationFrame(animate);
                 const time = t * 0.001;
 
-                nodes.rotation.y += 0.00045; // Slightly faster for energy
+                nodes.rotation.y += 0.00045;
                 nodes.rotation.x += 0.00018;
-                nodes.position.y = Math.sin(time * 0.55) * 12; // More pronounced movement
+                nodes.position.y = Math.sin(time * 0.55) * 12;
 
                 const pos = nodeGeo.attributes.position.array;
                 for (let i = 0; i < NODE_COUNT; i++) {
                     const i3 = i * 3;
-                    const pulse = Math.sin(time * 1.3 + i * 0.13) * 0.55; // Stronger, faster pulse for euphoria
+                    const pulse = Math.sin(time * 1.3 + i * 0.13) * 0.55;
 
                     pos[i3] = basePositions[i3] + pulse;
                     pos[i3 + 1] = basePositions[i3 + 1] + pulse;
@@ -213,7 +212,7 @@ window.addEventListener("load", () => {
 
                     if (starGroup.position.x < -220 || starGroup.position.y < -160 || starGroup.position.x > 220 || starGroup.position.y > 160) {
                         starGroup.position.set(
-                            200 + Math.random() * 120 * (Math.random() > 0.5 ? 1 : -1), // Random start from left/right/top/bottom
+                            200 + Math.random() * 120 * (Math.random() > 0.5 ? 1 : -1),
                             120 + Math.random() * 120 * (Math.random() > 0.5 ? 1 : -1),
                             (Math.random() - 0.5) * 200
                         );
@@ -230,7 +229,7 @@ window.addEventListener("load", () => {
                     }
                 });
 
-                camera.position.y = Math.sin(time * 0.4) * 16; // More dynamic camera for immersive euphoria
+                camera.position.y = Math.sin(time * 0.4) * 16;
                 camera.lookAt(0, 0, 0);
 
                 renderer.render(scene, camera);

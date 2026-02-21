@@ -397,7 +397,6 @@
 </style>
 
 <script type="module">
-    // Firebase login handler for popup modal
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
@@ -428,7 +427,6 @@
     closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-    // Prevent default form action and use Firebase sign-in
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         emailError.textContent = '';
@@ -478,14 +476,14 @@
     onAuthStateChanged(auth, (user) => {
         if (user) {
             console.log('Signed in as', user.displayName || user.email);
-            authNav.style.display = 'flex'; // Show profile+logout
+            authNav.style.display = 'flex';
             if (signedInIndicator) {
                 signedInIndicator.textContent = '✓ ' + (user.displayName || user.email);
             }
-            // Don't show login modal if already logged in
+            
             window.userIsLoggedIn = true;
         } else {
-            authNav.style.display = 'none'; // Hide profile+logout
+            authNav.style.display = 'none';
             window.userIsLoggedIn = false;
         }
     });
@@ -573,7 +571,6 @@
             e.stopPropagation();
         });
 
-        // Auto-open modal only if user is NOT logged in
         setTimeout(() => {
             if (!window.userIsLoggedIn) {
                 modal.classList.add('open');
