@@ -1,578 +1,244 @@
-/* profile.css */
-:root {
-  --aero-blue: #00bfff;
-  --aero-green: #00ff7f;
-  --aero-aqua: #7fffd4;
-  --aero-white: rgba(255,255,255,0.95); /* Increased opacity for brighter feel */
-  --y2k-cyan: #00ffff;
-  --y2k-purple: #9370db;
-  --y2k-magenta: #ff00ff;
-  --y2k-lime: #39ff14;
-  --y2k-hotpink: #ff1493;
-  --y2k-yellow: #ffff00; /* Added warm neon yellow for brighter vibe */
-  --y2k-orange: #ff4500; /* Added warm orange for variety */
-  --medieval-dark: #2c1a0e;
-  --medieval-gold: #d4af37;
-  --medieval-red: #8b0000;
-  --header-height: 140px;
-
-  --glow-soft: 0 0 8px rgba(0, 255, 255, 0.6), 0 0 16px rgba(127, 255, 212, 0.4), 0 0 24px rgba(0, 255, 127, 0.3); /* Softer, more aero-dreamy glow */
-  --glow-med: 0 0 12px rgba(0, 255, 255, 0.7), 0 0 24px rgba(147, 112, 219, 0.5), 0 0 32px rgba(0, 255, 127, 0.4); /* Toned down intensity */
-  --glow-strong: 0 0 16px rgba(0, 255, 255, 0.8), 0 0 32px rgba(57, 255, 20, 0.6), 0 0 48px rgba(255, 255, 0, 0.4); /* Dreamy, less aggressive */
-
-  --glass-bg: rgba(255,255,255,0.2); /* Higher transparency for dreamier glass */
-  --glass-blur: blur(15px); /* Softer blur for aero feel */
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  min-height: 100vh;
-  background: radial-gradient(circle, #003366 0%, #000033 50%, #003366 100%); /* Brighter blue radial for futuristic depth */
-  color: #fff;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  overflow-x: hidden;
-  animation: bgPulse 20s ease-in-out infinite; /* Slower pulse for dreamcore vibe */
-}
-
-@keyframes bgPulse {
-  0% { background-position: center; opacity: 1; }
-  50% { opacity: 0.85; }
-  100% { opacity: 1; }
-}
-
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent; 
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: transparent;
-}
-
-html {
-  scrollbar-width: none;
-  scrollbar-color: transparent transparent; 
-}
-
-#noise,
-#particles,
-#starsContainer {
-  position: fixed;
-  inset: 0;
-  height: 100vh;
-  pointer-events: none;
-  transition: filter 1s ease-out, opacity 1s ease;
-  filter: blur(2px); /* Softer base blur for dreaminess */
-}
-
-#three-container { z-index: 1; background: radial-gradient(circle, rgba(0,255,255,0.15), transparent 70%); } /* Subtler radial glow */
-#noise, #particles, #starsContainer {
-  z-index: 2;
-  opacity: 0.3; /* Slightly higher for ethereal feel */
-  mix-blend-mode: screen; /* Screen blend for vibrant overlay */
-}
-
-html.scrolled #three-container,
-html.scrolled #noise,
-html.scrolled #particles,
-html.scrolled #starsContainer {
-  filter: blur(4px);
-  opacity: 0.35;
-}
-
-.glitch {
-  position: relative;
-  animation: glitchAnim 4s infinite linear alternate-reverse; /* Slower glitch for dreamy effect */
-}
-
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  clip: rect(0, 900px, 0, 0);
-  filter: blur(0.3px); /* Softer glitch blur */
-}
-
-.glitch::before {
-  left: 1px;
-  text-shadow: -1px 0 rgba(147, 112, 219, 0.6);
-  animation: glitchAnimBefore 5s infinite linear alternate-reverse;
-}
-
-.glitch::after {
-  left: -1px;
-  text-shadow: -1px 0 rgba(0, 255, 255, 0.6), 1px 1px rgba(255, 0, 255, 0.5);
-  animation: glitchAnimAfter 4s infinite linear alternate-reverse;
-}
-
-@keyframes glitchAnim {
-  0% { transform: translate(0); }
-  20% { transform: translate(-0.5px, 0.5px); }
-  40% { transform: translate(-0.5px, -0.5px); }
-  60% { transform: translate(0.5px, 0.5px); }
-  80% { transform: translate(0.5px, -0.5px); }
-  100% { transform: translate(0); }
-}
-
-@keyframes glitchAnimBefore {
-  0% { clip: rect(36px, 9999px, 9px, 0); }
-  5% { clip: rect(25px, 9999px, 29px, 0); }
-  10% { clip: rect(85px, 9999px, 95px, 0); }
-  100% { clip: rect(12px, 9999px, 43px, 0); }
-}
-
-@keyframes glitchAnimAfter {
-  0% { clip: rect(65px, 9999px, 119px, 0); }
-  5% { clip: rect(78px, 9999px, 111px, 0); }
-  100% { clip: rect(67px, 9999px, 53px, 0); }
-}
-
-.scanlines {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(to bottom, transparent, rgba(255,255,255,0.02) 1px); /* Even subtler for dreamy background */
-  pointer-events: none;
-  animation: scanlineMove 6s linear infinite;
-  opacity: 0.4;
-  mix-blend-mode: overlay;
-}
-
-@keyframes scanlineMove {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 2px; }
-}
-
-.glitch-overlay {
-  position: absolute;
-  inset: 0;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  opacity: 0.05;
-  animation: glitchOverlay 3s infinite;
-}
-
-@keyframes glitchOverlay {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 0.05; }
-}
-
-.glass {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  border: none; /* No hard borders */
-  border-radius: 24px; /* Smoother corners for aero */
-  box-shadow: 0 8px 40px rgba(0,0,0,0.08); /* Softer shadow */
-}
-
-.aero-glow {
-  text-shadow: var(--glow-soft);
-  animation: aeroPulse 3s ease-in-out infinite alternate; /* Slower for dreamcore */
-}
-
-@keyframes aeroPulse {
-  from {
-    text-shadow: 0 0 4px rgba(0, 255, 255, 0.5), 0 0 8px rgba(147, 112, 219, 0.4), 0 0 12px rgba(127, 255, 212, 0.3);
-  }
-  to {
-    text-shadow: 0 0 8px rgba(255, 0, 255, 0.5), 0 0 16px rgba(0, 255, 255, 0.4), 0 0 24px rgba(255, 20, 147, 0.3), 0 0 32px rgba(255, 255, 0, 0.2);
-  }
-}
-
-#overlay {
-  position: relative;
-  min-height: 100vh;
-  z-index: 10;
-  pointer-events: none;
-}
-
-#not-auth {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9998;
-  flex-direction: column;
-  gap: 1.5rem;
-  text-align: center;
-  backdrop-filter: var(--glass-blur);
-}
-
-#not-auth h2 {
-  color: var(--aero-blue);
-  font-size: 1.8rem;
-  text-shadow: var(--glow-soft);
-}
-
-#not-auth p {
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 1rem;
-}
-
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 2rem;
-  position: relative;
-  z-index: 15;
-  pointer-events: auto;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 3rem;
-  padding: 1rem 2rem;
-  pointer-events: auto;
-  z-index: 20;
-  border-bottom: none;
-  border-radius: 24px;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  background: linear-gradient(90deg, var(--y2k-cyan), var(--y2k-purple), var(--aero-aqua), var(--y2k-lime)); /* Toned down colors for aero-dream */
-  background-size: 200% 100%; /* Smoother animation */
-  animation: gradientFlow 8s linear infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: var(--glow-med);
-}
-
-@keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-header nav {
-  display: flex;
-  gap: 1.5rem;
-}
-
-header a {
-  color: var(--aero-white);
-  text-decoration: none;
-  position: relative;
-  transition: color 0.4s ease, transform 0.4s ease;
-  padding: 8px 16px;
-  border-radius: 24px;
-}
-
-header a:hover {
-  color: var(--aero-aqua);
-  background: rgba(127,255,212,0.1); /* Softer hover */
-  transform: translateY(-2px);
-  box-shadow: var(--glow-med);
-  animation: glitchAnim 0.4s steps(5) infinite;
-}
-
-.logout-btn {
-  padding: 8px 16px;
-  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
-  border: none;
-  border-radius: 24px;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.3s;
-  box-shadow: var(--glow-soft);
-}
-
-.logout-btn:hover {
-  transform: scale(1.05);
-  box-shadow: var(--glow-strong);
-}
-
-.profile-card {
-  padding: 2rem;
-  border-radius: 32px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.1); /* Softer shadow */
-  margin-bottom: 2rem;
-}
-
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.avatar {
-  width: 120px;
-  height: 120px;
-  background: linear-gradient(135deg, var(--aero-aqua), var(--y2k-purple));
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  font-weight: bold;
-  color: #000;
-  box-shadow: var(--glow-strong);
-}
-
-.user-info h1 {
-  font-family: 'Helvetica Neue', sans-serif;
-  font-weight: 300;
-  font-size: 2rem;
-  letter-spacing: 0.02em;
-  line-height: 1;
-}
-
-.user-info p {
-  font-size: 1.4rem; 
-  line-height: 1.8;
-  color: var(--aero-aqua);
-  text-shadow: 0 0 6px var(--y2k-purple), var(--glow-soft);
-  animation: fadeIn 2s ease-out;
-}
-
-.details-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-
-.detail-item {
-  padding: 1.5rem;
-  border-radius: 8px;
-  border-left: 3px solid var(--aero-blue);
-}
-
-.detail-item label {
-  display: block;
-  font-size: 0.85rem;
-  color: var(--aero-blue);
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.detail-item span {
-  font-size: 1.1rem;
-  color: #fff;
-  word-break: break-all;
-}
-
-.settings-menu {
-  position: relative;
-  display: inline-block;
-}
-
-.settings-toggle {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 50%; /* Circular for aero icon button */
-  cursor: pointer;
-  font-size: 1.2rem;
-  transition: all 0.3s;
-  background: linear-gradient(90deg, var(--aero-blue), var(--aero-aqua));
-  color: #000;
-  box-shadow: var(--glow-med);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.settings-toggle:hover {
-  transform: rotate(15deg);
-  box-shadow: var(--glow-strong);
-  animation: glitchAnim 0.4s steps(5) infinite;
-}
-
-.settings-dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  border-radius: 20px; /* Smoother for aero */
-  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
-  padding: 1.2rem;
-  min-width: 220px;
-  z-index: 100;
-  margin-top: 0.8rem;
-}
-
-.settings-dropdown.active {
-  display: block;
-}
-
-.settings-item {
-  display: block;
-  width: 100%;
-  margin-bottom: 0.8rem;
-  padding: 12px 20px;
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-  border: 1px solid rgba(0, 191, 255, 0.3);
-  box-shadow: var(--glow-med);
-  text-align: left;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s;
-  border-radius: 16px;
-}
-
-.settings-item:hover {
-  background: rgba(0, 191, 255, 0.08);
-  transform: translateX(4px);
-  box-shadow: var(--glow-strong);
-  animation: glitchAnim 0.4s steps(5) infinite;
-}
-
-.settings-item:last-child {
-  margin-bottom: 0;
-  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
-  border: none;
-  color: #000;
-}
-
-.settings-item:last-child:hover {
-  transform: scale(1.02);
-  box-shadow: var(--glow-strong);
-}
-
-.btn {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s;
-}
-
-.btn-primary {
-  background: linear-gradient(90deg, var(--aero-blue), var(--aero-green));
-  color: #000;
-  box-shadow: var(--glow-med);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glow-strong);
-  animation: glitchAnim 0.35s steps(5) infinite;
-}
-
-.btn-secondary {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  border: 1px solid rgba(0, 191, 255, 0.5);
-  box-shadow: var(--glow-med);
-}
-
-.btn-secondary:hover {
-  background: rgba(0, 191, 255, 0.1);
-  transform: translateY(-2px);
-  box-shadow: var(--glow-strong);
-  animation: glitchAnim 0.35s steps(5) infinite;
-}
-
-.message {
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid #22c55e;
-  color: #86efac;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  box-shadow: var(--glow-soft);
-}
-
-.message.error {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: #ef4444;
-  color: #fca5a5;
-}
-
-.site-footer {
-  padding: 80px 40px;
-  background: linear-gradient(to top, #000033, transparent);
-  position: relative;
-  z-index: 15;
-  text-align: center;
-  pointer-events: auto;
-}
-
-.footer-inner {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 40px;
-  padding: 40px;
-  border-radius: 24px;
-}
-
-.footer-logo {
-  font-family: 'Helvetica Neue', sans-serif;
-  font-weight: 300;
-  letter-spacing: 0.15rem;
-  font-size: 2rem; 
-}
-
-.footer-copy {
-  font-size: 0.85rem;
-  letter-spacing: 0.1rem;
-  color: var(--aero-white);
-  opacity: 0.95; /* Brighter text */
-}
-
-@media (max-width: 768px) {
-  header { padding: 20px; justify-content: center; }
-
-  .container {
-    padding: 1rem;
-    max-width: 90%;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile ✦ POOSTUDIO</title>
+  <link rel="icon" href="logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+<div id="three-container"></div>
+<div id="noise"></div>
+<div id="particles"></div>
+<div id="starsContainer"></div>
+
+<div id="not-auth">
+  <h2 class="glitch" data-text="Access Denied">Access Denied</h2>
+  <p>You need to be logged in to view this page.</p>
+  <a href="index.html" class="btn btn-primary">← Back to Home & Login</a>
+</div>
+
+<div id="overlay">
+  <div id="content" style="display: none;">
+    <div class="container glass">
+      <header class="glass">
+        <div class="settings-menu">
+          <button class="btn btn-primary glitch settings-toggle" data-text="⚙">⚙</button>
+          <div class="settings-dropdown glass" id="settings-dropdown">
+            <button class="btn btn-secondary glitch settings-item" onclick="handleVerifyEmail()" data-text="Send Verification Email">Send Verification Email</button>
+            <button class="btn btn-secondary glitch settings-item" onclick="handleChangePassword()" data-text="Change Password">Change Password</button>
+            <button class="btn btn-secondary glitch settings-item logout-btn" onclick="handleLogout()" data-text="Logout">Logout</button>
+          </div>
+        </div>
+        <div class="logo glitch aero-glow" data-text="POOSTUDIO">POOSTUDIO</div>
+        <nav>
+          <a href="index.html" class="glitch" data-text="Home">Home</a>
+        </nav>
+      </header>
+
+      <div id="message-container"></div>
+
+      <div class="profile-card glass">
+        <div class="profile-header">
+          <div class="avatar glitch aero-glow" id="avatar">👤</div>
+          <div class="user-info">
+            <h1 id="display-name" class="aero-glow glitch" data-text="User">User</h1>
+            <p id="status" class="text-left aero-glow"></p>
+          </div>
+        </div>
+
+        <div class="details-grid">
+          <div class="detail-item glass">
+            <label class="aero-glow">Account Created</label>
+            <span id="created-date" class="glitch" data-text="—">—</span>
+          </div>
+          <div class="detail-item glass">
+            <label class="aero-glow">Email Verified</label>
+            <span id="verified-status" class="glitch" data-text="—">—</span>
+          </div>
+          <div class="detail-item glass">
+            <label class="aero-glow">Last Login</label>
+            <span id="last-login" class="glitch" data-text="—">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer glass">
+      <div class="footer-inner glass">
+        <div class="footer-logo aero-glow glitch" data-text="PooStudio">PooStudio</div>
+        <p class="footer-copy aero-glow glitch" data-text="© YEAR PooStudio. All rights reserved.">© <span id="year"></span> PooStudio. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="scanlines"></div>
+<div class="glitch-overlay"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged, 
+    signOut, 
+    sendEmailVerification, 
+    updatePassword 
+  } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
+    authDomain: "poostudios-20da0.firebaseapp.com",
+    projectId: "poostudios-20da0",
+    storageBucket: "poostudios-20da0.firebasestorage.app",
+    messagingSenderId: "69493755317",
+    appId: "1:69493755317:web:c1835df7c7b9eae9315dfc"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const notAuthEl = document.getElementById('not-auth');
+  const contentEl = document.getElementById('content');
+  const msgContainer = document.getElementById('message-container');
+
+  function showMessage(text, isError = false) {
+    const messageEl = document.createElement('div');
+    messageEl.className = `message ${isError ? 'error' : ''} glass aero-glow`;
+    messageEl.textContent = text;
+    msgContainer.appendChild(messageEl);
   }
 
-  .profile-header { flex-direction: column; align-items: center; text-align: center; }
-
-  .footer-inner {
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
+  function formatDate(timestamp) {
+    if (!timestamp) return '—';
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   }
 
-  .site-footer {
-    padding: 40px 20px;
+  function populateProfile(user) {
+    const displayName = user.displayName || 'User';
+    const displayNameEl = document.getElementById('display-name');
+    displayNameEl.textContent = displayName;
+    displayNameEl.setAttribute('data-text', displayName);
+    
+    const initial = (user.displayName || user.email).charAt(0).toUpperCase();
+    document.getElementById('avatar').textContent = initial;
+
+    const verified = user.emailVerified ? '✓ Verified' : '✗ Not Verified';
+    const verifiedEl = document.getElementById('verified-status');
+    verifiedEl.textContent = verified;
+    verifiedEl.setAttribute('data-text', verified);
+    verifiedEl.style.color = user.emailVerified ? '#86efac' : '#fca5a5';
+
+    const statusEl = document.getElementById('status');
+    if (!user.emailVerified) {
+      statusEl.innerHTML = '<strong class="glitch" data-text="⚠ Email not verified" style="color: #fca5a5;">⚠ Email not verified</strong>';
+    } else {
+      statusEl.innerHTML = '<strong class="glitch" data-text="✓ Email verified" style="color: #86efac;">✓ Email verified</strong>';
+    }
+
+    const createdDateEl = document.getElementById('created-date');
+    const createdDate = formatDate(user.metadata?.creationTime);
+    createdDateEl.textContent = createdDate;
+    createdDateEl.setAttribute('data-text', createdDate);
+
+    const lastLoginEl = document.getElementById('last-login');
+    const lastLogin = formatDate(user.metadata?.lastSignInTime);
+    lastLoginEl.textContent = lastLogin;
+    lastLoginEl.setAttribute('data-text', lastLogin);
+
+    document.getElementById('year').textContent = new Date().getFullYear();
   }
-}
 
-@media (max-width: 480px) {
-  .avatar { width: 80px; height: 80px; font-size: 2rem; }
-  .user-info h1 { font-size: 1.5rem; }
-  .detail-item { padding: 1rem; }
-  .btn { padding: 8px 16px; font-size: 0.9rem; }
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      notAuthEl.style.display = 'none';
+      contentEl.style.display = 'block';
+      populateProfile(user);
+    } else {
+      notAuthEl.style.display = 'flex';
+      contentEl.style.display = 'none';
+    }
+  });
 
-  .footer-logo { font-size: 1.5rem; }
-  .footer-copy { font-size: 0.75rem; }
-}
+  window.handleLogout = async () => {
+    try {
+      await signOut(auth);
+      window.location.href = 'index.html';
+    } catch (err) {
+      console.error('Logout failed', err);
+      showMessage('Logout failed: ' + err.message, true);
+    }
+  };
 
-@media (max-height: 600px) {
-  .container { padding: 1rem; }
-}
+  window.handleVerifyEmail = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      showMessage('Not authenticated', true);
+      return;
+    }
+    try {
+      await sendEmailVerification(user);
+      showMessage('Verification email sent to ' + user.email);
+    } catch (err) {
+      console.error('Send verification failed', err);
+      showMessage('Failed: ' + (err.message || err.code), true);
+    }
+  };
+
+  window.handleChangePassword = async () => {
+    const newPassword = prompt('Enter your new password (min 8 chars):');
+    if (!newPassword || newPassword.length < 8) {
+      showMessage('Password must be at least 8 characters', true);
+      return;
+    }
+    const user = auth.currentUser;
+    if (!user) {
+      showMessage('Not authenticated', true);
+      return;
+    }
+    try {
+      await updatePassword(user, newPassword);
+      showMessage('Password updated. You may need to sign in again.');
+      setTimeout(() => { window.handleLogout(); }, 2000);
+    } catch (err) {
+      console.error('Password update failed', err);
+      showMessage('Failed: ' + (err.message || err.code), true);
+    }
+  };
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 0) {
+      document.documentElement.classList.add('scrolled');
+    } else {
+      document.documentElement.classList.remove('scrolled');
+    }
+  });
+
+  // Settings menu toggle
+  const settingsToggle = document.querySelector('.settings-toggle');
+  const settingsDropdown = document.getElementById('settings-dropdown');
+
+  settingsToggle.addEventListener('click', () => {
+    settingsDropdown.classList.toggle('active');
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (event) => {
+    if (!settingsToggle.contains(event.target) && !settingsDropdown.contains(event.target)) {
+      settingsDropdown.classList.remove('active');
+    }
+  });
+</script>
+
+</body>
+</html>
