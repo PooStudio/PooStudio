@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIX MONTHS // SIX YEARS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --bone: #f0ece4;
+      --ash: #c9c3b8;
+      --rust: #8b2020;
+      --bloodwet: #c0392b;
+      --red: #e84040;
+      --dim: #1a1a1a;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--bone);
+      font-family: 'IM Fell English', Georgia, serif;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* ENTRY GATE */
+    #gate {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 2s ease;
+    }
+
+    #gate-text {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.65rem, 1.2vw, 0.85rem);
+      color: #555;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 2.8;
+      max-width: 420px;
+      animation: slow-appear 3s ease forwards;
+    }
+
+    #gate-enter {
+      margin-top: 60px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: #333;
+      border: 1px solid #333;
+      padding: 14px 42px;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      animation: slow-appear 4s ease forwards;
+    }
+
+    #gate-enter:hover {
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    @keyframes slow-appear {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* SCROLL PROGRESS LINE */
+    #progress-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--rust);
+      z-index: 100;
+      transition: width 0.1s linear;
+    }
+
+    /* MAIN */
+    main {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    main.visible { opacity: 1; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 40px;
+      position: relative;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .hero-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(10rem, 30vw, 22rem);
+      line-height: 0.85;
+      color: transparent;
+      -webkit-text-stroke: 1px #222;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+      user-select: none;
+      animation: number-breathe 8s ease-in-out infinite;
+    }
+
+    @keyframes number-breathe {
+      0%, 100% { -webkit-text-stroke: 1px #222; }
+      50% { -webkit-text-stroke: 1px #3a0a0a; }
+    }
+
+    .hero-label {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.55rem, 1vw, 0.75rem);
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      color: #444;
+      margin-top: 20px;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, #333, transparent);
+      margin: 50px auto;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      letter-spacing: 0.15em;
+      color: var(--bone);
+      line-height: 1;
+    }
+
+    .hero-sub {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: #555;
+      margin-top: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    /* SCROLL CUE */
+    .scroll-cue {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: #333;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      animation: cue-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes cue-pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+    }
+
+    /* CHAPTERS */
+    .chapter {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 120px 40px;
+      border-bottom: 1px solid #111;
+      position: relative;
+    }
+
+    .chapter-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: #2a2a2a;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      margin-bottom: 60px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .chapter-num::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1e1e1e;
+    }
+
+    /* STANDOUT TEXT — the main lines */
+    .line-big {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(1.6rem, 4vw, 2.8rem);
+      line-height: 1.5;
+      color: var(--bone);
+      margin-bottom: 50px;
+    }
+
+    .line-big em {
+      font-style: italic;
+      color: var(--ash);
+    }
+
+    .line-big strong {
+      font-style: normal;
+      color: var(--red);
+      font-weight: normal;
+    }
+
+    .line-small {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.75rem, 1.5vw, 0.92rem);
+      line-height: 2.2;
+      color: #555;
+      letter-spacing: 0.02em;
+      margin-bottom: 30px;
+    }
+
+    /* BRUTAL CALLOUT */
+    .callout {
+      border-left: 2px solid var(--rust);
+      padding: 30px 0 30px 40px;
+      margin: 70px 0;
+    }
+
+    .callout-text {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      color: #8a7f72;
+      line-height: 1.7;
+    }
+
+    /* BIG SOLO LINE */
+    .solo-line {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      letter-spacing: 0.1em;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--rust);
+      line-height: 1;
+      margin: 40px 0;
+      display: block;
+    }
+
+    /* THE COUNT — visual stacking */
+    .count-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin: 60px 0;
+    }
+
+    .count-item {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: #2e2e2e;
+      letter-spacing: 0.15em;
+      padding: 10px 0;
+      border-bottom: 1px solid #141414;
+      transition: color 0.3s;
+    }
+
+    .count-item:hover {
+      color: var(--rust);
+    }
+
+    /* THE CONFESSION — centered brutal */
+    #confession {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 40px;
+      position: relative;
+      background: #050505;
+    }
+
+    .confession-inner {
+      max-width: 680px;
+      text-align: center;
+    }
+
+    .confession-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 15vw, 11rem);
+      letter-spacing: 0.05em;
+      color: transparent;
+      -webkit-text-stroke: 1px #1a0000;
+      line-height: 0.9;
+      display: block;
+      margin-bottom: 50px;
+      transition: -webkit-text-stroke 0.5s ease;
+    }
+
+    .confession-name:hover {
+      -webkit-text-stroke: 1px var(--rust);
+    }
+
+    .confession-body {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      line-height: 2;
+      color: #444;
+    }
+
+    .confession-body strong {
+      color: var(--bone);
+      font-weight: normal;
+    }
+
+    /* STATIC TEXT EFFECT */
+    .glitch-word {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch-word::before {
+      content: attr(data-text);
+      position: absolute;
+      left: 2px;
+      top: 0;
+      color: var(--red);
+      opacity: 0;
+      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      transition: opacity 0.1s;
+    }
+
+    .glitch-word:hover::before {
+      opacity: 0.6;
+      animation: micro-glitch 0.15s step-end infinite;
+    }
+
+    @keyframes micro-glitch {
+      0% { left: 2px; }
+      33% { left: -2px; }
+      66% { left: 3px; }
+      100% { left: 2px; }
+    }
+
+    /* THE INVENTORY — things she took */
+    .inventory {
+      margin: 70px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #111;
+    }
+
+    .inv-cell {
+      background: var(--ink);
+      padding: 30px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: #333;
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+    }
+
+    .inv-cell span {
+      display: block;
+      font-size: 0.55rem;
+      color: #222;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      margin-bottom: 8px;
+    }
+
+    /* FINAL */
+    #finale {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 40px;
+      text-align: center;
+    }
+
+    .finale-inner { max-width: 600px; }
+
+    .finale-word {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 12vw, 9rem);
+      letter-spacing: 0.1em;
+      color: var(--bone);
+      display: block;
+      line-height: 0.95;
+      animation: finale-rise 1.5s ease forwards;
+      opacity: 0;
+    }
+
+    .finale-word:nth-child(2) { animation-delay: 0.3s; color: var(--ash); }
+    .finale-word:nth-child(3) { animation-delay: 0.6s; color: #555; }
+    .finale-word:nth-child(4) { animation-delay: 0.9s; color: #2a2a2a; }
+
+    @keyframes finale-rise {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .finale-line {
+      margin-top: 70px;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      color: #333;
+      line-height: 2;
+      letter-spacing: 0.05em;
+    }
+
+    /* NOISE TEXTURE OVERLAY */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* UTILITY */
+    .red { color: var(--red); }
+    .space { display: block; height: 30px; }
+    .space-lg { display: block; height: 70px; }
+  </style>
+</head>
+<body>
+
+  <div id="progress-line"></div>
+
+  <!-- GATE -->
+  <div id="gate">
+    <div id="gate-text">
+      this is not a story.<br>
+      this is not art.<br>
+      this is what happened.
+    </div>
+    <button id="gate-enter" onclick="enter()">enter</button>
+  </div>
+
+  <!-- MAIN -->
+  <main id="main">
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-number">6</div>
+      <div class="hero-label">months we were together</div>
+      <div class="hero-divider"></div>
+      <div class="hero-title">Six&nbsp;&nbsp;Years</div>
+      <div class="hero-sub">I've been carrying it.</div>
+      <div class="scroll-cue">keep going</div>
+    </section>
+
+    <!-- CHAPTER 1 — before -->
+    <section class="chapter">
+      <div class="chapter-num">01 — before I knew</div>
+
+      <p class="line-big">
+        I was falling for you while you were already somewhere else.
+      </p>
+
+      <p class="line-small">
+        Not somewhere.<br>
+        Someone.<br>
+        And the worst part —<br>
+        I thought everything was real.
+      </p>
+
+      <div class="callout">
+        <p class="callout-text">
+          "Every cold touch. Every fake 'I'm tired.' Every lying text.
+          I thought it was me."
+        </p>
+      </div>
+
+      <p class="line-small">
+        I spent years rotting, wondering what I was doing wrong.<br>
+        Rewinding every conversation.<br>
+        Every silence.<br>
+        Blaming myself.
+      </p>
+    </section>
+
+    <!-- CHAPTER 2 — the fact -->
+    <section class="chapter">
+      <div class="chapter-num">02 — the thing you did</div>
+
+      <span class="solo-line">You<br>Chose<br>Him.</span>
+
+      <p class="line-small">
+        While I was loyal.<br>
+        While I was real.<br>
+        While I was yours.
+      </p>
+
+      <span class="space-lg"></span>
+
+      <p class="line-big">
+        You didn't just cheat.<br>
+        You chose <strong class="glitch-word" data-text="your brother">your brother</strong>.<br>
+        And you looked me in the eyes<br>
+        <em>like none of it was happening.</em>
+      </p>
+
+      <span class="space-lg"></span>
+
+      <div class="count-block">
+        <div class="count-item">every lie you told to my face</div>
+        <div class="count-item">every night I texted and you didn't answer</div>
+        <div class="count-item">every time I said "what's wrong" and you said "nothing"</div>
+        <div class="count-item">every moment I made smaller so you'd stay comfortable</div>
+        <div class="count-item">every second I spent wondering if I was the problem</div>
+      </div>
+
+      <p class="line-small">
+        All of it.<br>
+        Because of him.<br>
+        Because of you.
+      </p>
+    </section>
+
+    <!-- CHAPTER 3 — the six years -->
+    <section class="chapter">
+      <div class="chapter-num">03 — what six years feels like</div>
+
+      <p class="line-big">
+        Six months with you.<br>
+        <em>Six years haunted by it.</em>
+      </p>
+
+      <p class="line-small">
+        Do you understand what that math means?<br>
+        You got six months of whatever that was to you.<br>
+        I got six years of waking up sick.
+      </p>
+
+      <div class="callout">
+        <p class="callout-text">
+          "Some nights I still feel it — that specific knife. Right in the center.
+          The one that has your name on it."
+        </p>
+      </div>
+
+      <div class="inventory">
+        <div class="inv-cell">
+          <span>things I lost</span>
+          the ability to trust without flinching
+        </div>
+        <div class="inv-cell">
+          <span>things I lost</span>
+          three years before I could date again
+        </div>
+        <div class="inv-cell">
+          <span>things I lost</span>
+          the version of me that believed people
+        </div>
+        <div class="inv-cell">
+          <span>things I lost</span>
+          sleep. dignity. time I'll never get back.
+        </div>
+      </div>
+
+      <p class="line-small">
+        You were six months.<br>
+        You cost me years.
+      </p>
+    </section>
+
+    <!-- CONFESSION SECTION — the name -->
+    <section id="confession">
+      <div class="confession-inner">
+        <span class="confession-name">Mackenzie</span>
+        <p class="confession-body">
+          The only rotten thing was <strong>you</strong>.<br>
+          Not me.<br><br>
+          I was loyal.<br>
+          I was real.<br>
+          I was right here.<br><br>
+          And you <strong>pissed on all of it.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- CHAPTER 4 — the release -->
+    <section class="chapter">
+      <div class="chapter-num">04 — what I'm done doing</div>
+
+      <p class="line-big">
+        I'm done making myself smaller<br>
+        to fit inside a nightmare<br>
+        <em>you created.</em>
+      </p>
+
+      <span class="space"></span>
+
+      <p class="line-small">
+        I carried your guilt.<br>
+        I carried your secrets.<br>
+        I carried the weight of something<br>
+        that was never mine to carry.
+      </p>
+
+      <span class="space-lg"></span>
+
+      <div class="callout">
+        <p class="callout-text">
+          "I'm dropping the bag right here.<br>
+          Take your brother. Take your lies.<br>
+          Take the guilt — and choke on it."
+        </p>
+      </div>
+
+      <span class="space-lg"></span>
+
+      <p class="line-big">
+        This is not forgiveness.<br>
+        This is not moving on for you.<br>
+        <em>This is me choosing myself.</em>
+      </p>
+    </section>
+
+    <!-- FINALE -->
+    <section id="finale">
+      <div class="finale-inner">
+        <span class="finale-word">I'm</span>
+        <span class="finale-word">Waking</span>
+        <span class="finale-word">Up.</span>
+
+        <p class="finale-line">
+          Six months doesn't get six years.<br>
+          Six months doesn't get one more night.<br>
+          Six months doesn't get another thought.<br><br>
+          Goodbye, Mackenzie.<br>
+          <em>I'm done.</em>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function enter() {
+      const gate = document.getElementById('gate');
+      gate.style.opacity = '0';
+      setTimeout(() => {
+        gate.style.display = 'none';
+        document.getElementById('main').classList.add('visible');
+      }, 2000);
+    }
+
+    // scroll progress
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = (scrollTop / docHeight) * 100;
+      document.getElementById('progress-line').style.width = pct + '%';
+    });
+
+    // finale animation trigger on scroll into view
+    const finaleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.finale-word').forEach(w => {
+            w.style.animationPlayState = 'running';
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.finale-word').forEach(w => {
+      w.style.animationPlayState = 'paused';
+    });
+
+    const finale = document.getElementById('finale');
+    if (finale) finaleObserver.observe(finale);
+  </script>
+</body>
+</html>

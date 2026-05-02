@@ -1,584 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="PooStudio: Unhinged Creative Power." />
-    <meta name="theme-color" content="#000000" />
-    <title>PooStudio</title>
-    <link rel="icon" href="logo.png" type="image/png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PooStudio: Building the world's next generation creative platform." />
+  <meta name="theme-color" content="#000000" />
+  <title>PooStudio</title>
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="loading-screen">
-    <div class="loading-content">
+  <div id="progress-line"></div>
 
-        <h1 class="loading-title aero-glow glitch" data-text="POOSTUDIO">POOSTUDIO</h1>
-
-        <p class="loading-text">Loading Home...</p>
-
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
-
-        <p class="error-message" id="error-message">
-            No Signal.<br>
-            <span id="retry-text">Reconnecting to Home...</span>
-        </p>
-
-        <button id="retry-btn" class="retry-button glass">RETRY MANUALLY</button>
+  <div id="gate">
+    <div class="gate-studio">POOSTUDIO</div>
+    <div class="gate-status">
+      initializing creative systems<br>
+      loading from the ground up
     </div>
+    <div class="gate-bar-wrap">
+      <div class="gate-bar" id="gate-bar"></div>
+    </div>
+  </div>
 
-    <div class="glitch-overlay"></div>
-    <div class="scanlines"></div>
-</div>
+  <main id="main">
 
-    <div id="main-content" style="display:none;">
+    <nav id="nav">
+      <a href="#" class="nav-logo">PS</a>
+      <ul class="nav-links">
+        <li><a href="https://discord.gg/PF4ZxYrYGp" target="_blank" rel="noopener">Discord</a></li>
+        <li id="auth-nav">
+          <a href="profile.html">Profile</a>
+          <span id="signed-in-indicator"></span>
+        </li>
+      </ul>
+    </nav>
 
-        <canvas id="noise" aria-hidden="true"></canvas>
-        <div id="particles" aria-hidden="true"></div>
-        <div id="starsContainer" aria-hidden="true"></div>
-        <div id="three-container" aria-hidden="true"></div>
+    <section id="hero" aria-labelledby="hero-title">
+      <div class="hero-left">
+        <span class="hero-tag">Studio</span>
+        <p class="hero-body">
+          O hi there.<br>
+          Welcome<br>
+          to the studio.
+        </p>
+      </div>
 
-        <div id="overlay">
-            <header class="glass">
-                <nav aria-label="Primary navigation">
-                    <ul>
-                        <li><a href="https://discord.gg/PF4ZxYrYGp" target="_blank" rel="noopener noreferrer">DISCORD</a></li>
-                        <li id="auth-nav" style="display:none; align-items:center; gap:1rem;">
-                            <a href="profile.html" style="color:#00ff7f;">PROFILE</a>
-                            <span id="signed-in-indicator" style="font-size:0.85rem; color:#86efac;">✓ Signed in</span>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+      <div class="hero-center">
+        <h1 class="hero-title" id="hero-title">POOSTUDIO</h1>
+      </div>
 
-            <section id="home" class="hero-text glass" aria-labelledby="hero-title">
-                <div class="text-left">
-                    <span class="accent">O Hi there!</span>
-                    <p>
-                        Welcome to the studio.<br>
-                    </p>
-                </div>
+      <div class="hero-right">
+        <span class="hero-tag">Mission</span>
+        <p class="hero-body">
+          Building the world's<br>
+          next generation<br>
+          creative platform<br>
+          from the ground up.
+        </p>
+      </div>
 
-                <h1 class="Logo aero-glow glitch" id="hero-title" data-text="POOSTUDIO">POOSTUDIO</h1>
+      <div class="scroll-cue" aria-hidden="true">scroll</div>
+    </section>
 
-                <div class="text-right">
-                    <span class="accent">O WE ARE</span>
-                    <p>
-                         building the world's next<br>
-                        generation creative platform<br>
-                        from the ground up.
-                    </p>
-                </div>
+    <section id="about">
+      <div class="section-num">01 — what we are</div>
 
-                <div class="scroll-indicator" aria-hidden="true">
-                    SCROLL
-                    <div class="circle"></div>
-                </div>
-            </section>
+      <p class="about-big">
+        Not a tool.<br>
+        Not a platform.<br>
+        <em>An obsession with what creativity can become.</em>
+      </p>
+
+      <p class="about-small">
+        We're building from scratch.<br>
+        No shortcuts. No templates. No compromise.<br>
+        Every decision made to serve the person making the work.
+      </p>
+    </section>
+
+    <section id="stats" aria-label="Studio facts">
+      <div class="stat-cell">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Creative ceiling</span>
+        <span class="stat-sub">There isn't one.</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">01</span>
+        <span class="stat-label">Studio, many worlds</span>
+        <span class="stat-sub">One vision. Everything.</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">00</span>
+        <span class="stat-label">Compromises made</span>
+        <span class="stat-sub">Ground up means ground up.</span>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-left">
+        <span class="footer-logo">POOSTUDIO</span>
+        <p class="footer-copy">© <span id="year"></span> PooStudio. All rights reserved.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="https://discord.gg/PF4ZxYrYGp" target="_blank" rel="noopener">Discord</a>
         </div>
+      </div>
+    </footer>
 
-        <main></main>
+  </main>
 
+  <button id="login-trigger" aria-label="Open login">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+  </button>
 
-<footer class="site-footer">
-  <div class="footer-inner glass">
-    <div class="footer-brand">
-      <span class="footer-logo aero-glow glitch" data-text="POOSTUDIO">POOSTUDIO</span>
-      <p class="footer-copy">
-        © <span id="year"></span> PooStudio. All rights reserved.
+  <div id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <div class="login-panel">
+      <button class="login-close" id="login-close">ESC</button>
+      <div class="login-label">Access</div>
+      <div class="login-title" id="login-title">Sign In</div>
+      <p class="login-sub">Access exclusive features from the depths up.</p>
+
+      <form id="login-form" novalidate>
+        <div class="login-field">
+          <input type="email" name="email" placeholder="you@example.com" autocomplete="email" aria-label="Email" />
+        </div>
+        <div class="field-error" id="email-error" role="alert"></div>
+
+        <div class="login-field">
+          <input type="password" name="password" placeholder="Password" autocomplete="current-password" aria-label="Password" />
+        </div>
+        <div class="field-error" id="password-error" role="alert"></div>
+
+        <button type="submit" class="login-submit" id="login-submit" disabled>Login</button>
+
+        <div class="login-divider"><span>or</span></div>
+
+        <button type="button" class="google-btn" onclick="handleGoogleSignIn()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Continue with Google
+        </button>
+      </form>
+
+      <p class="login-footer">
+        No account? <a href="Singup.html">Sign up</a>
       </p>
     </div>
+  </div>
 
-    <div class="footer-links">
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
+  <div id="tosModal">
+    <div class="tos-panel" role="dialog" aria-modal="true" aria-labelledby="tosTitle">
+      <div class="tos-title" id="tosTitle">Before You Enter</div>
+      <p class="tos-body" id="tosDesc">
+        By using this site, you agree to our
+        <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>
+        and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.
+      </p>
+      <div class="tos-actions">
+        <button class="tos-btn" id="tosDeclineBtn">Decline</button>
+        <button class="tos-btn accept" id="tosAcceptBtn">I Agree</button>
+      </div>
     </div>
   </div>
 
-  <div class="footer-particles" aria-hidden="true">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-</footer>
-
-        <noscript>
-            <div class="noscript-warning" role="status">
-                This site works best with JavaScript enabled.
-            </div>
-        </noscript>
-
-        <div id="tosModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 2rem;">
-            <div role="dialog" aria-modal="true" aria-labelledby="tosTitle" aria-describedby="tosDesc" style="background: white; padding: 32px; border-radius: 12px; max-width: 640px; width: 100%; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h2 id="tosTitle" style="margin:0; font-family: 'Helvetica Neue', sans-serif; font-size:1.4rem; background: linear-gradient(to right,#00bfff,#00ff7f); background-clip: text; -webkit-background-clip: text; color: transparent;">
-                        Welcome  Please agree to continue
-                    </h2>
-                    <button id="tosCloseBtn" aria-label="Close dialog" style="background:transparent; border:none; font-size:1.25rem; cursor:pointer;">✕</button>
-                </div>
-                <p id="tosDesc" style="margin-top:12px; line-height:1.5;">
-                    By using this site, you agree to our <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-                </p>
-                <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
-                    <button id="tosDeclineBtn" style="padding:10px 18px; background:#ef4444; color:white; border:none; border-radius:8px; cursor:pointer;">Decline</button>
-                    <button id="tosAcceptBtn" style="padding:10px 18px; background:linear-gradient(90deg,#00bfff,#00ff7f); color:white; border:none; border-radius:8px; cursor:pointer;">I Agree &amp; Continue</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="Three.js" defer></script>
-    <script src="loading.js" defer></script>
-
-    <script>
-        const yearEl = document.getElementById('year');
-        if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-        document.addEventListener("contextmenu", e => e.preventDefault());
-    </script>
-
-<button class="modal-trigger glass" aria-label="Open login form">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-    </svg>
-</button>
-
-<div id="login-modal">
-    <div class="login-panel glass">
-        <button class="close-modal" aria-label="Close">&times;</button>
-        <h3>Login to PooStudio</h3>
-        <p>Access exclusive features and content from the depths up.</p>
-
-        <form id="login-form" action="/login" method="POST" novalidate>
-            <input
-                type="email"
-                name="email"
-                placeholder="you@example.com"
-                required
-                autocomplete="email"
-                aria-label="Your email address"
-            >
-            <div class="error-message" id="email-error" role="alert"></div>
-            <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                autocomplete="current-password"
-                aria-label="Your password"
-            >
-            <div class="error-message" id="password-error" role="alert"></div>
-
-            <button type="submit">Login</button>
-
-            <div style="margin: 16px 0; display: flex; align-items: center; gap: 12px;">
-                <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.2);"></div>
-                <span style="font-size: 0.85rem; color: #aaa;">OR</span>
-                <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.2);"></div>
-            </div>
-
-            <button type="button" onclick="handleGoogleSignIn()" style="width: 100%; padding: 12px; background: #fff; color: #000; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                Sign in with Google
-            </button>
-        </form>
-
-        <p class="privacy-small">
-            Don't have an account? <a href="Singup.html">Sign up</a>
-        </p>
-    </div>
-</div>
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap');
-
-    #login-modal {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.8);
-        backdrop-filter: blur(16px);
-        z-index: 1000;
-        font-family: 'Helvetica Neue', sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.4s ease;
-    }
-
-    #login-modal.open {
-        opacity: 1;
-        pointer-events: all;
-    }
-
-    .modal-trigger {
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, #00bfff, #00ff7f);
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        box-shadow: 0 8px 25px rgba(0, 191, 255, 0.4);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.4s ease;
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 999;
-    }
-
-    .modal-trigger:hover {
-        transform: scale(1.1);
-        box-shadow: 0 12px 35px rgba(0, 191, 255, 0.6);
-    }
-
-    .login-panel {
-        position: relative;
-        width: 360px;
-        max-width: 90vw;
-        background-color: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(127, 255, 212, 0.2);
-    }
-
-    .login-panel h3 {
-        font-family: 'Helvetica Neue', sans-serif;
-        font-size: 1.6em;
-        color: #ffffff;
-        margin: 0 0 12px 0;
-        text-align: center;
-        font-weight: 300;
-    }
-
-    .login-panel > p {
-        font-size: 0.95em;
-        color: #dddddd;
-        margin-bottom: 24px;
-        line-height: 1.5;
-        text-align: center;
-    }
-
-    .login-panel input[type="email"],
-    .login-panel input[type="password"] {
-        width: 100%;
-        padding: 14px 18px;
-        background-color: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 8px;
-        color: #e0e0e0;
-        font-size: 1em;
-        margin-bottom: 8px;
-        transition: all 0.3s ease;
-        box-sizing: border-box;
-    }
-
-    .login-panel input[type="email"]:focus,
-    .login-panel input[type="password"]:focus {
-        outline: none;
-        border-color: #7fffd4;
-        box-shadow: 0 0 0 3px rgba(127, 255, 212, 0.25);
-    }
-
-    .login-panel input[type="email"].invalid,
-    .login-panel input[type="password"].invalid {
-        border-color: #ff4444;
-        box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
-    }
-
-    .error-message {
-        color: #ff6666;
-        font-size: 0.85em;
-        min-height: 20px;
-        margin-bottom: 12px;
-        text-align: left;
-    }
-
-    .login-panel button[type="submit"] {
-        width: 100%;
-        background: linear-gradient(90deg, #00bfff, #00ff7f);
-        color: #fff;
-        padding: 14px;
-        border: none;
-        border-radius: 50px;
-        font-weight: 400;
-        font-size: 1em;
-        cursor: pointer;
-        transition: all 0.4s ease;
-        box-shadow: 0 4px 15px rgba(127, 255, 212, 0.4);
-    }
-
-    .login-panel button[type="submit"]:hover:not(:disabled) {
-        background: linear-gradient(90deg, #7fffd4, #00bfff);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(127, 255, 212, 0.6);
-    }
-
-    .login-panel button[type="submit"]:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-    }
-
-    .close-modal {
-        position: absolute;
-        top: 12px;
-        right: 16px;
-        background: none;
-        border: none;
-        color: #aaa;
-        font-size: 1.8em;
-        cursor: pointer;
-        width: 36px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-    }
-
-    .close-modal:hover {
-        background: rgba(239, 68, 68, 0.2);
-        color: #ff4444;
-    }
-
-    .privacy-small {
-        font-size: 0.8em;
-        color: #aaa;
-        margin-top: 20px;
-        text-align: center;
-    }
-
-    .privacy-small a {
-        color: #7fffd4;
-        text-decoration: none;
-    }
-
-    .privacy-small a:hover {
-        color: #ffffff;
-        text-decoration: underline;
-    }
-
-    @media (max-width: 480px) {
-        .login-panel {
-            width: 320px;
-            padding: 24px;
+  <script>
+    (function() {
+      const bar = document.getElementById('gate-bar');
+      const gate = document.getElementById('gate');
+      let pct = 0;
+      const iv = setInterval(() => {
+        pct += Math.random() * 20 + 8;
+        if (pct > 100) pct = 100;
+        bar.style.width = pct + '%';
+        if (pct >= 100) {
+          clearInterval(iv);
+          setTimeout(() => {
+            gate.style.opacity = '0';
+            setTimeout(() => {
+              gate.style.display = 'none';
+              document.getElementById('main').classList.add('visible');
+            }, 1800);
+          }, 600);
         }
+      }, 90);
+    })();
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('progress-line').style.width = (scrollTop / docHeight * 100) + '%';
+      document.getElementById('nav').classList.toggle('scrolled', scrollTop > 40);
+    });
+
+    const yr = document.getElementById('year');
+    if (yr) yr.textContent = new Date().getFullYear();
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    const tosModal = document.getElementById('tosModal');
+    const tosAccept = document.getElementById('tosAcceptBtn');
+    const tosDecline = document.getElementById('tosDeclineBtn');
+
+    if (!localStorage.getItem('ps_tos')) {
+      setTimeout(() => { tosModal.style.display = 'flex'; }, 1200);
     }
 
-    @media (max-width: 400px) {
-        .modal-trigger {
-            bottom: 20px;
-            right: 20px;
-        }
+    tosAccept.addEventListener('click', () => {
+      localStorage.setItem('ps_tos', '1');
+      tosModal.style.display = 'none';
+    });
 
-        .login-panel {
-            width: 280px;
-            padding: 20px;
-        }
+    tosDecline.addEventListener('click', () => {
+      window.location.href = 'https://google.com';
+    });
+
+    const loginModal = document.getElementById('login-modal');
+    const loginTrigger = document.getElementById('login-trigger');
+    const loginClose = document.getElementById('login-close');
+    const loginForm = document.getElementById('login-form');
+    const emailInput = loginForm.querySelector('input[type="email"]');
+    const passInput = loginForm.querySelector('input[type="password"]');
+    const emailError = document.getElementById('email-error');
+    const passError = document.getElementById('password-error');
+    const submitBtn = document.getElementById('login-submit');
+
+    const emailRx = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+
+    function validateEmail() {
+      const v = emailInput.value.trim();
+      if (!v) { emailError.textContent = 'Email required.'; emailInput.classList.add('invalid'); return false; }
+      if (!emailRx.test(v)) { emailError.textContent = 'Invalid email.'; emailInput.classList.add('invalid'); return false; }
+      emailError.textContent = ''; emailInput.classList.remove('invalid'); return true;
     }
-</style>
 
-<script type="module">
+    function validatePass() {
+      const v = passInput.value;
+      if (!v) { passError.textContent = 'Password required.'; passInput.classList.add('invalid'); return false; }
+      if (v.length < 6) { passError.textContent = 'Min 6 characters.'; passInput.classList.add('invalid'); return false; }
+      passError.textContent = ''; passInput.classList.remove('invalid'); return true;
+    }
+
+    [emailInput, passInput].forEach(el => {
+      el.addEventListener('input', () => { submitBtn.disabled = !(validateEmail() && validatePass()); });
+    });
+
+    function openLogin() { loginModal.classList.add('open'); }
+    function closeLogin() { loginModal.classList.remove('open'); }
+
+    loginTrigger.addEventListener('click', openLogin);
+    loginClose.addEventListener('click', closeLogin);
+    loginModal.addEventListener('click', e => { if (e.target === loginModal) closeLogin(); });
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogin(); });
+  </script>
+
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-    const firebaseConfig = {
-    apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
-    authDomain: "poostudios-20da0.firebaseapp.com",
-    projectId: "poostudios-20da0",
-    storageBucket: "poostudios-20da0.firebasestorage.app",
-    messagingSenderId: "69493755317",
-    appId: "1:69493755317:web:c1835df7c7b9eae9315dfc"
-    };
+    const app = initializeApp({
+      apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
+      authDomain: "poostudios-20da0.firebaseapp.com",
+      projectId: "poostudios-20da0",
+      storageBucket: "poostudios-20da0.firebasestorage.app",
+      messagingSenderId: "69493755317",
+      appId: "1:69493755317:web:c1835df7c7b9eae9315dfc"
+    });
 
-    const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
-
-    const modal = document.getElementById('login-modal');
-    const trigger = document.querySelector('.modal-trigger');
-    const closeBtn = modal.querySelector('.close-modal');
     const form = document.getElementById('login-form');
     const emailError = document.getElementById('email-error');
-    const passwordError = document.getElementById('password-error');
+    const passError = document.getElementById('password-error');
 
-    function openModal() { modal.classList.add('open'); }
-    function closeModal() { modal.classList.remove('open'); }
-
-    trigger.addEventListener('click', openModal);
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        emailError.textContent = '';
-        passwordError.textContent = '';
-
-        const email = form.querySelector('input[name="email"]').value.trim();
-        const password = form.querySelector('input[name="password"]').value;
-
-        try {
-            const cred = await signInWithEmailAndPassword(auth, email, password);
-            if (!cred.user.emailVerified) {
-                alert('Please verify your email before signing in. A verification email was sent when you signed up.');
-            }
-            closeModal();
-            window.location.reload();
-        } catch (err) {
-            const msg = (err && err.code) ? err.code : (err && err.message) || String(err);
-            console.error('Login failed', err);
-            if (msg.includes('auth/user-not-found') || msg.includes('auth/invalid-email')) {
-                emailError.textContent = 'No account found for that email.';
-            } else if (msg.includes('auth/wrong-password')) {
-                passwordError.textContent = 'Incorrect password.';
-            } else if (msg.includes('auth/too-many-requests')) {
-                passwordError.textContent = 'Too many attempts. Try again later.';
-            } else {
-                emailError.textContent = 'Login failed. Check console for details.';
-            }
-        }
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const email = form.querySelector('input[type="email"]').value.trim();
+      const pass = form.querySelector('input[type="password"]').value;
+      try {
+        const cred = await signInWithEmailAndPassword(auth, email, pass);
+        if (!cred.user.emailVerified) alert('Please verify your email first.');
+        document.getElementById('login-modal').classList.remove('open');
+        window.location.reload();
+      } catch (err) {
+        const c = err?.code || '';
+        if (c.includes('user-not-found') || c.includes('invalid-email')) emailError.textContent = 'No account found.';
+        else if (c.includes('wrong-password')) passError.textContent = 'Incorrect password.';
+        else if (c.includes('too-many-requests')) passError.textContent = 'Too many attempts. Try later.';
+        else emailError.textContent = 'Login failed.';
+      }
     });
 
     window.handleGoogleSignIn = async () => {
-        try {
-            const cred = await signInWithPopup(auth, googleProvider);
-            closeModal();
-            window.location.reload();
-        } catch (err) {
-            console.error('Google sign-in failed', err);
-            alert('Google sign-in failed: ' + (err.message || err.code));
-        }
+      try {
+        await signInWithPopup(auth, googleProvider);
+        document.getElementById('login-modal').classList.remove('open');
+        window.location.reload();
+      } catch (err) {
+        alert('Google sign-in failed: ' + (err.message || err.code));
+      }
     };
 
-    window.poostudioAuthSignOut = async () => { try { await signOut(auth); window.location.reload(); } catch(e){console.error(e);} };
+    window.poostudioAuthSignOut = async () => {
+      try { await signOut(auth); window.location.reload(); } catch(e) { console.error(e); }
+    };
 
-    const authNav = document.getElementById('auth-nav');
-    const signedInIndicator = document.getElementById('signed-in-indicator');
-    
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            console.log('Signed in as', user.displayName || user.email);
-            authNav.style.display = 'flex';
-            if (signedInIndicator) {
-                signedInIndicator.textContent = '✓ ' + (user.displayName || user.email);
-            }
-            
-            window.userIsLoggedIn = true;
-        } else {
-            authNav.style.display = 'none';
-            window.userIsLoggedIn = false;
-        }
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const modal = document.getElementById('login-modal');
-        const trigger = document.querySelector('.modal-trigger');
-        const closeBtn = modal.querySelector('.close-modal');
-        const form = modal.querySelector('#login-form');
-        const emailInput = form.querySelector('input[type="email"]');
-        const passwordInput = form.querySelector('input[type="password"]');
-        const emailError = document.getElementById('email-error');
-        const passwordError = document.getElementById('password-error');
-        const submitBtn = form.querySelector('button[type="submit"]');
-
-        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
-
-        function validateEmail() {
-            const value = emailInput.value.trim();
-            if (value === '') {
-                showError('Email is required.', emailError, emailInput);
-                return false;
-            } else if (!emailRegex.test(value)) {
-                showError('Please enter a valid email address.', emailError, emailInput);
-                return false;
-            } else {
-                clearError(emailError, emailInput);
-                return true;
-            }
-        }
-
-        function validatePassword() {
-            const value = passwordInput.value;
-            if (value === '') {
-                showError('Password is required.', passwordError, passwordInput);
-                return false;
-            } else if (value.length < 6) {
-                showError('Password must be at least 6 characters.', passwordError, passwordInput);
-                return false;
-            } else {
-                clearError(passwordError, passwordInput);
-                return true;
-            }
-        }
-
-        function showError(message, errorEl, inputEl) {
-            errorEl.textContent = message;
-            inputEl.classList.add('invalid');
-        }
-
-        function clearError(errorEl, inputEl) {
-            errorEl.textContent = '';
-            inputEl.classList.remove('invalid');
-        }
-
-        function updateSubmitButton() {
-            submitBtn.disabled = !(validateEmail() && validatePassword());
-        }
-
-        emailInput.addEventListener('input', updateSubmitButton);
-        passwordInput.addEventListener('input', updateSubmitButton);
-
-        form.addEventListener('submit', (e) => {
-            if (!validateEmail() || !validatePassword()) {
-                e.preventDefault();
-            }
-        });
-
-        trigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            modal.classList.add('open');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.addEventListener('click', () => {
-            modal.classList.remove('open');
-        });
-
-        modal.querySelector('.login-panel').addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-
+    onAuthStateChanged(auth, user => {
+      const authNav = document.getElementById('auth-nav');
+      const indicator = document.getElementById('signed-in-indicator');
+      if (user) {
+        authNav.style.display = 'flex';
+        if (indicator) indicator.textContent = '— ' + (user.displayName || user.email);
+        window.userIsLoggedIn = true;
+      } else {
+        authNav.style.display = 'none';
+        window.userIsLoggedIn = false;
         setTimeout(() => {
-            if (!window.userIsLoggedIn) {
-                modal.classList.add('open');
-            }
+          if (!window.userIsLoggedIn) document.getElementById('login-modal').classList.add('open');
         }, 8000);
+      }
     });
-</script>
+  </script>
 
 </body>
-
 </html>
