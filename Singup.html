@@ -13,11 +13,9 @@
 </head>
 <body>
 
-  <!-- NOISE + GRAIN -->
   <div class="noise-overlay" aria-hidden="true"></div>
   <div id="progress-line"></div>
 
-  <!-- GATE -->
   <div id="gate">
     <div class="gate-studio">POOSTUDIO</div>
     <div class="gate-status">
@@ -29,10 +27,8 @@
     </div>
   </div>
 
-  <!-- MAIN -->
   <main id="main">
 
-    <!-- NAV -->
     <nav id="nav">
       <a href="index.html" class="nav-logo">PS</a>
       <ul class="nav-links">
@@ -41,10 +37,8 @@
       </ul>
     </nav>
 
-    <!-- SIGNUP SECTION -->
     <section id="signup-section">
 
-      <!-- Left editorial column -->
       <div class="signup-left">
         <span class="section-tag">02 — Join</span>
         <h1 class="signup-display">CREATE<br>ACCOUNT</h1>
@@ -59,10 +53,8 @@
         </p>
       </div>
 
-      <!-- Right form column -->
       <div class="signup-right">
 
-        <!-- Security notice -->
         <div class="security-notice" role="alert">
           <span class="notice-label">Security Notice</span>
           <p>Use a unique password for this site. Do not reuse passwords from other accounts.</p>
@@ -117,7 +109,6 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
       <div class="footer-left">
         <span class="footer-logo">POOSTUDIO</span>
@@ -134,9 +125,7 @@
 
   </main>
 
-  <!-- SCRIPTS -->
   <script>
-    // ── GATE ─────────────────────────────────────────────────────
     (function() {
       const bar  = document.getElementById('gate-bar');
       const gate = document.getElementById('gate');
@@ -158,18 +147,14 @@
       }, 90);
     })();
 
-    // ── SCROLL NAV ───────────────────────────────────────────────
     window.addEventListener('scroll', () => {
       document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // ── YEAR ────────────────────────────────────────────────────
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ── CONTEXT MENU ─────────────────────────────────────────────
     document.addEventListener('contextmenu', e => e.preventDefault());
 
-    // ── FORM VALIDATION ──────────────────────────────────────────
     const form       = document.getElementById('signup-form');
     const usernameEl = document.getElementById('f-username');
     const emailEl    = document.getElementById('f-email');
@@ -217,7 +202,6 @@
     });
   </script>
 
-  <!-- FIREBASE MODULE -->
   <script type="module">
     import { initializeApp }           from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithPopup,
@@ -241,7 +225,6 @@
     const submitBtn      = document.getElementById('submit-btn');
     const googleBtn      = document.getElementById('google-signup-btn');
 
-    // ── Email / Password signup ───────────────────────────────────
     form.addEventListener('submit', async e => {
       e.preventDefault();
 
@@ -292,7 +275,6 @@
       }
     });
 
-    // ── Google signup ─────────────────────────────────────────────
     googleBtn.addEventListener('click', async () => {
       try {
         const cred = await signInWithPopup(auth, googleProvider);
