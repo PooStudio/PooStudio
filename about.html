@@ -29,7 +29,6 @@
       cursor: crosshair;
     }
 
-    /* ENTRY GATE */
     #gate {
       position: fixed;
       inset: 0;
@@ -79,7 +78,6 @@
       to { opacity: 1; }
     }
 
-    /* SCROLL PROGRESS LINE */
     #progress-line {
       position: fixed;
       top: 0;
@@ -91,7 +89,6 @@
       transition: width 0.1s linear;
     }
 
-    /* MAIN */
     main {
       opacity: 0;
       transition: opacity 1.5s ease;
@@ -99,7 +96,6 @@
 
     main.visible { opacity: 1; }
 
-    /* HERO */
     #hero {
       min-height: 100vh;
       display: flex;
@@ -163,7 +159,6 @@
       letter-spacing: 0.05em;
     }
 
-    /* SCROLL CUE */
     .scroll-cue {
       position: absolute;
       bottom: 40px;
@@ -182,7 +177,6 @@
       50% { opacity: 0.7; }
     }
 
-    /* CHAPTERS */
     .chapter {
       max-width: 720px;
       margin: 0 auto;
@@ -210,7 +204,6 @@
       background: #1e1e1e;
     }
 
-    /* STANDOUT TEXT — the main lines */
     .line-big {
       font-family: 'IM Fell English', serif;
       font-size: clamp(1.6rem, 4vw, 2.8rem);
@@ -239,7 +232,6 @@
       margin-bottom: 30px;
     }
 
-    /* BRUTAL CALLOUT */
     .callout {
       border-left: 2px solid var(--rust);
       padding: 30px 0 30px 40px;
@@ -254,7 +246,6 @@
       line-height: 1.7;
     }
 
-    /* BIG SOLO LINE */
     .solo-line {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(3rem, 7vw, 6rem);
@@ -288,7 +279,6 @@
       color: var(--rust);
     }
 
-    /* THE CONFESSION — centered brutal */
     #confession {
       min-height: 100vh;
       display: flex;
@@ -332,7 +322,6 @@
       font-weight: normal;
     }
 
-    /* STATIC TEXT EFFECT */
     .glitch-word {
       position: relative;
       display: inline-block;
@@ -361,7 +350,6 @@
       100% { left: 2px; }
     }
 
-    /* THE INVENTORY — things she took */
     .inventory {
       margin: 70px 0;
       display: grid;
@@ -389,7 +377,6 @@
       margin-bottom: 8px;
     }
 
-    /* FINAL */
     #finale {
       min-height: 100vh;
       display: flex;
@@ -431,7 +418,6 @@
       letter-spacing: 0.05em;
     }
 
-    /* NOISE TEXTURE OVERLAY */
     body::after {
       content: '';
       position: fixed;
@@ -443,7 +429,6 @@
       background-size: 200px 200px;
     }
 
-    /* UTILITY */
     .red { color: var(--red); }
     .space { display: block; height: 30px; }
     .space-lg { display: block; height: 70px; }
@@ -453,7 +438,6 @@
 
   <div id="progress-line"></div>
 
-  <!-- GATE -->
   <div id="gate">
     <div id="gate-text">
       this is not a story.<br>
@@ -463,10 +447,8 @@
     <button id="gate-enter" onclick="enter()">enter</button>
   </div>
 
-  <!-- MAIN -->
   <main id="main">
 
-    <!-- HERO -->
     <section id="hero">
       <div class="hero-number">6</div>
       <div class="hero-label">months we were together</div>
@@ -476,7 +458,6 @@
       <div class="scroll-cue">keep going</div>
     </section>
 
-    <!-- CHAPTER 1 — before -->
     <section class="chapter">
       <div class="chapter-num">01 — before I knew</div>
 
@@ -506,7 +487,6 @@
       </p>
     </section>
 
-    <!-- CHAPTER 2 — the fact -->
     <section class="chapter">
       <div class="chapter-num">02 — the thing you did</div>
 
@@ -544,7 +524,6 @@
       </p>
     </section>
 
-    <!-- CHAPTER 3 — the six years -->
     <section class="chapter">
       <div class="chapter-num">03 — what six years feels like</div>
 
@@ -591,7 +570,6 @@
       </p>
     </section>
 
-    <!-- CONFESSION SECTION — the name -->
     <section id="confession">
       <div class="confession-inner">
         <span class="confession-name">Mackenzie</span>
@@ -606,7 +584,6 @@
       </div>
     </section>
 
-    <!-- CHAPTER 4 — the release -->
     <section class="chapter">
       <div class="chapter-num">04 — what I'm done doing</div>
 
@@ -673,7 +650,6 @@
       }, 2000);
     }
 
-    // scroll progress
     window.addEventListener('scroll', () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -681,7 +657,6 @@
       document.getElementById('progress-line').style.width = pct + '%';
     });
 
-    // finale animation trigger on scroll into view
     const finaleObserver = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {

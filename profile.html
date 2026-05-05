@@ -5,427 +5,374 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile ✦ POOSTUDIO</title>
   <link rel="icon" href="logo.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="profile.css">
 </head>
 <body>
 
-<div id="three-container"></div>
-<div id="noise"></div>
-<div id="particles"></div>
-<div id="starsContainer"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div id="progress-line"></div>
 
-<div id="not-auth">
-  <h2 class="glitch" data-text="Access Denied">Access Denied</h2>
-  <p>You need to be logged in to view this page.</p>
-  <a href="index.html" class="btn btn-primary">← Back to Home & Login</a>
-</div>
+  <div id="not-auth">
+    <div class="not-auth-inner">
+      <div class="not-auth-label">403</div>
+      <h2 class="not-auth-title">Access Denied</h2>
+      <p class="not-auth-body">You need to be signed in to view this page.</p>
+      <a href="index.html" class="auth-btn">← Return to Home</a>
+    </div>
+  </div>
 
-<div id="overlay">
-  <div id="content" style="display: none;">
-    <div class="container glass">
-      <header class="glass">
-        <nav>
-          <a href="index.html" class="glitch" data-text="Home">Home</a>
-        </nav>
-        <div class="logo glitch aero-glow" data-text="POOSTUDIO">POOSTUDIO</div>
+  <div id="content" style="display:none;">
+
+    <nav id="nav">
+      <a href="index.html" class="nav-logo">PS</a>
+      <div class="nav-right">
         <div class="settings-menu">
-          <a href="settings.html" class="btn btn-primary glitch" title="Settings" aria-label="Settings">⚙</a>
-        </div>
-      </header>
+          <button class="settings-toggle" id="settings-toggle" aria-label="Settings" aria-expanded="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </button>
 
-      <div id="message-container"></div>
+          <div class="settings-dropdown" id="settings-dropdown">
+            <div class="dropdown-label">Settings</div>
 
-      <div class="profile-card glass">
-        <div class="profile-header">
-          <div class="avatar-container">
-            <div class="avatar glitch aero-glow" id="avatar">👤</div>
-            <span class="edit-icon" id="edit-avatar" onclick="triggerAvatarUpload()" title="Edit Profile Picture">✏️</span>
-            <input type="file" id="avatar-input" accept="image/*" style="display: none;">
-            <button id="avatar-save-btn" class="btn btn-primary" style="display: none; margin-top:8px;">Save</button>
-          </div>
-          <div class="user-info">
-            <div class="name-container">
-              <h1 id="display-name" class="aero-glow glitch" data-text="User">User</h1>
-              <span class="edit-icon" id="edit-name" onclick="handleChangeName()">✏️</span>
+            <div class="settings-row">
+              <label class="settings-row-label">Display Name</label>
+              <input type="text" id="settings-display-name" placeholder="New name..." autocomplete="off">
+              <button class="settings-action-btn" id="settings-save-name">Save Name</button>
             </div>
-            <p id="status" class="text-left aero-glow"></p>
-          </div>
-        </div>
 
-        <div class="details-grid">
-          <div class="detail-item glass">
-            <label class="aero-glow">Account Created</label>
-            <span id="created-date" class="glitch" data-text="—">—</span>
-          </div>
-          <div class="detail-item glass">
-            <label class="aero-glow">Email Verified</label>
-            <span id="verified-status" class="glitch" data-text="—">—</span>
-          </div>
-          <div class="detail-item glass">
-            <label class="aero-glow">Last Login</label>
-            <span id="last-login" class="glitch" data-text="—">—</span>
+            <div class="settings-divider"></div>
+
+            <div class="settings-row">
+              <label class="settings-row-label">Profile Picture</label>
+              <input type="file" id="settings-avatar-input" accept="image/*">
+              <button class="settings-action-btn" id="settings-upload-avatar">Upload Photo</button>
+            </div>
+
+            <div class="settings-divider"></div>
+
+            <button class="settings-action-btn settings-action-btn--ghost" onclick="handleVerifyEmail()">Resend Verification</button>
+            <button class="settings-action-btn settings-action-btn--ghost" onclick="handleChangePassword()">Change Password</button>
+
+            <div class="settings-divider"></div>
+
+            <button class="settings-action-btn settings-action-btn--danger" onclick="handleLogout()">Sign Out</button>
           </div>
         </div>
       </div>
-    </div>
+    </nav>
 
-    <footer class="site-footer glass">
-      <div class="footer-inner glass">
-        <div class="footer-logo aero-glow glitch" data-text="PooStudio">PooStudio</div>
-        <nav class="footer-nav">
-          <a href="terms.html" class="glitch" data-text="Terms">Terms</a>
-          <a href="privacy.html" class="glitch" data-text="Privacy">Privacy</a>
-        </nav>
-        <p class="footer-copy aero-glow glitch" data-text="© YEAR PooStudio. All rights reserved.">© <span id="year"></span> PooStudio. All rights reserved.</p>
+    <div id="message-container"></div>
+
+    <section id="profile-hero">
+      <div class="profile-hero-inner">
+
+        <div class="avatar-wrap">
+          <div class="avatar" id="avatar">U</div>
+          <button class="avatar-edit" id="edit-avatar" onclick="triggerAvatarUpload()" title="Change photo" aria-label="Change profile photo">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </button>
+          <input type="file" id="avatar-input" accept="image/*" style="display:none;">
+          <button id="avatar-save-btn" class="avatar-save-btn" style="display:none;">Save Photo</button>
+        </div>
+
+        <div class="profile-identity">
+          <div class="profile-num">01</div>
+          <div class="profile-name-row">
+            <h1 class="profile-name" id="display-name">User</h1>
+            <button class="inline-edit" onclick="handleChangeName()" aria-label="Edit name">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+          </div>
+          <p class="profile-status" id="status"></p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="profile-details">
+      <div class="section-num">02 — account</div>
+
+      <div class="details-grid">
+        <div class="detail-cell">
+          <span class="detail-label">Account Created</span>
+          <span class="detail-value" id="created-date">—</span>
+        </div>
+        <div class="detail-cell">
+          <span class="detail-label">Email Verified</span>
+          <span class="detail-value" id="verified-status">—</span>
+        </div>
+        <div class="detail-cell">
+          <span class="detail-label">Last Sign In</span>
+          <span class="detail-value" id="last-login">—</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-left">
+        <span class="footer-logo">POOSTUDIO</span>
+        <p class="footer-copy">© <span id="year"></span> PooStudio. All rights reserved.</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-links">
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="index.html">Home</a>
+        </div>
       </div>
     </footer>
+
   </div>
-</div>
 
-<div class="scanlines"></div>
-<div class="glitch-overlay"></div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut,
+      sendEmailVerification,
+      updatePassword,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
+    import { getFirestore, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-  import { 
-    getAuth, 
-    onAuthStateChanged, 
-    signOut, 
-    sendEmailVerification, 
-    updatePassword,
-    updateProfile 
-  } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
-  import { getFirestore, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
-    authDomain: "poostudios-20da0.firebaseapp.com",
-    projectId: "poostudios-20da0",
-    storageBucket: "poostudios-20da0.firebasestorage.app",
-    messagingSenderId: "69493755317",
-    appId: "1:69493755317:web:c1835df7c7b9eae9315dfc"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const storage = getStorage(app);
-  const db = getFirestore(app);
-
-  const notAuthEl = document.getElementById('not-auth');
-  const contentEl = document.getElementById('content');
-  const msgContainer = document.getElementById('message-container');
-
-  function showMessage(text, isError = false) {
-    const messageEl = document.createElement('div');
-    messageEl.className = `message ${isError ? 'error' : ''} glass aero-glow`;
-    messageEl.textContent = text;
-    msgContainer.appendChild(messageEl);
-  }
-
-  function formatDate(timestamp) {
-    if (!timestamp) return '—';
-    const date = new Date(timestamp);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    const app = initializeApp({
+      apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
+      authDomain: "poostudios-20da0.firebaseapp.com",
+      projectId: "poostudios-20da0",
+      storageBucket: "poostudios-20da0.firebasestorage.app",
+      messagingSenderId: "69493755317",
+      appId: "1:69493755317:web:c1835df7c7b9eae9315dfc"
     });
-  }
 
-  function populateProfile(user) {
-    const displayName = user.displayName || 'User';
-    const displayNameEl = document.getElementById('display-name');
-    displayNameEl.textContent = displayName;
-    displayNameEl.setAttribute('data-text', displayName);
-    
-    const avatarEl = document.getElementById('avatar');
-    if (user.photoURL) {
-      avatarEl.innerHTML = `<img src="${user.photoURL}" alt="Profile Picture" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-    } else {
-      const initial = (user.displayName || user.email).charAt(0).toUpperCase();
-      avatarEl.textContent = initial;
+    const auth = getAuth(app);
+    const storage = getStorage(app);
+    const db = getFirestore(app);
+
+    const msgContainer = document.getElementById('message-container');
+
+    function showMessage(text, isError = false) {
+      const el = document.createElement('div');
+      el.className = 'msg-toast' + (isError ? ' msg-toast--error' : '');
+      el.textContent = text;
+      msgContainer.appendChild(el);
+      setTimeout(() => el.remove(), 4500);
     }
 
-    const verified = user.emailVerified ? '✓ Verified' : '✗ Not Verified';
-    const verifiedEl = document.getElementById('verified-status');
-    verifiedEl.textContent = verified;
-    verifiedEl.setAttribute('data-text', verified);
-    verifiedEl.style.color = user.emailVerified ? '#86efac' : '#fca5a5';
-
-    const statusEl = document.getElementById('status');
-    if (!user.emailVerified) {
-      statusEl.innerHTML = '<strong class="glitch" data-text="⚠ Email not verified" style="color: #fca5a5;">⚠ Email not verified</strong>';
-    } else {
-      statusEl.innerHTML = '<strong class="glitch" data-text="✓ Email verified" style="color: #86efac;">✓ Email verified</strong>';
+    function formatDate(ts) {
+      if (!ts) return '—';
+      return new Date(ts).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
     }
 
-    const createdDateEl = document.getElementById('created-date');
-    const createdDate = formatDate(user.metadata?.creationTime);
-    createdDateEl.textContent = createdDate;
-    createdDateEl.setAttribute('data-text', createdDate);
+    function populateProfile(user) {
+      const name = user.displayName || 'User';
+      document.getElementById('display-name').textContent = name;
 
-    const lastLoginEl = document.getElementById('last-login');
-    const lastLogin = formatDate(user.metadata?.lastSignInTime);
-    lastLoginEl.textContent = lastLogin;
-    lastLoginEl.setAttribute('data-text', lastLogin);
-
-    document.getElementById('year').textContent = new Date().getFullYear();
-  }
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      notAuthEl.style.display = 'none';
-      contentEl.style.display = 'block';
-      populateProfile(user);
-    } else {
-      notAuthEl.style.display = 'flex';
-      contentEl.style.display = 'none';
-    }
-  });
-
-  window.handleLogout = async () => {
-    try {
-      await signOut(auth);
-      window.location.href = 'index.html';
-    } catch (err) {
-      console.error('Logout failed', err);
-      showMessage('Logout failed: ' + err.message, true);
-    }
-  };
-
-  window.handleVerifyEmail = async () => {
-    const user = auth.currentUser;
-    if (!user) {
-      showMessage('Not authenticated', true);
-      return;
-    }
-    try {
-      await sendEmailVerification(user);
-      showMessage('Verification email sent to ' + user.email);
-    } catch (err) {
-      console.error('Send verification failed', err);
-      showMessage('Failed: ' + (err.message || err.code), true);
-    }
-  };
-
-  window.handleChangePassword = async () => {
-    const newPassword = prompt('Enter your new password (min 8 chars):');
-    if (!newPassword || newPassword.length < 8) {
-      showMessage('Password must be at least 8 characters', true);
-      return;
-    }
-    const user = auth.currentUser;
-    if (!user) {
-      showMessage('Not authenticated', true);
-      return;
-    }
-    try {
-      await updatePassword(user, newPassword);
-      showMessage('Password updated. You may need to sign in again.');
-      setTimeout(() => { window.handleLogout(); }, 2000);
-    } catch (err) {
-      console.error('Password update failed', err);
-      showMessage('Failed: ' + (err.message || err.code), true);
-    }
-  };
-
-  window.triggerAvatarUpload = () => {
-    document.getElementById('avatar-input').click();
-  };
-
-  async function uploadAvatarFile(file) {
-    if (!file) return;
-    const user = auth.currentUser;
-    if (!user) {
-      showMessage('Not authenticated', true);
-      return;
-    }
-    try {
-      async function resizeImage(fileBlob, size = 256) {
-        const img = await createImageBitmap(fileBlob);
-        const canvas = document.createElement('canvas');
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext('2d');
-        const { width, height } = img;
-        const min = Math.min(width, height);
-        const sx = (width - min) / 2;
-        const sy = (height - min) / 2;
-        ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
-        return await new Promise((res) => canvas.toBlob(res, 'image/jpeg', 0.9));
+      const avatarEl = document.getElementById('avatar');
+      if (user.photoURL) {
+        avatarEl.innerHTML = `<img src="${user.photoURL}" alt="Profile" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      } else {
+        avatarEl.textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
       }
 
-      const resizedBlob = await resizeImage(file, 256);
-      // Upload to server endpoint
-      const form = new FormData();
-      form.append('avatar', resizedBlob, 'avatar.jpg');
-      form.append('uid', user.uid);
-      const uploadEndpoint = (window.UPLOAD_ENDPOINT || (window.location.origin + '/upload-avatar'));
-      const resp = await fetch(uploadEndpoint, { method: 'POST', body: form });
-      if (!resp.ok) throw new Error('upload-failed');
-      const data = await resp.json();
-      const url = data.url && data.url.startsWith('http') ? data.url : (new URL(data.url, uploadEndpoint).href);
-      await updateProfile(user, { photoURL: url });
-      populateProfile(user);
-      showMessage('Profile picture updated.');
-      const settingsDropdown = document.getElementById('settings-dropdown');
-      if (settingsDropdown) settingsDropdown.classList.remove('active');
-    } catch (err) {
-      console.error('Avatar update failed', err);
-      showMessage('Failed: ' + (err.message || err.code), true);
+      const verified = user.emailVerified ? '✓ Verified' : '✗ Not Verified';
+      const verEl = document.getElementById('verified-status');
+      verEl.textContent = verified;
+      verEl.dataset.verified = user.emailVerified;
+
+      const statusEl = document.getElementById('status');
+      statusEl.textContent = user.emailVerified ? '✓ Email verified' : '⚠ Email not verified';
+      statusEl.dataset.verified = user.emailVerified;
+
+      document.getElementById('created-date').textContent = formatDate(user.metadata?.creationTime);
+      document.getElementById('last-login').textContent = formatDate(user.metadata?.lastSignInTime);
+      document.getElementById('year').textContent = new Date().getFullYear();
     }
-  }
 
-  let selectedAvatarFileProfile = null;
-  function previewSelectedAvatarProfile(file) {
-    const avatarEl = document.getElementById('avatar');
-    const reader = new FileReader();
-    reader.onload = () => {
-      avatarEl.innerHTML = `<img src="${reader.result}" alt="Profile Picture" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById('not-auth').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        populateProfile(user);
+      } else {
+        document.getElementById('not-auth').style.display = 'flex';
+        document.getElementById('content').style.display = 'none';
+      }
+    });
+
+    window.handleLogout = async () => {
+      try { await signOut(auth); window.location.href = 'index.html'; }
+      catch (err) { showMessage('Logout failed: ' + err.message, true); }
     };
-    reader.readAsDataURL(file);
-  }
 
-  const avatarInputEl = document.getElementById('avatar-input');
-  const avatarSaveBtn = document.getElementById('avatar-save-btn');
-  if (avatarInputEl) {
-    avatarInputEl.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      if (!file) return;
-      selectedAvatarFileProfile = file;
-      previewSelectedAvatarProfile(file);
-      if (avatarSaveBtn) avatarSaveBtn.style.display = 'inline-block';
-    });
-  }
+    window.handleVerifyEmail = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      try { await sendEmailVerification(user); showMessage('Verification email sent.'); }
+      catch (err) { showMessage('Failed: ' + (err.message || err.code), true); }
+    };
 
-  if (avatarSaveBtn) {
-    avatarSaveBtn.addEventListener('click', async () => {
-      if (!selectedAvatarFileProfile) return;
-      await uploadAvatarFile(selectedAvatarFileProfile);
-      selectedAvatarFileProfile = null;
-      avatarSaveBtn.style.display = 'none';
-    });
-  }
+    window.handleChangePassword = async () => {
+      const newPw = prompt('New password (min 8 chars):');
+      if (!newPw || newPw.length < 8) { showMessage('Password must be at least 8 characters.', true); return; }
+      const user = auth.currentUser;
+      if (!user) return;
+      try {
+        await updatePassword(user, newPw);
+        showMessage('Password updated. Signing out…');
+        setTimeout(() => window.handleLogout(), 2000);
+      } catch (err) { showMessage('Failed: ' + (err.message || err.code), true); }
+    };
 
-  const settingsAvatarInputEl = document.getElementById('settings-avatar-input');
-  const settingsUploadBtn = document.getElementById('settings-upload-avatar');
-  if (settingsAvatarInputEl) {
-    settingsAvatarInputEl.addEventListener('change', (e) => {
+    window.triggerAvatarUpload = () => document.getElementById('avatar-input').click();
+
+    async function uploadAvatarFile(file) {
+      const user = auth.currentUser;
+      if (!user || !file) return;
+      try {
+        async function resizeImage(blob, size = 256) {
+          const img = await createImageBitmap(blob);
+          const canvas = document.createElement('canvas');
+          canvas.width = canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          const min = Math.min(img.width, img.height);
+          ctx.drawImage(img, (img.width - min) / 2, (img.height - min) / 2, min, min, 0, 0, size, size);
+          return await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.9));
+        }
+        const blob = await resizeImage(file, 256);
+        const form = new FormData();
+        form.append('avatar', blob, 'avatar.jpg');
+        form.append('uid', user.uid);
+        const endpoint = window.UPLOAD_ENDPOINT || (window.location.origin + '/upload-avatar');
+        const resp = await fetch(endpoint, { method: 'POST', body: form });
+        if (!resp.ok) throw new Error('upload-failed');
+        const data = await resp.json();
+        const url = data.url.startsWith('http') ? data.url : new URL(data.url, endpoint).href;
+        await updateProfile(user, { photoURL: url });
+        populateProfile(user);
+        showMessage('Profile photo updated.');
+      } catch (err) { showMessage('Failed: ' + (err.message || err.code), true); }
+    }
+
+    let pendingAvatar = null;
+    const avatarInput = document.getElementById('avatar-input');
+    const avatarSaveBtn = document.getElementById('avatar-save-btn');
+
+    avatarInput.addEventListener('change', e => {
       const file = e.target.files[0];
       if (!file) return;
-      uploadAvatarFile(file);
-    });
-  }
-  if (settingsUploadBtn) {
-    settingsUploadBtn.addEventListener('click', () => {
-      if (settingsAvatarInputEl) settingsAvatarInputEl.click();
-    });
-  }
-
-  window.handleChangeName = async () => {
-    const newName = prompt('Enter your new display name:');
-    if (!newName) return;
-    const user = auth.currentUser;
-    if (!user) { showMessage('Not authenticated', true); return; }
-    try {
-      const claimUsername = async (user, desiredName) => {
-        const key = desiredName.toLowerCase();
-        const desiredRef = doc(db, 'usernames', key);
-        await runTransaction(db, async (tx) => {
-          const snap = await tx.get(desiredRef);
-          if (snap.exists() && snap.data().uid !== user.uid) throw new Error('username-taken');
-          tx.set(desiredRef, { uid: user.uid, createdAt: serverTimestamp() });
-          const old = (user.displayName || '').toLowerCase();
-          if (old && old !== key) {
-            const oldRef = doc(db, 'usernames', old);
-            const oldSnap = await tx.get(oldRef);
-            if (oldSnap.exists() && oldSnap.data().uid === user.uid) tx.delete(oldRef);
-          }
-        });
+      pendingAvatar = file;
+      const reader = new FileReader();
+      reader.onload = r => {
+        document.getElementById('avatar').innerHTML = `<img src="${r.target.result}" alt="Preview" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
       };
+      reader.readAsDataURL(file);
+      avatarSaveBtn.style.display = 'block';
+    });
 
-      await claimUsername(user, newName);
-      await updateProfile(user, { displayName: newName });
-      populateProfile(user);
-      showMessage('Display name updated.');
-    } catch (err) {
-      if (err && err.message === 'username-taken') {
-        showMessage('That display name is already taken', true);
-      } else {
-        console.error('Name update failed', err);
-        showMessage('Failed: ' + (err.message || err.code), true);
-      }
+    avatarSaveBtn.addEventListener('click', async () => {
+      if (!pendingAvatar) return;
+      await uploadAvatarFile(pendingAvatar);
+      pendingAvatar = null;
+      avatarSaveBtn.style.display = 'none';
+    });
+
+    const settingsAvatarInput = document.getElementById('settings-avatar-input');
+    const settingsUploadBtn = document.getElementById('settings-upload-avatar');
+    if (settingsUploadBtn) settingsUploadBtn.addEventListener('click', () => settingsAvatarInput?.click());
+    if (settingsAvatarInput) settingsAvatarInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) uploadAvatarFile(file);
+    });
+
+    async function claimUsername(user, name) {
+      const key = name.toLowerCase();
+      const desiredRef = doc(db, 'usernames', key);
+      await runTransaction(db, async tx => {
+        const snap = await tx.get(desiredRef);
+        if (snap.exists() && snap.data().uid !== user.uid) throw new Error('username-taken');
+        tx.set(desiredRef, { uid: user.uid, createdAt: serverTimestamp() });
+        const old = (user.displayName || '').toLowerCase();
+        if (old && old !== key) {
+          const oldRef = doc(db, 'usernames', old);
+          const oldSnap = await tx.get(oldRef);
+          if (oldSnap.exists() && oldSnap.data().uid === user.uid) tx.delete(oldRef);
+        }
+      });
     }
-  };
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 0) {
-      document.documentElement.classList.add('scrolled');
-    } else {
-      document.documentElement.classList.remove('scrolled');
-    }
-  });
-
-  const settingsToggle = document.querySelector('.settings-toggle');
-  const settingsDropdown = document.getElementById('settings-dropdown');
-
-  settingsToggle.addEventListener('click', () => {
-    settingsDropdown.classList.toggle('active');
-  });
-
-  document.addEventListener('click', (event) => {
-    if (!settingsToggle.contains(event.target) && !settingsDropdown.contains(event.target)) {
-      settingsDropdown.classList.remove('active');
-    }
-  });
-  const settingsSaveNameBtn = document.getElementById('settings-save-name');
-  const settingsNameInput = document.getElementById('settings-display-name');
-  if (settingsSaveNameBtn) {
-    settingsSaveNameBtn.addEventListener('click', async () => {
-      const newName = (settingsNameInput && settingsNameInput.value) ? settingsNameInput.value.trim() : '';
-      if (!newName) {
-        showMessage('Please enter a display name', true);
-        return;
-      }
+    window.handleChangeName = async () => {
+      const newName = prompt('Enter new display name:');
+      if (!newName) return;
       const user = auth.currentUser;
-      if (!user) { showMessage('Not authenticated', true); return; }
+      if (!user) { showMessage('Not authenticated.', true); return; }
       try {
-        const claimUsername = async (user, desiredName) => {
-          const key = desiredName.toLowerCase();
-          const desiredRef = doc(db, 'usernames', key);
-          await runTransaction(db, async (tx) => {
-            const snap = await tx.get(desiredRef);
-            if (snap.exists() && snap.data().uid !== user.uid) throw new Error('username-taken');
-            tx.set(desiredRef, { uid: user.uid, createdAt: serverTimestamp() });
-            const old = (user.displayName || '').toLowerCase();
-            if (old && old !== key) {
-              const oldRef = doc(db, 'usernames', old);
-              const oldSnap = await tx.get(oldRef);
-              if (oldSnap.exists() && oldSnap.data().uid === user.uid) tx.delete(oldRef);
-            }
-          });
-        };
-
         await claimUsername(user, newName);
         await updateProfile(user, { displayName: newName });
         populateProfile(user);
         showMessage('Display name updated.');
-        settingsDropdown.classList.remove('active');
       } catch (err) {
-        if (err && err.message === 'username-taken') {
-          showMessage('That display name is already taken', true);
-        } else {
-          console.error('Name update failed', err);
-          showMessage('Failed: ' + (err.message || err.code), true);
+        showMessage(err.message === 'username-taken' ? 'That name is already taken.' : 'Failed: ' + (err.message || err.code), true);
+      }
+    };
+
+    const settingsSaveNameBtn = document.getElementById('settings-save-name');
+    const settingsNameInput = document.getElementById('settings-display-name');
+    if (settingsSaveNameBtn) {
+      settingsSaveNameBtn.addEventListener('click', async () => {
+        const newName = settingsNameInput?.value?.trim();
+        if (!newName) { showMessage('Enter a display name.', true); return; }
+        const user = auth.currentUser;
+        if (!user) { showMessage('Not authenticated.', true); return; }
+        try {
+          await claimUsername(user, newName);
+          await updateProfile(user, { displayName: newName });
+          populateProfile(user);
+          showMessage('Display name updated.');
+          document.getElementById('settings-dropdown').classList.remove('open');
+        } catch (err) {
+          showMessage(err.message === 'username-taken' ? 'That name is already taken.' : 'Failed: ' + (err.message || err.code), true);
         }
+      });
+    }
+
+    const settingsToggle = document.getElementById('settings-toggle');
+    const settingsDropdown = document.getElementById('settings-dropdown');
+    settingsToggle.addEventListener('click', e => {
+      e.stopPropagation();
+      const open = settingsDropdown.classList.toggle('open');
+      settingsToggle.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', e => {
+      if (!settingsToggle.contains(e.target) && !settingsDropdown.contains(e.target)) {
+        settingsDropdown.classList.remove('open');
+        settingsToggle.setAttribute('aria-expanded', false);
       }
     });
-  }
-</script>
+  </script>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+      document.getElementById('progress-line').style.width = pct + '%';
+      document.getElementById('nav')?.classList.toggle('scrolled', window.scrollY > 40);
+    });
+  </script>
 
 </body>
 </html>
