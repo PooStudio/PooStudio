@@ -3,30 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SIX MONTHS // SIX YEARS</title>
+  <title>PAIN THATS STICKS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #0a0a0a;
-      --bone: #f0ece4;
-      --ash: #c9c3b8;
-      --rust: #8b2020;
-      --bloodwet: #c0392b;
-      --red: #e84040;
-      --dim: #1a1a1a;
+      --ink: #08080d;
+      --bone: #ede8df;
+      --ash: #b0a898;
+      --warm: #c4a882;
+      --rust: #7a2020;
+      --red: #c94040;
+      --gold: #c9a84c;
+      --dim: #1a1a22;
+      --muted: #4a4555;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
       background: var(--ink);
       color: var(--bone);
-      font-family: 'IM Fell English', Georgia, serif;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
       overflow-x: hidden;
       cursor: crosshair;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── PROGRESS ── */
+    #progress-line {
+      position: fixed;
+      top: 0; left: 0;
+      height: 1px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--rust), var(--gold));
+      z-index: 200;
+      transition: width 0.08s linear;
     }
 
     #gate {
@@ -38,62 +62,64 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 2s ease;
+      gap: 0;
     }
 
     #gate-text {
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(0.65rem, 1.2vw, 0.85rem);
-      color: #555;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: #3a3530;
+      line-height: 2.6;
       text-align: center;
-      line-height: 2.8;
-      max-width: 420px;
-      animation: slow-appear 3s ease forwards;
+      opacity: 0;
+      animation: fade-in 3s ease 0.5s forwards;
+      letter-spacing: 0.04em;
+    }
+
+    #gate-heart {
+      font-size: 1.5rem;
+      color: #3a0000;
+      animation: fade-in 2s ease 2s forwards, heartbeat 4s ease-in-out 3s infinite;
+      opacity: 0;
+      margin: 30px 0;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); color: #3a0000; }
+      50% { transform: scale(1.15); color: var(--red); }
     }
 
     #gate-enter {
-      margin-top: 60px;
       font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.5em;
+      font-size: 0.65rem;
+      letter-spacing: 0.55em;
       text-transform: uppercase;
-      color: #333;
-      border: 1px solid #333;
-      padding: 14px 42px;
+      color: #2e2a27;
+      border: 1px solid #2e2a27;
+      padding: 15px 48px;
       background: transparent;
       cursor: pointer;
-      transition: all 0.4s ease;
-      animation: slow-appear 4s ease forwards;
+      transition: all 0.5s ease;
+      opacity: 0;
+      animation: fade-in 2s ease 3s forwards;
+      margin-top: 10px;
     }
 
     #gate-enter:hover {
-      color: var(--red);
-      border-color: var(--red);
+      color: var(--warm);
+      border-color: var(--warm);
+      letter-spacing: 0.7em;
     }
 
-    @keyframes slow-appear {
-      from { opacity: 0; }
+    @keyframes fade-in {
       to { opacity: 1; }
-    }
-
-    #progress-line {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 2px;
-      width: 0%;
-      background: var(--rust);
-      z-index: 100;
-      transition: width 0.1s linear;
     }
 
     main {
       opacity: 0;
-      transition: opacity 1.5s ease;
+      transition: opacity 2s ease;
     }
-
     main.visible { opacity: 1; }
 
     #hero {
@@ -105,58 +131,114 @@
       text-align: center;
       padding: 80px 40px;
       position: relative;
-      border-bottom: 1px solid #1e1e1e;
+      overflow: hidden;
     }
 
-    .hero-number {
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, #1a0a0a 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-orbit {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      border: 1px solid #1a1420;
+      animation: orbit-spin 40s linear infinite;
+      opacity: 0.5;
+    }
+
+    .hero-orbit:nth-child(2) {
+      width: 800px;
+      height: 800px;
+      animation-duration: 60s;
+      animation-direction: reverse;
+      border-color: #120d18;
+    }
+
+    @keyframes orbit-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-6 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(10rem, 30vw, 22rem);
-      line-height: 0.85;
+      font-size: clamp(12rem, 35vw, 26rem);
+      line-height: 0.82;
       color: transparent;
-      -webkit-text-stroke: 1px #222;
-      letter-spacing: -0.02em;
+      -webkit-text-stroke: 1px #1d1520;
       position: relative;
       z-index: 1;
       user-select: none;
-      animation: number-breathe 8s ease-in-out infinite;
+      animation: six-breathe 10s ease-in-out infinite;
     }
 
-    @keyframes number-breathe {
-      0%, 100% { -webkit-text-stroke: 1px #222; }
-      50% { -webkit-text-stroke: 1px #3a0a0a; }
+    @keyframes six-breathe {
+      0%, 100% { -webkit-text-stroke: 1px #1d1520; text-shadow: none; }
+      50% { -webkit-text-stroke: 1px #3a1520; text-shadow: 0 0 80px #3a000020; }
     }
 
     .hero-label {
       font-family: 'Space Mono', monospace;
-      font-size: clamp(0.55rem, 1vw, 0.75rem);
-      letter-spacing: 0.6em;
+      font-size: clamp(0.55rem, 1vw, 0.72rem);
+      letter-spacing: 0.55em;
       text-transform: uppercase;
-      color: #444;
-      margin-top: 20px;
+      color: #2e2830;
+      margin-top: 16px;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-divider {
       width: 1px;
-      height: 80px;
-      background: linear-gradient(to bottom, transparent, #333, transparent);
+      height: 90px;
+      background: linear-gradient(to bottom, transparent, #2a2028, transparent);
       margin: 50px auto;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      letter-spacing: 0.15em;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      letter-spacing: 0.2em;
       color: var(--bone);
       line-height: 1;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 40px rgba(201,168,76,0.08);
     }
 
     .hero-sub {
-      font-family: 'IM Fell English', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: clamp(1rem, 2vw, 1.4rem);
-      color: #555;
-      margin-top: 20px;
-      letter-spacing: 0.05em;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      color: #4a4248;
+      margin-top: 22px;
+      letter-spacing: 0.06em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-love-note {
+      position: relative;
+      z-index: 1;
+      margin-top: 30px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      color: #382830;
+      letter-spacing: 0.08em;
+      animation: love-pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes love-pulse {
+      0%, 100% { color: #382830; }
+      50% { color: #5a3840; }
     }
 
     .scroll-cue {
@@ -165,51 +247,63 @@
       left: 50%;
       transform: translateX(-50%);
       font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      color: #333;
-      letter-spacing: 0.4em;
+      font-size: 0.55rem;
+      color: #252028;
+      letter-spacing: 0.45em;
       text-transform: uppercase;
-      animation: cue-pulse 3s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      animation: scroll-pulse 3s ease-in-out infinite;
     }
 
-    @keyframes cue-pulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.7; }
+    .scroll-cue::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, #333, transparent);
+      animation: scroll-line 2s ease-in-out infinite;
     }
+
+    @keyframes scroll-pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+    @keyframes scroll-line { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
     .chapter {
-      max-width: 720px;
+      max-width: 760px;
       margin: 0 auto;
-      padding: 120px 40px;
-      border-bottom: 1px solid #111;
+      padding: 140px 48px;
+      border-bottom: 1px solid #0f0e12;
       position: relative;
     }
 
     .chapter-num {
       font-family: 'Space Mono', monospace;
-      font-size: 0.6rem;
-      color: #2a2a2a;
-      letter-spacing: 0.5em;
+      font-size: 0.58rem;
+      color: #222028;
+      letter-spacing: 0.55em;
       text-transform: uppercase;
-      margin-bottom: 60px;
+      margin-bottom: 70px;
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 24px;
     }
 
     .chapter-num::after {
       content: '';
       flex: 1;
       height: 1px;
-      background: #1e1e1e;
+      background: linear-gradient(to right, #1a1820, transparent);
     }
 
     .line-big {
-      font-family: 'IM Fell English', serif;
-      font-size: clamp(1.6rem, 4vw, 2.8rem);
-      line-height: 1.5;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.6;
       color: var(--bone);
       margin-bottom: 50px;
+      letter-spacing: 0.01em;
     }
 
     .line-big em {
@@ -218,129 +312,405 @@
     }
 
     .line-big strong {
-      font-style: normal;
-      color: var(--red);
-      font-weight: normal;
+      font-weight: 400;
+      color: var(--warm);
     }
 
     .line-small {
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(0.75rem, 1.5vw, 0.92rem);
-      line-height: 2.2;
-      color: #555;
-      letter-spacing: 0.02em;
-      margin-bottom: 30px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 300;
+      line-height: 2.4;
+      color: #8a8090;
+      letter-spacing: 0.03em;
+      margin-bottom: 36px;
     }
 
     .callout {
-      border-left: 2px solid var(--rust);
-      padding: 30px 0 30px 40px;
-      margin: 70px 0;
+      border-left: 1px solid var(--rust);
+      padding: 28px 0 28px 44px;
+      margin: 80px 0;
+      position: relative;
+    }
+
+    .callout::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 30px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      color: var(--rust);
+      opacity: 0.15;
+      line-height: 1;
     }
 
     .callout-text {
-      font-family: 'IM Fell English', serif;
+      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
-      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-      color: #8a7f72;
-      line-height: 1.7;
+      font-size: clamp(1.25rem, 2.5vw, 1.8rem);
+      font-weight: 300;
+      color: #7a6e7a;
+      line-height: 1.8;
     }
 
     .solo-line {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 7vw, 6rem);
-      letter-spacing: 0.1em;
+      font-size: clamp(4rem, 9vw, 7rem);
+      letter-spacing: 0.12em;
       color: transparent;
       -webkit-text-stroke: 1px var(--rust);
-      line-height: 1;
-      margin: 40px 0;
+      line-height: 1.05;
+      margin: 50px 0;
       display: block;
     }
 
-    /* THE COUNT — visual stacking */
+\    .love-still {
+      margin: 80px 0;
+      padding: 60px 40px;
+      border: 1px solid #1a1520;
+      background: linear-gradient(135deg, #0d0a10, #100810);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .love-still::before {
+      content: '♡';
+      position: absolute;
+      font-size: 18rem;
+      color: #0f0814;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      animation: heart-bg 8s ease-in-out infinite;
+    }
+
+    @keyframes heart-bg {
+      0%, 100% { color: #0f0814; transform: translate(-50%, -50%) scale(1); }
+      50% { color: #150a18; transform: translate(-50%, -50%) scale(1.05); }
+    }
+
+    .love-still-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      font-weight: 300;
+      color: #5a4858;
+      line-height: 2;
+      position: relative;
+      z-index: 1;
+    }
+
+    .love-still-text strong {
+      color: #8a6878;
+      font-weight: 400;
+    }
+
     .count-block {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      margin: 60px 0;
+      gap: 0;
+      margin: 70px 0;
     }
 
     .count-item {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: #2e2e2e;
-      letter-spacing: 0.15em;
-      padding: 10px 0;
-      border-bottom: 1px solid #141414;
-      transition: color 0.3s;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: #2a2530;
+      letter-spacing: 0.04em;
+      padding: 18px 0;
+      border-bottom: 1px solid #111018;
+      transition: color 0.5s ease, padding-left 0.4s ease;
+      cursor: default;
+      position: relative;
+    }
+
+    .count-item::before {
+      content: '—';
+      margin-right: 16px;
+      color: var(--rust);
+      opacity: 0;
+      transition: opacity 0.4s;
     }
 
     .count-item:hover {
-      color: var(--rust);
+      color: var(--ash);
+      padding-left: 8px;
     }
+
+    .count-item:hover::before { opacity: 1; }
 
     #confession {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 100px 40px;
+      padding: 120px 48px;
+      background: #050408;
       position: relative;
-      background: #050505;
+      overflow: hidden;
+    }
+
+    #confession::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 60% at 50% 40%, #12071a 0%, transparent 70%);
     }
 
     .confession-inner {
-      max-width: 680px;
+      max-width: 700px;
       text-align: center;
+      position: relative;
+      z-index: 1;
     }
 
     .confession-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 15vw, 11rem);
-      letter-spacing: 0.05em;
+      font-size: clamp(5rem, 17vw, 13rem);
+      letter-spacing: 0.06em;
       color: transparent;
-      -webkit-text-stroke: 1px #1a0000;
-      line-height: 0.9;
+      -webkit-text-stroke: 1px #1a0820;
+      line-height: 0.88;
       display: block;
-      margin-bottom: 50px;
-      transition: -webkit-text-stroke 0.5s ease;
+      margin-bottom: 60px;
+      transition: -webkit-text-stroke 0.8s ease, text-shadow 0.8s ease;
+      cursor: default;
     }
 
     .confession-name:hover {
-      -webkit-text-stroke: 1px var(--rust);
+      -webkit-text-stroke: 1px #6a2040;
+      text-shadow: 0 0 120px #6a204020;
     }
 
     .confession-body {
-      font-family: 'IM Fell English', serif;
-      font-size: clamp(1rem, 2vw, 1.35rem);
-      line-height: 2;
-      color: #444;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 300;
+      line-height: 2.2;
+      color: #4a3850;
     }
 
     .confession-body strong {
       color: var(--bone);
-      font-weight: normal;
+      font-weight: 400;
     }
+
+    .confession-body em {
+      font-style: italic;
+      color: var(--warm);
+    }
+
+    #love-truth {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #love-truth::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 40% 50% at 50% 50%, #100d1a 0%, transparent 70%);
+    }
+
+    .love-truth-inner {
+      max-width: 640px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .love-truth-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: #2a2535;
+      margin-bottom: 50px;
+    }
+
+    .love-truth-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 300;
+      line-height: 1.9;
+      color: #6a5870;
+    }
+
+    .love-truth-text strong {
+      font-weight: 400;
+      color: var(--ash);
+      font-style: normal;
+    }
+
+    .float-hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .fh {
+      position: absolute;
+      color: #1a0a20;
+      font-size: 1rem;
+      animation: float-up linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes float-up {
+      0% { opacity: 0; transform: translateY(0) scale(0.5); }
+      10% { opacity: 0.4; }
+      90% { opacity: 0.1; }
+      100% { opacity: 0; transform: translateY(-100vh) scale(1.2); }
+    }
+
+    .inventory {
+      margin: 80px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: #0e0d12;
+    }
+
+    @media (max-width: 600px) {
+      .inventory { grid-template-columns: 1fr; }
+    }
+
+    .inv-cell {
+      background: var(--ink);
+      padding: 36px 32px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      font-weight: 300;
+      color: #3a3540;
+      line-height: 1.7;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    .inv-cell:hover {
+      background: #0d0b12;
+      color: #6a6075;
+    }
+
+    .inv-cell span {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem;
+      color: #201e28;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      margin-bottom: 12px;
+    }
+
+    #finale {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #finale::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 60% at 50% 50%, #0a0810 0%, transparent 60%);
+    }
+
+    .finale-inner {
+      max-width: 640px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .finale-word {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 13vw, 10rem);
+      letter-spacing: 0.12em;
+      color: var(--bone);
+      display: block;
+      line-height: 0.95;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .finale-word.revealed { opacity: 1; transform: translateY(0); }
+    .finale-word:nth-child(2) { color: var(--ash); transition-delay: 0.25s; }
+    .finale-word:nth-child(3) { color: #6a6070; transition-delay: 0.5s; }
+
+    .finale-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--rust);
+      margin: 60px auto;
+      opacity: 0;
+      transition: opacity 1s ease 0.7s;
+    }
+
+    .finale-divider.revealed { opacity: 1; }
+
+    .finale-line {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.05rem, 2vw, 1.4rem);
+      font-weight: 300;
+      color: #3a3545;
+      line-height: 2.3;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease 0.9s, transform 1s ease 0.9s;
+    }
+
+    .finale-line.revealed { opacity: 1; transform: translateY(0); }
+
+    .finale-line em { color: var(--ash); }
+
+    .last-note {
+      margin-top: 70px;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      color: #2a2535;
+      line-height: 2.5;
+      opacity: 0;
+      transition: opacity 1.2s ease 1.5s;
+    }
+
+    .last-note.revealed { opacity: 1; }
 
     .glitch-word {
       position: relative;
       display: inline-block;
+      color: var(--warm);
     }
 
     .glitch-word::before {
       content: attr(data-text);
       position: absolute;
-      left: 2px;
-      top: 0;
+      left: 2px; top: 0;
       color: var(--red);
       opacity: 0;
-      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      clip-path: polygon(0 25%, 100% 25%, 100% 50%, 0 50%);
       transition: opacity 0.1s;
     }
 
     .glitch-word:hover::before {
-      opacity: 0.6;
-      animation: micro-glitch 0.15s step-end infinite;
+      opacity: 0.5;
+      animation: micro-glitch 0.12s step-end infinite;
     }
 
     @keyframes micro-glitch {
@@ -350,88 +720,21 @@
       100% { left: 2px; }
     }
 
-    .inventory {
-      margin: 70px 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: #111;
-    }
-
-    .inv-cell {
-      background: var(--ink);
-      padding: 30px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: #333;
-      letter-spacing: 0.1em;
-      line-height: 1.8;
-    }
-
-    .inv-cell span {
-      display: block;
-      font-size: 0.55rem;
-      color: #222;
-      text-transform: uppercase;
-      letter-spacing: 0.3em;
-      margin-bottom: 8px;
-    }
-
-    #finale {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 100px 40px;
-      text-align: center;
-    }
-
-    .finale-inner { max-width: 600px; }
-
-    .finale-word {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(4rem, 12vw, 9rem);
-      letter-spacing: 0.1em;
-      color: var(--bone);
-      display: block;
-      line-height: 0.95;
-      animation: finale-rise 1.5s ease forwards;
+    .fade-section {
       opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
     }
 
-    .finale-word:nth-child(2) { animation-delay: 0.3s; color: var(--ash); }
-    .finale-word:nth-child(3) { animation-delay: 0.6s; color: #555; }
-    .finale-word:nth-child(4) { animation-delay: 0.9s; color: #2a2a2a; }
-
-    @keyframes finale-rise {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    .fade-section.in-view {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .finale-line {
-      margin-top: 70px;
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-      color: #333;
-      line-height: 2;
-      letter-spacing: 0.05em;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      pointer-events: none;
-      opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-    }
-
-    .red { color: var(--red); }
     .space { display: block; height: 30px; }
-    .space-lg { display: block; height: 70px; }
+    .space-lg { display: block; height: 80px; }
+    .red { color: var(--red); }
+    .warm { color: var(--warm); }
   </style>
 </head>
 <body>
@@ -440,26 +743,31 @@
 
   <div id="gate">
     <div id="gate-text">
-      this is not a story.<br>
-      this is not art.<br>
-      this is what happened.
+      this is not just grief.<br>
+      this is love that has nowhere left to go.
     </div>
+    <div id="gate-heart">♡</div>
     <button id="gate-enter" onclick="enter()">enter</button>
   </div>
 
   <main id="main">
 
+    <div class="float-hearts" id="float-hearts"></div>
+
     <section id="hero">
-      <div class="hero-number">6</div>
+      <div class="hero-orbit"></div>
+      <div class="hero-orbit"></div>
+      <div class="hero-6">6</div>
       <div class="hero-label">months we were together</div>
       <div class="hero-divider"></div>
-      <div class="hero-title">Six&nbsp;&nbsp;Years</div>
+      <div class="hero-title">Six &nbsp; Years</div>
       <div class="hero-sub">I've been carrying it.</div>
+      <div class="hero-love-note">and I always will.</div>
       <div class="scroll-cue">keep going</div>
     </section>
 
-    <section class="chapter">
-      <div class="chapter-num">01 — before I knew</div>
+    <section class="chapter fade-section">
+      <div class="chapter-num">01 - before I knew</div>
 
       <p class="line-big">
         I was falling for you while you were already somewhere else.
@@ -467,42 +775,44 @@
 
       <p class="line-small">
         Not somewhere.<br>
-        Someone.<br>
-        And the worst part —<br>
-        I thought everything was real.
+        Someone.<br><br>
+        And the worst part -<br>
+        I thought everything was real.<br>
+        Because for me, it was.
       </p>
 
       <div class="callout">
         <p class="callout-text">
-          "Every cold touch. Every fake 'I'm tired.' Every lying text.
-          I thought it was me."
+          Every cold touch. Every fake "I'm tired." Every lying text.
+          I thought it was me.
         </p>
       </div>
 
       <p class="line-small">
-        I spent years rotting, wondering what I was doing wrong.<br>
-        Rewinding every conversation.<br>
+        I spent years rewinding every conversation.<br>
         Every silence.<br>
-        Blaming myself.
+        Every moment I thought I'd done something wrong.<br><br>
+        I hadn't done anything wrong.<br>
+        I was just in love.
       </p>
     </section>
 
-    <section class="chapter">
-      <div class="chapter-num">02 — the thing you did</div>
+    <section class="chapter fade-section">
+      <div class="chapter-num">02 - the thing you did</div>
 
       <span class="solo-line">You<br>Chose<br>Him.</span>
 
       <p class="line-small">
         While I was loyal.<br>
         While I was real.<br>
-        While I was yours.
+        While I was completely, fully yours.
       </p>
 
       <span class="space-lg"></span>
 
       <p class="line-big">
         You didn't just cheat.<br>
-        You chose <strong class="glitch-word" data-text="your brother">your brother</strong>.<br>
+        You chose <span class="glitch-word" data-text="your brother">your brother</span>.<br>
         And you looked me in the eyes<br>
         <em>like none of it was happening.</em>
       </p>
@@ -513,8 +823,9 @@
         <div class="count-item">every lie you told to my face</div>
         <div class="count-item">every night I texted and you didn't answer</div>
         <div class="count-item">every time I said "what's wrong" and you said "nothing"</div>
-        <div class="count-item">every moment I made smaller so you'd stay comfortable</div>
+        <div class="count-item">every moment I made myself smaller so you'd stay comfortable</div>
         <div class="count-item">every second I spent wondering if I was the problem</div>
+        <div class="count-item">every time I still wanted you anyway - and hated myself for it</div>
       </div>
 
       <p class="line-small">
@@ -524,8 +835,8 @@
       </p>
     </section>
 
-    <section class="chapter">
-      <div class="chapter-num">03 — what six years feels like</div>
+    <section class="chapter fade-section">
+      <div class="chapter-num">03 - what six years feels like</div>
 
       <p class="line-big">
         Six months with you.<br>
@@ -533,15 +844,18 @@
       </p>
 
       <p class="line-small">
-        Do you understand what that math means?<br>
+        Do you understand what that math means?<br><br>
         You got six months of whatever that was to you.<br>
-        I got six years of waking up sick.
+        I got six years of waking up with a hollow chest.<br>
+        Six years of some days being fine -<br>
+        and then a song plays, or a smell, or nothing at all,<br>
+        and it's right back.
       </p>
 
       <div class="callout">
         <p class="callout-text">
-          "Some nights I still feel it — that specific knife. Right in the center.
-          The one that has your name on it."
+          Some nights I still feel it - that specific knife.
+          Right in the center. The one that only you put there.
         </p>
       </div>
 
@@ -552,11 +866,11 @@
         </div>
         <div class="inv-cell">
           <span>things I lost</span>
-          three years before I could date again
+          three years before I could let anyone close again
         </div>
         <div class="inv-cell">
           <span>things I lost</span>
-          the version of me that believed people
+          the version of me that believed people completely
         </div>
         <div class="inv-cell">
           <span>things I lost</span>
@@ -564,10 +878,18 @@
         </div>
       </div>
 
-      <p class="line-small">
-        You were six months.<br>
-        You cost me years.
-      </p>
+      <div class="love-still">
+        <p class="love-still-text">
+          And even now - after all of it -<br>
+          <strong>I still love you.</strong><br><br>
+          That's the part I don't know what to do with.<br>
+          Not the anger.<br>
+          Not the years.<br>
+          The fact that I love you<br>
+          and I always will<br>
+          and I will <em>never</em> be able to show you again.
+        </p>
+      </div>
     </section>
 
     <section id="confession">
@@ -579,13 +901,31 @@
           I was loyal.<br>
           I was real.<br>
           I was right here.<br><br>
-          And you <strong>pissed on all of it.</strong>
+          And somewhere in me -<br>
+          I still am.<br><br>
+          <em>That's the cruelest part.</em>
         </p>
       </div>
     </section>
 
-    <section class="chapter">
-      <div class="chapter-num">04 — what I'm done doing</div>
+    <section id="love-truth">
+      <div class="love-truth-inner fade-section">
+        <div class="love-truth-label">what no one tells you</div>
+        <p class="love-truth-text">
+          You can love someone<br>
+          and still refuse to be destroyed by them.<br><br>
+          You can carry them in your chest<br>
+          like a <strong>quiet, permanent weight</strong><br>
+          and still choose yourself.<br><br>
+          You can say goodbye<br>
+          and still grieve<br>
+          and still - somehow - love them.
+        </p>
+      </div>
+    </section>
+
+    <section class="chapter fade-section">
+      <div class="chapter-num">04 - what I'm done doing</div>
 
       <p class="line-big">
         I'm done making myself smaller<br>
@@ -593,22 +933,22 @@
         <em>you created.</em>
       </p>
 
-      <span class="space"></span>
-
       <p class="line-small">
         I carried your guilt.<br>
         I carried your secrets.<br>
         I carried the weight of something<br>
-        that was never mine to carry.
+        that was never mine to carry.<br><br>
+        And I loved you through every single second of it.
       </p>
 
       <span class="space-lg"></span>
 
       <div class="callout">
         <p class="callout-text">
-          "I'm dropping the bag right here.<br>
-          Take your brother. Take your lies.<br>
-          Take the guilt — and choke on it."
+          I'm dropping the bag right here.<br>
+          Not because I stopped caring.<br>
+          Because I'm still here -<br>
+          and you're not worth losing me too.
         </p>
       </div>
 
@@ -617,23 +957,32 @@
       <p class="line-big">
         This is not forgiveness.<br>
         This is not moving on for you.<br>
-        <em>This is me choosing myself.</em>
+        <em>This is me choosing myself -</em><br>
+        <strong>while still carrying you.</strong>
       </p>
     </section>
 
-    <!-- FINALE -->
     <section id="finale">
       <div class="finale-inner">
         <span class="finale-word">I'm</span>
         <span class="finale-word">Waking</span>
         <span class="finale-word">Up.</span>
 
+        <div class="finale-divider"></div>
+
         <p class="finale-line">
-          Six months doesn't get six years.<br>
-          Six months doesn't get one more night.<br>
-          Six months doesn't get another thought.<br><br>
+          Six months doesn't get six more years.<br>
+          Six months doesn't get one more sleepless night.<br>
+          Six months doesn't get to live rent-free anymore.<br><br>
           Goodbye, Mackenzie.<br>
-          <em>I'm done.</em>
+          <em>I'll love you from a distance I'm finally choosing.</em>
+        </p>
+
+        <p class="last-note">
+          not because I stopped.<br>
+          but because some love<br>
+          only gets to live<br>
+          inside you.
         </p>
       </div>
     </section>
@@ -643,10 +992,12 @@
   <script>
     function enter() {
       const gate = document.getElementById('gate');
+      gate.style.transition = 'opacity 2s ease';
       gate.style.opacity = '0';
       setTimeout(() => {
         gate.style.display = 'none';
         document.getElementById('main').classList.add('visible');
+        startHearts();
       }, 2000);
     }
 
@@ -657,22 +1008,48 @@
       document.getElementById('progress-line').style.width = pct + '%';
     });
 
+    function startHearts() {
+      const container = document.getElementById('float-hearts');
+      const symbols = ['♡', '♥', '·', '∘'];
+      setInterval(() => {
+        const h = document.createElement('div');
+        h.classList.add('fh');
+        h.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.bottom = '-20px';
+        h.style.fontSize = (0.6 + Math.random() * 0.8) + 'rem';
+        const dur = 12 + Math.random() * 16;
+        h.style.animationDuration = dur + 's';
+        h.style.animationDelay = Math.random() * 3 + 's';
+        container.appendChild(h);
+        setTimeout(() => h.remove(), (dur + 4) * 1000);
+      }, 1200);
+    }
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-section').forEach(el => fadeObserver.observe(el));
+
     const finaleObserver = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
-          e.target.querySelectorAll('.finale-word').forEach(w => {
-            w.style.animationPlayState = 'running';
-          });
+          e.target.querySelectorAll('.finale-word, .finale-divider, .finale-line, .last-note')
+            .forEach(el => el.classList.add('revealed'));
         }
       });
-    }, { threshold: 0.3 });
-
-    document.querySelectorAll('.finale-word').forEach(w => {
-      w.style.animationPlayState = 'paused';
-    });
+    }, { threshold: 0.2 });
 
     const finale = document.getElementById('finale');
     if (finale) finaleObserver.observe(finale);
+
+    document.addEventListener('DOMContentLoaded', () => {
+    });
   </script>
 </body>
 </html>
