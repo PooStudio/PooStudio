@@ -8,15 +8,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #3a3a42;
-      --bone: #f5f5f0;
-      --ash: #b0a898;
+      --ink: #f5f5f0;
+      --bone: #0a0a0a;
+      --ash: #4a4a4a;
       --warm: #c4a882;
       --rust: #7a2020;
       --red: #c94040;
       --gold: #c9a84c;
-      --dim: #4a4a52;
-      --muted: #7a7580;
+      --dim: #e8e8e8;
+      --muted: #6a6a6a;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -56,7 +56,7 @@
     #gate {
       position: fixed;
       inset: 0;
-      background: #000;
+      background: #f5f5f0;
       z-index: 9999;
       display: flex;
       flex-direction: column;
@@ -69,7 +69,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-      color: #3a3530;
+      color: #4a4a4a;
       line-height: 2.6;
       text-align: center;
       opacity: 0;
@@ -95,8 +95,8 @@
       font-size: 0.65rem;
       letter-spacing: 0.55em;
       text-transform: uppercase;
-      color: #2e2a27;
-      border: 1px solid #2e2a27;
+      color: #4a4a4a;
+      border: 1px solid #4a4a4a;
       padding: 15px 48px;
       background: transparent;
       cursor: pointer;
@@ -138,7 +138,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 60% 50% at 50% 50%, #1a0a0a 0%, transparent 70%);
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, #f0e8e0 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -147,7 +147,7 @@
       width: 600px;
       height: 600px;
       border-radius: 50%;
-      border: 1px solid #1a1420;
+      border: 1px solid #e0d8d0;
       animation: orbit-spin 40s linear infinite;
       opacity: 0.5;
     }
@@ -157,7 +157,7 @@
       height: 800px;
       animation-duration: 60s;
       animation-direction: reverse;
-      border-color: #120d18;
+      border-color: #d8d0c8;
     }
 
     @keyframes orbit-spin {
@@ -170,7 +170,7 @@
       font-size: clamp(12rem, 35vw, 26rem);
       line-height: 0.82;
       color: transparent;
-      -webkit-text-stroke: 1px #1d1520;
+      -webkit-text-stroke: 1px #d8d0c8;
       position: relative;
       z-index: 1;
       user-select: none;
@@ -178,8 +178,8 @@
     }
 
     @keyframes six-breathe {
-      0%, 100% { -webkit-text-stroke: 1px #1d1520; text-shadow: none; }
-      50% { -webkit-text-stroke: 1px #3a1520; text-shadow: 0 0 80px #3a000020; }
+      0%, 100% { -webkit-text-stroke: 1px #d8d0c8; text-shadow: none; }
+      50% { -webkit-text-stroke: 1px #c0b8b0; text-shadow: 0 0 80px rgba(201,168,76,0.12); }
     }
 
     .hero-label {
@@ -187,7 +187,7 @@
       font-size: clamp(0.55rem, 1vw, 0.72rem);
       letter-spacing: 0.55em;
       text-transform: uppercase;
-      color: #2e2830;
+      color: #a0a0a0;
       margin-top: 16px;
       position: relative;
       z-index: 1;
@@ -196,7 +196,7 @@
     .hero-divider {
       width: 1px;
       height: 90px;
-      background: linear-gradient(to bottom, transparent, #2a2028, transparent);
+      background: linear-gradient(to bottom, transparent, #d8d0c8, transparent);
       margin: 50px auto;
       position: relative;
       z-index: 1;
@@ -217,7 +217,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-      color: #4a4248;
+      color: #6a6a6a;
       margin-top: 22px;
       letter-spacing: 0.06em;
       position: relative;
@@ -231,14 +231,14 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-      color: #382830;
+      color: #7a7a7a;
       letter-spacing: 0.08em;
       animation: love-pulse 6s ease-in-out infinite;
     }
 
     @keyframes love-pulse {
-      0%, 100% { color: #382830; }
-      50% { color: #5a3840; }
+      0%, 100% { color: #7a7a7a; }
+      50% { color: #5a5a5a; }
     }
 
     .scroll-cue {
@@ -248,7 +248,7 @@
       transform: translateX(-50%);
       font-family: 'Space Mono', monospace;
       font-size: 0.55rem;
-      color: #252028;
+      color: #b0b0b0;
       letter-spacing: 0.45em;
       text-transform: uppercase;
       display: flex;
@@ -262,7 +262,7 @@
       content: '';
       width: 1px;
       height: 40px;
-      background: linear-gradient(to bottom, #333, transparent);
+      background: linear-gradient(to bottom, #c0c0c0, transparent);
       animation: scroll-line 2s ease-in-out infinite;
     }
 
@@ -273,14 +273,14 @@
       max-width: 760px;
       margin: 0 auto;
       padding: 140px 48px;
-      border-bottom: 1px solid #0f0e12;
+      border-bottom: 1px solid #e0d8d0;
       position: relative;
     }
 
     .chapter-num {
       font-family: 'Space Mono', monospace;
       font-size: 0.58rem;
-      color: #222028;
+      color: #a0a0a0;
       letter-spacing: 0.55em;
       text-transform: uppercase;
       margin-bottom: 70px;
@@ -293,7 +293,7 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: linear-gradient(to right, #1a1820, transparent);
+      background: linear-gradient(to right, #d8d0c8, transparent);
     }
 
     .line-big {
@@ -321,7 +321,7 @@
       font-size: clamp(1.1rem, 2vw, 1.35rem);
       font-weight: 300;
       line-height: 2.4;
-      color: #8a8090;
+      color: #6a6a6a;
       letter-spacing: 0.03em;
       margin-bottom: 36px;
     }
@@ -350,7 +350,7 @@
       font-style: italic;
       font-size: clamp(1.25rem, 2.5vw, 1.8rem);
       font-weight: 300;
-      color: #7a6e7a;
+      color: #5a5a5a;
       line-height: 1.8;
     }
 
@@ -368,8 +368,8 @@
 \    .love-still {
       margin: 80px 0;
       padding: 60px 40px;
-      border: 1px solid #1a1520;
-      background: linear-gradient(135deg, #0d0a10, #100810);
+      border: 1px solid #d8d0c8;
+      background: linear-gradient(135deg, #ebe8e0, #f0e8e0);
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -379,7 +379,7 @@
       content: '♡';
       position: absolute;
       font-size: 18rem;
-      color: #0f0814;
+      color: #e8e0d8;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -388,8 +388,8 @@
     }
 
     @keyframes heart-bg {
-      0%, 100% { color: #0f0814; transform: translate(-50%, -50%) scale(1); }
-      50% { color: #150a18; transform: translate(-50%, -50%) scale(1.05); }
+      0%, 100% { color: #e8e0d8; transform: translate(-50%, -50%) scale(1); }
+      50% { color: #dcd4cc; transform: translate(-50%, -50%) scale(1.05); }
     }
 
     .love-still-text {
@@ -397,14 +397,14 @@
       font-style: italic;
       font-size: clamp(1.3rem, 2.5vw, 1.9rem);
       font-weight: 300;
-      color: #5a4858;
+      color: #6a6a6a;
       line-height: 2;
       position: relative;
       z-index: 1;
     }
 
     .love-still-text strong {
-      color: #8a6878;
+      color: #5a5a5a;
       font-weight: 400;
     }
 
@@ -418,10 +418,10 @@
     .count-item {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1rem, 1.8vw, 1.25rem);
-      color: #2a2530;
+      color: #6a6a6a;
       letter-spacing: 0.04em;
       padding: 18px 0;
-      border-bottom: 1px solid #111018;
+      border-bottom: 1px solid #d8d0c8;
       transition: color 0.5s ease, padding-left 0.4s ease;
       cursor: default;
       position: relative;
@@ -448,7 +448,7 @@
       align-items: center;
       justify-content: center;
       padding: 120px 48px;
-      background: #050408;
+      background: #f5f5f0;
       position: relative;
       overflow: hidden;
     }
@@ -457,7 +457,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 50% 60% at 50% 40%, #12071a 0%, transparent 70%);
+      background: radial-gradient(ellipse 50% 60% at 50% 40%, #ede5e0 0%, transparent 70%);
     }
 
     .confession-inner {
@@ -472,7 +472,7 @@
       font-size: clamp(5rem, 17vw, 13rem);
       letter-spacing: 0.06em;
       color: transparent;
-      -webkit-text-stroke: 1px #1a0820;
+      -webkit-text-stroke: 1px #d8d0c8;
       line-height: 0.88;
       display: block;
       margin-bottom: 60px;
@@ -481,8 +481,8 @@
     }
 
     .confession-name:hover {
-      -webkit-text-stroke: 1px #6a2040;
-      text-shadow: 0 0 120px #6a204020;
+      -webkit-text-stroke: 1px #c0b8b0;
+      text-shadow: 0 0 120px rgba(201,168,76,0.12);
     }
 
     .confession-body {
@@ -490,7 +490,7 @@
       font-size: clamp(1.2rem, 2.5vw, 1.6rem);
       font-weight: 300;
       line-height: 2.2;
-      color: #4a3850;
+      color: #6a6a6a;
     }
 
     .confession-body strong {
@@ -517,7 +517,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 40% 50% at 50% 50%, #100d1a 0%, transparent 70%);
+      background: radial-gradient(ellipse 40% 50% at 50% 50%, #ede8e0 0%, transparent 70%);
     }
 
     .love-truth-inner {
@@ -532,7 +532,7 @@
       font-size: 0.6rem;
       letter-spacing: 0.55em;
       text-transform: uppercase;
-      color: #2a2535;
+      color: #a0a0a0;
       margin-bottom: 50px;
     }
 
@@ -542,7 +542,7 @@
       font-size: clamp(1.5rem, 3.5vw, 2.4rem);
       font-weight: 300;
       line-height: 1.9;
-      color: #6a5870;
+      color: #6a6a6a;
     }
 
     .love-truth-text strong {
@@ -560,7 +560,7 @@
 
     .fh {
       position: absolute;
-      color: #1a0a20;
+      color: #e8d8cc;
       font-size: 1rem;
       animation: float-up linear infinite;
       opacity: 0;
@@ -578,7 +578,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1px;
-      background: #0e0d12;
+      background: #d8d0c8;
     }
 
     @media (max-width: 600px) {
@@ -591,21 +591,21 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1rem, 1.8vw, 1.2rem);
       font-weight: 300;
-      color: #3a3540;
+      color: #6a6a6a;
       line-height: 1.7;
       transition: background 0.5s ease, color 0.5s ease;
     }
 
     .inv-cell:hover {
-      background: #0d0b12;
-      color: #6a6075;
+      background: #ebe8e0;
+      color: #4a4a4a;
     }
 
     .inv-cell span {
       display: block;
       font-family: 'Space Mono', monospace;
       font-size: 0.55rem;
-      color: #201e28;
+      color: #a0a0a0;
       text-transform: uppercase;
       letter-spacing: 0.35em;
       margin-bottom: 12px;
@@ -626,7 +626,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 50% 60% at 50% 50%, #0a0810 0%, transparent 60%);
+      background: radial-gradient(ellipse 50% 60% at 50% 50%, #ede8e0 0%, transparent 60%);
     }
 
     .finale-inner {
@@ -649,7 +649,7 @@
 
     .finale-word.revealed { opacity: 1; transform: translateY(0); }
     .finale-word:nth-child(2) { color: var(--ash); transition-delay: 0.25s; }
-    .finale-word:nth-child(3) { color: #6a6070; transition-delay: 0.5s; }
+    .finale-word:nth-child(3) { color: #8a8a8a; transition-delay: 0.5s; }
 
     .finale-divider {
       width: 60px;
@@ -667,7 +667,7 @@
       font-style: italic;
       font-size: clamp(1.05rem, 2vw, 1.4rem);
       font-weight: 300;
-      color: #3a3545;
+      color: #6a6a6a;
       line-height: 2.3;
       letter-spacing: 0.04em;
       opacity: 0;
@@ -684,7 +684,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: clamp(0.95rem, 1.8vw, 1.2rem);
-      color: #2a2535;
+      color: #7a7a7a;
       line-height: 2.5;
       opacity: 0;
       transition: opacity 1.2s ease 1.5s;
