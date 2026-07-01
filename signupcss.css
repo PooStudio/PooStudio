@@ -5,26 +5,27 @@
    ============================================================ */
 
 :root {
-  --ink:    #080808;
-  --bone:   #ede9e1;
-  --ash:    #8a8580;
-  --dim:    #161616;
-  --rule:   #1c1c1c;
-  --accent: #c0392b;
-  --green:  #00ff7f;
-  --cyan:   #00bfff;
+  --ink: #fbfbfb;
+  --bone: #111217;
+  --ash: #5a5f66;
+  --dim: #f3f4f6;
+  --rule: #e6e9ee;
+  --accent: #1767b1;
+  --green: #0a9d58;
+  --cyan: #0aa3d8;
 }
 
 /* ── RESET ────────────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
   background: var(--ink);
   color: var(--bone);
-  font-family: 'IM Fell English', Georgia, serif;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  line-height: 1.6;
   overflow-x: hidden;
-  cursor: crosshair;
+  cursor: default;
   min-height: 100vh;
 }
 
@@ -43,12 +44,18 @@ body {
 #progress-line {
   position: fixed;
   top: 0; left: 0;
-  height: 1px;
+  height: 3px;
   width: 0%;
-  background: var(--accent);
+  background: linear-gradient(90deg,var(--accent),#ff6b6b);
   z-index: 8999;
-  transition: width 0.1s linear;
+  transition: width 0.12s linear;
 }
+
+/* Loading overlay (shared) */
+#site-loading { position: fixed; inset: 0; z-index: 10000; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.92); color:var(--bone); }
+#site-loading.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.site-loader .spinner { width:48px;height:48px;border-radius:50%;border:4px solid rgba(255,255,255,0.08);border-top-color:var(--accent);animation:spin 1s linear infinite;margin:0 auto 12px; }
+@keyframes spin{to{transform:rotate(360deg);}}
 
 /* ── GATE / LOADING ───────────────────────────────────────── */
 #gate {

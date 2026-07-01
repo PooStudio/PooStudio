@@ -3,12 +3,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #080604;
-  --crimson: #6b1a1a;
-  --crimson-mid: #8b2020;
-  --text: #e8e0d8;
-  --text-dim: #9a8f85;
-  --text-dimmer: #4a4340;
+  --bg: #fbfbfb;
+  --crimson: #1767b1; /* repurposed as primary accent */
+  --crimson-mid: #2a7bd5;
+  --text: #111217;
+  --text-dim: #5a5f66;
+  --text-dimmer: #8a8f95;
 }
 
 html, body {
@@ -16,6 +16,8 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.8;
   overflow-x: hidden;
 }
 
@@ -184,7 +186,7 @@ nav a { pointer-events: all; text-decoration: none; }
 .intro-text {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.9;
   color: var(--text-dim);
   margin-top: 28px;
@@ -241,8 +243,8 @@ nav a { pointer-events: all; text-decoration: none; }
   border-top: 1px solid #ffffff06;
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 17px;
+  line-height: 1.9;
   color: var(--text-dim);
 }
 

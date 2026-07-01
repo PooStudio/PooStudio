@@ -13,6 +13,14 @@
 </head>
 <body>
 
+  <div id="site-loading">
+    <div class="site-loader">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="loading-title">POOSTUDIO</div>
+      <div class="loading-sub">Preparing the studio…</div>
+    </div>
+  </div>
+
   <div id="progress-line"></div>
 
   <div id="gate">
@@ -178,6 +186,11 @@
   </div>
 
   <script>
+    window.addEventListener('load', () => {
+      const l = document.getElementById('site-loading');
+      if (l) setTimeout(() => l.classList.add('hidden'), 500);
+    });
+
     (function() {
       const bar = document.getElementById('gate-bar');
       const gate = document.getElementById('gate');
