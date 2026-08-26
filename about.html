@@ -736,6 +736,8 @@
     .red { color: var(--red); }
     .warm { color: var(--warm); }
   </style>
+  <link rel="stylesheet" href="cyber-theme.css">
+  <script src="cyber-interactions.js" defer></script>
 </head>
 <body>
 
@@ -749,6 +751,13 @@
     <div id="gate-heart">♡</div>
     <button id="gate-enter" onclick="enter()">enter</button>
   </div>
+
+  <aside class="journey-hud" aria-label="Memory journey status">
+    <div class="journey-kicker">LIVE MEMORY // 06</div>
+    <div class="journey-meter"><span id="journey-meter-fill"></span></div>
+    <div class="journey-state" id="journey-state">waiting at the threshold</div>
+    <div class="journey-count"><span id="journey-count">0</span> / 4 memories held</div>
+  </aside>
 
   <main id="main">
 
@@ -908,6 +917,20 @@
       </div>
     </section>
 
+    <section id="love-hate" class="fade-section">
+      <div class="love-hate-inner">
+        <div class="love-hate-label">THE PART THAT DOESN'T RESOLVE</div>
+        <h2 class="love-hate-title"><span>LOVE</span><i>/</i><span>HATE</span></h2>
+        <p class="love-hate-copy" id="love-hate-copy">I hate what you did. I still love who I thought you were.</p>
+        <label class="love-hate-control" for="love-hate-slider">
+          <span>hate</span>
+          <input id="love-hate-slider" type="range" min="0" max="100" value="50" aria-label="Move between love and hate">
+          <span>love</span>
+        </label>
+        <div class="love-hate-readout" id="love-hate-readout">the wound is still warm</div>
+      </div>
+    </section>
+
     <section id="love-truth">
       <div class="love-truth-inner fade-section">
         <div class="love-truth-label">what no one tells you</div>
@@ -990,6 +1013,31 @@
   </main>
 
   <script>
+    const journey = {
+      held: 0,
+      states: ['waiting at the threshold', 'remembering what was real', 'feeling the weight', 'choosing yourself']
+    };
+
+    function buildMemoryChoices() {
+      document.querySelectorAll('.chapter').forEach((chapter, index) => {
+        const choices = document.createElement('div');
+        choices.className = 'memory-choice';
+        choices.innerHTML = '<span class="memory-choice-label">how do you carry this?</span><button type="button" data-choice="hold">hold it</button><button type="button" data-choice="release">let it move</button>';
+        chapter.appendChild(choices);
+        choices.addEventListener('click', (event) => {
+          const choice = event.target.closest('button');
+          if (!choice || choice.disabled) return;
+          journey.held = Math.max(journey.held, index + 1);
+          document.getElementById('journey-count').textContent = journey.held;
+          document.getElementById('journey-state').textContent = choice.dataset.choice === 'hold' ? journey.states[Math.min(index + 1, 3)] : 'making room to breathe';
+          document.getElementById('journey-meter-fill').style.width = `${journey.held * 25}%`;
+          choices.classList.add('answered', choice.dataset.choice);
+          choices.querySelectorAll('button').forEach((button) => { button.disabled = true; });
+          chapter.classList.add('memory-held');
+        });
+      });
+    }
+
     function enter() {
       const gate = document.getElementById('gate');
       gate.style.transition = 'opacity 2s ease';
@@ -1000,6 +1048,25 @@
         startHearts();
       }, 2000);
     }
+
+    buildMemoryChoices();
+
+    const loveHateSlider = document.getElementById('love-hate-slider');
+    const loveHateCopy = document.getElementById('love-hate-copy');
+    const loveHateReadout = document.getElementById('love-hate-readout');
+    const loveHateMoments = [
+      ['I hate what you did. I hate that you made me doubt my own heart.', 'anger has a memory'],
+      ['I hate what you did. I still love who I thought you were.', 'the wound is still warm'],
+      ['I miss you. I hate that I miss you. Both things are true.', 'two truths, one body'],
+      ['I remember the good and resent it for surviving the bad.', 'nothing stays simple'],
+      ['I still love you. That does not make what happened forgivable.', 'love is not permission']
+    ];
+    loveHateSlider.addEventListener('input', () => {
+      const moment = loveHateMoments[Math.round(Number(loveHateSlider.value) / 25)];
+      loveHateCopy.textContent = moment[0];
+      loveHateReadout.textContent = moment[1];
+      loveHateSlider.style.setProperty('--love-position', `${loveHateSlider.value}%`);
+    });
 
     window.addEventListener('scroll', () => {
       const scrollTop = window.scrollY;
