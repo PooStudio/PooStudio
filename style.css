@@ -732,9 +732,9 @@ body::after {
       nav { padding: 20px 32px; }
 
       #login-trigger {
-        top: 72px;
+        top: 72px !important;
         right: 20px;
-        bottom: auto;
+        bottom: auto !important;
       }
 
       #about { padding: 96px 24px; }
