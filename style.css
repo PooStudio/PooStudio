@@ -711,16 +711,43 @@ body::after {
       #hero {
         grid-template-columns: 1fr;
         grid-template-rows: auto;
-        padding: 100px 32px 80px;
+        min-height: auto;
+        padding: 96px 24px 72px;
         text-align: center;
       }
       .hero-left, .hero-right { grid-column: 1; grid-row: auto; text-align: center; }
       .hero-center { grid-column: 1; grid-row: 1; }
-      .hero-title { writing-mode: horizontal-tb; font-size: clamp(4rem, 18vw, 7rem); }
+      .hero-title {
+        writing-mode: horizontal-tb;
+        font-size: clamp(3.1rem, 15vw, 5.2rem);
+        letter-spacing: 0.03em;
+      }
+      .hero-left { margin-top: 48px; }
+      .hero-right { margin-top: 36px; }
       #stats { grid-template-columns: 1fr; }
       .stat-cell { border-right: none; border-bottom: 1px solid var(--rule); }
       footer { flex-direction: column; gap: 40px; }
       .footer-right { text-align: left; }
       .footer-links { align-items: flex-start; }
       nav { padding: 20px 32px; }
+
+      #login-trigger {
+        top: 72px;
+        right: 20px;
+        bottom: auto;
+      }
+
+      #about { padding: 96px 24px; }
+      .section-num { margin-bottom: 44px; }
+      .about-small { line-height: 2; }
+      .stat-cell { padding: 56px 24px; }
+      footer { padding: 56px 24px 40px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: clamp(2.8rem, 14vw, 4.4rem); }
+      .hero-body { line-height: 1.8; }
+      .about-big { font-size: 1.65rem; }
+      .about-small { font-size: 0.68rem; }
+      .footer-logo { font-size: 2.8rem; }
     }
