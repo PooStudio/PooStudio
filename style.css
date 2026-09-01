@@ -432,24 +432,36 @@ body::after {
     ===================== */
     #login-trigger {
       position: fixed;
+      left: 32px;
       bottom: 32px;
-      right: 32px;
       z-index: 800;
-      width: 48px;
-      height: 48px;
-      border: 1px solid #222;
-      background: var(--ink);
-      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      border: 1px solid rgba(21, 21, 21, 0.8);
+      background: rgba(255, 255, 255, 0.78);
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.3s ease;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), inset 0 1px rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.28s ease;
     }
 
-    #login-trigger:hover { border-color: var(--accent); }
-    #login-trigger svg { stroke: #444; transition: stroke 0.3s; }
-    #login-trigger:hover svg { stroke: var(--accent); }
+    #login-trigger:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 42px rgba(17, 17, 17, 0.18), 0 0 0 4px rgba(23, 103, 177, 0.08);
+    }
+    #login-trigger svg {
+      width: 20px;
+      height: 20px;
+      stroke: #343434;
+      transition: stroke 0.3s ease, transform 0.3s ease;
+    }
+    #login-trigger:hover svg { stroke: var(--accent); transform: scale(1.04); }
 
     #login-modal {
       position: fixed;
@@ -732,9 +744,13 @@ body::after {
       nav { padding: 20px 32px; }
 
       #login-trigger {
-        top: 72px !important;
-        right: 20px;
+        top: 80px !important;
+        left: 20px !important;
+        right: auto !important;
         bottom: auto !important;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
       }
 
       #about { padding: 96px 24px; }
