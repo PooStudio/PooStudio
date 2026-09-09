@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#060714">
+  <meta name="description" content="PooStudio is temporarily offline.">
+  <title>Signal Lost | PooStudio</title>
+  <style>
+    :root {
+      --world: #060714;
+      --ink: #f3f5ff;
+      --ash: #9ca6ca;
+      --cyan: #57e8ff;
+      --green: #b6f36c;
+      --rose: #ff79b7;
+      --rule: rgba(151, 171, 255, 0.25);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(rgba(132, 145, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(132, 145, 255, 0.055) 1px, transparent 1px),
+        radial-gradient(ellipse at 18% 8%, rgba(108, 83, 255, 0.26), transparent 34%),
+        radial-gradient(ellipse at 88% 22%, rgba(255, 80, 164, 0.14), transparent 30%),
+        linear-gradient(145deg, #08091a, #0b1028 48%, #050611);
+      background-size: 44px 44px, 44px 44px, auto, auto, auto;
+      font: 14px/1.6 "Courier New", monospace;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 42% 22% at 50% 66%, rgba(87, 232, 255, 0.16), transparent 72%),
+        linear-gradient(180deg, transparent 0 56%, rgba(87, 232, 255, 0.08) 56.1%, transparent 56.4%);
+    }
+
+    .offline-shell {
+      position: relative;
+      z-index: 1;
+      width: min(760px, calc(100% - 40px));
+      min-height: 100vh;
+      margin: 0 auto;
+      display: grid;
+      align-content: center;
+      padding: 48px 0;
+    }
+
+    .topline, .meta, .signal-label {
+      color: var(--green);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .signal-panel {
+      margin: 42px 0 28px;
+      padding: clamp(28px, 7vw, 64px);
+      border: 1px solid var(--rule);
+      background: linear-gradient(145deg, rgba(39, 47, 88, 0.72), rgba(12, 15, 37, 0.82));
+      box-shadow: inset 0 1px rgba(255,255,255,0.1), 0 28px 80px rgba(0,0,0,0.3);
+    }
+
+    .signal-mark {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--rose);
+      border-radius: 50%;
+      color: var(--rose);
+      box-shadow: 0 0 28px rgba(255, 121, 183, 0.22);
+      animation: pulse 2.8s ease-in-out infinite;
+    }
+
+    h1 {
+      max-width: 620px;
+      margin: 30px 0 18px;
+      color: var(--ink);
+      font: 800 clamp(3.5rem, 13vw, 8.5rem)/0.86 "Arial Black", Impact, sans-serif;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      text-shadow: 0 0 35px rgba(87, 232, 255, 0.18);
+    }
+
+    .message {
+      max-width: 520px;
+      margin: 0;
+      color: var(--ash);
+      font-size: 15px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 30px 0 34px;
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rose); box-shadow: 0 0 14px var(--rose); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    a, button {
+      min-height: 44px;
+      padding: 12px 16px;
+      border: 1px solid rgba(87, 232, 255, 0.4);
+      color: var(--ink);
+      background: rgba(15, 22, 51, 0.72);
+      font: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    a:hover, button:hover, a:focus-visible, button:focus-visible { color: #08091a; background: var(--cyan); outline: none; }
+    .meta { color: var(--ash); }
+    .meta strong { color: var(--rose); font-weight: normal; }
+
+    @keyframes pulse { 0%, 100% { opacity: 0.62; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; } }
+    @media (max-width: 520px) { .topline { display: block; } .topline span + span { display: block; margin-top: 8px; } h1 { font-size: clamp(3.3rem, 19vw, 6rem); } }
+  </style>
+</head>
+<body>
+  <main class="offline-shell">
+    <div class="topline"><span>POOSTUDIO / SIGNAL ARCHIVE</span><span>STATUS // 503</span></div>
+    <section class="signal-panel" aria-labelledby="offline-title">
+      <div class="signal-mark" aria-hidden="true">PS</div>
+      <div class="signal-label">Connection interrupted</div>
+      <h1 id="offline-title">Signal lost.</h1>
+      <p class="message">The studio cannot reach the network right now. Your local connection is quiet; nothing has been changed or sent.</p>
+      <div class="status-row"><span class="status-dot" aria-hidden="true"></span><span>Awaiting network // retry when ready</span></div>
+      <div class="actions">
+        <button type="button" id="retry">Try connection again</button>
+        <a href="index.html">Return to studio</a>
+      </div>
+    </section>
+    <div class="meta">POOSTUDIO <strong>//</strong> BUILT FROM THE GROUND UP</div>
+  </main>
+  <script>
+    document.getElementById('retry').addEventListener('click', function () {
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
