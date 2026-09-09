@@ -48,10 +48,11 @@
       z-index: 1;
       width: min(760px, calc(100% - 40px));
       min-height: 100vh;
+      min-height: 100dvh;
       margin: 0 auto;
       display: grid;
       align-content: center;
-      padding: 48px 0;
+      padding: max(32px, env(safe-area-inset-top)) 0 max(32px, env(safe-area-inset-bottom));
     }
 
     .topline, .meta, .signal-label {
@@ -117,7 +118,7 @@
       text-transform: uppercase;
     }
 
-    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rose); box-shadow: 0 0 14px var(--rose); }
+    .status-dot { flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--rose); box-shadow: 0 0 14px var(--rose); }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; }
     a, button {
       min-height: 44px;
@@ -135,7 +136,26 @@
 
     @keyframes pulse { 0%, 100% { opacity: 0.62; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
     @media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; } }
-    @media (max-width: 520px) { .topline { display: block; } .topline span + span { display: block; margin-top: 8px; } h1 { font-size: clamp(3.3rem, 19vw, 6rem); } }
+    @media (max-width: 600px) {
+      .offline-shell { width: min(100% - 28px, 520px); padding-left: 0; padding-right: 0; }
+      .topline { display: block; font-size: 10px; line-height: 1.5; }
+      .topline span + span { display: block; margin-top: 8px; }
+      .signal-panel { margin: 24px 0 20px; padding: 28px 22px; }
+      .signal-mark { width: 48px; height: 48px; }
+      .signal-label { margin-top: 22px; font-size: 10px; }
+      h1 { margin: 22px 0 16px; font-size: clamp(3.1rem, 19vw, 5.8rem); }
+      .message { font-size: 14px; line-height: 1.55; }
+      .status-row { align-items: flex-start; margin: 24px 0 28px; font-size: 10px; line-height: 1.5; }
+      .actions { display: grid; gap: 10px; }
+      a, button { width: 100%; min-height: 48px; text-align: center; }
+      .meta { font-size: 10px; line-height: 1.5; }
+    }
+    @media (max-height: 560px) and (orientation: landscape) {
+      .offline-shell { align-content: start; padding-top: max(20px, env(safe-area-inset-top)); }
+      .signal-panel { margin: 18px 0; padding: 22px 28px; }
+      h1 { margin: 14px 0 10px; font-size: clamp(2.8rem, 12vh, 4.8rem); }
+      .status-row { margin: 16px 0 18px; }
+    }
   </style>
 </head>
 <body>

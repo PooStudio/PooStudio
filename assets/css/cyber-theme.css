@@ -73,7 +73,8 @@ main, #page, #content { position: relative; z-index: 1; }
 	z-index: 11000;
 	display: grid;
 	place-items: center;
-	padding: 24px;
+	min-height: 100dvh;
+	padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
 	background: rgba(2, 3, 14, 0.8);
 	backdrop-filter: blur(14px);
 }
@@ -103,6 +104,22 @@ main, #page, #content { position: relative; z-index: 1; }
 .connection-alert-status span { width: 8px; height: 8px; border-radius: 50%; background: var(--rose); box-shadow: 0 0 14px var(--rose); }
 .connection-alert button { min-height: 44px; padding: 11px 15px; }
 body.connection-alert-open { overflow: hidden; }
+@media (max-width: 600px) {
+	.connection-alert { align-items: end; padding: max(14px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left)); }
+	.connection-alert-panel { width: 100%; max-height: calc(100dvh - 28px); overflow: auto; padding: 28px 22px; }
+	.connection-alert-mark { width: 48px; height: 48px; }
+	.connection-alert-kicker { margin-top: 22px; font-size: 0.54rem; line-height: 1.5; }
+	.connection-alert h2 { margin: 16px 0 12px; font-size: clamp(3.2rem, 18vw, 5.4rem); }
+	.connection-alert-copy { font-size: 0.72rem; line-height: 1.6; }
+	.connection-alert-status { align-items: flex-start; margin: 22px 0; font-size: 0.54rem; line-height: 1.5; }
+	.connection-alert button { width: 100%; min-height: 48px; }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+	.connection-alert { align-items: start; }
+	.connection-alert-panel { margin: 0 auto; padding: 22px 28px; }
+	.connection-alert h2 { margin: 12px 0 10px; font-size: clamp(2.8rem, 12vh, 4.8rem); }
+	.connection-alert-status { margin: 16px 0; }
+}
 .cyber-watermark { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; color: var(--cyan); mix-blend-mode: screen; }
 .watermark-monogram { position: absolute; left: -0.06em; top: 24vh; font: 800 clamp(16rem, 42vw, 42rem)/0.7 'Syne', sans-serif; letter-spacing: -0.12em; color: transparent; -webkit-text-stroke: 1px rgba(87,232,255,0.075); transform: translate3d(0, calc(var(--world-scroll, 0px) * -0.08), 0) rotate(-8deg); text-shadow: 24px 24px 0 rgba(255,121,183,0.035); }
 .watermark-caption { position: absolute; right: 28px; top: 48%; writing-mode: vertical-rl; font: 0.5rem 'DM Mono', monospace; letter-spacing: 0.28em; color: rgba(182,243,108,0.28); }
