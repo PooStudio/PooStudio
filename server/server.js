@@ -6,8 +6,6 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const allowedOrigins = new Set([
 	'https://poostudio.github.io',
-	'http://localhost:5500',
-	'http://localhost:3000'
 ]);
 
 app.disable('x-powered-by');
