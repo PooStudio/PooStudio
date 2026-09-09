@@ -7,9 +7,9 @@
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="profile.css">
-  <link rel="stylesheet" href="cyber-theme.css">
-  <script src="cyber-interactions.js" defer></script>
+  <link rel="stylesheet" href="assets/css/profile.css">
+  <link rel="stylesheet" href="assets/css/cyber-theme.css">
+  <script src="assets/js/cyber-interactions.js" defer></script>
 </head>
 <body>
 
@@ -138,6 +138,7 @@
   </div>
 
   <script type="module">
+    import { firebaseConfig } from "./assets/js/firebase-config.js";
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
     import {
       getAuth,
@@ -150,14 +151,7 @@
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
     import { getFirestore, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-    const app = initializeApp({
-      apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
-      authDomain: "poostudios-20da0.firebaseapp.com",
-      projectId: "poostudios-20da0",
-      storageBucket: "poostudios-20da0.firebasestorage.app",
-      messagingSenderId: "69493755317",
-      appId: "1:69493755317:web:c1835df7c7b9eae9315dfc"
-    });
+    const app = initializeApp(firebaseConfig);
 
     const auth = getAuth(app);
     const storage = getStorage(app);
@@ -181,13 +175,30 @@
       });
     }
 
+    function setAvatarImage(container, source, altText, allowData = false) {
+      try {
+        const url = new URL(source, window.location.href);
+        const safeDataImage = allowData && /^data:image\/(jpeg|png|webp);base64,/i.test(source);
+        if (url.protocol !== 'https:' && url.origin !== window.location.origin && !safeDataImage) throw new Error('unsafe image URL');
+        const image = document.createElement('img');
+        image.src = url.href;
+        image.alt = altText;
+        image.loading = 'lazy';
+        image.referrerPolicy = 'no-referrer';
+        image.style.cssText = 'width:100%;height:100%;border-radius:50%;object-fit:cover;';
+        container.replaceChildren(image);
+      } catch (_error) {
+        container.textContent = 'U';
+      }
+    }
+
     function populateProfile(user) {
       const name = user.displayName || 'User';
       document.getElementById('display-name').textContent = name;
 
       const avatarEl = document.getElementById('avatar');
       if (user.photoURL) {
-        avatarEl.innerHTML = `<img src="${user.photoURL}" alt="Profile" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+        setAvatarImage(avatarEl, user.photoURL, 'Profile');
       } else {
         avatarEl.textContent = (user.displayName || user.email || 'U').charAt(0).toUpperCase();
       }
@@ -246,6 +257,10 @@
     async function uploadAvatarFile(file) {
       const user = auth.currentUser;
       if (!user || !file) return;
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 10 * 1024 * 1024) {
+        showMessage('Choose a JPEG, PNG, or WebP image under 10 MB.', true);
+        return;
+      }
       try {
         async function resizeImage(blob, size = 256) {
           const img = await createImageBitmap(blob);
@@ -257,14 +272,9 @@
           return await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.9));
         }
         const blob = await resizeImage(file, 256);
-        const form = new FormData();
-        form.append('avatar', blob, 'avatar.jpg');
-        form.append('uid', user.uid);
-        const endpoint = window.UPLOAD_ENDPOINT || (window.location.origin + '/upload-avatar');
-        const resp = await fetch(endpoint, { method: 'POST', body: form });
-        if (!resp.ok) throw new Error('upload-failed');
-        const data = await resp.json();
-        const url = data.url.startsWith('http') ? data.url : new URL(data.url, endpoint).href;
+        const avatarRef = ref(storage, `avatars/${user.uid}/avatar.jpg`);
+        await uploadBytes(avatarRef, blob, { contentType: 'image/jpeg' });
+        const url = await getDownloadURL(avatarRef);
         await updateProfile(user, { photoURL: url });
         populateProfile(user);
         showMessage('Profile photo updated.');
@@ -281,7 +291,7 @@
       pendingAvatar = file;
       const reader = new FileReader();
       reader.onload = r => {
-        document.getElementById('avatar').innerHTML = `<img src="${r.target.result}" alt="Preview" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+        setAvatarImage(document.getElementById('avatar'), r.target.result, 'Preview', true);
       };
       reader.readAsDataURL(file);
       avatarSaveBtn.style.display = 'block';
@@ -302,14 +312,20 @@
       if (file) uploadAvatarFile(file);
     });
 
+    function usernameKey(name) {
+      const key = name.trim().toLowerCase().replace(/\s+/g, '-');
+      if (!/^[a-z0-9](?:[a-z0-9._-]{0,31})$/.test(key)) throw new Error('invalid-username');
+      return key;
+    }
+
     async function claimUsername(user, name) {
-      const key = name.toLowerCase();
+      const key = usernameKey(name);
       const desiredRef = doc(db, 'usernames', key);
       await runTransaction(db, async tx => {
         const snap = await tx.get(desiredRef);
         if (snap.exists() && snap.data().uid !== user.uid) throw new Error('username-taken');
         tx.set(desiredRef, { uid: user.uid, createdAt: serverTimestamp() });
-        const old = (user.displayName || '').toLowerCase();
+        const old = user.displayName ? usernameKey(user.displayName) : '';
         if (old && old !== key) {
           const oldRef = doc(db, 'usernames', old);
           const oldSnap = await tx.get(oldRef);
@@ -329,7 +345,7 @@
         populateProfile(user);
         showMessage('Display name updated.');
       } catch (err) {
-        showMessage(err.message === 'username-taken' ? 'That name is already taken.' : 'Failed: ' + (err.message || err.code), true);
+        showMessage(err.message === 'username-taken' ? 'That name is already taken.' : err.message === 'invalid-username' ? 'Use 1-32 letters, numbers, spaces, dots, hyphens, or underscores.' : 'Name update failed.', true);
       }
     };
 
@@ -348,7 +364,7 @@
           showMessage('Display name updated.');
           document.getElementById('settings-dropdown').classList.remove('open');
         } catch (err) {
-          showMessage(err.message === 'username-taken' ? 'That name is already taken.' : 'Failed: ' + (err.message || err.code), true);
+          showMessage(err.message === 'username-taken' ? 'That name is already taken.' : err.message === 'invalid-username' ? 'Use 1-32 letters, numbers, spaces, dots, hyphens, or underscores.' : 'Name update failed.', true);
         }
       });
     }

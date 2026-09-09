@@ -9,9 +9,9 @@
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="signupcss.css">
-  <link rel="stylesheet" href="cyber-theme.css">
-  <script src="cyber-interactions.js" defer></script>
+  <link rel="stylesheet" href="assets/css/signupcss.css">
+  <link rel="stylesheet" href="assets/css/cyber-theme.css">
+  <script src="assets/js/cyber-interactions.js" defer></script>
 </head>
 <body>
 
@@ -205,19 +205,13 @@
   </script>
 
   <script type="module">
+    import { firebaseConfig }           from "./assets/js/firebase-config.js";
     import { initializeApp }           from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithPopup,
              GoogleAuthProvider, updateProfile, sendEmailVerification }
                                        from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-    const app  = initializeApp({
-      apiKey:            "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
-      authDomain:        "poostudios-20da0.firebaseapp.com",
-      projectId:         "poostudios-20da0",
-      storageBucket:     "poostudios-20da0.firebasestorage.app",
-      messagingSenderId: "69493755317",
-      appId:             "1:69493755317:web:c1835df7c7b9eae9315dfc"
-    });
+    const app  = initializeApp(firebaseConfig);
 
     const auth           = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
