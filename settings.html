@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/profile.css">
   <link rel="stylesheet" href="assets/css/cyber-theme.css">
+  <script src="assets/js/firebase-config.local.js" defer></script>
   <script src="assets/js/cyber-interactions.js" defer></script>
 </head>
 <body>
@@ -188,7 +189,7 @@
   }
 
   document.getElementById('settings-save-name').addEventListener('click', async () => {
-    if (!auth || !db) { showMessage('Authentication is unavailable in this deployment.', true); return; }
+    if (!auth || !db) { console.warn('Auth is unavailable because Firebase config is missing.'); return; }
     const newName = document.getElementById('settings-display-name').value.trim();
     if (!newName) { showMessage('Please enter a display name', true); return; }
     const user = auth.currentUser;
@@ -227,14 +228,14 @@
   });
 
   document.getElementById('verify-email').addEventListener('click', async () => {
-    if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
+    if (!auth) { console.warn('Auth is unavailable because Firebase config is missing.'); return; }
     const user = auth.currentUser;
     if (!user) { showMessage('Not authenticated', true); return; }
     try { await sendEmailVerification(user); showMessage('Verification email sent.'); } catch (err) { showMessage('Failed: ' + (err.message || err.code), true); }
   });
 
   document.getElementById('change-password').addEventListener('click', async () => {
-    if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
+    if (!auth) { console.warn('Auth is unavailable because Firebase config is missing.'); return; }
     const newPassword = prompt('Enter your new password (min 8 chars):');
     if (!newPassword || newPassword.length < 8) { showMessage('Password must be at least 8 characters', true); return; }
     const user = auth.currentUser;
@@ -243,7 +244,7 @@
   });
 
   document.getElementById('logout').addEventListener('click', async () => {
-    if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
+    if (!auth) { console.warn('Auth is unavailable because Firebase config is missing.'); return; }
     try { await signOut(auth); window.location.href = 'index.html'; } catch (err) { showMessage('Logout failed: ' + (err.message || err.code), true); }
   });
 

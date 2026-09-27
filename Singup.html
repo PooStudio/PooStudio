@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/signupcss.css">
   <link rel="stylesheet" href="assets/css/cyber-theme.css">
+  <script src="assets/js/firebase-config.local.js" defer></script>
   <script src="assets/js/cyber-interactions.js" defer></script>
 </head>
 <body>
@@ -222,12 +223,11 @@
 
     if (!auth) {
       console.warn('Signup is disabled because Firebase config is not configured.');
-      submitBtn.disabled = true;
-      googleBtn.disabled = true;
+      if (submitBtn) submitBtn.disabled = true;
+      if (googleBtn) googleBtn.disabled = true;
       form.querySelectorAll('input').forEach((field) => {
         field.disabled = true;
       });
-      errEmail.textContent = 'Authentication is unavailable in this deployment.';
     } else {
 
       form.addEventListener('submit', async e => {
