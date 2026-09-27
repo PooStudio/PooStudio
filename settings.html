@@ -57,17 +57,20 @@
 </div>
 
 <script type="module">
-  import { firebaseConfig } from "./assets/js/firebase-config.js";
+  import { firebaseConfig, hasFirebaseConfig } from "./assets/js/firebase-config.js";
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut, sendEmailVerification, updatePassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
   import { getFirestore, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const storage = getStorage(app);
-  const db = getFirestore(app);
+  const app = hasFirebaseConfig() ? initializeApp(firebaseConfig) : null;
+  const auth = app ? getAuth(app) : null;
+  const storage = app ? getStorage(app) : null;
+  const db = app ? getFirestore(app) : null;
 
+  if (!auth || !storage || !db) {
+    console.warn('Settings are unavailable because Firebase config is missing.');
+  }
   const msgContainer = document.getElementById('message-container');
 
   function showMessage(text, isError = false) {
@@ -106,13 +109,15 @@
     }
   }
 
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      window.location.href = 'index.html';
-      return;
-    }
-    populateUser(user);
-  });
+  if (auth) {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = 'index.html';
+        return;
+      }
+      populateUser(user);
+    });
+  }
 
   async function uploadAvatarFile(file) {
     if (!file) return;
@@ -183,6 +188,7 @@
   }
 
   document.getElementById('settings-save-name').addEventListener('click', async () => {
+    if (!auth || !db) { showMessage('Authentication is unavailable in this deployment.', true); return; }
     const newName = document.getElementById('settings-display-name').value.trim();
     if (!newName) { showMessage('Please enter a display name', true); return; }
     const user = auth.currentUser;
@@ -221,12 +227,14 @@
   });
 
   document.getElementById('verify-email').addEventListener('click', async () => {
+    if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
     const user = auth.currentUser;
     if (!user) { showMessage('Not authenticated', true); return; }
     try { await sendEmailVerification(user); showMessage('Verification email sent.'); } catch (err) { showMessage('Failed: ' + (err.message || err.code), true); }
   });
 
   document.getElementById('change-password').addEventListener('click', async () => {
+    if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
     const newPassword = prompt('Enter your new password (min 8 chars):');
     if (!newPassword || newPassword.length < 8) { showMessage('Password must be at least 8 characters', true); return; }
     const user = auth.currentUser;
@@ -235,6 +243,7 @@
   });
 
   document.getElementById('logout').addEventListener('click', async () => {
+    if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
     try { await signOut(auth); window.location.href = 'index.html'; } catch (err) { showMessage('Logout failed: ' + (err.message || err.code), true); }
   });
 

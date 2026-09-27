@@ -205,98 +205,107 @@
   </script>
 
   <script type="module">
-    import { firebaseConfig }           from "./assets/js/firebase-config.js";
+    import { firebaseConfig, hasFirebaseConfig } from "./assets/js/firebase-config.js";
     import { initializeApp }           from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithPopup,
              GoogleAuthProvider, updateProfile, sendEmailVerification }
                                        from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-    const app  = initializeApp(firebaseConfig);
-
-    const auth           = getAuth(app);
+    const app  = hasFirebaseConfig() ? initializeApp(firebaseConfig) : null;
+    const auth = app ? getAuth(app) : null;
     const googleProvider = new GoogleAuthProvider();
-    const form           = document.getElementById('signup-form');
-    const errEmail       = document.getElementById('err-email');
-    const errPass        = document.getElementById('err-password');
-    const submitBtn      = document.getElementById('submit-btn');
-    const googleBtn      = document.getElementById('google-signup-btn');
+    const form = document.getElementById('signup-form');
+    const errEmail = document.getElementById('err-email');
+    const errPass = document.getElementById('err-password');
+    const submitBtn = document.getElementById('submit-btn');
+    const googleBtn = document.getElementById('google-signup-btn');
 
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-
-      const username = document.getElementById('f-username').value.trim();
-      const email    = document.getElementById('f-email').value.trim();
-      const password = document.getElementById('f-password').value;
-      const confirm  = document.getElementById('f-confirm').value;
-
-      // Clear Firebase errors
-      errEmail.textContent = '';
-      errPass.textContent  = '';
-
-      if (password !== confirm) {
-        document.getElementById('err-confirm').textContent = 'Passwords do not match.';
-        return;
-      }
-
+    if (!auth) {
+      console.warn('Signup is disabled because Firebase config is not configured.');
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Creating...';
+      googleBtn.disabled = true;
+      form.querySelectorAll('input').forEach((field) => {
+        field.disabled = true;
+      });
+      errEmail.textContent = 'Authentication is unavailable in this deployment.';
+    } else {
 
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
 
-        try { await updateProfile(cred.user, { displayName: username }); }
-        catch (uErr) { console.warn('updateProfile failed', uErr); }
+        const username = document.getElementById('f-username').value.trim();
+        const email = document.getElementById('f-email').value.trim();
+        const password = document.getElementById('f-password').value;
+        const confirm = document.getElementById('f-confirm').value;
 
-        try { await sendEmailVerification(cred.user); }
-        catch (vErr) { console.warn('sendEmailVerification failed', vErr); }
+        errEmail.textContent = '';
+        errPass.textContent = '';
 
-        localStorage.setItem('poostudio_signup_time', Date.now());
-        alert('Account created. A verification email has been sent.');
-        window.location.href = 'index.html';
-
-      } catch (err) {
-        const c = err?.code || '';
-        if (c.includes('email-already-in-use')) {
-          errEmail.textContent = 'An account with this email already exists.';
-        } else if (c.includes('invalid-email')) {
-          errEmail.textContent = 'Invalid email address.';
-        } else if (c.includes('weak-password')) {
-          errPass.textContent = 'Password is too weak.';
-        } else {
-          errEmail.textContent = 'Signup failed. Please try again.';
-          console.error('Signup error:', err);
+        if (password !== confirm) {
+          document.getElementById('err-confirm').textContent = 'Passwords do not match.';
+          return;
         }
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Create Account';
-      }
-    });
 
-    googleBtn.addEventListener('click', async () => {
-      try {
-        const cred = await signInWithPopup(auth, googleProvider);
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating...';
 
-        if (!cred.user.displayName) {
-          const username = prompt('Choose a username (3–20 characters):');
-          if (username && username.length >= 3 && username.length <= 20) {
-            try { await updateProfile(cred.user, { displayName: username }); }
-            catch (uErr) { console.warn('updateProfile failed', uErr); }
+        try {
+          const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+          try { await updateProfile(cred.user, { displayName: username }); }
+          catch (uErr) { console.warn('updateProfile failed', uErr); }
+
+          try { await sendEmailVerification(cred.user); }
+          catch (vErr) { console.warn('sendEmailVerification failed', vErr); }
+
+          localStorage.setItem('poostudio_signup_time', Date.now());
+          alert('Account created. A verification email has been sent.');
+          window.location.href = 'index.html';
+
+        } catch (err) {
+          const c = err?.code || '';
+          if (c.includes('email-already-in-use')) {
+            errEmail.textContent = 'An account with this email already exists.';
+          } else if (c.includes('invalid-email')) {
+            errEmail.textContent = 'Invalid email address.';
+          } else if (c.includes('weak-password')) {
+            errPass.textContent = 'Password is too weak.';
+          } else {
+            errEmail.textContent = 'Signup failed. Please try again.';
+            console.error('Signup error:', err);
           }
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Account';
         }
+      });
 
-        try { await sendEmailVerification(cred.user); }
-        catch (vErr) { console.warn('sendEmailVerification failed', vErr); }
+      googleBtn.addEventListener('click', async () => {
+        try {
+          const cred = await signInWithPopup(auth, googleProvider);
 
-        localStorage.setItem('poostudio_signup_time', Date.now());
-        alert('Account created with Google! A verification email has been sent.');
-        window.location.href = 'index.html';
+          if (!cred.user.displayName) {
+            const username = prompt('Choose a username (3–20 characters):');
+            if (username && username.length >= 3 && username.length <= 20) {
+              try { await updateProfile(cred.user, { displayName: username }); }
+              catch (uErr) { console.warn('updateProfile failed', uErr); }
+            }
+          }
 
-      } catch (err) {
-        if (err?.code !== 'auth/popup-closed-by-user') {
-          alert('Google sign-up failed: ' + (err.message || err.code));
+          try { await sendEmailVerification(cred.user); }
+          catch (vErr) { console.warn('sendEmailVerification failed', vErr); }
+
+          localStorage.setItem('poostudio_signup_time', Date.now());
+          alert('Account created with Google! A verification email has been sent.');
+          window.location.href = 'index.html';
+
+        } catch (err) {
+          if (err?.code !== 'auth/popup-closed-by-user') {
+            alert('Google sign-up failed: ' + (err.message || err.code));
+          }
+          console.error('Google sign-up error:', err);
         }
-        console.error('Google sign-up error:', err);
-      }
-    });
+      });
+    }
   </script>
 
 </body>

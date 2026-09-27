@@ -284,65 +284,72 @@
   </script>
 
   <script type="module">
-    import { firebaseConfig } from "./assets/js/firebase-config.js";
+    import { firebaseConfig, hasFirebaseConfig } from "./assets/js/firebase-config.js";
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-    const app = initializeApp(firebaseConfig);
-
-    const auth = getAuth(app);
+    const app = hasFirebaseConfig() ? initializeApp(firebaseConfig) : null;
+    const auth = app ? getAuth(app) : null;
     const googleProvider = new GoogleAuthProvider();
     const form = document.getElementById('login-form');
     const emailError = document.getElementById('email-error');
     const passError = document.getElementById('password-error');
 
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const email = form.querySelector('input[type="email"]').value.trim();
-      const pass = form.querySelector('input[type="password"]').value;
-      try {
-        const cred = await signInWithEmailAndPassword(auth, email, pass);
-        if (!cred.user.emailVerified) alert('Please verify your email first.');
-        document.getElementById('login-modal').classList.remove('open');
-        window.location.reload();
-      } catch (err) {
-        const c = err?.code || '';
-        if (c.includes('user-not-found') || c.includes('invalid-email')) emailError.textContent = 'No account found.';
-        else if (c.includes('wrong-password')) passError.textContent = 'Incorrect password.';
-        else if (c.includes('too-many-requests')) passError.textContent = 'Too many attempts. Try later.';
-        else emailError.textContent = 'Login failed.';
-      }
-    });
+    if (!auth) {
+      console.warn('Authentication is disabled because Firebase config is not configured for this deployment.');
+      submitBtn.disabled = true;
+      form.querySelectorAll('input').forEach((field) => { field.disabled = true; });
+      emailError.textContent = 'Authentication is unavailable in this deployment.';
+      passError.textContent = 'Set Firebase config to enable sign-in.';
+    } else {
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const email = form.querySelector('input[type="email"]').value.trim();
+        const pass = form.querySelector('input[type="password"]').value;
+        try {
+          const cred = await signInWithEmailAndPassword(auth, email, pass);
+          if (!cred.user.emailVerified) alert('Please verify your email first.');
+          document.getElementById('login-modal').classList.remove('open');
+          window.location.reload();
+        } catch (err) {
+          const c = err?.code || '';
+          if (c.includes('user-not-found') || c.includes('invalid-email')) emailError.textContent = 'No account found.';
+          else if (c.includes('wrong-password')) passError.textContent = 'Incorrect password.';
+          else if (c.includes('too-many-requests')) passError.textContent = 'Too many attempts. Try later.';
+          else emailError.textContent = 'Login failed.';
+        }
+      });
 
-    window.handleGoogleSignIn = async () => {
-      try {
-        await signInWithPopup(auth, googleProvider);
-        document.getElementById('login-modal').classList.remove('open');
-        window.location.reload();
-      } catch (err) {
-        alert('Google sign-in failed: ' + (err.message || err.code));
-      }
-    };
+      window.handleGoogleSignIn = async () => {
+        try {
+          await signInWithPopup(auth, googleProvider);
+          document.getElementById('login-modal').classList.remove('open');
+          window.location.reload();
+        } catch (err) {
+          alert('Google sign-in failed: ' + (err.message || err.code));
+        }
+      };
 
-    window.poostudioAuthSignOut = async () => {
-      try { await signOut(auth); window.location.reload(); } catch(e) { console.error(e); }
-    };
+      window.poostudioAuthSignOut = async () => {
+        try { await signOut(auth); window.location.reload(); } catch(e) { console.error(e); }
+      };
 
-    onAuthStateChanged(auth, user => {
-      const authNav = document.getElementById('auth-nav');
-      const indicator = document.getElementById('signed-in-indicator');
-      if (user) {
-        authNav.style.display = 'flex';
-        if (indicator) indicator.textContent = '— ' + (user.displayName || user.email);
-        window.userIsLoggedIn = true;
-      } else {
-        authNav.style.display = 'none';
-        window.userIsLoggedIn = false;
-        setTimeout(() => {
-          if (!window.userIsLoggedIn) document.getElementById('login-modal').classList.add('open');
-        }, 8000);
-      }
-    });
+      onAuthStateChanged(auth, user => {
+        const authNav = document.getElementById('auth-nav');
+        const indicator = document.getElementById('signed-in-indicator');
+        if (user) {
+          authNav.style.display = 'flex';
+          if (indicator) indicator.textContent = '— ' + (user.displayName || user.email);
+          window.userIsLoggedIn = true;
+        } else {
+          authNav.style.display = 'none';
+          window.userIsLoggedIn = false;
+          setTimeout(() => {
+            if (!window.userIsLoggedIn) document.getElementById('login-modal').classList.add('open');
+          }, 8000);
+        }
+      });
+    }
   </script>
 
 </body>

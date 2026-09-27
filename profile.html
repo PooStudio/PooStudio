@@ -138,7 +138,7 @@
   </div>
 
   <script type="module">
-    import { firebaseConfig } from "./assets/js/firebase-config.js";
+    import { firebaseConfig, hasFirebaseConfig } from "./assets/js/firebase-config.js";
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
     import {
       getAuth,
@@ -151,12 +151,14 @@
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
     import { getFirestore, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
-    const app = initializeApp(firebaseConfig);
+    const app = hasFirebaseConfig() ? initializeApp(firebaseConfig) : null;
+    const auth = app ? getAuth(app) : null;
+    const storage = app ? getStorage(app) : null;
+    const db = app ? getFirestore(app) : null;
 
-    const auth = getAuth(app);
-    const storage = getStorage(app);
-    const db = getFirestore(app);
-
+    if (!auth || !storage || !db) {
+      console.warn('Profile features are disabled because Firebase config is missing.');
+    }
     const msgContainer = document.getElementById('message-container');
 
     function showMessage(text, isError = false) {
@@ -217,23 +219,27 @@
       document.getElementById('year').textContent = new Date().getFullYear();
     }
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById('not-auth').style.display = 'none';
-        document.getElementById('content').style.display = 'block';
-        populateProfile(user);
-      } else {
-        document.getElementById('not-auth').style.display = 'flex';
-        document.getElementById('content').style.display = 'none';
-      }
-    });
+    if (auth) {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          document.getElementById('not-auth').style.display = 'none';
+          document.getElementById('content').style.display = 'block';
+          populateProfile(user);
+        } else {
+          document.getElementById('not-auth').style.display = 'flex';
+          document.getElementById('content').style.display = 'none';
+        }
+      });
+    }
 
     window.handleLogout = async () => {
+      if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
       try { await signOut(auth); window.location.href = 'index.html'; }
       catch (err) { showMessage('Logout failed: ' + err.message, true); }
     };
 
     window.handleVerifyEmail = async () => {
+      if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
       const user = auth.currentUser;
       if (!user) return;
       try { await sendEmailVerification(user); showMessage('Verification email sent.'); }
@@ -241,6 +247,7 @@
     };
 
     window.handleChangePassword = async () => {
+      if (!auth) { showMessage('Authentication is unavailable in this deployment.', true); return; }
       const newPw = prompt('New password (min 8 chars):');
       if (!newPw || newPw.length < 8) { showMessage('Password must be at least 8 characters.', true); return; }
       const user = auth.currentUser;
@@ -353,6 +360,7 @@
     const settingsNameInput = document.getElementById('settings-display-name');
     if (settingsSaveNameBtn) {
       settingsSaveNameBtn.addEventListener('click', async () => {
+        if (!auth || !db) { showMessage('Authentication is unavailable in this deployment.', true); return; }
         const newName = settingsNameInput?.value?.trim();
         if (!newName) { showMessage('Enter a display name.', true); return; }
         const user = auth.currentUser;

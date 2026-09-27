@@ -1,8 +1,33 @@
-export const firebaseConfig = {
-  apiKey: "AIzaSyBZuXpjaUPUm3b7QqVtzxEsRhBEESTHu1E",
-  authDomain: "poostudios-20da0.firebaseapp.com",
-  projectId: "poostudios-20da0",
-  storageBucket: "poostudios-20da0.firebasestorage.app",
-  messagingSenderId: "69493755317",
-  appId: "1:69493755317:web:c1835df7c7b9eae9315dfc"
+const defaultFirebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
+
+const runtimeConfig = (typeof window !== 'undefined' && window.__POOSTUDIO_CONFIG__)
+  ? window.__POOSTUDIO_CONFIG__.firebase || {}
+  : {};
+
+export const firebaseConfig = {
+  ...defaultFirebaseConfig,
+  ...runtimeConfig
+};
+
+export function hasFirebaseConfig() {
+  return Boolean(
+    firebaseConfig.apiKey &&
+    firebaseConfig.authDomain &&
+    firebaseConfig.projectId &&
+    firebaseConfig.appId
+  );
+}
+
+export function getFirebaseConfig() {
+  if (!hasFirebaseConfig()) {
+    throw new Error('Firebase configuration is missing. Set the public Firebase values in your deployment environment before enabling authentication.');
+  }
+  return firebaseConfig;
+}
