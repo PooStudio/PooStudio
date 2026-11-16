@@ -8,13 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/profile.css">
-  <link rel="stylesheet" href="assets/css/cyber-theme.css">
-  <script src="assets/js/firebase-config.local.js" defer></script>
-  <script src="assets/js/cyber-interactions.js" defer></script>
+  <script src="assets/js/service-worker.js" defer></script>
+  <?php require __DIR__ . '/includes/firebase-config.php'; ?>
 </head>
 <body>
 
-  <div class="noise-overlay" aria-hidden="true"></div>
   <div id="progress-line"></div>
 
   <div id="not-auth">
@@ -22,14 +20,14 @@
       <div class="not-auth-label">403</div>
       <h2 class="not-auth-title">Access Denied</h2>
       <p class="not-auth-body">You need to be signed in to view this page.</p>
-      <a href="index.html" class="auth-btn">← Return to Home</a>
+      <a href="index.php" class="auth-btn">← Return to Home</a>
     </div>
   </div>
 
   <div id="content" style="display:none;">
 
     <nav id="nav">
-      <a href="index.html" class="nav-logo">PS</a>
+      <a href="index.php" class="nav-logo">PS</a>
       <div class="nav-right">
         <div class="settings-menu">
           <button class="settings-toggle" id="settings-toggle" aria-label="Settings" aria-expanded="false">
@@ -129,9 +127,9 @@
       </div>
       <div class="footer-right">
         <div class="footer-links">
-          <a href="terms.html">Terms</a>
-          <a href="privacy.html">Privacy</a>
-          <a href="index.html">Home</a>
+          <a href="terms.php">Terms</a>
+          <a href="privacy.php">Privacy</a>
+          <a href="index.php">Home</a>
         </div>
       </div>
     </footer>
@@ -235,7 +233,7 @@
 
     window.handleLogout = async () => {
       if (!auth) { console.warn('Auth is unavailable because Firebase config is missing.'); return; }
-      try { await signOut(auth); window.location.href = 'index.html'; }
+      try { await signOut(auth); window.location.href = 'index.php'; }
       catch (err) { showMessage('Logout failed: ' + err.message, true); }
     };
 

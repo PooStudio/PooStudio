@@ -1,0 +1,129 @@
+:root {
+  color-scheme: light;
+  --settings-ink: #1b202b;
+  --settings-muted: #666b75;
+  --settings-line: #deddd7;
+  --settings-paper: #f4f2ec;
+  --settings-accent: #5549a5;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--settings-ink);
+  background: var(--settings-paper);
+  font: 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+a { color: inherit; }
+button, input { font: inherit; }
+:focus-visible { outline: 3px solid #8a7deb; outline-offset: 3px; }
+
+.settings-page { min-height: 100vh; padding: 32px 20px; }
+.settings-container { width: min(760px, 100%); margin: 0 auto; }
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 4px 0 24px;
+}
+.settings-back, .settings-brand { text-decoration: none; }
+.settings-back { color: var(--settings-muted); font-size: 0.9rem; }
+.settings-back:hover { color: var(--settings-accent); }
+.settings-brand { font-size: 1.15rem; font-weight: 750; letter-spacing: -0.06em; }
+.settings-card {
+  padding: clamp(24px, 6vw, 48px);
+  border: 1px solid var(--settings-line);
+  border-radius: 8px;
+  background: #fffefa;
+  box-shadow: 0 18px 50px rgb(27 32 43 / 6%);
+}
+.settings-kicker {
+  margin: 0 0 8px;
+  color: var(--settings-accent);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.settings-card h1 {
+  margin: 0;
+  font: 400 clamp(2.4rem, 7vw, 3.5rem)/1.1 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.045em;
+}
+.settings-section { margin-top: 30px; }
+.settings-section label { display: block; margin-bottom: 8px; font-size: 0.88rem; font-weight: 650; }
+.settings-form-row { display: flex; align-items: center; gap: 10px; }
+.settings-form-row input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #c9c8c2;
+  border-radius: 5px;
+  color: var(--settings-ink);
+  background: white;
+}
+.settings-form-row input[type="text"]:focus { border-color: var(--settings-accent); }
+.visually-hidden-file { display: none; }
+.avatar-preview {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--settings-line);
+  border-radius: 50%;
+  background: var(--settings-paper);
+  color: var(--settings-muted);
+  font-weight: 650;
+}
+.settings-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+.btn {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid var(--settings-line);
+  border-radius: 5px;
+  background: white;
+  color: var(--settings-ink);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+.btn:hover { border-color: var(--settings-accent); color: var(--settings-accent); }
+.btn-primary { border-color: var(--settings-accent); background: var(--settings-accent); color: white; }
+.btn-primary:hover { background: #43387f; color: white; }
+.btn-danger { color: #983d46; }
+.btn-danger:hover { border-color: #983d46; color: #983d46; }
+.message {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid #a9d2b7;
+  border-radius: 5px;
+  background: #f0faf3;
+  color: #285d38;
+  font-size: 0.9rem;
+}
+.message.error { border-color: #e2b9bc; background: #fff4f4; color: #8d2933; }
+
+@media (max-width: 560px) {
+  .settings-page { padding: 18px 14px; }
+  .settings-header { padding-bottom: 16px; }
+  .settings-card { padding: 24px 18px; }
+  .settings-form-row { align-items: stretch; flex-wrap: wrap; }
+  .settings-form-row input[type="text"] { flex-basis: 100%; }
+  .settings-actions { display: grid; grid-template-columns: 1fr; }
+  .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}

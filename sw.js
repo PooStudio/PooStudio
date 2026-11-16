@@ -1,10 +1,11 @@
-const CACHE_NAME = 'poostudio-shell-v1';
-const OFFLINE_PAGE = '/offline.html';
+const CACHE_NAME = 'poostudio-shell-v2';
+const OFFLINE_PAGE = '/offline.php';
+const OFFLINE_STYLESHEET = '/assets/css/offline.css';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => cache.add(OFFLINE_PAGE))
+      .then((cache) => cache.addAll([OFFLINE_PAGE, OFFLINE_STYLESHEET]))
       .then(() => self.skipWaiting())
   );
 });
@@ -20,7 +21,16 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET' || event.request.mode !== 'navigate') return;
+  if (event.request.method !== 'GET') return;
+
+  if (event.request.mode !== 'navigate') {
+    const requestUrl = new URL(event.request.url);
+    if (requestUrl.origin !== self.location.origin) return;
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => cachedResponse || fetch(event.request))
+    );
+    return;
+  }
 
   event.respondWith(
     fetch(event.request).catch(() => caches.match(OFFLINE_PAGE))

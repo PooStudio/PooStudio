@@ -21,47 +21,8 @@ html, body {
   overflow-x: hidden;
 }
 
-/* ── LOADING ── */
-#loading {
-  position: fixed; inset: 0; z-index: 999;
-  background: var(--bg);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 32px;
-  transition: opacity 0.8s ease;
-}
-#loading.out { opacity: 0; pointer-events: none; }
-
-.load-logo {
-  font-family: 'EB Garamond', serif;
-  font-size: 13px;
-  letter-spacing: 0.5em;
-  font-weight: 400;
-  color: var(--text-dim);
-  text-transform: uppercase;
-}
-
-.load-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 18px;
-  color: var(--text-dimmer);
-  letter-spacing: 0.1em;
-}
-
-.load-bar {
-  width: 180px; height: 1px;
-  background: #ffffff10;
-  position: relative; overflow: hidden;
-}
-.load-fill {
-  position: absolute; inset: 0; right: auto;
-  width: 0%; background: var(--crimson-mid);
-  transition: width 0.15s ease;
-}
-
 /* ── LAYOUT ── */
-#page { display: none; min-height: 100vh; position: relative; }
+#page { min-height: 100vh; position: relative; }
 
 /* ── NAV ── */
 nav {
@@ -304,6 +265,8 @@ strong {
 }
 .doc-nav a:hover { color: var(--text); }
 .doc-nav a .arr { color: var(--crimson-mid); }
+
+.privacy-document .intro-text { font-size: 18px; }
 
 /* ── FOOTER ── */
 footer {

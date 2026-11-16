@@ -1,6 +1,6 @@
 /* ============================================================
    POOSTUDIO — signupcss.css
-   Matches the dark minimal aesthetic of index.html
+   Signup page styles
    Fonts: Bebas Neue / IM Fell English / Space Mono
    ============================================================ */
 
@@ -29,17 +29,6 @@ body {
   min-height: 100vh;
 }
 
-/* ── NOISE GRAIN ──────────────────────────────────────────── */
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9000;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
-
 /* ── SCROLL PROGRESS LINE ─────────────────────────────────── */
 #progress-line {
   position: fixed;
@@ -51,76 +40,8 @@ body {
   transition: width 0.12s linear;
 }
 
-/* Loading overlay (shared) */
-#site-loading { position: fixed; inset: 0; z-index: 10000; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.92); color:var(--bone); }
-#site-loading.hidden { opacity:0; visibility:hidden; pointer-events:none; }
-.site-loader .spinner { width:48px;height:48px;border-radius:50%;border:4px solid rgba(255,255,255,0.08);border-top-color:var(--accent);animation:spin 1s linear infinite;margin:0 auto 12px; }
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* ── GATE / LOADING ───────────────────────────────────────── */
-#gate {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  transition: opacity 2s ease;
-}
-
-.gate-studio {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(4rem, 12vw, 9rem);
-  letter-spacing: 0.15em;
-  color: transparent;
-  -webkit-text-stroke: 1px #222;
-  animation: gate-breathe 4s ease-in-out infinite;
-}
-
-@keyframes gate-breathe {
-  0%, 100% { -webkit-text-stroke: 1px #1a1a1a; }
-  50%       { -webkit-text-stroke: 1px #3a3a3a; }
-}
-
-.gate-status {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.65rem;
-  color: #2a2a2a;
-  letter-spacing: 0.5em;
-  text-transform: uppercase;
-  text-align: center;
-  line-height: 2.5;
-  animation: slow-appear 2s ease forwards;
-}
-
-@keyframes slow-appear {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.gate-bar-wrap {
-  width: 280px;
-  height: 1px;
-  background: #111;
-  overflow: hidden;
-}
-
-.gate-bar {
-  height: 100%;
-  width: 0%;
-  background: var(--accent);
-  transition: width 0.2s ease;
-}
-
 /* ── MAIN ─────────────────────────────────────────────────── */
-main {
-  opacity: 0;
-  transition: opacity 1.5s ease;
-}
-main.visible { opacity: 1; }
+main { min-height: 100vh; }
 
 /* ── NAV ──────────────────────────────────────────────────── */
 nav {
@@ -137,7 +58,7 @@ nav {
 
 nav.scrolled {
   border-color: var(--rule);
-  background: rgba(8,8,8,0.92);
+  background: rgba(255,255,255,0.94);
   backdrop-filter: blur(12px);
 }
 
@@ -202,17 +123,10 @@ nav.scrolled {
 .signup-display {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(4rem, 9vw, 7.5rem);
-  letter-spacing: 0.04em;
-  color: transparent;
-  -webkit-text-stroke: 1px #2a2a2a;
+  letter-spacing: -0.02em;
+  color: var(--bone);
   line-height: 0.92;
   margin-bottom: 40px;
-  animation: title-breathe 9s ease-in-out infinite;
-}
-
-@keyframes title-breathe {
-  0%, 100% { -webkit-text-stroke: 1px #222; }
-  50%       { -webkit-text-stroke: 1px #2e0808; }
 }
 
 .signup-lede {
@@ -243,7 +157,7 @@ nav.scrolled {
 
 /* ── SECURITY NOTICE ──────────────────────────────────────── */
 .security-notice {
-  border: 1px solid #1e1e1e;
+  border: 1px solid var(--rule);
   padding: 18px 20px;
   margin-bottom: 40px;
   background: rgba(192, 57, 43, 0.04);
@@ -412,9 +326,8 @@ footer {
 .footer-logo {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(3rem, 8vw, 6rem);
-  letter-spacing: 0.08em;
-  color: transparent;
-  -webkit-text-stroke: 1px #1c1c1c;
+  letter-spacing: 0.02em;
+  color: var(--bone);
   display: block;
   line-height: 1;
   margin-bottom: 20px;
@@ -422,10 +335,8 @@ footer {
 
 .footer-copy {
   font-family: 'Space Mono', monospace;
-  font-size: 0.55rem;
-  color: #282828;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--ash);
 }
 
 .footer-right { text-align: right; }
@@ -439,10 +350,8 @@ footer {
 
 .footer-links a {
   font-family: 'Space Mono', monospace;
-  font-size: 0.55rem;
-  color: #2a2a2a;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--ash);
   text-decoration: none;
   transition: color 0.3s;
 }

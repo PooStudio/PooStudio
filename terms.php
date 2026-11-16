@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service ✦ POOSTUDIO</title>
+<link rel="stylesheet" href="assets/css/legal.css">
+<script src="assets/js/service-worker.js" defer></script>
+<link rel="icon" href="logo.png" type="image/png">
+</head>
+<body>
+
+<div id="page">
+
+  <div class="title-vert-wrap">
+    <div class="title-vert">TERMS</div>
+  </div>
+
+  <nav>
+    <a href="index.php" class="nav-logo">P S</a>
+    <a href="https://discord.gg/CDW93dgA4m" class="nav-link">Discord</a>
+  </nav>
+
+  <div class="content-wrap">
+
+    <div class="col-left">
+      <span class="side-tag">Studio</span>
+      <p class="side-body">O hi there.<br>Welcome<br>to the studio.</p>
+    </div>
+
+    <div class="col-center">
+
+      <div class="page-header">
+        <span class="effective-date">Effective - January 07, 2026</span>
+        <h1 class="page-heading">Terms of<br>Service</h1>
+        <p class="intro-text">Welcome to POOSTUDIO. These Terms of Service govern your access to and use of our website, services, digital products, and any related content provided by POOSTUDIO.</p>
+        <p class="intro-text">By accessing or using our Services, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our Services.</p>
+      </div>
+
+      <div class="section">
+        <span class="section-num">01 - Conduct</span>
+        <h2 class="section-title">Use of Our Services</h2>
+        <div class="section-body">
+          <p>When using POOSTUDIO's services, you agree to conduct yourself in accordance with the following standards.</p>
+        </div>
+        <ul class="item-list">
+          <li><span>Use the Services only for lawful purposes and in compliance with all applicable laws.</span></li>
+          <li><span>Do not attempt unauthorized access, interference, or disruption of our systems or networks.</span></li>
+          <li><span>Do not restrict or inhibit any other person's use or enjoyment of the Services.</span></li>
+          <li><span>Do not use bots, scrapers, or automated access tools without prior written permission.</span></li>
+          <li><span>Do not copy, reproduce, distribute, or exploit any content without express authorization.</span></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <span class="section-num">02 - Intellectual Property</span>
+        <h2 class="section-title">Ownership & Content</h2>
+        <div class="section-body">
+          <p>All content, trademarks, logos, and intellectual property displayed on or through our Services are the exclusive property of POOSTUDIO or its licensors.</p>
+          <p>Nothing in these Terms grants you any right to use the POOSTUDIO name, logo, or any other proprietary information without our prior written consent.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <span class="section-num">03 - Disclaimer</span>
+        <h2 class="section-title">Limitation of Liability</h2>
+        <div class="section-body">
+          <p>Our Services are provided on an "as is" and "as available" basis without warranties of any kind, either express or implied.</p>
+          <p>POOSTUDIO shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the Services.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <span class="section-num">04 - Changes</span>
+        <h2 class="section-title">Modifications to Terms</h2>
+        <div class="section-body">
+          <p>We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting to our website. Your continued use of the Services after any changes constitutes your acceptance of the new Terms.</p>
+          <p>We encourage you to review these Terms periodically to stay informed of any updates.</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <span class="section-num">05 - Contact</span>
+        <h2 class="section-title">Contact Us</h2>
+        <div class="section-body">
+          <p>If you have any questions about these Terms, please reach out to us directly.</p>
+        </div>
+        <div class="contact-block">
+          <strong>POOSTUDIO</strong><br>
+          Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>
+          Phone: (915) 209-5101
+        </div>
+      </div>
+
+      <div class="doc-nav">
+        <a href="index.php"><span class="arr">←</span> Home</a>
+        <a href="privacy.php">Privacy Policy <span class="arr">→</span></a>
+      </div>
+
+    </div>
+
+    <div class="col-right">
+      <span class="side-tag">Mission</span>
+      <p class="side-body">Building the world's next generation creative platform from the ground up.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="footer-logo">POOSTUDIO</span>
+    <span class="footer-copy">© <?= date('Y') ?> POOSTUDIO</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

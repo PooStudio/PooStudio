@@ -3,59 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Settings ✦ POOSTUDIO</title>
+  <meta name="description" content="Manage your PooStudio account settings.">
+  <title>Account settings | PooStudio</title>
   <link rel="icon" href="logo.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/profile.css">
-  <link rel="stylesheet" href="assets/css/cyber-theme.css">
-  <script src="assets/js/firebase-config.local.js" defer></script>
-  <script src="assets/js/cyber-interactions.js" defer></script>
+  <link rel="stylesheet" href="assets/css/settings.css">
+  <script src="assets/js/service-worker.js" defer></script>
+  <?php require __DIR__ . '/includes/firebase-config.php'; ?>
 </head>
 <body>
 
-<div id="overlay">
-  <div id="content">
-    <div class="container glass">
-      <header class="glass">
-        <nav>
-          <a href="profile.html" class="glitch" data-text="← Back">← Back</a>
-        </nav>
-        <div class="logo glitch aero-glow" data-text="POOSTUDIO">POOSTUDIO</div>
-      </header>
+<main class="settings-page">
+  <div class="settings-container">
+    <header class="settings-header">
+      <a href="profile.php" class="settings-back">← Profile</a>
+      <a href="index.php" class="settings-brand">PooStudio</a>
+    </header>
 
-      <div id="message-container"></div>
+    <section class="settings-card" aria-labelledby="settings-title">
+      <p class="settings-kicker">Account</p>
+      <h1 id="settings-title">Settings</h1>
+      <div id="message-container" aria-live="polite"></div>
 
-      <main class="glass" style="padding:1.5rem; margin-top:1rem;">
-        <h2 class="glitch" data-text="Settings">Settings</h2>
+      <section class="settings-section">
+        <label for="settings-display-name">Display name</label>
+        <div class="settings-form-row">
+          <input id="settings-display-name" type="text" placeholder="Enter a display name" autocomplete="nickname">
+          <button id="settings-save-name" class="btn btn-primary" type="button">Save name</button>
+        </div>
+      </section>
 
-        <section style="margin-top:1rem;">
-          <label class="aero-glow" for="settings-display-name">Display Name</label>
-          <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
-            <input id="settings-display-name" type="text" placeholder="Enter new display name" style="flex:1;" />
-            <button id="settings-save-name" class="btn btn-primary">Save</button>
-          </div>
-        </section>
+      <section class="settings-section">
+        <label for="settings-avatar-input">Profile picture</label>
+        <div class="settings-form-row settings-avatar-row">
+          <input id="settings-avatar-input" type="file" accept="image/*" class="visually-hidden-file">
+          <button id="settings-upload-avatar" class="btn btn-secondary" type="button">Choose photo</button>
+          <button id="settings-save-avatar" class="btn btn-primary" type="button" style="display:none;">Save photo</button>
+          <div id="avatar-preview" class="avatar-preview" aria-label="Profile picture preview"></div>
+        </div>
+      </section>
 
-        <section style="margin-top:1.25rem;">
-          <label class="aero-glow">Profile Picture</label>
-          <div style="display:flex; gap:0.75rem; align-items:center; margin-top:0.5rem;">
-            <input id="settings-avatar-input" type="file" accept="image/*" style="display: none;" />
-            <button id="settings-upload-avatar" class="btn btn-secondary">Upload</button>
-            <button id="settings-save-avatar" class="btn btn-primary" style="display:none;">Save</button>
-            <div id="avatar-preview" style="width:48px;height:48px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-weight:bold;color:#000;"></div>
-          </div>
-        </section>
-
-        <section style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.6rem;">
-          <button id="verify-email" class="btn btn-secondary">Send Verification Email</button>
-          <button id="change-password" class="btn btn-secondary">Change Password</button>
-          <button id="logout" class="btn logout-btn">Logout</button>
-        </section>
-      </main>
-
-    </div>
+      <section class="settings-actions" aria-label="Account security">
+        <button id="verify-email" class="btn btn-secondary" type="button">Send verification email</button>
+        <button id="change-password" class="btn btn-secondary" type="button">Change password</button>
+        <button id="logout" class="btn btn-danger" type="button">Sign out</button>
+      </section>
+    </section>
   </div>
-</div>
+</main>
 
 <script type="module">
   import { firebaseConfig, hasFirebaseConfig } from "./assets/js/firebase-config.js";
@@ -76,7 +70,7 @@
 
   function showMessage(text, isError = false) {
     const messageEl = document.createElement('div');
-    messageEl.className = `message ${isError ? 'error' : ''} glass aero-glow`;
+    messageEl.className = `message ${isError ? 'error' : ''}`;
     messageEl.textContent = text;
     msgContainer.appendChild(messageEl);
     setTimeout(() => { messageEl.remove(); }, 4000);
@@ -113,7 +107,7 @@
   if (auth) {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        window.location.href = 'index.html';
+        window.location.href = 'index.php';
         return;
       }
       populateUser(user);
@@ -240,12 +234,12 @@
     if (!newPassword || newPassword.length < 8) { showMessage('Password must be at least 8 characters', true); return; }
     const user = auth.currentUser;
     if (!user) { showMessage('Not authenticated', true); return; }
-    try { await updatePassword(user, newPassword); showMessage('Password updated.'); setTimeout(() => { signOut(auth); window.location.href='index.html'; }, 1800); } catch (err) { showMessage('Failed: ' + (err.message || err.code), true); }
+    try { await updatePassword(user, newPassword); showMessage('Password updated.'); setTimeout(() => { signOut(auth); window.location.href='index.php'; }, 1800); } catch (err) { showMessage('Failed: ' + (err.message || err.code), true); }
   });
 
   document.getElementById('logout').addEventListener('click', async () => {
     if (!auth) { console.warn('Auth is unavailable because Firebase config is missing.'); return; }
-    try { await signOut(auth); window.location.href = 'index.html'; } catch (err) { showMessage('Logout failed: ' + (err.message || err.code), true); }
+    try { await signOut(auth); window.location.href = 'index.php'; } catch (err) { showMessage('Logout failed: ' + (err.message || err.code), true); }
   });
 
 </script>
