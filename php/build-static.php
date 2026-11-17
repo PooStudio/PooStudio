@@ -2,15 +2,13 @@
 
 $root = dirname(__DIR__);
 $outputDirectory = $root . DIRECTORY_SEPARATOR . '_site';
-$pages = [
-    'index',
-    'about',
-    'offline',
-    'privacy',
-    'profile',
-    'settings',
-    'signup',
-    'terms',
+$routes = [
+    '' => 'index',
+    'home' => 'index',
+    'about' => 'about',
+    'offline' => 'offline',
+    'privacy' => 'privacy',
+    'terms' => 'terms',
 ];
 
 function removeBuildDirectory(string $directory): void
@@ -52,9 +50,7 @@ function copyAssets(string $source, string $destination): void
 
     foreach (new FilesystemIterator($source, FilesystemIterator::SKIP_DOTS) as $entry) {
         $name = $entry->getFilename();
-        if ($entry->isLink() || in_array($name, ['firebase-config.local.js', 'firebase-config.runtime.js'], true)) {
-            continue;
-        }
+        if ($entry->isLink()) continue;
 
         $target = $destination . DIRECTORY_SEPARATOR . $name;
         if ($entry->isDir()) {
@@ -73,8 +69,8 @@ if (!mkdir($outputDirectory, 0777, true) && !is_dir($outputDirectory)) {
     throw new RuntimeException('Unable to create static build output directory.');
 }
 
-foreach ($pages as $page) {
-    $source = $root . DIRECTORY_SEPARATOR . $page . '.php';
+foreach ($routes as $route => $page) {
+    $source = $root . DIRECTORY_SEPARATOR . 'php' . DIRECTORY_SEPARATOR . $page . '.php';
     if (!is_file($source)) {
         throw new RuntimeException('Required PHP page is missing: ' . $source);
     }
@@ -88,19 +84,32 @@ foreach ($pages as $page) {
         throw $error;
     }
 
-    $pagePattern = '/\b(' . implode('|', array_map('preg_quote', $pages)) . ')\.php\b/';
     if (!is_string($html)) {
         throw new RuntimeException('Unable to render PHP page: ' . $source);
     }
-    $html = preg_replace($pagePattern, '$1.html', $html);
+
+    $html = str_replace(
+        ['index.php', 'about.php', 'offline.php', 'privacy.php', 'terms.php'],
+        ['./', 'about/', 'offline/', 'privacy/', 'terms/'],
+        $html
+    );
+    $baseHref = $route === '' ? './' : '../';
+    $html = preg_replace('/<head>/i', '<head>' . PHP_EOL . '  <base href="' . $baseHref . '">', $html, 1);
     if ($html === null) {
-        throw new RuntimeException('Unable to rewrite page links in: ' . $source);
+        throw new RuntimeException('Unable to set the base URL in: ' . $source);
     }
-    if (preg_match($pagePattern, $html) !== 0) {
-        throw new RuntimeException('A PHP page link remains after static rendering: ' . $source);
+    if (preg_match('/\b[a-z0-9_-]+\.(?:php|html)\b/i', $html) === 1) {
+        throw new RuntimeException('A file-extension URL remains after static rendering: ' . $source);
     }
 
-    $destination = $outputDirectory . DIRECTORY_SEPARATOR . $page . '.html';
+    $destinationDirectory = $route === ''
+        ? $outputDirectory
+        : $outputDirectory . DIRECTORY_SEPARATOR . $route;
+    if (!is_dir($destinationDirectory) && !mkdir($destinationDirectory, 0777, true) && !is_dir($destinationDirectory)) {
+        throw new RuntimeException('Unable to create route output directory: ' . $destinationDirectory);
+    }
+
+    $destination = $destinationDirectory . DIRECTORY_SEPARATOR . 'index.html';
     if (file_put_contents($destination, $html) === false) {
         throw new RuntimeException('Unable to write generated page: ' . $destination);
     }
@@ -126,4 +135,4 @@ if (file_put_contents($outputDirectory . DIRECTORY_SEPARATOR . '.nojekyll', '') 
     throw new RuntimeException('Unable to disable Jekyll processing for the static artifact.');
 }
 
-echo 'Static PHP build created in ' . $outputDirectory . PHP_EOL;
+echo 'Static site build created in ' . $outputDirectory . PHP_EOL;

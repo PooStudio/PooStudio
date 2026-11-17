@@ -1,5 +1,5 @@
-const CACHE_NAME = 'poostudio-shell-v4';
-const OFFLINE_PAGE = new URL('offline.html', self.location).pathname;
+const CACHE_NAME = 'poostudio-shell-v5';
+const OFFLINE_PAGE = new URL('offline/', self.location).pathname;
 const OFFLINE_STYLESHEET = new URL('assets/css/offline.css', self.location).pathname;
 
 self.addEventListener('install', (event) => {

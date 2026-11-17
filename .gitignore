@@ -3,8 +3,6 @@ node_modules/
 .env.*
 config.js
 config.local.js
-**/firebase-config.local.js
-**/firebase-config.runtime.js
 uploads/
 *.log
 _site/
