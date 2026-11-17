@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Privacy Policy ✦ POOSTUDIO</title>
 <link rel="stylesheet" href="assets/css/legal.css">
+<link rel="stylesheet" href="assets/css/dark-theme.css">
 <script src="assets/js/service-worker.js" defer></script>
 <link rel="icon" href="logo.png" type="image/png">
 </head>
-<body class="privacy-document">
+<body class="legal-page privacy-document">
 
 <div id="page">
 

@@ -10,10 +10,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/signupcss.css">
+  <link rel="stylesheet" href="assets/css/dark-theme.css">
   <script src="assets/js/service-worker.js" defer></script>
   <?php require __DIR__ . '/includes/firebase-config.php'; ?>
 </head>
-<body>
+<body class="signup-page">
 
   <div id="progress-line"></div>
 
@@ -88,6 +89,7 @@
 
         </form>
 
+        <p class="form-footer" id="signup-status" role="status" aria-live="polite"></p>
         <p class="form-footer">
           Already have an account? <a href="index.php">Sign in</a>
         </p>
@@ -182,9 +184,11 @@
     const errPass = document.getElementById('err-password');
     const submitBtn = document.getElementById('submit-btn');
     const googleBtn = document.getElementById('google-signup-btn');
+    const signupStatus = document.getElementById('signup-status');
 
     if (!auth) {
       console.warn('Signup is disabled because Firebase config is not configured.');
+      signupStatus.textContent = 'Sign-up is unavailable because Firebase is not configured for this deployment.';
       if (submitBtn) submitBtn.disabled = true;
       if (googleBtn) googleBtn.disabled = true;
       form.querySelectorAll('input').forEach((field) => {

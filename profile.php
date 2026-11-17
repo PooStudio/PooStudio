@@ -8,10 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/profile.css">
+  <link rel="stylesheet" href="assets/css/dark-theme.css">
   <script src="assets/js/service-worker.js" defer></script>
   <?php require __DIR__ . '/includes/firebase-config.php'; ?>
 </head>
-<body>
+<body class="profile-page">
 
   <div id="progress-line"></div>
 
@@ -166,6 +167,12 @@
       el.textContent = text;
       msgContainer.appendChild(el);
       setTimeout(() => el.remove(), 4500);
+    }
+
+    if (!auth) {
+      document.querySelector('.not-auth-body').textContent = 'Sign-in is unavailable because Firebase is not configured for this deployment.';
+    } else if (!storage || !db) {
+      showMessage('Some profile features are unavailable because Firebase services are not configured.', true);
     }
 
     function formatDate(ts) {

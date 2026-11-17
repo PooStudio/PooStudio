@@ -11,10 +11,11 @@ $pageTitle = 'PooStudio — A creative studio in progress';
   <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?></title>
   <link rel="icon" href="logo.png" type="image/png" />
   <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/dark-theme.css">
   <script src="assets/js/service-worker.js" defer></script>
   <?php require __DIR__ . '/includes/firebase-config.php'; ?>
 </head>
-<body>
+<body class="home-page">
   <a class="skip-link" href="#main">Skip to content</a>
   <div id="progress-line"></div>
 

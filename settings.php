@@ -7,10 +7,11 @@
   <title>Account settings | PooStudio</title>
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="stylesheet" href="assets/css/settings.css">
+  <link rel="stylesheet" href="assets/css/dark-theme.css">
   <script src="assets/js/service-worker.js" defer></script>
   <?php require __DIR__ . '/includes/firebase-config.php'; ?>
 </head>
-<body>
+<body class="settings-page">
 
 <main class="settings-page">
   <div class="settings-container">
@@ -74,6 +75,10 @@
     messageEl.textContent = text;
     msgContainer.appendChild(messageEl);
     setTimeout(() => { messageEl.remove(); }, 4000);
+  }
+
+  if (!auth || !storage || !db) {
+    showMessage('Account settings are unavailable because Firebase is not configured for this deployment.', true);
   }
 
   function setAvatarImage(container, source, altText, allowData = false) {

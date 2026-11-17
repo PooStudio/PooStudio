@@ -110,6 +110,11 @@ if (!copy($root . DIRECTORY_SEPARATOR . 'logo.png', $outputDirectory . DIRECTORY
     throw new RuntimeException('Unable to copy the site logo.');
 }
 
+if (is_file($root . DIRECTORY_SEPARATOR . 'CNAME')
+    && !copy($root . DIRECTORY_SEPARATOR . 'CNAME', $outputDirectory . DIRECTORY_SEPARATOR . 'CNAME')) {
+    throw new RuntimeException('Unable to copy the custom domain configuration.');
+}
+
 copyAssets($root . DIRECTORY_SEPARATOR . 'assets', $outputDirectory . DIRECTORY_SEPARATOR . 'assets');
 
 $serviceWorker = file_get_contents($root . DIRECTORY_SEPARATOR . 'sw.js');

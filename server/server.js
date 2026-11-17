@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const allowedOrigins = new Set([
 	'https://poostudio.github.io',
+	'https://laggy.world',
 ]);
 
 app.disable('x-powered-by');

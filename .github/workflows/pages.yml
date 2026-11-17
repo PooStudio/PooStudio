@@ -32,6 +32,18 @@ jobs:
         with:
           php-version: "8.2"
 
+      - name: Check production Firebase configuration
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in FIREBASE_API_KEY FIREBASE_AUTH_DOMAIN FIREBASE_PROJECT_ID FIREBASE_STORAGE_BUCKET FIREBASE_MESSAGING_SENDER_ID FIREBASE_APP_ID; do
+            if [[ -z "${!name}" ]]; then
+              echo "Missing required GitHub Actions secret: $name" >&2
+              exit 1
+            fi
+          done
+
       - name: Lint PHP files
         shell: bash
         run: |
@@ -52,6 +64,7 @@ jobs:
           done
           test -f _site/assets/css/home.css
           test -f _site/sw.js
+          test -f _site/CNAME
           test ! -e _site/assets/js/firebase-config.local.js
           if find _site -type f -name '*.php' -print -quit | grep -q .; then
             echo "PHP source files must not be published."

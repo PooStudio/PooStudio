@@ -29,3 +29,8 @@ The workflow deploys on pushes to `main` and can be started manually. In the
 repository’s Pages settings, set the publishing source to **GitHub Actions**.
 The workflow validates pull requests by building the static site without
 deploying it.
+
+The site uses the `laggy.world` custom domain; keep the `CNAME` file in the
+published build output and point the domain DNS records to GitHub Pages. Add
+`laggy.world` to Firebase Authentication’s authorized domains so sign-in
+redirects and popups work on the custom domain.
