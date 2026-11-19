@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy ✦ POOSTUDIO</title>
+<title>Privacy Policy — PooStudio</title>
 <link rel="stylesheet" href="assets/css/legal.css">
 <link rel="stylesheet" href="assets/css/dark-theme.css">
 <script src="assets/js/service-worker.js" defer></script>
@@ -18,7 +18,7 @@
   </div>
 
   <nav>
-    <a href="index.php" class="nav-logo">P S</a>
+    <a href="index.php" class="nav-logo">PooStudio</a>
     <a href="https://discord.gg/CDW93dgA4m" class="nav-link">Discord</a>
   </nav>
 
@@ -34,7 +34,7 @@
       <div class="page-header">
         <span class="effective-date">Effective — January 07, 2026</span>
         <h1 class="page-heading">Privacy<br>Policy</h1>
-        <p class="intro-text">At POOSTUDIO, we are committed to protecting your privacy and ensuring the security of your personal information. This policy outlines our practices regarding the collection, use, and protection of your data.</p>
+        <p class="intro-text">At PooStudio, we are committed to protecting your privacy and ensuring the security of your personal information. This policy outlines our practices regarding the collection, use, and protection of your data.</p>
       </div>
 
       <div class="section">
@@ -73,7 +73,7 @@
         </div>
         <ul class="item-list">
           <li><span><strong>Service Providers</strong> - Trusted third-party partners who assist in operating our platform, under strict confidentiality agreements.</span></li>
-          <li><span><strong>Legal Requirements</strong> - When required by law or to protect the rights and safety of POOSTUDIO and its users.</span></li>
+          <li><span><strong>Legal Requirements</strong> - When required by law or to protect the rights and safety of PooStudio and its users.</span></li>
           <li><span><strong>Business Transfers</strong> - In the event of a merger, acquisition, or sale of assets.</span></li>
         </ul>
       </div>
@@ -124,8 +124,8 @@
   </div>
 
   <footer>
-    <span class="footer-logo">POOSTUDIO</span>
-    <span class="footer-copy">© <?= date('Y') ?> POOSTUDIO</span>
+    <span class="footer-logo">PooStudio</span>
+    <span class="footer-copy">© <?= date('Y') ?> PooStudio</span>
   </footer>
 
 </div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terms of Service ✦ POOSTUDIO</title>
+<title>Terms of Service — PooStudio</title>
 <link rel="stylesheet" href="assets/css/legal.css">
 <link rel="stylesheet" href="assets/css/dark-theme.css">
 <script src="assets/js/service-worker.js" defer></script>
@@ -18,7 +18,7 @@
   </div>
 
   <nav>
-    <a href="index.php" class="nav-logo">P S</a>
+    <a href="index.php" class="nav-logo">PooStudio</a>
     <a href="https://discord.gg/CDW93dgA4m" class="nav-link">Discord</a>
   </nav>
 
@@ -34,7 +34,7 @@
       <div class="page-header">
         <span class="effective-date">Effective - January 07, 2026</span>
         <h1 class="page-heading">Terms of<br>Service</h1>
-        <p class="intro-text">Welcome to POOSTUDIO. These Terms of Service govern your access to and use of our website, services, digital products, and any related content provided by POOSTUDIO.</p>
+        <p class="intro-text">Welcome to PooStudio. These Terms of Service govern your access to and use of our website, services, digital products, and any related content provided by PooStudio.</p>
         <p class="intro-text">By accessing or using our Services, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our Services.</p>
       </div>
 
@@ -42,7 +42,7 @@
         <span class="section-num">01 - Conduct</span>
         <h2 class="section-title">Use of Our Services</h2>
         <div class="section-body">
-          <p>When using POOSTUDIO's services, you agree to conduct yourself in accordance with the following standards.</p>
+          <p>When using PooStudio's services, you agree to conduct yourself in accordance with the following standards.</p>
         </div>
         <ul class="item-list">
           <li><span>Use the Services only for lawful purposes and in compliance with all applicable laws.</span></li>
@@ -57,8 +57,8 @@
         <span class="section-num">02 - Intellectual Property</span>
         <h2 class="section-title">Ownership & Content</h2>
         <div class="section-body">
-          <p>All content, trademarks, logos, and intellectual property displayed on or through our Services are the exclusive property of POOSTUDIO or its licensors.</p>
-          <p>Nothing in these Terms grants you any right to use the POOSTUDIO name, logo, or any other proprietary information without our prior written consent.</p>
+          <p>All content, trademarks, logos, and intellectual property displayed on or through our Services are the exclusive property of PooStudio or its licensors.</p>
+          <p>Nothing in these Terms grants you any right to use the PooStudio name, logo, or any other proprietary information without our prior written consent.</p>
         </div>
       </div>
 
@@ -67,7 +67,7 @@
         <h2 class="section-title">Limitation of Liability</h2>
         <div class="section-body">
           <p>Our Services are provided on an "as is" and "as available" basis without warranties of any kind, either express or implied.</p>
-          <p>POOSTUDIO shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the Services.</p>
+          <p>PooStudio shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the Services.</p>
         </div>
       </div>
 
@@ -87,7 +87,7 @@
           <p>If you have any questions about these Terms, please reach out to us directly.</p>
         </div>
         <div class="contact-block">
-          <strong>POOSTUDIO</strong><br>
+          <strong>PooStudio</strong><br>
           Email: <a href="mailto:poostudioo@gmail.com">poostudioo@gmail.com</a><br>
           Phone: (915) 209-5101
         </div>
@@ -108,8 +108,8 @@
   </div>
 
   <footer>
-    <span class="footer-logo">POOSTUDIO</span>
-    <span class="footer-copy">© <?= date('Y') ?> POOSTUDIO</span>
+    <span class="footer-logo">PooStudio</span>
+    <span class="footer-copy">© <?= date('Y') ?> PooStudio</span>
   </footer>
 
 </div>

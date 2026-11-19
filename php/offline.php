@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#060714">
   <meta name="description" content="PooStudio is temporarily offline.">
-  <title>Signal Lost | PooStudio</title>
+  <title>Offline — PooStudio</title>
   <script src="assets/js/service-worker.js" defer></script>
   <link rel="stylesheet" href="assets/css/offline.css">
 </head>
 <body>
   <main class="offline-shell">
-    <div class="topline"><span>POOSTUDIO / SIGNAL ARCHIVE</span><span>STATUS // 503</span></div>
+    <div class="topline"><span>PooStudio / Offline</span><span>Status // 503</span></div>
     <section class="signal-panel" aria-labelledby="offline-title">
       <div class="signal-mark" aria-hidden="true">PS</div>
       <div class="signal-label">Connection interrupted</div>
@@ -23,7 +23,7 @@
         <a href="index.php">Return to studio</a>
       </div>
     </section>
-    <div class="meta">POOSTUDIO <strong>//</strong> BUILT FROM THE GROUND UP</div>
+    <div class="meta">PooStudio <strong>//</strong> Built from the ground up</div>
   </main>
   <script>
     document.getElementById('retry').addEventListener('click', function () {

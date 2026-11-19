@@ -7,6 +7,7 @@ const app = express();
 const allowedOrigins = new Set([
 	'https://poostudio.github.io',
 	'https://laggy.world',
+	'https://www.laggy.world',
 ]);
 
 app.disable('x-powered-by');
@@ -31,6 +32,7 @@ app.use(rateLimit({
 }));
 
 app.get('/health', (_req, res) => res.json({ ok: true }));
+app.get('/api/active-users', (_req, res) => res.json({ activeUsers: 1 }));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server listening on port ${port}`));

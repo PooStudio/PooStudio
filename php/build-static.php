@@ -126,6 +126,12 @@ if (is_file($root . DIRECTORY_SEPARATOR . 'CNAME')
 
 copyAssets($root . DIRECTORY_SEPARATOR . 'assets', $outputDirectory . DIRECTORY_SEPARATOR . 'assets');
 
+$apacheConfig = $root . DIRECTORY_SEPARATOR . '.htaccess';
+if (is_file($apacheConfig)
+    && !copy($apacheConfig, $outputDirectory . DIRECTORY_SEPARATOR . '.htaccess')) {
+    throw new RuntimeException('Unable to copy the Apache configuration.');
+}
+
 $serviceWorker = file_get_contents($root . DIRECTORY_SEPARATOR . 'sw.js');
 if ($serviceWorker === false || file_put_contents($outputDirectory . DIRECTORY_SEPARATOR . 'sw.js', $serviceWorker) === false) {
     throw new RuntimeException('Unable to copy the service worker.');
