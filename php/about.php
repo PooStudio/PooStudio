@@ -20,7 +20,7 @@
       this is not just grief.<br>
       this is love that has nowhere left to go.
     </div>
-    <div id="gate-heart">♡</div>
+    <img id="gate-logo" src="logo.png" alt="PooStudio" width="1024" height="1024">
     <button id="gate-enter" onclick="enter()">enter</button>
   </div>
 
